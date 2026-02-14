@@ -1,7 +1,5 @@
 # HACKWKND 2026
 
-Landing page and assets for HACKWKND 2026 hackathon.
-
 ## Repository Rules
 
 ### Branch Protection (Main)
