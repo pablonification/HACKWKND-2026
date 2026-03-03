@@ -15,6 +15,7 @@ import {
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { requestPasswordReset, signInWithEmail, signUpWithEmail } from '../lib/auth';
+import { triggerHapticFeedback } from '../lib/feedback';
 import { getBoolean, setBoolean, STORAGE_KEYS } from '../lib/storage';
 import type { AuthRole } from '../utils/authValidation';
 import { validateEmail, validateLoginForm, validateSignUpForm } from '../utils/authValidation';
@@ -95,6 +96,11 @@ export function AuthScreen() {
     clearMessage();
     setIsRoleMenuOpen(false);
     setMode(nextMode);
+  };
+
+  const switchModeWithFeedback = (nextMode: AuthMode) => {
+    triggerHapticFeedback('light');
+    switchMode(nextMode);
   };
 
   const handleLogin = async () => {
@@ -188,6 +194,7 @@ export function AuthScreen() {
   };
 
   const handleSocialPress = (provider: string) => {
+    triggerHapticFeedback('light');
     clearMessage();
     setInfoMessage(`${provider} login will be enabled after provider setup in Supabase.`);
   };
@@ -206,7 +213,13 @@ export function AuthScreen() {
         </Text>
       </View>
 
-      <Pressable onPress={() => switchMode('login')} style={styles.landingButton}>
+      <Pressable
+        onPress={() => switchModeWithFeedback('login')}
+        style={({ pressed }) => [
+          styles.landingButton,
+          pressed ? styles.primaryButtonPressed : null,
+        ]}
+      >
         <Text style={styles.landingButtonText}>Get started →</Text>
       </Pressable>
     </View>
@@ -235,14 +248,23 @@ export function AuthScreen() {
         onChangeText={setLoginPassword}
         placeholder="**********"
         visible={showLoginPassword}
-        onToggleVisibility={() => setShowLoginPassword((value) => !value)}
+        onToggleVisibility={() => {
+          triggerHapticFeedback('light');
+          setShowLoginPassword((value) => !value);
+        }}
         editable={!isSubmitting}
       />
 
       <View style={styles.rememberRow}>
         <Pressable
-          onPress={() => setRememberMe((value) => !value)}
-          style={styles.rememberToggle}
+          onPress={() => {
+            triggerHapticFeedback('light');
+            setRememberMe((value) => !value);
+          }}
+          style={({ pressed }) => [
+            styles.rememberToggle,
+            pressed && !isSubmitting ? styles.inlinePressed : null,
+          ]}
           disabled={isSubmitting}
         >
           <View style={[styles.checkbox, rememberMe && styles.checkboxChecked]}>
@@ -251,18 +273,39 @@ export function AuthScreen() {
           <Text style={styles.rememberText}>Remember me</Text>
         </Pressable>
 
-        <Pressable onPress={handleForgotPassword} disabled={isSubmitting}>
+        <Pressable
+          onPress={() => {
+            triggerHapticFeedback('light');
+            void handleForgotPassword();
+          }}
+          style={({ pressed }) => (pressed && !isSubmitting ? styles.linkPressed : null)}
+          disabled={isSubmitting}
+        >
           <Text style={styles.linkText}>Forgot password?</Text>
         </Pressable>
       </View>
 
-      <Pressable onPress={handleLogin} style={styles.primaryButton} disabled={isSubmitting}>
+      <Pressable
+        onPress={() => {
+          triggerHapticFeedback('medium');
+          void handleLogin();
+        }}
+        style={({ pressed }) => [
+          styles.primaryButton,
+          pressed && !isSubmitting ? styles.primaryButtonPressed : null,
+        ]}
+        disabled={isSubmitting}
+      >
         <Text style={styles.primaryButtonText}>{isSubmitting ? 'Logging In...' : 'Log In'}</Text>
       </Pressable>
 
       <SocialAuthSection onPress={handleSocialPress} mode="login" />
 
-      <Pressable onPress={() => switchMode('register')} disabled={isSubmitting}>
+      <Pressable
+        onPress={() => switchModeWithFeedback('register')}
+        style={({ pressed }) => (pressed && !isSubmitting ? styles.linkPressed : null)}
+        disabled={isSubmitting}
+      >
         <Text style={styles.switchText}>
           <Text style={styles.mutedText}>Don&apos;t have account? </Text>
           <Text style={styles.linkText}>Sign Up</Text>
@@ -305,15 +348,24 @@ export function AuthScreen() {
         onChangeText={setRegisterPassword}
         placeholder="**********"
         visible={showRegisterPassword}
-        onToggleVisibility={() => setShowRegisterPassword((value) => !value)}
+        onToggleVisibility={() => {
+          triggerHapticFeedback('light');
+          setShowRegisterPassword((value) => !value);
+        }}
         editable={!isSubmitting}
       />
 
       <View style={styles.fieldGroup}>
         <Text style={styles.fieldLabel}>Role</Text>
         <Pressable
-          onPress={() => setIsRoleMenuOpen((value) => !value)}
-          style={styles.dropdownField}
+          onPress={() => {
+            triggerHapticFeedback('light');
+            setIsRoleMenuOpen((value) => !value);
+          }}
+          style={({ pressed }) => [
+            styles.dropdownField,
+            pressed && !isSubmitting ? styles.inlinePressed : null,
+          ]}
           disabled={isSubmitting}
         >
           <Text style={registerRole ? styles.dropdownValue : styles.dropdownPlaceholder}>
@@ -327,10 +379,14 @@ export function AuthScreen() {
               <Pressable
                 key={option.value}
                 onPress={() => {
+                  triggerHapticFeedback('light');
                   setRegisterRole(option.value);
                   setIsRoleMenuOpen(false);
                 }}
-                style={styles.dropdownOption}
+                style={({ pressed }) => [
+                  styles.dropdownOption,
+                  pressed ? styles.dropdownOptionPressed : null,
+                ]}
               >
                 <Text style={styles.dropdownOptionText}>{option.label}</Text>
               </Pressable>
@@ -339,13 +395,27 @@ export function AuthScreen() {
         ) : null}
       </View>
 
-      <Pressable onPress={handleRegister} style={styles.primaryButton} disabled={isSubmitting}>
+      <Pressable
+        onPress={() => {
+          triggerHapticFeedback('medium');
+          void handleRegister();
+        }}
+        style={({ pressed }) => [
+          styles.primaryButton,
+          pressed && !isSubmitting ? styles.primaryButtonPressed : null,
+        ]}
+        disabled={isSubmitting}
+      >
         <Text style={styles.primaryButtonText}>{isSubmitting ? 'Creating...' : 'Get Started'}</Text>
       </Pressable>
 
       <SocialAuthSection onPress={handleSocialPress} mode="register" />
 
-      <Pressable onPress={() => switchMode('login')} disabled={isSubmitting}>
+      <Pressable
+        onPress={() => switchModeWithFeedback('login')}
+        style={({ pressed }) => (pressed && !isSubmitting ? styles.linkPressed : null)}
+        disabled={isSubmitting}
+      >
         <Text style={styles.switchText}>
           <Text style={styles.mutedText}>Already have an account? </Text>
           <Text style={styles.linkText}>Log In</Text>
@@ -373,8 +443,11 @@ export function AuthScreen() {
       <View style={styles.topArea}>
         <Image source={AUTH_ASSETS.topPattern} style={styles.topAreaPatternImage} />
         <Pressable
-          onPress={() => switchMode('landing')}
-          style={styles.backButton}
+          onPress={() => switchModeWithFeedback('landing')}
+          style={({ pressed }) => [
+            styles.backButton,
+            pressed && !isSubmitting ? styles.inlinePressed : null,
+          ]}
           disabled={isSubmitting}
         >
           <Text style={styles.backChevron}>‹</Text>
@@ -492,7 +565,11 @@ function LabeledPasswordInput({
           style={styles.passwordInput}
           editable={editable}
         />
-        <Pressable onPress={onToggleVisibility} hitSlop={8}>
+        <Pressable
+          onPress={onToggleVisibility}
+          hitSlop={8}
+          style={({ pressed }) => (pressed && editable ? styles.inlinePressed : null)}
+        >
           <Image source={AUTH_ASSETS.eye} style={styles.passwordVisibilityIcon} />
         </Pressable>
       </View>
@@ -516,13 +593,31 @@ function SocialAuthSection({ onPress, mode }: SocialAuthSectionProps) {
         <View style={styles.dividerLine} />
       </View>
       <View style={styles.socialButtonsRow}>
-        <Pressable style={styles.socialButton} onPress={() => onPress('Facebook')}>
+        <Pressable
+          style={({ pressed }) => [
+            styles.socialButton,
+            pressed ? styles.socialButtonPressed : null,
+          ]}
+          onPress={() => onPress('Facebook')}
+        >
           <Image source={AUTH_ASSETS.facebook} style={styles.socialIconFacebook} />
         </Pressable>
-        <Pressable style={styles.socialButton} onPress={() => onPress('Google')}>
+        <Pressable
+          style={({ pressed }) => [
+            styles.socialButton,
+            pressed ? styles.socialButtonPressed : null,
+          ]}
+          onPress={() => onPress('Google')}
+        >
           <Image source={AUTH_ASSETS.google} style={styles.socialIconGoogle} />
         </Pressable>
-        <Pressable style={styles.socialButton} onPress={() => onPress('Apple')}>
+        <Pressable
+          style={({ pressed }) => [
+            styles.socialButton,
+            pressed ? styles.socialButtonPressed : null,
+          ]}
+          onPress={() => onPress('Apple')}
+        >
           <Image source={AUTH_ASSETS.apple} style={styles.socialIconApple} />
         </Pressable>
       </View>
@@ -600,6 +695,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 24,
     fontFamily: 'Satoshi-Medium',
+  },
+  inlinePressed: {
+    opacity: 0.75,
+    transform: [{ scale: 0.98 }],
   },
   sheetWrapper: {
     flex: 1,
@@ -805,6 +904,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 11,
   },
+  dropdownOptionPressed: {
+    backgroundColor: '#f5f5f5',
+  },
   dropdownOptionText: {
     color: '#111828',
     fontSize: 13,
@@ -867,6 +969,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 2,
   },
+  primaryButtonPressed: {
+    opacity: 0.88,
+    transform: [{ scale: 0.985 }],
+  },
   primaryButtonText: {
     color: '#ffffff',
     fontSize: 14,
@@ -908,6 +1014,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  socialButtonPressed: {
+    opacity: 0.88,
+    transform: [{ scale: 0.98 }],
+  },
   socialIconFacebook: {
     width: 32,
     height: 32,
@@ -926,5 +1036,8 @@ const styles = StyleSheet.create({
     marginTop: 2,
     fontFamily: 'Poppins-Medium',
     lineHeight: 24,
+  },
+  linkPressed: {
+    opacity: 0.7,
   },
 });

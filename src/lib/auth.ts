@@ -18,14 +18,6 @@ type SignUpPayload = {
   role: AuthRole;
 };
 
-const toRole = (value: unknown): AuthRole | null => {
-  if (value === 'learner' || value === 'elder') {
-    return value;
-  }
-
-  return null;
-};
-
 const toName = (value: unknown): string | null => {
   if (typeof value !== 'string') {
     return null;
@@ -44,6 +36,27 @@ const toUsername = (email: string | null): string | null => {
   return localPart ? localPart.slice(0, 32) : null;
 };
 
+const PASSWORD_RESET_REDIRECT_PATH = 'auth/reset-password';
+
+const toTrimmed = (value: string | undefined): string | null => {
+  if (typeof value !== 'string') {
+    return null;
+  }
+
+  const trimmed = value.trim();
+  return trimmed ? trimmed : null;
+};
+
+const resolvePasswordResetRedirectTo = () => {
+  const configuredRedirectTo = toTrimmed(process.env.EXPO_PUBLIC_PASSWORD_RESET_REDIRECT_TO);
+  if (configuredRedirectTo) {
+    return configuredRedirectTo;
+  }
+
+  const appScheme = toTrimmed(process.env.EXPO_PUBLIC_APP_SCHEME) ?? 'taleka';
+  return `${appScheme}://${PASSWORD_RESET_REDIRECT_PATH}`;
+};
+
 const upsertProfile = async ({
   userId,
   email,
@@ -53,15 +66,18 @@ const upsertProfile = async ({
   userId: string;
   email: string | null;
   fullName: string | null;
-  role: AuthRole | null;
+  role?: AuthRole | null;
 }) => {
   const profilePayload: ProfileInsert = {
     id: userId,
     email,
     full_name: fullName,
     username: toUsername(email),
-    role: role ?? 'learner',
   };
+
+  if (role) {
+    profilePayload.role = role;
+  }
 
   const { error } = await supabase.from('profiles').upsert(profilePayload, { onConflict: 'id' });
 
@@ -77,13 +93,11 @@ const syncProfileFromUser = async (user: User | null) => {
 
   const metadata = user.user_metadata as Record<string, unknown> | null;
   const fullName = toName(metadata?.full_name);
-  const role = toRole(metadata?.role);
 
   await upsertProfile({
     userId: user.id,
     email: user.email ?? null,
     fullName,
-    role,
   });
 };
 
@@ -144,7 +158,9 @@ export const signUpWithEmail = async ({
 };
 
 export const requestPasswordReset = async (email: string) => {
-  const { error } = await supabase.auth.resetPasswordForEmail(email);
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: resolvePasswordResetRedirectTo(),
+  });
 
   if (error) {
     throw error;
