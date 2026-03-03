@@ -199,6 +199,7 @@ export function AuthScreen() {
     setIsSubmitting(true);
     try {
       await requestPasswordReset(normalizedEmail);
+      triggerHapticFeedback('success');
       setInfoMessage('Password reset email sent. Check your inbox.');
     } catch (error: unknown) {
       setErrorMessage(toAuthErrorMessage(error));

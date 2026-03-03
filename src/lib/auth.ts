@@ -143,8 +143,8 @@ export const signInWithEmail = async ({
 
   try {
     await syncProfileFromUser(authResponse.data.user);
-  } catch {
-    // Profile sync should not block successful sign-in.
+  } catch (profileError) {
+    console.warn('Profile sync failed during sign-in:', profileError);
   }
 
   return authResponse;
@@ -179,8 +179,8 @@ export const signUpWithEmail = async ({
         fullName,
         role,
       });
-    } catch {
-      // If profile policy/migration is not ready yet, auth should still succeed.
+    } catch (profileError) {
+      console.warn('Profile sync failed during sign-up:', profileError);
     }
   }
 
@@ -194,5 +194,62 @@ export const requestPasswordReset = async (email: string) => {
 
   if (error) {
     throw error;
+  }
+};
+
+export const updateAuthProfile = async ({
+  fullName,
+  email,
+}: {
+  fullName: string;
+  email: string;
+}) => {
+  const { error } = await supabase.auth.updateUser({
+    email,
+    data: {
+      full_name: fullName,
+    },
+  });
+
+  if (error) {
+    throw error;
+  }
+};
+
+export const updatePassword = async ({
+  currentPassword,
+  newPassword,
+}: {
+  currentPassword: string;
+  newPassword: string;
+}) => {
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+
+  if (userError) {
+    throw userError;
+  }
+
+  if (!user?.email) {
+    throw new Error('Your account does not have an email address.');
+  }
+
+  const reauth = await supabase.auth.signInWithPassword({
+    email: user.email,
+    password: currentPassword,
+  });
+
+  if (reauth.error) {
+    throw reauth.error;
+  }
+
+  const { error: updateError } = await supabase.auth.updateUser({
+    password: newPassword,
+  });
+
+  if (updateError) {
+    throw updateError;
   }
 };

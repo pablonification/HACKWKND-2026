@@ -96,6 +96,7 @@ export default function App() {
 
     if (error) {
       console.warn('Sign-out failed:', error);
+      throw error;
     }
   };
 
