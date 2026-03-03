@@ -1,4 +1,4 @@
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, type LinkingOptions } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import type { Session } from '@supabase/supabase-js';
 
@@ -12,6 +12,16 @@ export type RootStackParamList = {
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
+const linking: LinkingOptions<RootStackParamList> = {
+  prefixes: ['taleka://'],
+  config: {
+    screens: {
+      Auth: 'auth',
+      Home: 'home',
+    },
+  },
+};
+
 type RootNavigatorProps = {
   session: Session | null;
   onSignOut: () => Promise<void>;
@@ -19,8 +29,14 @@ type RootNavigatorProps = {
 
 export function RootNavigator({ session, onSignOut }: RootNavigatorProps) {
   return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <NavigationContainer linking={linking}>
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+          animation: 'slide_from_right',
+          animationDuration: 180,
+        }}
+      >
         {session ? (
           <Stack.Screen name="Home">
             {() => <HomeScreen session={session} onSignOut={onSignOut} />}

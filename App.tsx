@@ -20,38 +20,38 @@ export default function App() {
     PlayfairDisplay: require('./assets/fonts/PlayfairDisplay-Variable.ttf'),
   });
 
-  if (fontsError) {
-    throw fontsError;
-  }
-
   useEffect(() => {
     let isMounted = true;
 
-    const getSession = async () => {
-      const { data } = await supabase.auth.getSession();
-      let nextSession = data.session;
+    // Register listener FIRST to avoid race condition where a token-refresh
+    // event fires during the async getSession call and then gets overwritten.
+    // In supabase-js v2, onAuthStateChange fires INITIAL_SESSION immediately,
+    // so we handle the transient-session logic there and drop the separate
+    // getSession() call entirely.
+    const { data: authListener } = supabase.auth.onAuthStateChange(async (event, nextSession) => {
+      if (!isMounted) return;
 
-      const shouldUseTransientSession = await getBoolean(
-        STORAGE_KEYS.AUTH_TRANSIENT_SESSION,
-        false,
-      );
+      if (event === 'INITIAL_SESSION') {
+        let resolvedSession = nextSession;
 
-      if (nextSession && shouldUseTransientSession) {
-        await supabase.auth.signOut();
-        await setBoolean(STORAGE_KEYS.AUTH_TRANSIENT_SESSION, false);
-        nextSession = null;
-      }
+        try {
+          const shouldClear = await getBoolean(STORAGE_KEYS.AUTH_TRANSIENT_SESSION, false);
+          if (resolvedSession && shouldClear) {
+            await supabase.auth.signOut();
+            await setBoolean(STORAGE_KEYS.AUTH_TRANSIENT_SESSION, false);
+            resolvedSession = null;
+          }
+        } catch {
+          // Transient session check is best-effort; proceed with whatever session we have
+        }
 
-      if (isMounted) {
+        if (isMounted) {
+          setSession(resolvedSession);
+          setIsLoading(false);
+        }
+      } else {
         setSession(nextSession);
-        setIsLoading(false);
       }
-    };
-
-    getSession();
-
-    const { data: authListener } = supabase.auth.onAuthStateChange((_event, nextSession) => {
-      setSession(nextSession);
     });
 
     return () => {
@@ -59,6 +59,17 @@ export default function App() {
       authListener.subscription.unsubscribe();
     };
   }, []);
+
+  if (fontsError) {
+    return (
+      <View style={styles.centered}>
+        <Text style={styles.title}>Failed to load assets</Text>
+        <Text style={styles.body}>
+          Font assets could not be loaded. Please restart the app. {fontsError.message}
+        </Text>
+      </View>
+    );
+  }
 
   if (supabaseConfigError) {
     return (
@@ -84,7 +95,7 @@ export default function App() {
     const { error } = await supabase.auth.signOut();
 
     if (error) {
-      throw error;
+      console.warn('Sign-out failed:', error);
     }
   };
 
