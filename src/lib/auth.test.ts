@@ -24,12 +24,18 @@ type MockedSupabase = {
 describe('auth', () => {
   const mockedSupabase = supabase as unknown as MockedSupabase;
   const mockUpsert = jest.fn();
+  const mockMaybeSingle = jest.fn();
+  const mockEq = jest.fn(() => ({ maybeSingle: mockMaybeSingle }));
+  const mockSelect = jest.fn(() => ({ eq: mockEq }));
   const originalRedirectTo = process.env.EXPO_PUBLIC_PASSWORD_RESET_REDIRECT_TO;
   const originalScheme = process.env.EXPO_PUBLIC_APP_SCHEME;
 
   beforeEach(() => {
     jest.clearAllMocks();
-    mockedSupabase.from.mockReturnValue({ upsert: mockUpsert });
+    mockedSupabase.from.mockReturnValue({
+      select: mockSelect,
+      upsert: mockUpsert,
+    });
     delete process.env.EXPO_PUBLIC_PASSWORD_RESET_REDIRECT_TO;
     delete process.env.EXPO_PUBLIC_APP_SCHEME;
   });
@@ -48,7 +54,7 @@ describe('auth', () => {
     }
   });
 
-  it('does not overwrite profile role during sign-in sync', async () => {
+  it('uses metadata role during sign-in when profile does not exist yet', async () => {
     mockedSupabase.auth.signInWithPassword.mockResolvedValue({
       data: {
         user: {
@@ -62,6 +68,7 @@ describe('auth', () => {
       },
       error: null,
     });
+    mockMaybeSingle.mockResolvedValue({ data: null, error: null });
     mockUpsert.mockResolvedValue({ error: null });
 
     await signInWithEmail({ email: 'learner@example.com', password: 'password123' });
@@ -72,6 +79,31 @@ describe('auth', () => {
     expect(upsertPayload.email).toBe('learner@example.com');
     expect(upsertPayload.full_name).toBe('Learner Name');
     expect(upsertPayload.username).toBe('learner');
+    expect(upsertPayload.role).toBe('learner');
+  });
+
+  it('does not overwrite existing profile role during sign-in sync', async () => {
+    mockedSupabase.auth.signInWithPassword.mockResolvedValue({
+      data: {
+        user: {
+          id: 'user-1',
+          email: 'admin@example.com',
+          user_metadata: {
+            full_name: 'Admin Name',
+            role: 'learner',
+          },
+        },
+      },
+      error: null,
+    });
+    mockMaybeSingle.mockResolvedValue({ data: { id: 'user-1' }, error: null });
+    mockUpsert.mockResolvedValue({ error: null });
+
+    await signInWithEmail({ email: 'admin@example.com', password: 'password123' });
+
+    const upsertPayload = mockUpsert.mock.calls[0]?.[0] as Record<string, unknown>;
+
+    expect(upsertPayload.id).toBe('user-1');
     expect(upsertPayload).not.toHaveProperty('role');
   });
 

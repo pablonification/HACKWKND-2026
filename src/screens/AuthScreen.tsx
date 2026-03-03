@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import {
-  Dimensions,
   Image,
   KeyboardAvoidingView,
   Platform,
@@ -10,6 +9,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  useWindowDimensions,
   View,
 } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -43,11 +43,10 @@ const AUTH_ASSETS = {
   apple: require('../../assets/auth/icon-apple.png'),
 } as const;
 
-const SCREEN_WIDTH = Dimensions.get('window').width;
-
 export function AuthScreen() {
   const [mode, setMode] = useState<AuthMode>('landing');
   const insets = useSafeAreaInsets();
+  const { width: screenWidth } = useWindowDimensions();
 
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
@@ -68,6 +67,21 @@ export function AuthScreen() {
   const roleLabel = useMemo(
     () => ROLE_OPTIONS.find((option) => option.value === registerRole)?.label ?? 'Choose your role',
     [registerRole],
+  );
+  const landingIllustrationStyle = useMemo(() => {
+    const width = Math.max(screenWidth - 8, 0);
+
+    return {
+      width,
+      height: (width * 369) / 385,
+    };
+  }, [screenWidth]);
+  const topAreaPatternStyle = useMemo(
+    () => ({
+      left: -screenWidth / 2,
+      width: screenWidth * 2,
+    }),
+    [screenWidth],
   );
 
   const setErrorMessage = (text: string) => setMessage({ type: 'error', text });
@@ -430,7 +444,10 @@ export function AuthScreen() {
         <StatusBar style="dark" />
         <View style={styles.landingScreen}>
           <View style={styles.landingInner}>{renderLanding()}</View>
-          <Image source={AUTH_ASSETS.landingIllustration} style={styles.landingIllustration} />
+          <Image
+            source={AUTH_ASSETS.landingIllustration}
+            style={[styles.landingIllustration, landingIllustrationStyle]}
+          />
           <Image source={AUTH_ASSETS.asean} style={styles.landingAseanBadge} />
         </View>
       </SafeAreaView>
@@ -441,7 +458,10 @@ export function AuthScreen() {
     <SafeAreaView edges={['top', 'left', 'right']} style={styles.safeArea}>
       <StatusBar style="light" />
       <View style={styles.topArea}>
-        <Image source={AUTH_ASSETS.topPattern} style={styles.topAreaPatternImage} />
+        <Image
+          source={AUTH_ASSETS.topPattern}
+          style={[styles.topAreaPatternImage, topAreaPatternStyle]}
+        />
         <Pressable
           onPress={() => switchModeWithFeedback('landing')}
           style={({ pressed }) => [
@@ -642,8 +662,6 @@ const styles = StyleSheet.create({
   },
   landingIllustration: {
     position: 'absolute',
-    width: SCREEN_WIDTH - 8,
-    height: ((SCREEN_WIDTH - 8) * 369) / 385,
     right: 0,
     bottom: -40,
     resizeMode: 'contain',
@@ -669,8 +687,6 @@ const styles = StyleSheet.create({
   topAreaPatternImage: {
     position: 'absolute',
     top: 0,
-    left: -SCREEN_WIDTH / 2,
-    width: SCREEN_WIDTH * 2,
     height: 200,
     bottom: 0,
     opacity: 0.3,

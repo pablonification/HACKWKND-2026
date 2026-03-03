@@ -5,6 +5,7 @@ import type { AuthRole } from '../utils/authValidation';
 import { supabase } from './supabase';
 
 type ProfileInsert = Database['public']['Tables']['profiles']['Insert'];
+type ProfileRole = NonNullable<Database['public']['Tables']['profiles']['Row']['role']>;
 
 type SignInPayload = {
   email: string;
@@ -16,6 +17,14 @@ type SignUpPayload = {
   email: string;
   password: string;
   role: AuthRole;
+};
+
+const toProfileRole = (value: unknown): ProfileRole | null => {
+  if (value === 'admin' || value === 'elder' || value === 'learner') {
+    return value;
+  }
+
+  return null;
 };
 
 const toName = (value: unknown): string | null => {
@@ -62,11 +71,13 @@ const upsertProfile = async ({
   email,
   fullName,
   role,
+  preserveExistingRole = false,
 }: {
   userId: string;
   email: string | null;
   fullName: string | null;
-  role?: AuthRole | null;
+  role?: ProfileRole | null;
+  preserveExistingRole?: boolean;
 }) => {
   const profilePayload: ProfileInsert = {
     id: userId,
@@ -75,8 +86,24 @@ const upsertProfile = async ({
     username: toUsername(email),
   };
 
-  if (role) {
+  if (!preserveExistingRole && role) {
     profilePayload.role = role;
+  }
+
+  if (preserveExistingRole) {
+    const { data: existingProfile, error: existingProfileError } = await supabase
+      .from('profiles')
+      .select('id')
+      .eq('id', userId)
+      .maybeSingle();
+
+    if (existingProfileError) {
+      throw existingProfileError;
+    }
+
+    if (!existingProfile && role) {
+      profilePayload.role = role;
+    }
   }
 
   const { error } = await supabase.from('profiles').upsert(profilePayload, { onConflict: 'id' });
@@ -93,11 +120,14 @@ const syncProfileFromUser = async (user: User | null) => {
 
   const metadata = user.user_metadata as Record<string, unknown> | null;
   const fullName = toName(metadata?.full_name);
+  const role = toProfileRole(metadata?.role);
 
   await upsertProfile({
     userId: user.id,
     email: user.email ?? null,
     fullName,
+    role,
+    preserveExistingRole: true,
   });
 };
 

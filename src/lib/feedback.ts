@@ -1,18 +1,25 @@
-import { Platform, Vibration } from 'react-native';
+import * as Haptics from 'expo-haptics';
+import { Platform } from 'react-native';
 
 export type FeedbackType = 'light' | 'medium' | 'success' | 'error';
-
-const FEEDBACK_DURATION: Record<FeedbackType, number> = {
-  light: 10,
-  medium: 18,
-  success: 14,
-  error: 30,
-};
 
 export const triggerHapticFeedback = (type: FeedbackType = 'light') => {
   if (Platform.OS === 'web') {
     return;
   }
 
-  Vibration.vibrate(FEEDBACK_DURATION[type]);
+  if (type === 'success') {
+    void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => undefined);
+    return;
+  }
+
+  if (type === 'error') {
+    void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error).catch(() => undefined);
+    return;
+  }
+
+  const impactStyle =
+    type === 'medium' ? Haptics.ImpactFeedbackStyle.Medium : Haptics.ImpactFeedbackStyle.Light;
+
+  void Haptics.impactAsync(impactStyle).catch(() => undefined);
 };
