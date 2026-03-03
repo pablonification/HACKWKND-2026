@@ -156,10 +156,6 @@ export function AuthScreen() {
       setErrorMessage(validationError);
       return;
     }
-    if (!registerRole) {
-      setErrorMessage('Please select your role.');
-      return;
-    }
 
     setIsSubmitting(true);
 
@@ -168,7 +164,7 @@ export function AuthScreen() {
         fullName: registerName.trim(),
         email: normalizedEmail,
         password: registerPassword,
-        role: registerRole,
+        role: registerRole!,
       });
 
       if (response.data.session) {
@@ -192,6 +188,7 @@ export function AuthScreen() {
     clearMessage();
 
     if (emailError) {
+      triggerHapticFeedback('error');
       setErrorMessage(emailError);
       return;
     }
