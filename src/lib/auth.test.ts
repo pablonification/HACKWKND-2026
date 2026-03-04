@@ -32,15 +32,11 @@ type MockedSupabase = {
 describe('auth', () => {
   const mockedSupabase = supabase as unknown as MockedSupabase;
   const mockUpsert = vi.fn();
-  const mockMaybeSingle = vi.fn();
-  const mockEq = vi.fn(() => ({ maybeSingle: mockMaybeSingle }));
-  const mockSelect = vi.fn(() => ({ eq: mockEq }));
   const originalRedirectTo = import.meta.env.VITE_PASSWORD_RESET_REDIRECT_TO as string | undefined;
 
   beforeEach(() => {
     vi.clearAllMocks();
     mockedSupabase.from.mockReturnValue({
-      select: mockSelect,
       upsert: mockUpsert,
     });
   });
@@ -51,7 +47,7 @@ describe('auth', () => {
     }
   });
 
-  it('uses metadata role during sign-in when profile does not exist yet', async () => {
+  it('syncs profile fields during sign-in without forcing role', async () => {
     mockedSupabase.auth.signInWithPassword.mockResolvedValue({
       data: {
         user: {
@@ -65,7 +61,6 @@ describe('auth', () => {
       },
       error: null,
     });
-    mockMaybeSingle.mockResolvedValue({ data: null, error: null });
     mockUpsert.mockResolvedValue({ error: null });
 
     await signInWithEmail({ email: 'learner@example.com', password: 'password123' });
@@ -76,7 +71,7 @@ describe('auth', () => {
     expect(upsertPayload.email).toBe('learner@example.com');
     expect(upsertPayload.full_name).toBe('Learner Name');
     expect(upsertPayload.username).toBe('learner');
-    expect(upsertPayload.role).toBe('learner');
+    expect(upsertPayload).not.toHaveProperty('role');
   });
 
   it('does not overwrite existing profile role during sign-in sync', async () => {
@@ -93,7 +88,6 @@ describe('auth', () => {
       },
       error: null,
     });
-    mockMaybeSingle.mockResolvedValue({ data: { id: 'user-1' }, error: null });
     mockUpsert.mockResolvedValue({ error: null });
 
     await signInWithEmail({ email: 'admin@example.com', password: 'password123' });

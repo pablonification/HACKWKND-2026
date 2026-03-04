@@ -288,3 +288,33 @@ create policy "Users can follow others"
 
 create policy "Users can unfollow"
   on public.follows for delete using (auth.uid() = follower_id);
+
+create or replace function public.set_updated_at()
+returns trigger
+language plpgsql
+as $$
+begin
+  new.updated_at = now();
+  return new;
+end;
+$$;
+
+create trigger set_profiles_updated_at
+before update on public.profiles
+for each row execute function public.set_updated_at();
+
+create trigger set_recordings_updated_at
+before update on public.recordings
+for each row execute function public.set_updated_at();
+
+create trigger set_streaks_updated_at
+before update on public.streaks
+for each row execute function public.set_updated_at();
+
+create trigger set_stories_updated_at
+before update on public.stories
+for each row execute function public.set_updated_at();
+
+create trigger set_requests_updated_at
+before update on public.requests
+for each row execute function public.set_updated_at();

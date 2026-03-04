@@ -98,22 +98,6 @@ const upsertProfile = async ({
     profilePayload.role = role;
   }
 
-  if (preserveExistingRole) {
-    const { data: existingProfile, error: existingProfileError } = await supabase
-      .from('profiles')
-      .select('id')
-      .eq('id', userId)
-      .maybeSingle();
-
-    if (existingProfileError) {
-      throw existingProfileError;
-    }
-
-    if (!existingProfile && role) {
-      profilePayload.role = role;
-    }
-  }
-
   const { error } = await supabase.from('profiles').upsert(profilePayload, { onConflict: 'id' });
 
   if (error) {
