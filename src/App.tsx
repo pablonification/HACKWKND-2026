@@ -1,5 +1,5 @@
 import { IonApp } from '@ionic/react';
-import { MemoryRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { useEffect } from 'react';
 
 import { AppRouter } from './navigation/AppRouter';
@@ -28,9 +28,9 @@ export default function App() {
 
   return (
     <IonApp>
-      <MemoryRouter initialEntries={['/']} initialIndex={0}>
+      <BrowserRouter>
         <AppRouter />
-      </MemoryRouter>
+      </BrowserRouter>
     </IonApp>
   );
 }
