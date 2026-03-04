@@ -216,15 +216,9 @@ export const updateAuthProfile = async ({
   email: string;
 }) => {
   const {
-    data: { user },
-    error: userError,
-  } = await supabase.auth.getUser();
-
-  if (userError) {
-    throw userError;
-  }
-
-  const { error } = await supabase.auth.updateUser({
+    data: { user: updatedUser },
+    error,
+  } = await supabase.auth.updateUser({
     email,
     data: {
       full_name: fullName,
@@ -235,11 +229,12 @@ export const updateAuthProfile = async ({
     throw error;
   }
 
-  // Keep the profiles table in sync with auth metadata.
-  if (user) {
+  // Sync the profiles table using the *confirmed* email from the auth
+  // response — not the requested email, which may still be unconfirmed.
+  if (updatedUser) {
     await upsertProfile({
-      userId: user.id,
-      email,
+      userId: updatedUser.id,
+      email: updatedUser.email ?? email,
       fullName,
       preserveExistingRole: true,
     });

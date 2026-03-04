@@ -39,3 +39,6 @@ jobs:
 
       - name: Tests
         run: npm run test:run -- --bail 1
+
+      - name: Build
+        run: npm run build

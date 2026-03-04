@@ -55,6 +55,15 @@ begin
           where id = auth.uid() and role in (''elder'', ''admin'')
         )
       )
+      with check (
+        exists (
+          select 1 from public.profiles
+          where id = auth.uid() and role in (''elder'', ''admin'')
+        )
+        and uploader_id is not distinct from (select r.uploader_id from public.recordings r where r.id = recordings.id)
+        and title         is not distinct from (select r.title from public.recordings r where r.id = recordings.id)
+        and audio_url     is not distinct from (select r.audio_url from public.recordings r where r.id = recordings.id)
+      )
     ';
   end if;
 end
