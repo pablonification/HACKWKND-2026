@@ -125,3 +125,39 @@ begin
   end if;
 end
 $$;
+
+-- 4. Trigger to guard status/fulfilled_by on requests
+-- All authenticated users share the same Postgres role in Supabase, so column-level
+-- GRANT/REVOKE cannot distinguish requesters from elders. Instead, use a trigger to
+-- reject status or fulfilled_by changes by non-elder/non-admin users.
+create or replace function public.guard_request_status_update()
+  returns trigger
+  language plpgsql
+  security definer
+as $$
+declare
+  caller_role text;
+begin
+  -- Allow if neither status nor fulfilled_by changed
+  if new.status is not distinct from old.status
+     and new.fulfilled_by is not distinct from old.fulfilled_by then
+    return new;
+  end if;
+
+  select role into caller_role
+    from public.profiles
+    where id = auth.uid();
+
+  if caller_role not in ('elder', 'admin') then
+    raise exception 'Only elders and admins can change request status or fulfilled_by';
+  end if;
+
+  return new;
+end;
+$$;
+
+drop trigger if exists trg_guard_request_status on public.requests;
+create trigger trg_guard_request_status
+  before update on public.requests
+  for each row
+  execute function public.guard_request_status_update();

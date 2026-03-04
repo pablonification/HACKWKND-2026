@@ -73,7 +73,8 @@ export function ResetPasswordPage() {
       setRecoverySession(false);
       triggerHapticFeedback('success');
       setNotice('Password updated. Redirecting...');
-      navigate('/home', { replace: true });
+      // Allow one render cycle so the toast is visible before unmount
+      setTimeout(() => navigate('/home', { replace: true }), 1200);
     } catch (err) {
       setError(toAuthErrorMessage(err));
       triggerHapticFeedback('error');
