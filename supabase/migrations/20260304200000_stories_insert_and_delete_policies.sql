@@ -25,57 +25,6 @@ $$;
 
 -- 2. Add missing DELETE policies
 
--- words: creators can delete own words
-do $$
-begin
-  if not exists (
-    select 1 from pg_policies
-    where tablename = 'words' and policyname = 'Creators can delete own words'
-  ) then
-    execute '
-      create policy "Creators can delete own words"
-      on public.words
-      for delete
-      using (auth.uid() = created_by)
-    ';
-  end if;
-end
-$$;
-
--- stories: authors can delete own stories
-do $$
-begin
-  if not exists (
-    select 1 from pg_policies
-    where tablename = 'stories' and policyname = 'Authors can delete own stories'
-  ) then
-    execute '
-      create policy "Authors can delete own stories"
-      on public.stories
-      for delete
-      using (auth.uid() = author_id)
-    ';
-  end if;
-end
-$$;
-
--- requests: users can delete own requests
-do $$
-begin
-  if not exists (
-    select 1 from pg_policies
-    where tablename = 'requests' and policyname = 'Users can delete own requests'
-  ) then
-    execute '
-      create policy "Users can delete own requests"
-      on public.requests
-      for delete
-      using (auth.uid() = requester_id)
-    ';
-  end if;
-end
-$$;
-
 -- profiles: users can delete own profile
 do $$
 begin
@@ -100,6 +49,7 @@ do $$
 begin
   execute 'drop policy if exists "Users can update own requests" on public.requests';
   execute 'drop policy if exists "Requesters can update own pending requests" on public.requests';
+  execute 'drop policy if exists "Elders and admins can manage request status" on public.requests';
   execute '
     create policy "Requesters can update own pending requests"
     on public.requests
@@ -108,36 +58,31 @@ begin
     with check (auth.uid() = requester_id and status = ''pending'')
   ';
 
-  if not exists (
-    select 1 from pg_policies
-    where tablename = 'requests' and policyname = 'Elders and admins can manage request status'
-  ) then
-    execute '
-      create policy "Elders and admins can manage request status"
-      on public.requests
-      for update
-      using (
-        exists (
-          select 1 from public.profiles
-          where id = auth.uid() and role in (''elder'', ''admin'')
-        )
+  execute '
+    create policy "Elders and admins can manage request status"
+    on public.requests
+    for update
+    using (
+      exists (
+        select 1 from public.profiles
+        where id = auth.uid() and role in (''elder'', ''admin'')
       )
-      with check (
-        exists (
-          select 1 from public.profiles
-          where id = auth.uid() and role in (''elder'', ''admin'')
-        )
-        and requester_id is not distinct from (
-          select r.requester_id from public.requests r where r.id = requests.id
-        )
-        and request_type is not distinct from (
-          select r.request_type from public.requests r where r.id = requests.id
-        )
-        and content is not distinct from (
-          select r.content from public.requests r where r.id = requests.id
-        )
+    )
+    with check (
+      exists (
+        select 1 from public.profiles
+        where id = auth.uid() and role in (''elder'', ''admin'')
       )
-    ';
-  end if;
+      and requester_id is not distinct from (
+        select r.requester_id from public.requests r where r.id = requests.id
+      )
+      and request_type is not distinct from (
+        select r.request_type from public.requests r where r.id = requests.id
+      )
+      and content is not distinct from (
+        select r.content from public.requests r where r.id = requests.id
+      )
+    )
+  ';
 end
 $$;

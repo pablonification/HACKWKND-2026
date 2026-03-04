@@ -64,8 +64,14 @@ const resolvePasswordResetRedirectTo = () => {
     return configuredRedirectTo;
   }
 
-  // In the browser, build a redirect URL from the current origin
-  return `${window.location.origin}/${PASSWORD_RESET_REDIRECT_PATH}`;
+  const origin = window.location.origin;
+  if (origin.startsWith('capacitor://') || origin.startsWith('file://')) {
+    throw new Error(
+      'Set VITE_PASSWORD_RESET_REDIRECT_TO for native builds. The default browser origin is not a valid reset link target on Capacitor.',
+    );
+  }
+
+  return `${origin}/${PASSWORD_RESET_REDIRECT_PATH}`;
 };
 
 const upsertProfile = async ({

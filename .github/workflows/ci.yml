@@ -41,4 +41,7 @@ jobs:
         run: npm run test:run -- --bail 1
 
       - name: Build
+        env:
+          VITE_SUPABASE_URL: https://example.supabase.co
+          VITE_SUPABASE_ANON_KEY: ci-anon-key
         run: npm run build
