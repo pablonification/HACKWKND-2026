@@ -152,12 +152,17 @@ export const signInWithEmail = async ({
   return authResponse;
 };
 
+export type SignUpResult = {
+  authResponse: AuthResponse;
+  profileWarning?: string;
+};
+
 export const signUpWithEmail = async ({
   fullName,
   email,
   password,
   role,
-}: SignUpPayload): Promise<AuthResponse> => {
+}: SignUpPayload): Promise<SignUpResult> => {
   const authResponse = await supabase.auth.signUp({
     email,
     password,
@@ -173,6 +178,8 @@ export const signUpWithEmail = async ({
     throw authResponse.error;
   }
 
+  let profileWarning: string | undefined;
+
   if (authResponse.data.session && authResponse.data.user) {
     try {
       await upsertProfile({
@@ -183,10 +190,12 @@ export const signUpWithEmail = async ({
       });
     } catch (profileError) {
       console.warn('Profile sync failed during sign-up:', profileError);
+      profileWarning =
+        'Account created but profile setup failed. Please sign out and back in to retry.';
     }
   }
 
-  return authResponse;
+  return { authResponse, profileWarning };
 };
 
 export const requestPasswordReset = async (email: string) => {

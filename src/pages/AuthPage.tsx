@@ -168,12 +168,16 @@ export function AuthPage() {
     setNotice(null);
 
     try {
-      const authResponse = await signUpWithEmail({
+      const { authResponse, profileWarning } = await signUpWithEmail({
         fullName: fullName.trim(),
         email: email.trim(),
         password,
         role: role!,
       });
+
+      if (profileWarning) {
+        setNotice({ tone: 'medium', message: profileWarning });
+      }
 
       if (authResponse.data.session) {
         triggerHapticFeedback('success');
@@ -184,10 +188,12 @@ export function AuthPage() {
       setMode('signin');
       setPassword('');
       setRole(null);
-      setNotice({
-        tone: 'success',
-        message: 'Account created. Check your email to confirm, then log in.',
-      });
+      if (!profileWarning) {
+        setNotice({
+          tone: 'success',
+          message: 'Account created. Check your email to confirm, then log in.',
+        });
+      }
       triggerHapticFeedback('success');
     } catch (err) {
       setError(toAuthErrorMessage(err));
@@ -454,6 +460,7 @@ export function AuthPage() {
                               handleSocialPress(social.label.replace('Continue with ', ''))
                             }
                             aria-label={social.label}
+                            disabled={loading}
                           >
                             <img
                               className={social.iconClassName}

@@ -73,7 +73,7 @@ export function ResetPasswordPage() {
       setRecoverySession(false);
       triggerHapticFeedback('success');
       setNotice('Password updated. Redirecting...');
-      navigate('/home', { replace: true });
+      setTimeout(() => navigate('/home', { replace: true }), 1500);
     } catch (err) {
       setError(toAuthErrorMessage(err));
       triggerHapticFeedback('error');

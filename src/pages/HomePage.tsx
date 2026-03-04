@@ -7,7 +7,6 @@ import {
   IonToolbar,
   IonIcon,
   IonLabel,
-  IonRouterOutlet,
   IonToast,
 } from '@ionic/react';
 import { useState } from 'react';
@@ -175,7 +174,7 @@ export function HomePage() {
 
   return (
     <div className="home-shell">
-      <IonRouterOutlet>
+      <div className="home-content">
         <Routes>
           <Route path="studio" element={<ElderStudioTab />} />
           <Route path="archive" element={<SoundArchiveTab />} />
@@ -185,7 +184,7 @@ export function HomePage() {
           <Route index element={<Navigate to="garden" replace />} />
           <Route path="*" element={<Navigate to="garden" replace />} />
         </Routes>
-      </IonRouterOutlet>
+      </div>
 
       <nav className="home-menu" aria-label="Main">
         {menuItems.map((item) => {

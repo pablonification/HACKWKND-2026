@@ -2,6 +2,12 @@
   min-height: 100%;
 }
 
+.home-content {
+  flex: 1;
+  position: relative;
+  min-height: 0;
+}
+
 .home-tab-content {
   --padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 86px);
 }
