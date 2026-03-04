@@ -1,11 +1,12 @@
 import { IonContent, IonPage, IonToast } from '@ionic/react';
-import { useState, type FormEvent } from 'react';
+import { useEffect, useState, type FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import topPattern from '../../assets/auth/auth-top-pattern.png';
 import eyeIcon from '../../assets/auth/icon-eye.png';
 import { updatePasswordWithRecovery } from '../lib/auth';
 import { triggerHapticFeedback } from '../lib/feedback';
+import { useAuthStore } from '../stores/authStore';
 import { toAuthErrorMessage } from '../utils/authErrors';
 import { validatePassword } from '../utils/authValidation';
 
@@ -13,6 +14,15 @@ import './AuthPage.css';
 
 export function ResetPasswordPage() {
   const navigate = useNavigate();
+  const { isRecoverySession, setRecoverySession } = useAuthStore();
+
+  // Redirect non-recovery sessions away — this page is only valid after
+  // clicking the password-reset email link.
+  useEffect(() => {
+    if (!isRecoverySession) {
+      navigate('/auth', { replace: true });
+    }
+  }, [isRecoverySession, navigate]);
 
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -59,6 +69,7 @@ export function ResetPasswordPage() {
 
     try {
       await updatePasswordWithRecovery({ newPassword: password });
+      setRecoverySession(false);
       triggerHapticFeedback('success');
       setNotice('Password updated. Redirecting...');
       navigate('/home', { replace: true });

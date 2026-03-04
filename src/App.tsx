@@ -8,7 +8,7 @@ import { getBoolean, removeKey, STORAGE_KEYS } from './lib/storage';
 import { useAuthStore } from './stores/authStore';
 
 export default function App() {
-  const { setSession, setLoading } = useAuthStore();
+  const { setSession, setLoading, setRecoverySession } = useAuthStore();
 
   useEffect(() => {
     const initialiseSession = async () => {
@@ -19,7 +19,7 @@ export default function App() {
       const hasTransientSession = await getBoolean(STORAGE_KEYS.AUTH_TRANSIENT_SESSION, false);
       if (session && hasTransientSession) {
         await supabase.auth.signOut();
-        await removeKey(STORAGE_KEYS.AUTH_TRANSIENT_SESSION);
+        // SIGNED_OUT listener handles removeKey and setSession(null)
         setSession(null);
       } else {
         setSession(session);
@@ -37,12 +37,16 @@ export default function App() {
     } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_OUT') {
         void removeKey(STORAGE_KEYS.AUTH_TRANSIENT_SESSION);
+        setRecoverySession(false);
+      }
+      if (event === 'PASSWORD_RECOVERY') {
+        setRecoverySession(true);
       }
       setSession(session);
     });
 
     return () => subscription.unsubscribe();
-  }, [setSession, setLoading]);
+  }, [setSession, setLoading, setRecoverySession]);
 
   return (
     <IonApp>

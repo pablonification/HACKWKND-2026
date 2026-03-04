@@ -65,5 +65,4 @@ Before requesting review:
 
 1. Confirm pre-commit checks pass.
 2. Summarize what changed and why.
-3. Include screenshots or short recordings for UI/motion changes.
-4. Call out known limitations or follow-up tasks.
+3. Call out known limitations or follow-up tasks.
