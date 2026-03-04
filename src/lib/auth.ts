@@ -255,3 +255,13 @@ export const updatePassword = async ({
     throw updateError;
   }
 };
+
+export const updatePasswordWithRecovery = async ({ newPassword }: { newPassword: string }) => {
+  const { error } = await supabase.auth.updateUser({
+    password: newPassword,
+  });
+
+  if (error) {
+    throw error;
+  }
+};

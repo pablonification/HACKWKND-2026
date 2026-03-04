@@ -1,5 +1,10 @@
 import { vi, describe, it, expect, beforeEach, afterAll } from 'vitest';
-import { requestPasswordReset, signInWithEmail, signUpWithEmail } from './auth';
+import {
+  requestPasswordReset,
+  signInWithEmail,
+  signUpWithEmail,
+  updatePasswordWithRecovery,
+} from './auth';
 import { supabase } from './supabase';
 
 vi.mock('./supabase', () => ({
@@ -9,6 +14,7 @@ vi.mock('./supabase', () => ({
       signInWithPassword: vi.fn(),
       signUp: vi.fn(),
       resetPasswordForEmail: vi.fn(),
+      updateUser: vi.fn(),
     },
   },
 }));
@@ -19,6 +25,7 @@ type MockedSupabase = {
     signInWithPassword: ReturnType<typeof vi.fn>;
     signUp: ReturnType<typeof vi.fn>;
     resetPasswordForEmail: ReturnType<typeof vi.fn>;
+    updateUser: ReturnType<typeof vi.fn>;
   };
 };
 
@@ -126,6 +133,16 @@ describe('auth', () => {
 
     expect(mockedSupabase.auth.resetPasswordForEmail).toHaveBeenCalledWith('user@example.com', {
       redirectTo: expect.stringContaining('auth/reset-password'),
+    });
+  });
+
+  it('updates password with recovery session', async () => {
+    mockedSupabase.auth.updateUser.mockResolvedValue({ error: null });
+
+    await updatePasswordWithRecovery({ newPassword: 'new-password-123' });
+
+    expect(mockedSupabase.auth.updateUser).toHaveBeenCalledWith({
+      password: 'new-password-123',
     });
   });
 

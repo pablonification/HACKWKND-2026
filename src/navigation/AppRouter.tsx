@@ -4,6 +4,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { useAuthStore } from '../stores/authStore';
 import { AuthPage } from '../pages/AuthPage';
 import { HomePage } from '../pages/HomePage';
+import { ResetPasswordPage } from '../pages/ResetPasswordPage';
 
 export function AppRouter() {
   const { session, isLoading } = useAuthStore();
@@ -19,6 +20,7 @@ export function AppRouter() {
   return (
     <IonRouterOutlet>
       <Routes>
+        <Route path="/auth/reset-password" element={<ResetPasswordPage />} />
         <Route path="/auth" element={session ? <Navigate to="/home" replace /> : <AuthPage />} />
         <Route path="/home/*" element={session ? <HomePage /> : <Navigate to="/auth" replace />} />
         <Route

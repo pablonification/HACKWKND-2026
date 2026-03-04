@@ -86,7 +86,7 @@ create policy "Anyone can read words"
   on public.words for select using (true);
 
 create policy "Authenticated users can insert words"
-  on public.words for insert with check (auth.uid() is not null);
+  on public.words for insert with check (auth.uid() = created_by);
 
 create policy "Creators can update own words"
   on public.words for update using (auth.uid() = created_by);
