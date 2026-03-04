@@ -14,22 +14,16 @@ import './AuthPage.css';
 
 export function ResetPasswordPage() {
   const navigate = useNavigate();
-  const { isRecoverySession, setRecoverySession } = useAuthStore();
+  const { setRecoverySession } = useAuthStore();
   const redirectTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Redirect non-recovery sessions away — this page is only valid after
-  // clicking the password-reset email link.
   useEffect(() => {
-    if (!isRecoverySession) {
-      navigate('/auth', { replace: true });
-    }
-
     return () => {
       if (redirectTimerRef.current) {
         clearTimeout(redirectTimerRef.current);
       }
     };
-  }, [isRecoverySession, navigate]);
+  }, []);
 
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
