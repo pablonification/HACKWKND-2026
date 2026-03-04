@@ -36,13 +36,10 @@ create policy "Users can upload their own recordings"
     and (storage.foldername(name))[1] = auth.uid()::text
   );
 
-create policy "Users can read their own recordings"
+create policy "Authenticated users can read recordings"
   on storage.objects for select
   to authenticated
-  using (
-    bucket_id = 'recordings'
-    and (storage.foldername(name))[1] = auth.uid()::text
-  );
+  using (bucket_id = 'recordings');
 
 create policy "Users can delete their own recordings"
   on storage.objects for delete

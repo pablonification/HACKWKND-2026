@@ -80,8 +80,8 @@ export function ResetPasswordPage() {
       triggerHapticFeedback('success');
       setNotice('Password updated. Redirecting...');
       redirectTimerRef.current = setTimeout(() => {
-        setRecoverySession(false);
         navigate('/home', { replace: true });
+        setRecoverySession(false);
       }, 1500);
     } catch (err) {
       setError(toAuthErrorMessage(err));
