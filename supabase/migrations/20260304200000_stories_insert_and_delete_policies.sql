@@ -99,6 +99,7 @@ $$;
 do $$
 begin
   execute 'drop policy if exists "Users can update own requests" on public.requests';
+  execute 'drop policy if exists "Requesters can update own pending requests" on public.requests';
   execute '
     create policy "Requesters can update own pending requests"
     on public.requests
