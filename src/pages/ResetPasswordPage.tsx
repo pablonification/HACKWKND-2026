@@ -148,7 +148,7 @@ export function ResetPasswordPage() {
                         id="auth-reset-password-confirm"
                         className="auth-input auth-input-password"
                         type={confirmPasswordVisible ? 'text' : 'password'}
-                        autoComplete="new-password"
+                        autoComplete="off"
                         placeholder="**********"
                         value={confirmPassword}
                         onChange={(event) => setConfirmPassword(event.target.value)}
