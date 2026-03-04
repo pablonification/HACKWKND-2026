@@ -19,10 +19,14 @@ export function AppRouter() {
   return (
     <IonRouterOutlet>
       <Routes>
-        <Route path="/auth" element={<AuthPage />} />
-        <Route path="/home/*" element={<HomePage />} />
+        <Route path="/auth" element={session ? <Navigate to="/home" replace /> : <AuthPage />} />
+        <Route path="/home/*" element={session ? <HomePage /> : <Navigate to="/auth" replace />} />
         <Route
           path="/"
+          element={session ? <Navigate to="/home" replace /> : <Navigate to="/auth" replace />}
+        />
+        <Route
+          path="*"
           element={session ? <Navigate to="/home" replace /> : <Navigate to="/auth" replace />}
         />
       </Routes>

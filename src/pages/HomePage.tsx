@@ -1,17 +1,17 @@
 import {
   IonContent,
+  IonButton,
   IonHeader,
   IonPage,
   IonTitle,
   IonToolbar,
-  IonTabs,
-  IonTabBar,
-  IonTabButton,
   IonIcon,
   IonLabel,
   IonRouterOutlet,
+  IonToast,
 } from '@ionic/react';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { useState } from 'react';
+import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import {
   micOutline,
   libraryOutline,
@@ -21,7 +21,11 @@ import {
 } from 'ionicons/icons';
 
 import { useAuthStore } from '../stores/authStore';
+import { triggerHapticFeedback } from '../lib/feedback';
 import { supabase } from '../lib/supabase';
+import { toAuthErrorMessage } from '../utils/authErrors';
+
+import './HomePage.css';
 
 // --- Placeholder tab pages ---
 
@@ -33,7 +37,7 @@ function ElderStudioTab() {
           <IonTitle>Elder Studio</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent className="ion-padding">
+      <IonContent className="ion-padding home-tab-content">
         <p className="text-gray-500">Record and upload audio for the archive.</p>
       </IonContent>
     </IonPage>
@@ -48,7 +52,7 @@ function SoundArchiveTab() {
           <IonTitle>Sound Archive</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent className="ion-padding">
+      <IonContent className="ion-padding home-tab-content">
         <p className="text-gray-500">Browse and search recordings.</p>
       </IonContent>
     </IonPage>
@@ -63,7 +67,7 @@ function AIHelperTab() {
           <IonTitle>AI Helper</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent className="ion-padding">
+      <IonContent className="ion-padding home-tab-content">
         <p className="text-gray-500">Transcribe, translate, and listen.</p>
       </IonContent>
     </IonPage>
@@ -78,7 +82,7 @@ function LanguageGardenTab() {
           <IonTitle>Language Garden</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent className="ion-padding">
+      <IonContent className="ion-padding home-tab-content">
         <p className="text-gray-500">Learn Semai through lessons and practice.</p>
       </IonContent>
     </IonPage>
@@ -87,9 +91,31 @@ function LanguageGardenTab() {
 
 function ProfileTab() {
   const { user } = useAuthStore();
+  const [isSigningOut, setIsSigningOut] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSignOut = async () => {
-    await supabase.auth.signOut();
+    if (isSigningOut) {
+      return;
+    }
+
+    setIsSigningOut(true);
+    setError(null);
+    triggerHapticFeedback('light');
+
+    try {
+      const { error: signOutError } = await supabase.auth.signOut();
+      if (signOutError) {
+        throw signOutError;
+      }
+
+      triggerHapticFeedback('success');
+    } catch (err) {
+      setError(toAuthErrorMessage(err));
+      triggerHapticFeedback('error');
+    } finally {
+      setIsSigningOut(false);
+    }
   };
 
   return (
@@ -99,11 +125,24 @@ function ProfileTab() {
           <IonTitle>Profile</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent className="ion-padding">
+      <IonContent className="ion-padding home-tab-content">
         <p className="mb-4 text-gray-600">{user?.email ?? 'Guest'}</p>
-        <button onClick={() => void handleSignOut()} className="text-sm text-red-500 underline">
-          Sign out
-        </button>
+        <IonButton
+          color="danger"
+          fill="outline"
+          onClick={() => void handleSignOut()}
+          disabled={isSigningOut}
+        >
+          {isSigningOut ? 'Signing out...' : 'Sign out'}
+        </IonButton>
+
+        <IonToast
+          isOpen={Boolean(error)}
+          message={error ?? ''}
+          duration={3200}
+          color="danger"
+          onDidDismiss={() => setError(null)}
+        />
       </IonContent>
     </IonPage>
   );
@@ -112,8 +151,30 @@ function ProfileTab() {
 // --- Main tabbed page ---
 
 export function HomePage() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const menuItems = [
+    { id: 'studio', label: 'Studio', icon: micOutline, href: '/home/studio' },
+    { id: 'archive', label: 'Archive', icon: libraryOutline, href: '/home/archive' },
+    { id: 'garden', label: 'Garden', icon: leafOutline, href: '/home/garden' },
+    { id: 'ai', label: 'AI', icon: sparklesOutline, href: '/home/ai' },
+    { id: 'profile', label: 'Profile', icon: personOutline, href: '/home/profile' },
+  ] as const;
+
+  const isActiveTab = (href: string) =>
+    location.pathname === href || location.pathname.startsWith(`${href}/`);
+
+  const handleMenuNavigate = (href: string) => {
+    triggerHapticFeedback('light');
+
+    if (location.pathname !== href) {
+      navigate(href);
+    }
+  };
+
   return (
-    <IonTabs>
+    <div className="home-shell">
       <IonRouterOutlet>
         <Routes>
           <Route path="studio" element={<ElderStudioTab />} />
@@ -121,32 +182,28 @@ export function HomePage() {
           <Route path="ai" element={<AIHelperTab />} />
           <Route path="garden" element={<LanguageGardenTab />} />
           <Route path="profile" element={<ProfileTab />} />
-          <Route path="" element={<Navigate to="garden" replace />} />
+          <Route index element={<Navigate to="garden" replace />} />
+          <Route path="*" element={<Navigate to="garden" replace />} />
         </Routes>
       </IonRouterOutlet>
 
-      <IonTabBar slot="bottom">
-        <IonTabButton tab="studio" href="/home/studio">
-          <IonIcon icon={micOutline} />
-          <IonLabel>Studio</IonLabel>
-        </IonTabButton>
-        <IonTabButton tab="archive" href="/home/archive">
-          <IonIcon icon={libraryOutline} />
-          <IonLabel>Archive</IonLabel>
-        </IonTabButton>
-        <IonTabButton tab="garden" href="/home/garden">
-          <IonIcon icon={leafOutline} />
-          <IonLabel>Garden</IonLabel>
-        </IonTabButton>
-        <IonTabButton tab="ai" href="/home/ai">
-          <IonIcon icon={sparklesOutline} />
-          <IonLabel>AI</IonLabel>
-        </IonTabButton>
-        <IonTabButton tab="profile" href="/home/profile">
-          <IonIcon icon={personOutline} />
-          <IonLabel>Profile</IonLabel>
-        </IonTabButton>
-      </IonTabBar>
-    </IonTabs>
+      <nav className="home-menu" aria-label="Main">
+        {menuItems.map((item) => {
+          const active = isActiveTab(item.href);
+          return (
+            <button
+              key={item.id}
+              type="button"
+              className={`home-menu-item ${active ? 'is-active' : ''}`}
+              onClick={() => handleMenuNavigate(item.href)}
+              aria-current={active ? 'page' : undefined}
+            >
+              <IonIcon icon={item.icon} />
+              <IonLabel>{item.label}</IonLabel>
+            </button>
+          );
+        })}
+      </nav>
+    </div>
   );
 }

@@ -81,3 +81,8 @@ create policy "Authenticated users can upload pronunciations"
   on storage.objects for insert
   to authenticated
   with check (bucket_id = 'pronunciations');
+
+create policy "Authenticated users can delete pronunciations"
+  on storage.objects for delete
+  to authenticated
+  using (bucket_id = 'pronunciations');

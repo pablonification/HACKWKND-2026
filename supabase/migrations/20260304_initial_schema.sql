@@ -116,6 +116,9 @@ create policy "Users can upsert own progress"
 create policy "Users can update own progress"
   on public.progress for update using (auth.uid() = user_id);
 
+create policy "Users can delete own progress"
+  on public.progress for delete using (auth.uid() = user_id);
+
 -- ─────────────────────────────────────────────
 -- streaks
 -- ─────────────────────────────────────────────
@@ -138,6 +141,9 @@ create policy "Users can upsert own streak"
 
 create policy "Users can update own streak"
   on public.streaks for update using (auth.uid() = user_id);
+
+create policy "Users can delete own streak"
+  on public.streaks for delete using (auth.uid() = user_id);
 
 -- ─────────────────────────────────────────────
 -- stories
