@@ -2,6 +2,7 @@ import {
   IonContent,
   IonButton,
   IonHeader,
+  IonPage,
   IonTitle,
   IonToolbar,
   IonIcon,
@@ -29,7 +30,7 @@ import './HomePage.css';
 
 function ElderStudioTab() {
   return (
-    <>
+    <IonPage>
       <IonHeader>
         <IonToolbar>
           <IonTitle>Elder Studio</IonTitle>
@@ -38,13 +39,13 @@ function ElderStudioTab() {
       <IonContent className="ion-padding home-tab-content">
         <p className="text-gray-500">Record and upload audio for the archive.</p>
       </IonContent>
-    </>
+    </IonPage>
   );
 }
 
 function SoundArchiveTab() {
   return (
-    <>
+    <IonPage>
       <IonHeader>
         <IonToolbar>
           <IonTitle>Sound Archive</IonTitle>
@@ -53,13 +54,13 @@ function SoundArchiveTab() {
       <IonContent className="ion-padding home-tab-content">
         <p className="text-gray-500">Browse and search recordings.</p>
       </IonContent>
-    </>
+    </IonPage>
   );
 }
 
 function AIHelperTab() {
   return (
-    <>
+    <IonPage>
       <IonHeader>
         <IonToolbar>
           <IonTitle>AI Helper</IonTitle>
@@ -68,13 +69,13 @@ function AIHelperTab() {
       <IonContent className="ion-padding home-tab-content">
         <p className="text-gray-500">Transcribe, translate, and listen.</p>
       </IonContent>
-    </>
+    </IonPage>
   );
 }
 
 function LanguageGardenTab() {
   return (
-    <>
+    <IonPage>
       <IonHeader>
         <IonToolbar>
           <IonTitle>Language Garden</IonTitle>
@@ -83,7 +84,7 @@ function LanguageGardenTab() {
       <IonContent className="ion-padding home-tab-content">
         <p className="text-gray-500">Learn Semai through lessons and practice.</p>
       </IonContent>
-    </>
+    </IonPage>
   );
 }
 
@@ -117,7 +118,7 @@ function ProfileTab() {
   };
 
   return (
-    <>
+    <IonPage>
       <IonHeader>
         <IonToolbar>
           <IonTitle>Profile</IonTitle>
@@ -142,7 +143,7 @@ function ProfileTab() {
           onDidDismiss={() => setError(null)}
         />
       </IonContent>
-    </>
+    </IonPage>
   );
 }
 
