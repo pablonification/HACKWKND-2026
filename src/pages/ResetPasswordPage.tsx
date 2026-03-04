@@ -1,5 +1,5 @@
 import { IonContent, IonPage, IonToast } from '@ionic/react';
-import { useEffect, useState, type FormEvent } from 'react';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import topPattern from '../../assets/auth/auth-top-pattern.png';
@@ -15,6 +15,7 @@ import './AuthPage.css';
 export function ResetPasswordPage() {
   const navigate = useNavigate();
   const { isRecoverySession, setRecoverySession } = useAuthStore();
+  const redirectTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Redirect non-recovery sessions away — this page is only valid after
   // clicking the password-reset email link.
@@ -22,6 +23,12 @@ export function ResetPasswordPage() {
     if (!isRecoverySession) {
       navigate('/auth', { replace: true });
     }
+
+    return () => {
+      if (redirectTimerRef.current) {
+        clearTimeout(redirectTimerRef.current);
+      }
+    };
   }, [isRecoverySession, navigate]);
 
   const [password, setPassword] = useState('');
@@ -70,10 +77,12 @@ export function ResetPasswordPage() {
 
     try {
       await updatePasswordWithRecovery({ newPassword: password });
-      setRecoverySession(false);
       triggerHapticFeedback('success');
       setNotice('Password updated. Redirecting...');
-      setTimeout(() => navigate('/home', { replace: true }), 1500);
+      redirectTimerRef.current = setTimeout(() => {
+        setRecoverySession(false);
+        navigate('/home', { replace: true });
+      }, 1500);
     } catch (err) {
       setError(toAuthErrorMessage(err));
       triggerHapticFeedback('error');

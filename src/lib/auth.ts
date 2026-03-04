@@ -215,6 +215,15 @@ export const updateAuthProfile = async ({
   fullName: string;
   email: string;
 }) => {
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+
+  if (userError) {
+    throw userError;
+  }
+
   const { error } = await supabase.auth.updateUser({
     email,
     data: {
@@ -224,6 +233,16 @@ export const updateAuthProfile = async ({
 
   if (error) {
     throw error;
+  }
+
+  // Keep the profiles table in sync with auth metadata.
+  if (user) {
+    await upsertProfile({
+      userId: user.id,
+      email,
+      fullName,
+      preserveExistingRole: true,
+    });
   }
 };
 
