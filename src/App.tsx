@@ -12,20 +12,25 @@ export default function App() {
 
   useEffect(() => {
     const initialiseSession = async () => {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
+      try {
+        const {
+          data: { session },
+        } = await supabase.auth.getSession();
 
-      const hasTransientSession = await getBoolean(STORAGE_KEYS.AUTH_TRANSIENT_SESSION, false);
-      if (session && hasTransientSession) {
-        await supabase.auth.signOut();
-        // SIGNED_OUT listener handles removeKey and setSession(null)
+        const hasTransientSession = await getBoolean(STORAGE_KEYS.AUTH_TRANSIENT_SESSION, false);
+        if (session && hasTransientSession) {
+          await supabase.auth.signOut();
+          // SIGNED_OUT listener handles removeKey and setSession(null)
+          setSession(null);
+        } else {
+          setSession(session);
+        }
+      } catch (error) {
+        console.error('Failed to initialise session:', error);
         setSession(null);
-      } else {
-        setSession(session);
+      } finally {
+        setLoading(false);
       }
-
-      setLoading(false);
     };
 
     // Initialise session on mount

@@ -43,6 +43,7 @@ export function ResetPasswordPage() {
   };
 
   const handleBack = () => {
+    setRecoverySession(false);
     triggerHapticFeedback('light');
     navigate('/auth', { replace: true });
   };

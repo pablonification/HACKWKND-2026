@@ -92,3 +92,36 @@ begin
   end if;
 end
 $$;
+
+-- 3. Restrict requests UPDATE policy
+-- Requesters can only update content/type while the request is still pending.
+-- Elders and admins can update status and fulfilled_by on any request.
+do $$
+begin
+  execute 'drop policy if exists "Users can update own requests" on public.requests';
+  execute '
+    create policy "Requesters can update own pending requests"
+    on public.requests
+    for update
+    using (auth.uid() = requester_id and status = ''pending'')
+    with check (auth.uid() = requester_id and status = ''pending'')
+  ';
+
+  if not exists (
+    select 1 from pg_policies
+    where tablename = 'requests' and policyname = 'Elders and admins can manage request status'
+  ) then
+    execute '
+      create policy "Elders and admins can manage request status"
+      on public.requests
+      for update
+      using (
+        exists (
+          select 1 from public.profiles
+          where id = auth.uid() and role in (''elder'', ''admin'')
+        )
+      )
+    ';
+  end if;
+end
+$$;
