@@ -11,6 +11,7 @@ import googleIcon from '../../assets/auth/icon-google.png';
 import landingIllustration from '../../assets/auth/landing-illustration.png';
 import { requestPasswordReset, signInWithEmail, signUpWithEmail } from '../lib/auth';
 import { triggerHapticFeedback } from '../lib/feedback';
+import { supabase } from '../lib/supabase';
 import { removeKey, setBoolean, STORAGE_KEYS } from '../lib/storage';
 import { toAuthErrorMessage } from '../utils/authErrors';
 import {
@@ -143,6 +144,10 @@ export function AuthPage() {
         }
       } catch (preferenceError) {
         console.warn('Failed to persist remember-me preference:', preferenceError);
+        if (!rememberMe) {
+          await supabase.auth.signOut();
+          throw new Error('Could not apply the session preference. Please sign in again.');
+        }
       }
 
       triggerHapticFeedback('success');

@@ -25,10 +25,21 @@ create policy "Users can read any profile"
   on public.profiles for select using (true);
 
 create policy "Users can update own profile"
-  on public.profiles for update using (auth.uid() = id);
+  on public.profiles for update
+  using (auth.uid() = id)
+  with check (
+    auth.uid() = id
+    and role is not distinct from (
+      select p.role from public.profiles p where p.id = profiles.id
+    )
+  );
 
 create policy "Users can insert own profile"
-  on public.profiles for insert with check (auth.uid() = id);
+  on public.profiles for insert
+  with check (
+    auth.uid() = id
+    and (role is null or role in ('learner', 'elder'))
+  );
 
 -- ─────────────────────────────────────────────
 -- recordings
@@ -59,7 +70,14 @@ create policy "Authenticated users can insert recordings"
   on public.recordings for insert with check (auth.uid() = uploader_id);
 
 create policy "Uploaders can update own recordings"
-  on public.recordings for update using (auth.uid() = uploader_id);
+  on public.recordings for update
+  using (auth.uid() = uploader_id)
+  with check (
+    auth.uid() = uploader_id
+    and is_verified is not distinct from (
+      select r.is_verified from public.recordings r where r.id = recordings.id
+    )
+  );
 
 create policy "Uploaders can delete own recordings"
   on public.recordings for delete using (auth.uid() = uploader_id);
@@ -89,7 +107,17 @@ create policy "Authenticated users can insert words"
   on public.words for insert with check (auth.uid() = created_by);
 
 create policy "Creators can update own words"
-  on public.words for update using (auth.uid() = created_by);
+  on public.words for update
+  using (auth.uid() = created_by)
+  with check (
+    auth.uid() = created_by
+    and created_by is not distinct from (
+      select w.created_by from public.words w where w.id = words.id
+    )
+  );
+
+create policy "Creators can delete own words"
+  on public.words for delete using (auth.uid() = created_by);
 
 -- ─────────────────────────────────────────────
 -- progress
@@ -114,7 +142,14 @@ create policy "Users can upsert own progress"
   on public.progress for insert with check (auth.uid() = user_id);
 
 create policy "Users can update own progress"
-  on public.progress for update using (auth.uid() = user_id);
+  on public.progress for update
+  using (auth.uid() = user_id)
+  with check (
+    auth.uid() = user_id
+    and user_id is not distinct from (
+      select p.user_id from public.progress p where p.id = progress.id
+    )
+  );
 
 create policy "Users can delete own progress"
   on public.progress for delete using (auth.uid() = user_id);
@@ -140,7 +175,14 @@ create policy "Users can upsert own streak"
   on public.streaks for insert with check (auth.uid() = user_id);
 
 create policy "Users can update own streak"
-  on public.streaks for update using (auth.uid() = user_id);
+  on public.streaks for update
+  using (auth.uid() = user_id)
+  with check (
+    auth.uid() = user_id
+    and user_id is not distinct from (
+      select s.user_id from public.streaks s where s.id = streaks.id
+    )
+  );
 
 create policy "Users can delete own streak"
   on public.streaks for delete using (auth.uid() = user_id);
@@ -150,7 +192,7 @@ create policy "Users can delete own streak"
 -- ─────────────────────────────────────────────
 create table public.stories (
   id            uuid primary key default gen_random_uuid(),
-  author_id     uuid references public.profiles(id) on delete set null,
+  author_id     uuid default auth.uid() references public.profiles(id) on delete set null,
   title         text not null,
   content       text not null,
   image_url     text,
@@ -170,10 +212,20 @@ create policy "Authors can read own stories"
   on public.stories for select using (auth.uid() = author_id);
 
 create policy "Authenticated users can insert stories"
-  on public.stories for insert with check (auth.uid() is not null);
+  on public.stories for insert with check (auth.uid() = author_id);
 
 create policy "Authors can update own stories"
-  on public.stories for update using (auth.uid() = author_id);
+  on public.stories for update
+  using (auth.uid() = author_id)
+  with check (
+    auth.uid() = author_id
+    and author_id is not distinct from (
+      select st.author_id from public.stories st where st.id = stories.id
+    )
+  );
+
+create policy "Authors can delete own stories"
+  on public.stories for delete using (auth.uid() = author_id);
 
 -- ─────────────────────────────────────────────
 -- requests
@@ -197,8 +249,22 @@ create policy "Anyone can read requests"
 create policy "Users can create requests"
   on public.requests for insert with check (auth.uid() = requester_id);
 
-create policy "Users can update own requests"
-  on public.requests for update using (auth.uid() = requester_id);
+create policy "Requesters can update own pending requests"
+  on public.requests for update
+  using (auth.uid() = requester_id and status = 'pending')
+  with check (auth.uid() = requester_id and status = 'pending');
+
+create policy "Elders and admins can manage request status"
+  on public.requests for update
+  using (
+    exists (
+      select 1 from public.profiles
+      where id = auth.uid() and role in ('elder', 'admin')
+    )
+  );
+
+create policy "Users can delete own requests"
+  on public.requests for delete using (auth.uid() = requester_id);
 
 -- ─────────────────────────────────────────────
 -- follows

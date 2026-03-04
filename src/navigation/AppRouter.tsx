@@ -1,5 +1,5 @@
 import { IonRouterOutlet, IonSpinner } from '@ionic/react';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Navigate, Route } from 'react-router-dom';
 
 import { useAuthStore } from '../stores/authStore';
 import { AuthPage } from '../pages/AuthPage';
@@ -19,28 +19,26 @@ export function AppRouter() {
 
   return (
     <IonRouterOutlet>
-      <Routes>
-        <Route
-          path="/auth/reset-password"
-          element={
-            isRecoverySession ? (
-              <ResetPasswordPage />
-            ) : (
-              <Navigate to={session ? '/home' : '/auth'} replace />
-            )
-          }
-        />
-        <Route path="/auth" element={session ? <Navigate to="/home" replace /> : <AuthPage />} />
-        <Route path="/home/*" element={session ? <HomePage /> : <Navigate to="/auth" replace />} />
-        <Route
-          path="/"
-          element={session ? <Navigate to="/home" replace /> : <Navigate to="/auth" replace />}
-        />
-        <Route
-          path="*"
-          element={session ? <Navigate to="/home" replace /> : <Navigate to="/auth" replace />}
-        />
-      </Routes>
+      <Route
+        path="/auth/reset-password"
+        element={
+          isRecoverySession ? (
+            <ResetPasswordPage />
+          ) : (
+            <Navigate to={session ? '/home' : '/auth'} replace />
+          )
+        }
+      />
+      <Route path="/auth" element={session ? <Navigate to="/home" replace /> : <AuthPage />} />
+      <Route path="/home/*" element={session ? <HomePage /> : <Navigate to="/auth" replace />} />
+      <Route
+        path="/"
+        element={session ? <Navigate to="/home" replace /> : <Navigate to="/auth" replace />}
+      />
+      <Route
+        path="*"
+        element={session ? <Navigate to="/home" replace /> : <Navigate to="/auth" replace />}
+      />
     </IonRouterOutlet>
   );
 }
