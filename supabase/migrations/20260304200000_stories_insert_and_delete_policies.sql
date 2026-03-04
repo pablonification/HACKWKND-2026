@@ -122,6 +122,21 @@ begin
           where id = auth.uid() and role in (''elder'', ''admin'')
         )
       )
+      with check (
+        exists (
+          select 1 from public.profiles
+          where id = auth.uid() and role in (''elder'', ''admin'')
+        )
+        and requester_id is not distinct from (
+          select r.requester_id from public.requests r where r.id = requests.id
+        )
+        and request_type is not distinct from (
+          select r.request_type from public.requests r where r.id = requests.id
+        )
+        and content is not distinct from (
+          select r.content from public.requests r where r.id = requests.id
+        )
+      )
     ';
   end if;
 end

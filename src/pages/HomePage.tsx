@@ -129,7 +129,7 @@ export function HomePage() {
     triggerHapticFeedback('light');
 
     if (location.pathname !== href) {
-      navigate(href);
+      navigate(href, { replace: true });
     }
   };
 
