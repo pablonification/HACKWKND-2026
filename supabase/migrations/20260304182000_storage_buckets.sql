@@ -58,7 +58,10 @@ create policy "Anyone can read stories"
 create policy "Authenticated users can upload stories"
   on storage.objects for insert
   to authenticated
-  with check (bucket_id = 'stories');
+  with check (
+    bucket_id = 'stories'
+    and (storage.foldername(name))[1] = auth.uid()::text
+  );
 
 create policy "Authenticated users can delete their own stories"
   on storage.objects for delete
@@ -77,7 +80,10 @@ create policy "Anyone can read pronunciations"
 create policy "Authenticated users can upload pronunciations"
   on storage.objects for insert
   to authenticated
-  with check (bucket_id = 'pronunciations');
+  with check (
+    bucket_id = 'pronunciations'
+    and (storage.foldername(name))[1] = auth.uid()::text
+  );
 
 create policy "Authenticated users can delete pronunciations"
   on storage.objects for delete

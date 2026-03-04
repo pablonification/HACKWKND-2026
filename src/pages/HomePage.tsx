@@ -1,5 +1,5 @@
 import { IonButton, IonContent, IonIcon, IonLabel, IonPage, IonToast } from '@ionic/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import {
   leafOutline,
@@ -104,6 +104,15 @@ function ProfileTab() {
 export function HomePage() {
   const navigate = useNavigate();
   const location = useLocation();
+  const profileWarningFromState =
+    (location.state as { profileWarning?: string } | null)?.profileWarning ?? null;
+  const [profileWarning, setProfileWarning] = useState<string | null>(profileWarningFromState);
+
+  useEffect(() => {
+    if (profileWarningFromState) {
+      navigate(location.pathname, { replace: true, state: null });
+    }
+  }, [location.pathname, navigate, profileWarningFromState]);
 
   const menuItems = [
     { id: 'studio', label: 'Studio', icon: micOutline, href: '/home/studio' },
@@ -158,6 +167,14 @@ export function HomePage() {
             })}
           </nav>
         </div>
+
+        <IonToast
+          isOpen={Boolean(profileWarning)}
+          message={profileWarning ?? ''}
+          duration={3200}
+          color="warning"
+          onDidDismiss={() => setProfileWarning(null)}
+        />
       </IonContent>
     </IonPage>
   );

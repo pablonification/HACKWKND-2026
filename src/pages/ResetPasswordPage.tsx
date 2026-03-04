@@ -6,6 +6,7 @@ import topPattern from '../../assets/auth/auth-top-pattern.png';
 import eyeIcon from '../../assets/auth/icon-eye.png';
 import { updatePasswordWithRecovery } from '../lib/auth';
 import { triggerHapticFeedback } from '../lib/feedback';
+import { supabase } from '../lib/supabase';
 import { useAuthStore } from '../stores/authStore';
 import { toAuthErrorMessage } from '../utils/authErrors';
 import { validatePassword } from '../utils/authValidation';
@@ -43,9 +44,10 @@ export function ResetPasswordPage() {
     triggerHapticFeedback('light');
   };
 
-  const handleBack = () => {
-    setRecoverySession(false);
+  const handleBack = async () => {
     triggerHapticFeedback('light');
+    await supabase.auth.signOut().catch(() => undefined);
+    setRecoverySession(false);
     navigate('/auth', { replace: true });
   };
 
@@ -94,7 +96,7 @@ export function ResetPasswordPage() {
             <button
               type="button"
               className="auth-back-button"
-              onClick={handleBack}
+              onClick={() => void handleBack()}
               aria-label="Back"
             >
               <span className="auth-back-chevron" aria-hidden="true" />

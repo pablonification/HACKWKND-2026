@@ -186,7 +186,10 @@ export function AuthPage() {
 
       if (authResponse.data.session) {
         triggerHapticFeedback('success');
-        navigate('/home', { replace: true });
+        navigate('/home', {
+          replace: true,
+          state: profileWarning ? { profileWarning } : undefined,
+        });
         return;
       }
 
