@@ -7,7 +7,7 @@ import { HomePage } from '../pages/HomePage';
 import { ResetPasswordPage } from '../pages/ResetPasswordPage';
 
 export function AppRouter() {
-  const { session, isLoading } = useAuthStore();
+  const { session, isLoading, isRecoverySession } = useAuthStore();
 
   if (isLoading) {
     return (
@@ -20,7 +20,16 @@ export function AppRouter() {
   return (
     <IonRouterOutlet>
       <Routes>
-        <Route path="/auth/reset-password" element={<ResetPasswordPage />} />
+        <Route
+          path="/auth/reset-password"
+          element={
+            isRecoverySession ? (
+              <ResetPasswordPage />
+            ) : (
+              <Navigate to={session ? '/home' : '/auth'} replace />
+            )
+          }
+        />
         <Route path="/auth" element={session ? <Navigate to="/home" replace /> : <AuthPage />} />
         <Route path="/home/*" element={session ? <HomePage /> : <Navigate to="/auth" replace />} />
         <Route

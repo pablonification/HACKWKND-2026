@@ -1,16 +1,20 @@
 import {
-  IonContent,
   IonButton,
+  IonContent,
   IonHeader,
-  IonPage,
-  IonTitle,
-  IonToolbar,
   IonIcon,
   IonLabel,
+  IonPage,
+  IonRouterOutlet,
+  IonTabBar,
+  IonTabButton,
+  IonTabs,
+  IonTitle,
+  IonToolbar,
   IonToast,
 } from '@ionic/react';
 import { useState } from 'react';
-import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { Navigate, Route } from 'react-router-dom';
 import {
   micOutline,
   libraryOutline,
@@ -150,59 +154,69 @@ function ProfileTab() {
 // --- Main tabbed page ---
 
 export function HomePage() {
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  const menuItems = [
-    { id: 'studio', label: 'Studio', icon: micOutline, href: '/home/studio' },
-    { id: 'archive', label: 'Archive', icon: libraryOutline, href: '/home/archive' },
-    { id: 'garden', label: 'Garden', icon: leafOutline, href: '/home/garden' },
-    { id: 'ai', label: 'AI', icon: sparklesOutline, href: '/home/ai' },
-    { id: 'profile', label: 'Profile', icon: personOutline, href: '/home/profile' },
-  ] as const;
-
-  const isActiveTab = (href: string) =>
-    location.pathname === href || location.pathname.startsWith(`${href}/`);
-
-  const handleMenuNavigate = (href: string) => {
-    triggerHapticFeedback('light');
-
-    if (location.pathname !== href) {
-      navigate(href);
-    }
-  };
-
   return (
-    <div className="home-shell">
-      <div className="home-content">
-        <Routes>
-          <Route path="studio" element={<ElderStudioTab />} />
-          <Route path="archive" element={<SoundArchiveTab />} />
-          <Route path="ai" element={<AIHelperTab />} />
-          <Route path="garden" element={<LanguageGardenTab />} />
-          <Route path="profile" element={<ProfileTab />} />
-          <Route index element={<Navigate to="garden" replace />} />
-          <Route path="*" element={<Navigate to="garden" replace />} />
-        </Routes>
-      </div>
+    <IonTabs>
+      <IonRouterOutlet>
+        <Route path="/home/studio" element={<ElderStudioTab />} />
+        <Route path="/home/archive" element={<SoundArchiveTab />} />
+        <Route path="/home/ai" element={<AIHelperTab />} />
+        <Route path="/home/garden" element={<LanguageGardenTab />} />
+        <Route path="/home/profile" element={<ProfileTab />} />
+        <Route path="/home" element={<Navigate to="/home/garden" replace />} />
+        <Route path="/home/*" element={<Navigate to="/home/garden" replace />} />
+      </IonRouterOutlet>
 
-      <nav className="home-menu" aria-label="Main">
-        {menuItems.map((item) => {
-          const active = isActiveTab(item.href);
-          return (
-            <button
-              key={item.id}
-              type="button"
-              className={`home-menu-item ${active ? 'is-active' : ''}`}
-              onClick={() => handleMenuNavigate(item.href)}
-              aria-current={active ? 'page' : undefined}
-            >
-              <IonIcon icon={item.icon} />
-              <IonLabel>{item.label}</IonLabel>
-            </button>
-          );
-        })}
-      </nav>
-    </div>
+      <IonTabBar slot="bottom" className="home-menu">
+        <IonTabButton
+          tab="studio"
+          href="/home/studio"
+          className="home-menu-item"
+          onClick={() => triggerHapticFeedback('light')}
+        >
+          <IonIcon icon={micOutline} />
+          <IonLabel>Studio</IonLabel>
+        </IonTabButton>
+
+        <IonTabButton
+          tab="archive"
+          href="/home/archive"
+          className="home-menu-item"
+          onClick={() => triggerHapticFeedback('light')}
+        >
+          <IonIcon icon={libraryOutline} />
+          <IonLabel>Archive</IonLabel>
+        </IonTabButton>
+
+        <IonTabButton
+          tab="garden"
+          href="/home/garden"
+          className="home-menu-item"
+          onClick={() => triggerHapticFeedback('light')}
+        >
+          <IonIcon icon={leafOutline} />
+          <IonLabel>Garden</IonLabel>
+        </IonTabButton>
+
+        <IonTabButton
+          tab="ai"
+          href="/home/ai"
+          className="home-menu-item"
+          onClick={() => triggerHapticFeedback('light')}
+        >
+          <IonIcon icon={sparklesOutline} />
+          <IonLabel>AI</IonLabel>
+        </IonTabButton>
+
+        <IonTabButton
+          tab="profile"
+          href="/home/profile"
+          className="home-menu-item"
+          onClick={() => triggerHapticFeedback('light')}
+        >
+          <IonIcon icon={personOutline} />
+          <IonLabel>Profile</IonLabel>
+        </IonTabButton>
+      </IonTabBar>
+    </IonTabs>
   );
 }

@@ -180,7 +180,7 @@ export const signUpWithEmail = async ({
 
   let profileWarning: string | undefined;
 
-  if (authResponse.data.session && authResponse.data.user) {
+  if (authResponse.data.user) {
     try {
       await upsertProfile({
         userId: authResponse.data.user.id,
@@ -234,7 +234,7 @@ export const updateAuthProfile = async ({
   if (updatedUser) {
     await upsertProfile({
       userId: updatedUser.id,
-      email: updatedUser.email ?? email,
+      email: updatedUser.email ?? null,
       fullName,
       preserveExistingRole: true,
     });

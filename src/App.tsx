@@ -21,7 +21,6 @@ export default function App() {
         if (session && hasTransientSession) {
           await supabase.auth.signOut();
           // SIGNED_OUT listener handles removeKey and setSession(null)
-          setSession(null);
         } else {
           setSession(session);
         }
