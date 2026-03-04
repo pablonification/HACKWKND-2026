@@ -1,4 +1,4 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Preferences } from '@capacitor/preferences';
 
 export const STORAGE_KEYS = {
   RECORDINGS: 'recordings',
@@ -13,11 +13,11 @@ export const STORAGE_KEYS = {
 } as const;
 
 export const setJSON = async (key: string, value: unknown): Promise<void> => {
-  await AsyncStorage.setItem(key, JSON.stringify(value));
+  await Preferences.set({ key, value: JSON.stringify(value) });
 };
 
 export const getJSON = async <T>(key: string, fallback: T): Promise<T> => {
-  const rawValue = await AsyncStorage.getItem(key);
+  const { value: rawValue } = await Preferences.get({ key });
 
   if (!rawValue) {
     return fallback;
@@ -31,15 +31,19 @@ export const getJSON = async <T>(key: string, fallback: T): Promise<T> => {
 };
 
 export const setBoolean = async (key: string, value: boolean): Promise<void> => {
-  await AsyncStorage.setItem(key, value ? 'true' : 'false');
+  await Preferences.set({ key, value: value ? 'true' : 'false' });
 };
 
 export const getBoolean = async (key: string, fallback = false): Promise<boolean> => {
-  const rawValue = await AsyncStorage.getItem(key);
+  const { value: rawValue } = await Preferences.get({ key });
 
   if (rawValue === null) {
     return fallback;
   }
 
   return rawValue === 'true';
+};
+
+export const removeKey = async (key: string): Promise<void> => {
+  await Preferences.remove({ key });
 };

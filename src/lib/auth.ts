@@ -57,13 +57,15 @@ const toTrimmed = (value: string | undefined): string | null => {
 };
 
 const resolvePasswordResetRedirectTo = () => {
-  const configuredRedirectTo = toTrimmed(process.env.EXPO_PUBLIC_PASSWORD_RESET_REDIRECT_TO);
+  const configuredRedirectTo = toTrimmed(
+    import.meta.env.VITE_PASSWORD_RESET_REDIRECT_TO as string | undefined,
+  );
   if (configuredRedirectTo) {
     return configuredRedirectTo;
   }
 
-  const appScheme = toTrimmed(process.env.EXPO_PUBLIC_APP_SCHEME) ?? 'taleka';
-  return `${appScheme}://${PASSWORD_RESET_REDIRECT_PATH}`;
+  // In the browser, build a redirect URL from the current origin
+  return `${window.location.origin}/${PASSWORD_RESET_REDIRECT_PATH}`;
 };
 
 const upsertProfile = async ({

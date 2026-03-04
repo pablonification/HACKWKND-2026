@@ -1,56 +1,46 @@
+import { vi, describe, it, expect, beforeEach, afterAll } from 'vitest';
 import { requestPasswordReset, signInWithEmail, signUpWithEmail } from './auth';
 import { supabase } from './supabase';
 
-jest.mock('./supabase', () => ({
+vi.mock('./supabase', () => ({
   supabase: {
-    from: jest.fn(),
+    from: vi.fn(),
     auth: {
-      signInWithPassword: jest.fn(),
-      signUp: jest.fn(),
-      resetPasswordForEmail: jest.fn(),
+      signInWithPassword: vi.fn(),
+      signUp: vi.fn(),
+      resetPasswordForEmail: vi.fn(),
     },
   },
 }));
 
 type MockedSupabase = {
-  from: jest.Mock;
+  from: ReturnType<typeof vi.fn>;
   auth: {
-    signInWithPassword: jest.Mock;
-    signUp: jest.Mock;
-    resetPasswordForEmail: jest.Mock;
+    signInWithPassword: ReturnType<typeof vi.fn>;
+    signUp: ReturnType<typeof vi.fn>;
+    resetPasswordForEmail: ReturnType<typeof vi.fn>;
   };
 };
 
 describe('auth', () => {
   const mockedSupabase = supabase as unknown as MockedSupabase;
-  const mockUpsert = jest.fn();
-  const mockMaybeSingle = jest.fn();
-  const mockEq = jest.fn(() => ({ maybeSingle: mockMaybeSingle }));
-  const mockSelect = jest.fn(() => ({ eq: mockEq }));
-  const originalRedirectTo = process.env.EXPO_PUBLIC_PASSWORD_RESET_REDIRECT_TO;
-  const originalScheme = process.env.EXPO_PUBLIC_APP_SCHEME;
+  const mockUpsert = vi.fn();
+  const mockMaybeSingle = vi.fn();
+  const mockEq = vi.fn(() => ({ maybeSingle: mockMaybeSingle }));
+  const mockSelect = vi.fn(() => ({ eq: mockEq }));
+  const originalRedirectTo = import.meta.env.VITE_PASSWORD_RESET_REDIRECT_TO as string | undefined;
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     mockedSupabase.from.mockReturnValue({
       select: mockSelect,
       upsert: mockUpsert,
     });
-    delete process.env.EXPO_PUBLIC_PASSWORD_RESET_REDIRECT_TO;
-    delete process.env.EXPO_PUBLIC_APP_SCHEME;
   });
 
   afterAll(() => {
-    if (typeof originalRedirectTo === 'undefined') {
-      delete process.env.EXPO_PUBLIC_PASSWORD_RESET_REDIRECT_TO;
-    } else {
-      process.env.EXPO_PUBLIC_PASSWORD_RESET_REDIRECT_TO = originalRedirectTo;
-    }
-
-    if (typeof originalScheme === 'undefined') {
-      delete process.env.EXPO_PUBLIC_APP_SCHEME;
-    } else {
-      process.env.EXPO_PUBLIC_APP_SCHEME = originalScheme;
+    if (typeof originalRedirectTo !== 'undefined') {
+      import.meta.env.VITE_PASSWORD_RESET_REDIRECT_TO = originalRedirectTo;
     }
   });
 
@@ -129,18 +119,18 @@ describe('auth', () => {
     expect(upsertPayload.role).toBe('elder');
   });
 
-  it('sends password reset email with deep-link redirect', async () => {
+  it('sends password reset email with origin-based redirect', async () => {
     mockedSupabase.auth.resetPasswordForEmail.mockResolvedValue({ error: null });
 
     await requestPasswordReset('user@example.com');
 
     expect(mockedSupabase.auth.resetPasswordForEmail).toHaveBeenCalledWith('user@example.com', {
-      redirectTo: 'taleka://auth/reset-password',
+      redirectTo: expect.stringContaining('auth/reset-password'),
     });
   });
 
   it('uses configured reset redirect when provided', async () => {
-    process.env.EXPO_PUBLIC_PASSWORD_RESET_REDIRECT_TO = 'myapp://reset';
+    import.meta.env.VITE_PASSWORD_RESET_REDIRECT_TO = 'myapp://reset';
     mockedSupabase.auth.resetPasswordForEmail.mockResolvedValue({ error: null });
 
     await requestPasswordReset('user@example.com');

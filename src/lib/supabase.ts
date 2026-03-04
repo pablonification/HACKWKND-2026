@@ -1,27 +1,22 @@
-import 'react-native-url-polyfill/auto';
-
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createClient } from '@supabase/supabase-js';
 
 import type { Database } from '../types/database';
 
-const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY;
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string | undefined;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
 
 export const supabaseConfigError =
-  !supabaseUrl || !supabaseAnonKey
-    ? 'Missing EXPO_PUBLIC_SUPABASE_URL or EXPO_PUBLIC_SUPABASE_ANON_KEY'
-    : null;
+  !supabaseUrl || !supabaseAnonKey ? 'Missing VITE_SUPABASE_URL or VITE_SUPABASE_ANON_KEY' : null;
 
 export const supabase = createClient<Database>(
   supabaseUrl ?? 'https://example.supabase.co',
   supabaseAnonKey ?? 'public-anon-key',
   {
     auth: {
-      storage: AsyncStorage,
       autoRefreshToken: true,
       persistSession: true,
-      detectSessionInUrl: false,
+      // Use URL hash for OAuth/magic-link flows in the browser
+      detectSessionInUrl: true,
     },
   },
 );
