@@ -18,7 +18,7 @@ const fallbackSupabaseUrl = 'https://example.supabase.co';
 const fallbackSupabaseAnonKey = 'missing-supabase-anon-key';
 
 export const isSupabaseConfigured = !supabaseConfigError;
-export const supabasePublicUrl = supabaseUrl ?? fallbackSupabaseUrl;
+const supabasePublicUrl = supabaseUrl ?? fallbackSupabaseUrl;
 export const supabasePublicAnonKey = supabaseAnonKey ?? fallbackSupabaseAnonKey;
 
 export const supabase = createClient<Database>(supabasePublicUrl, supabasePublicAnonKey, {

@@ -22,6 +22,8 @@ export type TranslateResult = {
       output_tokens?: number;
       total_tokens?: number;
     };
+    attempted_provider?: string;
+    attempted_model?: string;
   };
 };
 

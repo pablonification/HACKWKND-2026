@@ -113,7 +113,13 @@ for (const testCase of evalSet) {
       }),
     });
 
-    payload = await response.json();
+    let rawBody = '';
+    try {
+      rawBody = await response.text();
+      payload = JSON.parse(rawBody);
+    } catch {
+      // non-JSON body (HTML 503, plain-text error) — payload stays {}
+    }
     if (!response.ok) {
       requestError = String(payload?.error ?? `HTTP ${response.status}`);
     }

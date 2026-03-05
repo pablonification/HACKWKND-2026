@@ -41,7 +41,7 @@ describe('translationGlossary', () => {
     expect(prompt).toContain('"bobolian" => "traditional healer"');
   });
 
-  it('limits glossary prompt hints to prevent oversized prompts', () => {
+  it('passes all glossary entries through without internal truncation', () => {
     const matches: GlossaryEntry[] = Array.from({ length: 14 }, (_, index) => ({
       id: `entry-${index}`,
       semai: `semai-${index}`,
@@ -53,11 +53,10 @@ describe('translationGlossary', () => {
 
     const prompt = buildGlossaryPrompt(matches, 'semai', 'en');
 
-    expect(prompt.match(/=>/g)?.length).toBe(12);
+    // buildGlossaryPrompt no longer truncates — caller caps via GLOSSARY_ENFORCEMENT_MAX_MATCHES
+    expect(prompt.match(/=>/g)?.length).toBe(14);
     expect(prompt).toContain('"semai-0" => "en-0"');
-    expect(prompt).toContain('"semai-11" => "en-11"');
-    expect(prompt).not.toContain('"semai-12" => "en-12"');
-    expect(prompt).not.toContain('"semai-13" => "en-13"');
+    expect(prompt).toContain('"semai-13" => "en-13"');
   });
 
   it('checks whether expected glossary terms exist in output', () => {

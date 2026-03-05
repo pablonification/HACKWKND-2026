@@ -71,7 +71,7 @@ export function TranslatePage() {
 
   const handleBack = () => {
     triggerHapticFeedback('light');
-    navigate('/home/garden', { replace: true });
+    navigate(-1);
   };
 
   const handleSourceTextChange = (value: string) => {
@@ -93,6 +93,7 @@ export function TranslatePage() {
       setTargetLanguage(previousSourceLanguage);
     }
 
+    setTranslatedText('');
     setNotice(null);
     triggerHapticFeedback('light');
   };
@@ -109,6 +110,7 @@ export function TranslatePage() {
       setSourceLanguage(previousTargetLanguage);
     }
 
+    setTranslatedText('');
     setNotice(null);
     triggerHapticFeedback('light');
   };
@@ -118,15 +120,13 @@ export function TranslatePage() {
       return;
     }
 
-    const nextSourceLanguage = targetLanguage;
-    const nextTargetLanguage = sourceLanguage;
-    const nextSourceText = translatedText;
-    const nextTranslatedText = sourceText;
-
-    setSourceLanguage(nextSourceLanguage);
-    setTargetLanguage(nextTargetLanguage);
-    setSourceText(nextSourceText);
-    setTranslatedText(nextTranslatedText);
+    setSourceLanguage(targetLanguage);
+    setTargetLanguage(sourceLanguage);
+    // Only swap text when there is a translation to swap with
+    if (translatedText) {
+      setSourceText(translatedText);
+      setTranslatedText(sourceText);
+    }
     setNotice(null);
 
     triggerHapticFeedback('medium');

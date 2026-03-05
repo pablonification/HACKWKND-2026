@@ -457,6 +457,11 @@ const parseRequest = async (request: Request): Promise<TranslationRequest> => {
     throw new Error('The `text` field cannot be empty.');
   }
 
+  const MAX_INPUT_CHARS = 2000;
+  if (text.length > MAX_INPUT_CHARS) {
+    throw new Error(`Text exceeds maximum length of ${MAX_INPUT_CHARS} characters.`);
+  }
+
   if (!isTranslationLanguage(body.from) || !isTranslationLanguage(body.to)) {
     throw new Error('Unsupported language pair. Use semai, ms, or en.');
   }

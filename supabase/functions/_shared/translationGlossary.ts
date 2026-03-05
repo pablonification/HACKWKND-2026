@@ -154,7 +154,6 @@ const isHighPriorityGlossaryEntry = (entry: GlossaryEntry): boolean =>
 export const normalizeTranslationText = (value: string): string =>
   value.trim().replace(/\s+/g, ' ').replace(/[“”]/g, '"').replace(/[‘’]/g, "'");
 
-const GLOSSARY_PROMPT_MAX_MATCHES = 12;
 const GLOSSARY_ENFORCEMENT_MAX_MATCHES = 8;
 const SENTENCE_EXAMPLE_PROMPT_MAX_MATCHES = 3;
 const SENTENCE_EXAMPLE_MIN_SCORE = 0.22;
@@ -395,13 +394,11 @@ export const buildGlossaryPrompt = (
   from: TranslationLanguage,
   to: TranslationLanguage,
 ): string => {
-  const limitedMatches = matches.slice(0, GLOSSARY_PROMPT_MAX_MATCHES);
-
-  if (limitedMatches.length === 0) {
+  if (matches.length === 0) {
     return '';
   }
 
-  const lines = limitedMatches.map((entry) => `- "${entry[from]}" => "${entry[to]}"`);
+  const lines = matches.map((entry) => `- "${entry[from]}" => "${entry[to]}"`);
   return `Use this glossary strictly when these source terms appear:\n${lines.join('\n')}`;
 };
 
@@ -444,10 +441,13 @@ export const translateWordByWordWithGlossary = (
   const multiWordEntries = glossary
     .filter((entry) => /\s/.test(entry[from]))
     .filter((entry) => {
-      const isAmbiguous =
-        glossary.filter((e) => normalizeComparable(e[from]) === normalizeComparable(entry[from]))
-          .length > 1;
-      return !isAmbiguous;
+      const matchingEntries = glossary.filter(
+        (e) => normalizeComparable(e[from]) === normalizeComparable(entry[from]),
+      );
+      const uniqueTargets = new Set(
+        matchingEntries.map((e) => normalizeComparable(e[to])).filter(Boolean),
+      );
+      return uniqueTargets.size === 1;
     })
     .sort((a, b) => b[from].length - a[from].length);
 
@@ -487,9 +487,13 @@ export const translateWordByWordWithGlossary = (
         return token;
       }
 
-      const isAmbiguous =
-        glossary.filter((entry) => normalizeComparable(entry[from]) === normalizeComparable(token))
-          .length > 1;
+      const matchingEntries = glossary.filter(
+        (entry) => normalizeComparable(entry[from]) === normalizeComparable(token),
+      );
+      const uniqueTargets = new Set(
+        matchingEntries.map((entry) => normalizeComparable(entry[to])).filter(Boolean),
+      );
+      const isAmbiguous = uniqueTargets.size !== 1;
 
       if (isAmbiguous) {
         return token;
