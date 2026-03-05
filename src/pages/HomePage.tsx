@@ -1,4 +1,4 @@
-import { IonButton, IonContent, IonIcon, IonLabel, IonPage, IonToast } from '@ionic/react';
+import { IonContent, IonIcon, IonLabel, IonPage, IonToast } from '@ionic/react';
 import { useEffect, useState } from 'react';
 import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import {
@@ -10,9 +10,7 @@ import {
 } from 'ionicons/icons';
 
 import { triggerHapticFeedback } from '../lib/feedback';
-import { supabase } from '../lib/supabase';
-import { useAuthStore } from '../stores/authStore';
-import { toAuthErrorMessage } from '../utils/authErrors';
+import { ProfilePage } from './ProfilePage';
 
 import './HomePage.css';
 
@@ -48,59 +46,6 @@ function LanguageGardenTab() {
   );
 }
 
-function ProfileTab() {
-  const { user } = useAuthStore();
-  const [isSigningOut, setIsSigningOut] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const handleSignOut = async () => {
-    if (isSigningOut) {
-      return;
-    }
-
-    setIsSigningOut(true);
-    setError(null);
-    triggerHapticFeedback('light');
-
-    try {
-      const { error: signOutError } = await supabase.auth.signOut();
-      if (signOutError) {
-        throw signOutError;
-      }
-
-      triggerHapticFeedback('success');
-    } catch (err) {
-      setError(toAuthErrorMessage(err));
-      triggerHapticFeedback('error');
-    } finally {
-      setIsSigningOut(false);
-    }
-  };
-
-  return (
-    <section className="home-tab-content ion-padding">
-      <h2>Profile</h2>
-      <p className="mb-4 text-gray-600">{user?.email ?? 'Guest'}</p>
-      <IonButton
-        color="danger"
-        fill="outline"
-        onClick={() => void handleSignOut()}
-        disabled={isSigningOut}
-      >
-        {isSigningOut ? 'Signing out...' : 'Sign out'}
-      </IonButton>
-
-      <IonToast
-        isOpen={Boolean(error)}
-        message={error ?? ''}
-        duration={3200}
-        color="danger"
-        onDidDismiss={() => setError(null)}
-      />
-    </section>
-  );
-}
-
 export function HomePage() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -133,39 +78,46 @@ export function HomePage() {
     }
   };
 
+  const shouldShowTabMenu = !(
+    location.pathname.startsWith('/home/profile/') && location.pathname !== '/home/profile'
+  );
+  const isProfileRoute = location.pathname.startsWith('/home/profile');
+
   return (
     <IonPage>
-      <IonContent fullscreen>
-        <div className="home-shell">
+      <IonContent fullscreen className={isProfileRoute ? 'home-ion-content-profile' : undefined}>
+        <div className={`home-shell${isProfileRoute ? ' profile-route' : ''}`}>
           <div className="home-content">
             <Routes>
               <Route path="studio" element={<ElderStudioTab />} />
               <Route path="archive" element={<SoundArchiveTab />} />
               <Route path="ai" element={<AIHelperTab />} />
               <Route path="garden" element={<LanguageGardenTab />} />
-              <Route path="profile" element={<ProfileTab />} />
+              <Route path="profile/*" element={<ProfilePage />} />
               <Route index element={<Navigate to="garden" replace />} />
               <Route path="*" element={<Navigate to="garden" replace />} />
             </Routes>
           </div>
 
-          <nav className="home-menu" aria-label="Main">
-            {menuItems.map((item) => {
-              const active = isActiveTab(item.href);
-              return (
-                <button
-                  key={item.id}
-                  type="button"
-                  className={`home-menu-item ${active ? 'is-active' : ''}`}
-                  onClick={() => handleMenuNavigate(item.href)}
-                  aria-current={active ? 'page' : undefined}
-                >
-                  <IonIcon icon={item.icon} />
-                  <IonLabel>{item.label}</IonLabel>
-                </button>
-              );
-            })}
-          </nav>
+          {shouldShowTabMenu && (
+            <nav className="home-menu" aria-label="Main">
+              {menuItems.map((item) => {
+                const active = isActiveTab(item.href);
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    className={`home-menu-item ${active ? 'is-active' : ''}`}
+                    onClick={() => handleMenuNavigate(item.href)}
+                    aria-current={active ? 'page' : undefined}
+                  >
+                    <IonIcon icon={item.icon} />
+                    <IonLabel>{item.label}</IonLabel>
+                  </button>
+                );
+              })}
+            </nav>
+          )}
         </div>
 
         <IonToast
