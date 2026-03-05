@@ -66,7 +66,24 @@ git push origin feature-name
 .
 ├── LICENSE           # MIT License
 ├── README.md         # This file
-└── (add your files here)
+├── ai-helper/        # OmniASR proxy (`/ai/transcribe`)
+└── src/              # Ionic + React app
+```
+
+## AI Helper (Semai ASR)
+
+Elder Studio transcription uses `VITE_AI_BASE_URL` and calls `POST /ai/transcribe`.
+
+Run the proxy locally:
+
+```bash
+npm run ai-helper:dev
+```
+
+Then set frontend env:
+
+```bash
+VITE_AI_BASE_URL=http://localhost:8787
 ```
 
 ## License

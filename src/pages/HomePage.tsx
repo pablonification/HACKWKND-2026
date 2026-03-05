@@ -13,6 +13,8 @@ import { triggerHapticFeedback } from '../lib/feedback';
 import { supabase } from '../lib/supabase';
 import { useAuthStore } from '../stores/authStore';
 import { toAuthErrorMessage } from '../utils/authErrors';
+import { ElderStudioTab } from './ElderStudioTab';
+import { SoundArchiveTab } from './SoundArchiveTab';
 
 import './HomePage.css';
 
@@ -23,16 +25,6 @@ function TabPlaceholder({ title, description }: { title: string; description: st
       <p className="text-gray-500">{description}</p>
     </section>
   );
-}
-
-function ElderStudioTab() {
-  return (
-    <TabPlaceholder title="Elder Studio" description="Record and upload audio for the archive." />
-  );
-}
-
-function SoundArchiveTab() {
-  return <TabPlaceholder title="Sound Archive" description="Browse and search recordings." />;
 }
 
 function AIHelperTab() {

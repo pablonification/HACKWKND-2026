@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "ai-helper:dev": "node ai-helper/server.js",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "lint": "eslint . --max-warnings=0",

@@ -26,7 +26,6 @@ values
     5242880, -- 5 MB per file
     array['audio/mpeg', 'audio/mp4', 'audio/wav', 'audio/ogg']
   );
-
 -- RLS policies: recordings (private — owner only + admin)
 create policy "Users can upload their own recordings"
   on storage.objects for insert
@@ -35,12 +34,13 @@ create policy "Users can upload their own recordings"
     bucket_id = 'recordings'
     and (storage.foldername(name))[1] = auth.uid()::text
   );
-
-create policy "Authenticated users can read recordings"
+create policy "Users can read their own recordings"
   on storage.objects for select
   to authenticated
-  using (bucket_id = 'recordings');
-
+  using (
+    bucket_id = 'recordings'
+    and (storage.foldername(name))[1] = auth.uid()::text
+  );
 create policy "Users can delete their own recordings"
   on storage.objects for delete
   to authenticated
@@ -48,21 +48,15 @@ create policy "Users can delete their own recordings"
     bucket_id = 'recordings'
     and (storage.foldername(name))[1] = auth.uid()::text
   );
-
 -- RLS policies: stories (public read, authenticated write)
 create policy "Anyone can read stories"
   on storage.objects for select
   to public
   using (bucket_id = 'stories');
-
 create policy "Authenticated users can upload stories"
   on storage.objects for insert
   to authenticated
-  with check (
-    bucket_id = 'stories'
-    and (storage.foldername(name))[1] = auth.uid()::text
-  );
-
+  with check (bucket_id = 'stories');
 create policy "Authenticated users can delete their own stories"
   on storage.objects for delete
   to authenticated
@@ -70,25 +64,16 @@ create policy "Authenticated users can delete their own stories"
     bucket_id = 'stories'
     and (storage.foldername(name))[1] = auth.uid()::text
   );
-
 -- RLS policies: pronunciations (public read, authenticated write)
 create policy "Anyone can read pronunciations"
   on storage.objects for select
   to public
   using (bucket_id = 'pronunciations');
-
 create policy "Authenticated users can upload pronunciations"
   on storage.objects for insert
   to authenticated
-  with check (
-    bucket_id = 'pronunciations'
-    and (storage.foldername(name))[1] = auth.uid()::text
-  );
-
+  with check (bucket_id = 'pronunciations');
 create policy "Authenticated users can delete pronunciations"
   on storage.objects for delete
   to authenticated
-  using (
-    bucket_id = 'pronunciations'
-    and (storage.foldername(name))[1] = auth.uid()::text
-  );
+  using (bucket_id = 'pronunciations');
