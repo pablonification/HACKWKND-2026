@@ -5,6 +5,18 @@
   min-height: 100dvh;
 }
 
+.home-shell.is-translate {
+  background: #fff9e9;
+}
+
+.home-content-translate-mode {
+  --background: #fff9e9;
+}
+
+.home-content-translate-mode::part(background) {
+  background: #fff9e9;
+}
+
 .home-content {
   background: transparent;
   flex: 1;

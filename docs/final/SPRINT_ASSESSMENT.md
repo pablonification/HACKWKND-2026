@@ -1,15 +1,15 @@
 # TUYANG Sprint Plan vs Codebase State Assessment
 
-**Date:** March 3, 2026  
+**Date:** March 4–5, 2026  
 **Assessment Type:** Day 1 Completion & Next Task Identification
 
 ---
 
 ## Executive Summary
 
-**Day 1 Status: 60-70% Complete** ✅ Foundation in place, some tasks still in progress
+**Day 1 Status: ✅ COMPLETE** — scaffold verified, all checks passing
 
-The project has solid scaffolding with auth, database schema, and shared UI components partially ready. However, the task breakdown shows "In Progress" for Supabase schema and shared UI components—both need final validation and completion before moving to Day 2 (Core Recording + AI).
+The project has been fully migrated from the original Expo/React Native plan to **Vite 5 + Ionic React 8 + Capacitor 8**. All scaffold files are written, TypeScript-clean, lint-clean, and all 13 tests pass. iOS platform has been added (`npx cap add ios`). PR #4 is open on branch `feat/scaffold-capacitor`.
 
 ---
 
@@ -19,153 +19,129 @@ The project has solid scaffolding with auth, database schema, and shared UI comp
 
 | Task | Status | Evidence |
 |------|--------|----------|
-| **Initialize React Native (Expo) + TypeScript** | ✅ Done | Repo structure, tsconfig.json, babel/eslint configs present |
-| **Implement Supabase Auth** | ✅ Done | `src/lib/auth.ts` with sign-up/login flows, auth validation utilities, error handling |
-| **Install NativeWind** | ✅ Done | tailwind.config.js, nativewind-env.d.ts, NativeWind imported in components |
-| **Set up navigation structure** | ✅ Done | `src/navigation/RootNavigator.tsx` with Auth/Home screens, React Navigation configured |
-| **AsyncStorage for offline (MMKV replacement)** | ✅ Done | `src/lib/storage.ts` uses AsyncStorage for Expo Go compatibility |
+| **Initialize Vite + Ionic React + Capacitor + TypeScript** | ✅ Done | `vite.config.ts`, `capacitor.config.ts`, `tsconfig.json`, `index.html` present |
+| **Set up Supabase project + schema** | ✅ Done | 2 migrations: `20260304_initial_schema.sql` (8 tables + RLS), `20260304_storage_buckets.sql` (3 buckets) |
+| **Implement Supabase Auth** | ✅ Done | `src/lib/auth.ts` with sign-up/login flows, auth validation, error handling |
+| **Install Tailwind CSS (preflight disabled)** | ✅ Done | `tailwind.config.js`, `postcss.config.js`, Ionic-compatible preflight disabled |
+| **@capacitor/preferences for offline storage** | ✅ Done | `src/lib/storage.ts` uses `@capacitor/preferences` |
+| **Create shared UI components** | ✅ Done | `AppButton.tsx`, `AppCard.tsx`, `AppInput.tsx` — canonical, no duplicates |
+| **Set up navigation structure** | ✅ Done | `src/navigation/AppRouter.tsx` with RR v6 `MemoryRouter` + `Routes`/`Navigate` |
+| **Haptic feedback utility** | ✅ Done | `src/lib/feedback.ts` uses `@capacitor/haptics` |
+| **iOS platform added** | ✅ Done | `npx cap add ios` — `ios/` directory present, Xcode opened |
+| **Live reload setup** | ✅ Done | `capacitor.config.ts` CAPACITOR_DEV env-var trick; `cap:ios:dev` script in `package.json` |
+| **CI pipeline** | ✅ Done | `.github/workflows/ci.yml` (Vitest, triggers on `feat/**`) |
+| **All checks passing** | ✅ Done | `build ✓ typecheck ✓ lint ✓ format ✓ tests 13/13 ✓` |
 
-### ⏳ **IN PROGRESS (Day 1)**
+### ⬜ **NOT STARTED (Remaining Modules)**
 
-| Task | Status | Details |
-|------|--------|---------|
-| **Supabase Schema** | ⏳ In progress | **Schema EXISTS** but migrations show 2 files: Initial schema + profile snapshot function. All 7 core tables created (profiles, recordings, words, progress, streaks, stories, requests, follows). BUT: needs validation that all indices, RLS policies, and constraints are correct. |
-| **Shared UI Components** | ⏳ In progress | **Partially done**: `AppButton.tsx`, `AppCard.tsx`, `AppInput.tsx` exist with Tailwind styling. ISSUE: `PrimaryButton.tsx` duplicates button logic—needs consolidation. Some components need refinement for accessibility & haptic feedback per AGENTS.md |
-
-### ⬜ **NOT STARTED (Day 1)**
-
-None—all Day 1 tasks are either complete or in-progress.
+No Day 1 tasks remain. All remaining work is Day 2+ module implementation.
 
 ---
 
 ## Codebase Reality Check
 
 ### **Database Schema (`supabase/migrations/`)**
-✅ **Exists & initialized**
-- Initial schema migration: `20260303143255_initial_schema.sql` (489 lines)
-- Profile snapshot function: `20260303144000_profile_snapshot_function.sql` (snapshot tracking)
-- All core tables present:
-  - `profiles` (with role enum: learner, elder, admin)
-  - `recordings` (with type, transcription, tags)
-  - `words` (vocabulary)
-  - `progress` (learning tracking)
-  - `streaks` (daily activity)
-  - `stories` (elder-created content)
-  - `requests` (diaspora bridge)
-  - `follows` (elder follow system)
+✅ **2 migrations, verified**
+- `20260304_initial_schema.sql` — 8 tables + RLS policies
+  - `profiles`, `recordings`, `words`, `progress`, `streaks`, `stories`, `requests`, `follows`
+- `20260304_storage_buckets.sql` — 3 buckets: `recordings`, `stories`, `pronunciations`
 
 ### **Authentication (`src/lib/auth.ts`)**
 ✅ **Functional & typed**
 - Email/password sign-up with role selection (learner/elder)
 - Profile upsert on auth success
-- Sign-in with email/password
-- Sign-out functionality
+- Sign-in / sign-out
 - Proper error handling via `authErrors.ts` & `authValidation.ts`
-- TypeScript types from Supabase via `types/database.ts`
+- TypeScript types from `src/types/database.ts`
 
 ### **Shared UI Components**
-⚠️ **Partially complete, needs cleanup**
-- ✅ `AppButton.tsx` — Tailwind-styled button with variants, accessibility support
-- ✅ `AppCard.tsx` — Card component with padding/rounded
-- ✅ `AppInput.tsx` — Input with labels, icons, validation feedback
-- ⚠️ `PrimaryButton.tsx` — **DUPLICATE** of AppButton logic, should be removed or aliased
-- ❌ Missing: Consistent export from `components/ui/index.ts` (doesn't export PrimaryButton)
+✅ **Complete, no duplicates**
+- `AppButton.tsx` — Ionic/Tailwind-styled button with variants
+- `AppCard.tsx` — Card component
+- `AppInput.tsx` — Input with labels, icons, validation feedback
+- All exported from `components/ui/index.ts`
+- ~~PrimaryButton~~ removed (was a duplicate — now cleaned up)
 
 ### **Navigation**
-✅ **Basic structure in place**
-- Stack navigator with Auth/Home screens
-- Session-based conditional rendering
-- Animation config present
-
-### **Screens**
-⚠️ **Scaffolded but minimal**
-- `AuthScreen.tsx` — Auth form exists (sign-up/login)
-- `HomeScreen.tsx` — Placeholder home screen
+✅ **React Router v6 MemoryRouter (not @ionic/react-router)**
+- `AppRouter.tsx` with `MemoryRouter` + `Routes`/`Navigate`
+- No `exact` prop, no `Redirect`, no `useHistory` (all RR v5 patterns)
+- `IonTabs` with nested `Routes` in `HomePage.tsx`
 
 ### **Offline Storage**
-✅ **AsyncStorage configured**
-- `src/lib/storage.ts` — Key-value storage helpers
-- Note: MMKV was replaced with AsyncStorage for Expo Go compatibility (documented in Day 1 notes)
+✅ **@capacitor/preferences**
+- `src/lib/storage.ts` — async key-value helpers
+- Note: MMKV is **not used** — it's React Native-only; Capacitor uses `@capacitor/preferences`
+
+### **Node Version**
+⚠️ **Node 22 required**
+- Capacitor CLI v8 requires Node ≥22
+- Run: `source ~/.nvm/nvm.sh && nvm use 22` (or `nvm alias default 22` for persistence)
 
 ---
 
-## Gaps Between Plan and Reality
+## Gaps Between Plan and Reality (All Resolved)
 
-| Gap | Severity | Impact | Action |
-|-----|----------|--------|--------|
-| Duplicate button components (AppButton vs PrimaryButton) | Low | Code duplication, confusing imports | Consolidate—remove PrimaryButton, use AppButton everywhere |
-| No UI refinement for animations/haptic feedback | Medium | Day 1 checklist mentions "in progress" but components lack micro-animations | Add Reanimated stubs, haptic feedback hooks before Day 2 |
-| Supabase schema not validated in dev environment | Medium | Migrations exist but local DB not tested | Run `supabase db push` to verify schema |
-| No seed data loaded | Low | No sample words for testing | Run `supabase db seed` with sample words |
-| HomeScreen is bare placeholder | Low | Day 1 only requires navigation, not full module UIs | Expected—modules come Day 2+ |
-| AsyncStorage vs MMKV trade-off undocumented | Low | Plan mentions MMKV, implementation uses AsyncStorage | Document decision in `BACKEND_SETUP_SUMMARY.md` ✅ Already done |
+| Gap (Original) | Resolution |
+|----------------|------------|
+| React Native (Expo) → outdated | Migrated to Vite 5 + Ionic React 8 + Capacitor 8 |
+| MMKV / AsyncStorage | Replaced with `@capacitor/preferences` |
+| expo-file-system | Replaced with `@capacitor/filesystem` |
+| expo-av | Replaced with `@capacitor/filesystem` + MediaDevices Web API |
+| expo-haptics | Replaced with `@capacitor/haptics` |
+| React Navigation | Replaced with React Router v6 `MemoryRouter` |
+| NativeWind | Replaced with Tailwind CSS (preflight disabled, Ionic-compatible) |
+| Reanimated | Replaced with Ionic transitions + CSS animations |
+| WatermelonDB | Replaced with queue-based sync via `@capacitor/preferences` |
+| Jest | Replaced with Vitest 2 |
+| PrimaryButton duplicate | Removed — `AppButton` is the canonical component |
+| 9 migrations (old count) | Actual: 2 migrations |
+| 2 buckets: audio, images (old) | Actual: 3 buckets: `recordings`, `stories`, `pronunciations` |
 
 ---
 
 ## Current Git State
 
-**Branch:** `codex/grouped-auth-pr` (1 commit behind origin)  
-**Uncommitted changes:**
-- Modified: `src/components/PrimaryButton.tsx`, `src/navigation/RootNavigator.tsx`, `src/screens/AuthScreen.tsx`, `src/screens/HomeScreen.tsx`, `src/types/database.ts`
-- Untracked: `.env.example`, `BACKEND_CHECKLIST.md`, docs/final/*, src/components/ui/*
-
-**Recommendation:** Commit these changes before Day 2 work begins.
+**Branch:** `feat/scaffold-capacitor`  
+**PR:** #4 open at https://github.com/pablonification/HACKWKND-2026/pull/4  
+**Commit:** `75f6a87` — scaffold complete, all 47 files  
+**Status:** Clean (no uncommitted changes after scaffold commit)
 
 ---
 
 ## ✅ What's Complete from Day 1
 
-1. **Expo + TypeScript scaffolding** ✅
-2. **Supabase project + schema migrations** ✅
+1. **Vite + Ionic + Capacitor scaffolding** ✅
+2. **Supabase project + schema (2 migrations, 3 buckets)** ✅
 3. **Authentication flows** ✅
-4. **Navigation structure** ✅
-5. **Offline storage (AsyncStorage)** ✅
-6. **Shared UI components** ⚠️ (70% done, needs consolidation)
-
----
-
-## ⏳ What Needs Completion Before Day 2
-
-### **BLOCKER 1: Component Consolidation** (15 min)
-- [ ] Remove `PrimaryButton.tsx` (duplicate of AppButton)
-- [ ] Update all imports to use `AppButton` from `components/ui`
-- [ ] Verify `components/ui/index.ts` exports all 3 components correctly
-
-### **BLOCKER 2: Schema Validation** (20 min)
-- [ ] Run `supabase db push` to confirm migrations are applied
-- [ ] Verify all tables exist: `profiles`, `recordings`, `words`, `progress`, `streaks`, `stories`, `requests`, `follows`
-- [ ] Check RLS policies are in place
-- [ ] Confirm indices are created
-
-### **BLOCKER 3: UI Refinement** (30 min)
-- [ ] Add animation hooks to buttons (Reanimated stubs)
-- [ ] Add haptic feedback utility
-- [ ] Document accessibility requirements in components
-
-### **NICE-TO-HAVE: Commit + Sync**
-- [ ] Commit uncommitted changes with message: `feat: complete day-1 foundation with auth and schema`
-- [ ] Push to branch
-- [ ] Pull latest from origin (currently 1 commit behind)
+4. **Navigation structure (RR v6 MemoryRouter)** ✅
+5. **Offline storage (@capacitor/preferences)** ✅
+6. **Shared UI components (AppButton, AppCard, AppInput)** ✅
+7. **Haptic feedback (@capacitor/haptics)** ✅
+8. **iOS platform added + live reload configured** ✅
+9. **CI pipeline (Vitest)** ✅
+10. **All checks passing (build + typecheck + lint + format + 13/13 tests)** ✅
 
 ---
 
 ## 🎯 NEXT LOGICAL TASK (Day 2 Kickoff)
 
-**According to Plan: Days 2-3 → Core Recording + AI Helper**
+**According to Plan: Days 2-3 → Core Recording (Elder Studio) + AI Helper**
 
 ### **What Dev A Starts (Elder Studio - Recording UI)**
-1. Recording screen with record button
-2. Audio capture (expo-av)
-3. Local save to AsyncStorage (not MMKV per current choice)
-4. Background upload to Supabase Storage
+1. Recording screen with large record button
+2. Audio capture via MediaDevices Web API (`getUserMedia`)
+3. Local save to `@capacitor/filesystem` (audio binary) + `@capacitor/preferences` (metadata)
+4. Background upload to Supabase Storage (`recordings` bucket)
+5. Cultural tagging UI
 
 ### **What Dev B Starts (AI Helper - Integration)**
 1. Whisper API integration (transcription)
 2. SEA-LION API integration (translation)
-3. Coqui TTS integration
-4. Nano Banana stub (for Day 6-7 Story Archive)
+3. Coqui TTS integration (pronunciation)
+4. Nano Banana stub (for Day 6-7 Story Archive — image generation only)
 
-**Dependency:** Dev A's audio recordings must flow to Dev B's transcription.
+**Dependency:** Dev A's audio recordings must flow to Dev B's transcription endpoint.
 
 ### **Handoff Point:**
 - Dev A: "Audio saved locally → ready to transcribe"
@@ -177,25 +153,24 @@ None—all Day 1 tasks are either complete or in-progress.
 
 | Aspect | Status | Notes |
 |--------|--------|-------|
-| **Repo Setup** | ✅ Done | React Native, TypeScript, configs |
+| **Repo Setup** | ✅ Done | Vite + Ionic + Capacitor, TypeScript, configs |
 | **Auth** | ✅ Done | Sign-up, login, profile creation |
-| **Database** | ✅ Done | Schema + migrations (needs validation) |
-| **Navigation** | ✅ Done | Stack navigator with Auth/Home |
-| **Offline Storage** | ✅ Done | AsyncStorage (replacing MMKV) |
-| **UI Components** | ⚠️ 70% | AppButton, AppCard, AppInput ready; PrimaryButton duplicate needs removal |
-| **Animations** | ⬜ Not started | Needed before Day 2 |
-| **Haptic Feedback** | ⬜ Not started | Stub utility needed |
-| **Day 2 Ready?** | ⏳ Almost | Block on component cleanup + schema validation |
+| **Database** | ✅ Done | 2 migrations, 8 tables, 3 storage buckets |
+| **Navigation** | ✅ Done | RR v6 MemoryRouter + IonTabs |
+| **Offline Storage** | ✅ Done | @capacitor/preferences |
+| **UI Components** | ✅ Done | AppButton, AppCard, AppInput — no duplicates |
+| **Haptic Feedback** | ✅ Done | @capacitor/haptics in feedback.ts |
+| **iOS Platform** | ✅ Done | `ios/` dir present, Xcode ready |
+| **Live Reload** | ✅ Done | CAPACITOR_DEV trick + cap:ios:dev script |
+| **CI Pipeline** | ✅ Done | Vitest 13/13 passing |
+| **Day 2 Ready?** | ✅ Yes | No blockers — begin P0 modules |
 
 ---
 
 ## Final Recommendation
 
-✅ **Day 1 tasks are substantially complete.** The codebase is ready for Day 2 work on recording + AI, **pending**:
-1. **Component consolidation** (remove PrimaryButton duplication)
-2. **Schema validation** (run `supabase db push`)
-3. **Commit + push** current changes
+✅ **Day 1 is 100% complete.** No blockers.
 
-Estimated time to unblock Day 2: **45 minutes**.
+**Begin Day 2 immediately**: Dev A → Elder Studio recording UI. Dev B → AI Helper integrations (Whisper, SEA-LION, Coqui TTS).
 
-Once those are done, **Dev A can start Elder Studio recording UI** and **Dev B can start AI Helper integrations** in parallel.
+The scaffold is clean, verified, and ready for feature development on all P0 modules (Elder Studio, Sound Archive, AI Helper, Language Garden).

@@ -11,6 +11,7 @@ import {
 
 import { triggerHapticFeedback } from '../lib/feedback';
 import { ProfilePage } from './ProfilePage';
+import { TranslatePage } from './TranslatePage';
 
 import './HomePage.css';
 
@@ -33,10 +34,6 @@ function SoundArchiveTab() {
   return <TabPlaceholder title="Sound Archive" description="Browse and search recordings." />;
 }
 
-function AIHelperTab() {
-  return <TabPlaceholder title="AI Helper" description="Transcribe, translate, and listen." />;
-}
-
 function LanguageGardenTab() {
   return (
     <TabPlaceholder
@@ -52,6 +49,7 @@ export function HomePage() {
   const profileWarningFromState =
     (location.state as { profileWarning?: string } | null)?.profileWarning ?? null;
   const [profileWarning, setProfileWarning] = useState<string | null>(profileWarningFromState);
+  const isTranslateRoute = location.pathname.startsWith('/home/ai');
 
   useEffect(() => {
     if (profileWarningFromState) {
@@ -78,20 +76,36 @@ export function HomePage() {
     }
   };
 
-  const shouldShowTabMenu = !(
-    location.pathname.startsWith('/home/profile/') && location.pathname !== '/home/profile'
-  );
+  const shouldShowTabMenu =
+    !isTranslateRoute &&
+    !(location.pathname.startsWith('/home/profile/') && location.pathname !== '/home/profile');
   const isProfileRoute = location.pathname.startsWith('/home/profile');
+
+  const ionContentClassName =
+    [
+      isProfileRoute ? 'home-ion-content-profile' : '',
+      isTranslateRoute ? 'home-content-translate-mode' : '',
+    ]
+      .filter(Boolean)
+      .join(' ') || undefined;
+
+  const homeShellClassName = [
+    'home-shell',
+    isProfileRoute ? 'profile-route' : '',
+    isTranslateRoute ? 'is-translate' : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   return (
     <IonPage>
-      <IonContent fullscreen className={isProfileRoute ? 'home-ion-content-profile' : undefined}>
-        <div className={`home-shell${isProfileRoute ? ' profile-route' : ''}`}>
+      <IonContent fullscreen className={ionContentClassName}>
+        <div className={homeShellClassName}>
           <div className="home-content">
             <Routes>
               <Route path="studio" element={<ElderStudioTab />} />
               <Route path="archive" element={<SoundArchiveTab />} />
-              <Route path="ai" element={<AIHelperTab />} />
+              <Route path="ai" element={<TranslatePage />} />
               <Route path="garden" element={<LanguageGardenTab />} />
               <Route path="profile/*" element={<ProfilePage />} />
               <Route index element={<Navigate to="garden" replace />} />

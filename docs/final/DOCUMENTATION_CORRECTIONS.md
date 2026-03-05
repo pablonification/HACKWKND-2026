@@ -142,3 +142,51 @@ Both documents now have **consistent AI service assignments**:
 **Document Status:** ✅ Corrected and Consistent  
 **Version:** TASK_BREAKDOWN v1.2, TUYANG.md updated  
 **Date:** March 3, 2026
+
+---
+
+## v1.3 — Scaffold Migration: Expo/React Native → Vite + Ionic + Capacitor (March 2026)
+
+**Files Updated:**
+- `docs/final/TUYANG.md`
+- `docs/final/TUYANG_TASK_BREAKDOWN.md`
+- `docs/final/SPRINT_ASSESSMENT.md`
+
+### What Changed
+
+The original plan assumed an Expo/React Native scaffold. The actual implementation migrated entirely to **Vite 5 + Ionic React 8 + Capacitor 8**. All documentation has been updated to reflect this.
+
+### Full Tech Substitution Map
+
+| Original Plan | Actual Implementation |
+|---------------|-----------------------|
+| React Native (Expo) | Vite 5 + Ionic React 8 + Capacitor 8 |
+| React Navigation | React Router v6 (`MemoryRouter`) |
+| NativeWind (Tailwind for RN) | Tailwind CSS (preflight disabled, Ionic-compatible) |
+| Reanimated | Ionic transitions + CSS animations |
+| MMKV (`react-native-mmkv`) | `@capacitor/preferences` |
+| AsyncStorage | `@capacitor/preferences` |
+| expo-file-system | `@capacitor/filesystem` |
+| expo-av | `@capacitor/filesystem` + MediaDevices Web API |
+| expo-haptics | `@capacitor/haptics` |
+| WatermelonDB | Queue-based sync via `@capacitor/preferences` |
+| Jest | Vitest 2 |
+| Expo publish | Capacitor build → TestFlight / Play Store |
+| 9 migrations | 2 migrations (`20260304_initial_schema.sql`, `20260304_storage_buckets.sql`) |
+| 2 buckets (audio, images) | 3 buckets: `recordings`, `stories`, `pronunciations` |
+
+### Key Discoveries
+
+1. `@ionic/react-router` is **not needed** — Ionic 8 works with plain RR v6 `MemoryRouter` directly.
+2. **Capacitor CLI v8 requires Node ≥22** — must run `source ~/.nvm/nvm.sh && nvm use 22`.
+3. iOS platform added this session via `npx cap add ios`.
+4. Live reload configured via `CAPACITOR_DEV=true` env-var in `capacitor.config.ts`.
+5. `package.json` has `"cap:ios:dev"` script: `CAPACITOR_DEV=true cap sync ios && cap open ios`.
+
+### Scaffold State
+
+- **Branch:** `feat/scaffold-capacitor`
+- **PR:** #4 open at https://github.com/pablonification/HACKWKND-2026/pull/4
+- **Commit:** `75f6a87` — 47 files changed
+- **Verification:** `build ✓ typecheck ✓ lint ✓ format ✓ tests 13/13 ✓`
+- **iOS:** `ios/` directory present, Xcode opened successfully
