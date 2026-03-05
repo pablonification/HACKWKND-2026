@@ -320,6 +320,23 @@ export const updateProfilePreferences = async ({
   }
 };
 
+export const updatePushNotification = async ({
+  userId,
+  pushNotificationsEnabled,
+}: {
+  userId: string;
+  pushNotificationsEnabled: boolean;
+}): Promise<void> => {
+  const { error } = await supabase
+    .from('profiles')
+    .update({ push_notifications_enabled: pushNotificationsEnabled })
+    .eq('id', userId);
+
+  if (error) {
+    throw error;
+  }
+};
+
 export const uploadProfileAvatar = async ({
   userId,
   file,

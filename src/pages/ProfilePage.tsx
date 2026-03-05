@@ -18,6 +18,7 @@ import {
   uploadProfileAvatar,
   updateProfileDetails,
   updateProfilePreferences,
+  updatePushNotification,
 } from '../lib/profile';
 import { supabase } from '../lib/supabase';
 import { useAuthStore } from '../stores/authStore';
@@ -824,9 +825,18 @@ const ChangeLanguageScreen = ({ dashboard, onBack, onSaved, onToast }: ChangeLan
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    const isUnchanged =
+      appLanguage === dashboard.profile.appLanguage &&
+      indigenousLanguage === dashboard.profile.indigenousLanguage;
+
+    if (isUnchanged) {
+      onToast({ message: 'No changes to save.', color: 'warning' });
+      return;
+    }
+
     setIsSaving(true);
     triggerHapticFeedback('light');
-
     try {
       await onSaved(appLanguage, indigenousLanguage);
       onToast({ message: 'Language preferences updated.', color: 'success' });
@@ -1132,10 +1142,8 @@ export function ProfilePage() {
                 navigate('/home/profile/settings/privacy');
               }}
               onPushPreferenceChanged={async (value) => {
-                await updateProfilePreferences({
+                await updatePushNotification({
                   userId: dashboard.profile.id,
-                  appLanguage: dashboard.profile.appLanguage,
-                  indigenousLanguage: dashboard.profile.indigenousLanguage,
                   pushNotificationsEnabled: value,
                 });
                 await refreshProfile();
