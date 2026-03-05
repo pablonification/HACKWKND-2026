@@ -439,7 +439,29 @@ export const translateWordByWordWithGlossary = (
   to: TranslationLanguage,
   glossary: GlossaryEntry[] = SEMAI_GLOSSARY,
 ): string => {
-  const tokens = text.split(/(\s+|[.,!?;:])/g);
+  // Pre-pass: greedily substitute multi-word glossary phrases (longest-first)
+  // before tokenizing, so entries like "selamat pagi" -> "good morning" are matched.
+  const multiWordEntries = glossary
+    .filter((entry) => /\s/.test(entry[from]))
+    .filter((entry) => {
+      const isAmbiguous =
+        glossary.filter((e) => normalizeComparable(e[from]) === normalizeComparable(entry[from]))
+          .length > 1;
+      return !isAmbiguous;
+    })
+    .sort((a, b) => b[from].length - a[from].length);
+
+  let remaining = text;
+  for (const entry of multiWordEntries) {
+    const pattern = new RegExp(
+      `(^|\\b)${escapeRegExp(normalizeComparable(entry[from]))}(?=\\b|$)`,
+      'gi',
+    );
+    remaining = remaining.replace(pattern, entry[to]);
+  }
+
+  // Single-token pass for remaining unmatched words
+  const tokens = remaining.split(/(\s+|[.,!?;:])/g);
 
   return tokens
     .map((token) => {

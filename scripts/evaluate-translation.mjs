@@ -241,9 +241,10 @@ const lines = [
   ...rows.map((row) => {
     const pair = `${row.from}->${row.to}`;
     const result = row.passed ? 'PASS' : 'FAIL';
-    const warning = row.warning ? String(row.warning).replace(/\|/g, '\\|') : '';
+    const escape = (s) => String(s ?? '').replace(/\|/g, '\\|');
+    const warning = row.warning ? escape(row.warning) : '';
     const telemetry = row.telemetryRequired ? (row.telemetryValid ? 'OK' : 'MISSING') : '-';
-    return `| ${row.id} | ${row.tier} | ${row.priority} | ${pair} | ${row.input} | ${row.expected} | ${row.output} | ${row.provider} | ${row.model} | ${telemetry} | ${warning} | ${result} |`;
+    return `| ${row.id} | ${row.tier} | ${row.priority} | ${pair} | ${escape(row.input)} | ${escape(row.expected)} | ${escape(row.output)} | ${row.provider} | ${row.model} | ${telemetry} | ${warning} | ${result} |`;
   }),
   '',
 ];
