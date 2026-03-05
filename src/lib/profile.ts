@@ -179,7 +179,7 @@ export const fetchProfileDashboard = async ({
     ),
   ]);
 
-  const storiesShared = Math.max(authoredStories, uploadedRecordings);
+  const storiesShared = authoredStories + uploadedRecordings;
   // Story completion is not modeled yet in MVP schema; derive from learning depth for learner profiles.
   const storiesCompleted =
     role === 'learner' ? Math.max(authoredStories, Math.floor(wordsLearned / 70)) : authoredStories;
@@ -244,7 +244,15 @@ export const updateProfileDetails = async ({
   age?: number | null;
   specialty?: string | null;
 }): Promise<void> => {
-  await updateAuthProfile({ fullName, email });
+  const {
+    data: { user: currentUser },
+  } = await supabase.auth.getUser();
+  const authNeedsUpdate =
+    fullName !== currentUser?.user_metadata?.full_name || email !== currentUser?.email;
+
+  if (authNeedsUpdate) {
+    await updateAuthProfile({ fullName, email });
+  }
 
   const updatePayload: ProfileUpdate = {};
   let shouldRunProfileUpdate = false;
@@ -352,7 +360,12 @@ export const uploadProfileAvatar = async ({
   if (currentAvatarUrl) {
     const previousPath = extractStoragePathFromPublicUrl(currentAvatarUrl);
     if (previousPath) {
-      await supabase.storage.from(AVATAR_BUCKET).remove([previousPath]);
+      const { error: removeError } = await supabase.storage
+        .from(AVATAR_BUCKET)
+        .remove([previousPath]);
+      if (removeError) {
+        console.warn('Failed to remove previous avatar:', removeError);
+      }
     }
   }
 

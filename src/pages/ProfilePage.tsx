@@ -26,7 +26,7 @@ import { validateEmail, validateFullName, validatePassword } from '../utils/auth
 
 import './ProfilePage.css';
 
-const APP_VERSION = 'Taleka v2.7.1';
+const APP_VERSION = `Taleka v${import.meta.env.VITE_APP_VERSION ?? '0.0.0'}`;
 
 const APP_LANGUAGE_OPTIONS = ['English', 'Bahasa Melayu', 'Bahasa Indonesia'] as const;
 const INDIGENOUS_LANGUAGE_OPTIONS = ['Semai', 'Temiar', 'Jahai', 'Semelai'] as const;
@@ -624,6 +624,8 @@ const SettingsScreen = ({
           <button
             type="button"
             className="profile-settings-row profile-settings-row-toggle"
+            role="switch"
+            aria-checked={dashboard.profile.pushNotificationsEnabled}
             onClick={() => void togglePushNotifications()}
             disabled={isUpdatingPush}
           >
@@ -676,6 +678,8 @@ const ChangePasswordScreen = ({ onBack, onSaved, onToast }: ChangePasswordProps)
   const [newPassword, setNewPassword] = useState('');
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -690,6 +694,12 @@ const ChangePasswordScreen = ({ onBack, onSaved, onToast }: ChangePasswordProps)
     const validationError = validatePassword(newPassword);
     if (validationError) {
       onToast({ message: validationError, color: 'danger' });
+      triggerHapticFeedback('error');
+      return;
+    }
+
+    if (confirmPassword !== newPassword) {
+      onToast({ message: 'Passwords do not match.', color: 'danger' });
       triggerHapticFeedback('error');
       return;
     }
@@ -710,6 +720,7 @@ const ChangePasswordScreen = ({ onBack, onSaved, onToast }: ChangePasswordProps)
       await updatePassword({ currentPassword, newPassword });
       setCurrentPassword('');
       setNewPassword('');
+      setConfirmPassword('');
       onToast({ message: 'Password updated successfully.', color: 'success' });
       triggerHapticFeedback('success');
       onSaved();
@@ -762,6 +773,27 @@ const ChangePasswordScreen = ({ onBack, onSaved, onToast }: ChangePasswordProps)
               type="button"
               onClick={() => setShowNewPassword((value) => !value)}
               aria-label={showNewPassword ? 'Hide new password' : 'Show new password'}
+            >
+              <img src={PROFILE_UI_ASSETS.eye} alt="" aria-hidden="true" />
+            </button>
+          </div>
+        </label>
+
+        <label className="profile-field">
+          <span>Confirm New Password</span>
+          <div className="profile-password-field">
+            <input
+              value={confirmPassword}
+              onChange={(event) => setConfirmPassword(event.target.value)}
+              type={showConfirmPassword ? 'text' : 'password'}
+              autoComplete="new-password"
+              disabled={isSaving}
+              required
+            />
+            <button
+              type="button"
+              onClick={() => setShowConfirmPassword((value) => !value)}
+              aria-label={showConfirmPassword ? 'Hide confirm password' : 'Show confirm password'}
             >
               <img src={PROFILE_UI_ASSETS.eye} alt="" aria-hidden="true" />
             </button>

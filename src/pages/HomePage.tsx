@@ -76,9 +76,7 @@ export function HomePage() {
     }
   };
 
-  const shouldShowTabMenu =
-    !isTranslateRoute &&
-    !(location.pathname.startsWith('/home/profile/') && location.pathname !== '/home/profile');
+  const shouldShowTabMenu = !isTranslateRoute && !location.pathname.startsWith('/home/profile/');
   const isProfileRoute = location.pathname.startsWith('/home/profile');
 
   const ionContentClassName =
