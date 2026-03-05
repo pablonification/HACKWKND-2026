@@ -413,11 +413,14 @@ const assessSemaiConfidenceWarning = (
     .filter(Boolean);
 
   const knownCount = tokens.filter((token) => KNOWN_SEMAI_TERMS.has(token)).length;
+  const hasKnownPhrase = Array.from(KNOWN_SEMAI_TERMS).some(
+    (term) => term.includes(' ') && normalizedOutput.includes(term),
+  );
   const hasGlossaryAnchor = glossaryMatches.some((entry) =>
     containsTerm(translatedText, entry.semai),
   );
 
-  if (knownCount === 0 && !hasGlossaryAnchor) {
+  if (knownCount === 0 && !hasKnownPhrase && !hasGlossaryAnchor) {
     return 'Low confidence: Semai output may be uncertain. Please validate with a language reviewer.';
   }
 

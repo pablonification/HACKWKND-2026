@@ -53,10 +53,11 @@ describe('translationGlossary', () => {
 
     const prompt = buildGlossaryPrompt(matches, 'semai', 'en');
 
-    expect(prompt.match(/=>/g)?.length).toBe(8);
+    expect(prompt.match(/=>/g)?.length).toBe(12);
     expect(prompt).toContain('"semai-0" => "en-0"');
-    expect(prompt).not.toContain('"semai-8" => "en-8"');
-    expect(prompt).not.toContain('"semai-9" => "en-9"');
+    expect(prompt).toContain('"semai-11" => "en-11"');
+    expect(prompt).not.toContain('"semai-12" => "en-12"');
+    expect(prompt).not.toContain('"semai-13" => "en-13"');
   });
 
   it('checks whether expected glossary terms exist in output', () => {
@@ -129,7 +130,8 @@ describe('translationGlossary', () => {
       },
     ];
 
-    const prompt = buildGlossaryPrompt(matches, 'semai', 'en');
+    const enforceable = selectEnforceableGlossaryMatches(matches, 'semai', 'en');
+    const prompt = buildGlossaryPrompt(enforceable, 'semai', 'en');
     expect(prompt).toContain('"hutan" => "forest"');
     expect(prompt).not.toContain('"ajak" =>');
   });

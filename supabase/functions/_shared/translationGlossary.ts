@@ -368,11 +368,20 @@ export const findExactGlossaryTranslation = (
   const normalizedText = normalizeComparable(text);
   const matches = glossary.filter((entry) => normalizeComparable(entry[from]) === normalizedText);
 
-  if (matches.length !== 1) {
+  if (matches.length === 0) {
     return null;
   }
 
-  return matches[0][to];
+  const uniqueTargets = Array.from(
+    new Set(matches.map((entry) => normalizeComparable(entry[to])).filter(Boolean)),
+  );
+
+  if (uniqueTargets.length !== 1) {
+    return null;
+  }
+
+  const bestMatch = matches.find((entry) => normalizeComparable(entry[to]) === uniqueTargets[0]);
+  return bestMatch?.[to] ?? null;
 };
 
 export const findGlossaryMatches = (
@@ -386,10 +395,7 @@ export const buildGlossaryPrompt = (
   from: TranslationLanguage,
   to: TranslationLanguage,
 ): string => {
-  const limitedMatches = selectEnforceableGlossaryMatches(matches, from, to).slice(
-    0,
-    GLOSSARY_PROMPT_MAX_MATCHES,
-  );
+  const limitedMatches = matches.slice(0, GLOSSARY_PROMPT_MAX_MATCHES);
 
   if (limitedMatches.length === 0) {
     return '';

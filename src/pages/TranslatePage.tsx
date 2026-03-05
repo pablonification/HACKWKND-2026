@@ -310,7 +310,7 @@ export function TranslatePage() {
       <IonToast
         isOpen={Boolean(notice)}
         message={notice ?? ''}
-        duration={2600}
+        duration={5500}
         color="medium"
         onDidDismiss={() => setNotice(null)}
       />
