@@ -1,5 +1,11 @@
+.profile-screen,
+.profile-loading {
+  --profile-cream-bg: #fff9e9;
+  --profile-brand-red: #cb403c;
+}
+
 .profile-screen {
-  background: #fff9e9;
+  background: var(--profile-cream-bg);
   color: #111828;
   display: flex;
   flex-direction: column;
@@ -13,7 +19,7 @@
 
 .profile-loading {
   align-items: center;
-  background: #fff9e9;
+  background: var(--profile-cream-bg);
   color: #202938;
   display: flex;
   flex-direction: column;
@@ -26,7 +32,7 @@
 }
 
 .profile-loading-error .button-native {
-  --background: #cb403c;
+  --background: var(--profile-brand-red);
 }
 
 .profile-skeleton .profile-cards {
@@ -34,6 +40,7 @@
 }
 
 .profile-hero-skeleton {
+  background: var(--profile-brand-red);
   justify-content: flex-start;
 }
 
@@ -122,7 +129,7 @@
 
 .profile-hero {
   align-items: center;
-  background: #cb403c;
+  background: var(--profile-brand-red);
   border-bottom-left-radius: 30px;
   border-bottom-right-radius: 30px;
   display: flex;
@@ -600,7 +607,7 @@
 .profile-select-wrap select:focus,
 .profile-field-button:focus-visible,
 .profile-password-field input:focus {
-  border-color: #cb403c;
+  border-color: var(--profile-brand-red);
   box-shadow: 0 0 0 3px rgba(203, 64, 60, 0.2);
 }
 
@@ -669,7 +676,7 @@
 
 .profile-primary-button {
   align-items: center;
-  background: #cb403c;
+  background: var(--profile-brand-red);
   border: 0;
   border-radius: 10px;
   color: #ffffff;
@@ -697,7 +704,7 @@
 
 .profile-settings-hero {
   align-items: flex-start;
-  background: #cb403c;
+  background: var(--profile-brand-red);
   border-bottom-left-radius: 30px;
   border-bottom-right-radius: 30px;
   display: flex;
@@ -852,7 +859,7 @@
 }
 
 .profile-info-header {
-  background: #cb403c;
+  background: var(--profile-brand-red);
   border-bottom-left-radius: 40px;
   border-bottom-right-radius: 40px;
   box-shadow: 0 2px 8px rgba(75, 75, 75, 0.15);
