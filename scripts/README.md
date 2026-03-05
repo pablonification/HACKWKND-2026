@@ -179,7 +179,6 @@ VITE_SUPABASE_ANON_KEY  or  SUPABASE_ANON_KEY
 ## Data Files Reference
 
 All data files live in `docs/plan/source/`.
-Large raw/parsed dictionary dumps are intentionally kept out of the default PR footprint; regenerate them locally when needed.
 
 | File                           | Size   | Use this when…                                                         |
 | ------------------------------ | ------ | ---------------------------------------------------------------------- |
