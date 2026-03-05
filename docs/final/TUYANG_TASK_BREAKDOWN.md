@@ -82,13 +82,13 @@
 
 | Component | Technology |
 |-----------|------------|
-| Framework | React Native (Expo) |
+| Framework | Vite 5 + Ionic React 8 + Capacitor 8 |
 | Language | TypeScript |
-| State | Zustand |
-| Navigation | React Navigation |
-| UI Library | NativeWind (Tailwind) |
-| Animations | Reanimated |
-| Local Storage | MMKV (react-native-mmkv) |
+| State | Zustand ^5 |
+| Navigation | React Router v6 (MemoryRouter) |
+| UI Library | Ionic React 8 + Tailwind CSS (preflight disabled) |
+| Animations | Ionic transitions + CSS animations |
+| Local Storage | @capacitor/preferences |
 
 ### 3.2 Backend
 
@@ -98,7 +98,7 @@
 | Auth | Supabase Auth |
 | Storage | Supabase Storage |
 | Edge Functions | Supabase Functions |
-| Audio Files | expo-file-system |
+| Audio Files | @capacitor/filesystem |
 
 ### 3.3 AI Services
 
@@ -117,25 +117,25 @@
 
 | Data Type | Storage | Why |
 |-----------|---------|-----|
-| Settings, preferences | MMKV | Fast key-value |
-| Recording metadata | MMKV | Simple objects |
-| Word lists | MMKV | Read-heavy, simple |
-| Learning progress | MMKV | Simple counters |
-| Audio files | expo-file-system | Binary files |
+| Settings, preferences | @capacitor/preferences | Fast key-value |
+| Recording metadata | @capacitor/preferences | Simple objects |
+| Word lists | @capacitor/preferences | Read-heavy, simple |
+| Learning progress | @capacitor/preferences | Simple counters |
+| Audio files | @capacitor/filesystem | Binary files |
 
 ### Sync Approach
 
-**Simple queue-based sync (not WatermelonDB):**
+**Simple queue-based sync (not WatermelonDB, not MMKV):**
 
 ```
-1. Store pending changes in MMKV array
+1. Store pending changes in @capacitor/preferences array
 2. When online, process queue in order
 3. Last-write-wins for conflicts (simple)
 ```
 
-**Why not WatermelonDB?**
-- Setup time: 1 hour (MMKV) vs 2-3 days (WatermelonDB)
-- Complexity: Low (MMKV) vs High (WatermelonDB)
+**Why not WatermelonDB / MMKV?**
+- MMKV is React Native-only; not available in Capacitor
+- WatermelonDB setup time: 2-3 days; @capacitor/preferences: ready instantly
 - Perfect for 10-day hackathon MVP
 
 ---
@@ -148,10 +148,10 @@
 
 | Task | Owner | Deliverable | Status |
 |------|-------|-------------|--------|
-| Initialize React Native (Expo) + TypeScript | Both | Repo created | ⬜ Not started |
+| Initialize Vite + Ionic React + Capacitor + TypeScript | Both | Repo created | ✅ Done |
 | Set up Supabase project + schema | Both | Tables ready | ⬜ Not started |
 | Implement Supabase Auth | Both | Sign up/login works | ⬜ Not started |
-| Install NativeWind + MMKV | Dev A | Storage ready | ⬜ Not started |
+| Install Tailwind CSS (preflight disabled) + @capacitor/preferences | Dev A | Storage ready | ✅ Done |
 | Create shared UI components | Dev A | Buttons, cards, inputs | ⬜ Not started |
 | Set up navigation structure | Both | App flow defined | ⬜ Not started |
 
@@ -166,7 +166,7 @@
 | Task | Owner | Deliverable | Status |
 |------|-------|-------------|--------|
 | Elder Studio recording UI | Dev A | One-tap record works | ⬜ Not started |
-| Local audio storage (MMKV + expo-file-system) | Dev A | Audio saves locally | ⬜ Not started |
+| Local audio storage (@capacitor/preferences + @capacitor/filesystem) | Dev A | Audio saves locally | ⬜ Not started |
 | Supabase Storage upload | Dev A | Audio syncs to cloud | ⬜ Not started |
 | AI Helper - Whisper integration | Dev B | Transcription works | ⬜ Not started |
 | AI Helper - SEA-LION stub | Dev B | Translation endpoint ready | ⬜ Not started |
@@ -239,7 +239,7 @@
 | Edge cases handled | Both | No crashes | ⬜ Not started |
 | Demo flow | Both | Walkthrough works | ⬜ Not started |
 | Demo video recording | Both | Video captured | ⬜ Not started |
-| Deployment | Both | Expo published | ⬜ Not started |
+| Deployment | Both | Capacitor build → TestFlight / Play Store | ⬜ Not started |
 
 ---
 
@@ -376,12 +376,10 @@ Input: { word: string, meaning: string }
 Output: { sentences: string[] }
 ```
 
-### 6.3 Local Storage Schema (MMKV)
+### 6.3 Local Storage Schema (@capacitor/preferences)
 
 ```typescript
-import { MMKV } from 'react-native-mmkv';
-
-const storage = new MMKV({ id: 'tuyang-storage' });
+import { Preferences } from '@capacitor/preferences';
 
 // Keys
 const STORAGE_KEYS = {
@@ -396,14 +394,18 @@ const STORAGE_KEYS = {
 };
 
 // Helper functions
-const getRecordings = () => storage.getString(STORAGE_KEYS.RECORDINGS);
-const setRecordings = (data: Recording[]) => storage.set(STORAGE_KEYS.RECORDINGS, JSON.stringify(data));
-const addPendingSync = (recording: Recording) => {
-  const pending = JSON.parse(storage.getString(STORAGE_KEYS.PENDING_SYNC) || '[]');
-  pending.push(recording);
-  storage.set(STORAGE_KEYS.PENDING_SYNC, JSON.stringify(pending));
+const getRecordings = async () => {
+  const { value } = await Preferences.get({ key: STORAGE_KEYS.RECORDINGS });
+  return value ? JSON.parse(value) : [];
 };
-```
+const setRecordings = async (data: Recording[]) => {
+  await Preferences.set({ key: STORAGE_KEYS.RECORDINGS, value: JSON.stringify(data) });
+};
+const addPendingSync = async (recording: Recording) => {
+  const pending = await getFromPrefs<Recording[]>(STORAGE_KEYS.PENDING_SYNC, []);
+  pending.push(recording);
+  await Preferences.set({ key: STORAGE_KEYS.PENDING_SYNC, value: JSON.stringify(pending) });
+};
 
 ---
 
@@ -455,7 +457,7 @@ Day 1: Auth → Day 2: Recording → Day 3: AI → Day 4-5: Garden → Day 6-7: 
 - [ ] Recording screen with large record button
 - [ ] Audio capture (expo-av)
 - [ ] Recording type selection (word/story/song)
-- [ ] Local save to MMKV before sync
+- [ ] Local save to @capacitor/preferences before sync
 - [ ] Background upload to Supabase Storage
 - [ ] Recording list with recent items
 - [ ] Recording detail/edit screen
@@ -478,7 +480,7 @@ GET /recordings?user_id={id} - Get user recordings
 #### Acceptance Criteria
 
 - [ ] Tap record → audio captured
-- [ ] Go offline → recording saved locally (MMKV)
+- [ ] Go offline → recording saved locally (@capacitor/preferences)
 - [ ] Go online → syncs to Supabase
 - [ ] Transcription appears within 30s (when online)
 - [ ] Tags and translations saved
@@ -498,7 +500,7 @@ GET /recordings?user_id={id} - Get user recordings
 - [ ] Audio player with controls (play/pause, seek)
 - [ ] Playback speed control (0.5x, 0.75x, 1x)
 - [ ] Loop mode toggle
-- [ ] Download for offline button (expo-file-system)
+- [ ] Download for offline button (@capacitor/filesystem)
 - [ ] Playlist creation
 - [ ] Add to favorites
 
@@ -605,7 +607,7 @@ generateSentences(word: string): Promise<string[]>
 - [ ] Quiz/flashcard mode
 - [ ] Spaced repetition algorithm
 - [ ] XP system + levels (Seed → Sprout → Sapling → Tree → Forest)
-- [ ] Streak tracking (stored in MMKV)
+- [ ] Streak tracking (stored in @capacitor/preferences)
 - [ ] Achievement badges
 - [ ] AI conversation chat
 - [ ] Progress sync to profile
@@ -855,15 +857,15 @@ For the final presentation:
 
 ### Completed
 
-- **Database**: 9 migrations with 8 tables, RLS, triggers
-- **Storage**: 2 buckets (audio, images) with RLS policies  
+- **Database**: 2 migrations with 8 tables, RLS, triggers
+- **Storage**: 3 buckets (`recordings`, `stories`, `pronunciations`) with RLS policies
 - **Edge Functions**: 5 AI endpoints deployed
 - **Database Functions**: Spaced repetition, streak, XP/level, analytics
 - **Triggers**: Auto-streak, auto-follower count
 - **Offline Sync**: Queue management
 
 ### Files Created
-- supabase/migrations/ (9 files)
+- supabase/migrations/ (2 files: 20260304_initial_schema.sql, 20260304_storage_buckets.sql)
 - supabase/functions/ai-* (5 functions)
 - src/lib/supabaseStorage.ts
 - docs/backend/API.md
