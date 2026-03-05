@@ -6,13 +6,14 @@ import {
   libraryOutline,
   micOutline,
   personOutline,
-  sparklesOutline,
+  languageOutline,
 } from 'ionicons/icons';
 
 import { triggerHapticFeedback } from '../lib/feedback';
 import { supabase } from '../lib/supabase';
 import { useAuthStore } from '../stores/authStore';
 import { toAuthErrorMessage } from '../utils/authErrors';
+import { TranslatePage } from './TranslatePage';
 
 import './HomePage.css';
 
@@ -33,10 +34,6 @@ function ElderStudioTab() {
 
 function SoundArchiveTab() {
   return <TabPlaceholder title="Sound Archive" description="Browse and search recordings." />;
-}
-
-function AIHelperTab() {
-  return <TabPlaceholder title="AI Helper" description="Transcribe, translate, and listen." />;
 }
 
 function LanguageGardenTab() {
@@ -107,6 +104,7 @@ export function HomePage() {
   const profileWarningFromState =
     (location.state as { profileWarning?: string } | null)?.profileWarning ?? null;
   const [profileWarning, setProfileWarning] = useState<string | null>(profileWarningFromState);
+  const isTranslateRoute = location.pathname === '/home/ai';
 
   useEffect(() => {
     if (profileWarningFromState) {
@@ -118,7 +116,7 @@ export function HomePage() {
     { id: 'studio', label: 'Studio', icon: micOutline, href: '/home/studio' },
     { id: 'archive', label: 'Archive', icon: libraryOutline, href: '/home/archive' },
     { id: 'garden', label: 'Garden', icon: leafOutline, href: '/home/garden' },
-    { id: 'ai', label: 'AI', icon: sparklesOutline, href: '/home/ai' },
+    { id: 'ai', label: 'Translate', icon: languageOutline, href: '/home/ai' },
     { id: 'profile', label: 'Profile', icon: personOutline, href: '/home/profile' },
   ] as const;
 
@@ -135,13 +133,16 @@ export function HomePage() {
 
   return (
     <IonPage>
-      <IonContent fullscreen>
-        <div className="home-shell">
+      <IonContent
+        fullscreen
+        className={isTranslateRoute ? 'home-content-translate-mode' : undefined}
+      >
+        <div className={`home-shell ${isTranslateRoute ? 'is-translate' : ''}`}>
           <div className="home-content">
             <Routes>
               <Route path="studio" element={<ElderStudioTab />} />
               <Route path="archive" element={<SoundArchiveTab />} />
-              <Route path="ai" element={<AIHelperTab />} />
+              <Route path="ai" element={<TranslatePage />} />
               <Route path="garden" element={<LanguageGardenTab />} />
               <Route path="profile" element={<ProfileTab />} />
               <Route index element={<Navigate to="garden" replace />} />
@@ -149,23 +150,25 @@ export function HomePage() {
             </Routes>
           </div>
 
-          <nav className="home-menu" aria-label="Main">
-            {menuItems.map((item) => {
-              const active = isActiveTab(item.href);
-              return (
-                <button
-                  key={item.id}
-                  type="button"
-                  className={`home-menu-item ${active ? 'is-active' : ''}`}
-                  onClick={() => handleMenuNavigate(item.href)}
-                  aria-current={active ? 'page' : undefined}
-                >
-                  <IonIcon icon={item.icon} />
-                  <IonLabel>{item.label}</IonLabel>
-                </button>
-              );
-            })}
-          </nav>
+          {!isTranslateRoute && (
+            <nav className="home-menu" aria-label="Main">
+              {menuItems.map((item) => {
+                const active = isActiveTab(item.href);
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    className={`home-menu-item ${active ? 'is-active' : ''}`}
+                    onClick={() => handleMenuNavigate(item.href)}
+                    aria-current={active ? 'page' : undefined}
+                  >
+                    <IonIcon icon={item.icon} />
+                    <IonLabel>{item.label}</IonLabel>
+                  </button>
+                );
+              })}
+            </nav>
+          )}
         </div>
 
         <IonToast

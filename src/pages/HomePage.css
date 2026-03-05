@@ -1,5 +1,19 @@
 .home-shell {
+  display: flex;
+  flex-direction: column;
   min-height: 100%;
+}
+
+.home-shell.is-translate {
+  background: #fff9e9;
+}
+
+.home-content-translate-mode {
+  --background: #fff9e9;
+}
+
+.home-content-translate-mode::part(background) {
+  background: #fff9e9;
 }
 
 .home-content {
