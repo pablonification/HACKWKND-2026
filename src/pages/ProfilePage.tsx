@@ -423,14 +423,16 @@ const EditProfileScreen = ({ dashboard, onBack, onSaved, onToast }: EditProfileP
     triggerHapticFeedback('light');
 
     try {
-      await updateProfileDetails({
+      const didUpdate = await updateProfileDetails({
         userId: dashboard.profile.id,
         fullName: fullName.trim(),
         email: email.trim(),
       });
-      await onSaved();
-      onToast({ message: 'Profile updated successfully.', color: 'success' });
-      triggerHapticFeedback('success');
+      if (didUpdate) {
+        await onSaved();
+        onToast({ message: 'Profile updated successfully.', color: 'success' });
+        triggerHapticFeedback('success');
+      }
       navigate('/home/profile', { replace: true });
     } catch (error) {
       onToast({ message: toAuthErrorMessage(error), color: 'danger' });

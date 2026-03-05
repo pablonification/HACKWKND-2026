@@ -243,10 +243,15 @@ export const updateProfileDetails = async ({
   village?: string | null;
   age?: number | null;
   specialty?: string | null;
-}): Promise<void> => {
+}): Promise<boolean> => {
   const {
     data: { user: currentUser },
+    error: getUserError,
   } = await supabase.auth.getUser();
+
+  if (getUserError) {
+    throw getUserError;
+  }
   const authNeedsUpdate =
     fullName !== currentUser?.user_metadata?.full_name || email !== currentUser?.email;
 
@@ -277,15 +282,18 @@ export const updateProfileDetails = async ({
     shouldRunProfileUpdate = true;
   }
 
-  if (!shouldRunProfileUpdate) {
-    return;
+  if (!shouldRunProfileUpdate && !authNeedsUpdate) {
+    return false;
+  }
+  if (shouldRunProfileUpdate) {
+    const { error } = await supabase.from('profiles').update(updatePayload).eq('id', userId);
+
+    if (error) {
+      throw error;
+    }
   }
 
-  const { error } = await supabase.from('profiles').update(updatePayload).eq('id', userId);
-
-  if (error) {
-    throw error;
-  }
+  return true;
 };
 
 export const updateProfilePreferences = async ({
