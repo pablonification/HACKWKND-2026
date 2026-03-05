@@ -31,16 +31,37 @@
   width: 100%;
 }
 
+.profile-loading ion-spinner {
+  color: var(--profile-brand-red);
+  height: 28px;
+  width: 28px;
+}
+
 .profile-loading-error .button-native {
   --background: var(--profile-brand-red);
+}
+
+.profile-screen-enter {
+  animation: profile-screen-enter 180ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes profile-screen-enter {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
 }
 
 .profile-loading-shell .profile-cards {
   padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 95px);
 }
 
-.profile-hero-loading {
-  background: var(--profile-brand-red);
+.profile-loading-shell .profile-hero {
   justify-content: flex-start;
 }
 
@@ -71,6 +92,7 @@
 }
 
 .profile-loading-avatar {
+  background: #67adcb;
   border-radius: 24px;
   height: 129px;
   margin-top: 4px;
@@ -78,6 +100,7 @@
 }
 
 .profile-loading-line {
+  background: rgba(255, 255, 255, 0.9);
   border-radius: 999px;
 }
 
@@ -88,6 +111,7 @@
 }
 
 .profile-loading-subtitle {
+  background: rgba(255, 255, 255, 0.84);
   height: 18px;
   margin-top: 12px;
   width: 154px;
@@ -969,6 +993,10 @@
 
 @media (prefers-reduced-motion: reduce) {
   .profile-loading-shimmer::after {
+    animation: none;
+  }
+
+  .profile-screen-enter {
     animation: none;
   }
 

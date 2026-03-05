@@ -1,4 +1,4 @@
-import { IonButton, IonToast } from '@ionic/react';
+import { IonButton, IonSpinner, IonToast } from '@ionic/react';
 import {
   useCallback,
   useEffect,
@@ -267,34 +267,6 @@ const ProfileSubHeader = ({ title, onBack }: { title: string; onBack: () => void
   );
 };
 
-const ProfileOverviewSkeleton = () => {
-  return (
-    <section className="profile-screen profile-overview-screen profile-loading-shell">
-      <div className="profile-hero profile-hero-loading">
-        <div className="profile-loading-shimmer profile-loading-avatar" />
-        <div className="profile-loading-shimmer profile-loading-line profile-loading-name" />
-        <div className="profile-loading-shimmer profile-loading-line profile-loading-subtitle" />
-      </div>
-
-      <div className="profile-cards">
-        <div className="profile-loading-shimmer profile-loading-level" />
-
-        <div className="profile-loading-stats">
-          <div className="profile-loading-shimmer profile-loading-stat" />
-          <div className="profile-loading-shimmer profile-loading-stat" />
-        </div>
-
-        <div className="profile-loading-menu">
-          <div className="profile-loading-shimmer profile-loading-menu-item" />
-          <div className="profile-loading-shimmer profile-loading-menu-item" />
-          <div className="profile-loading-shimmer profile-loading-menu-item" />
-          <div className="profile-loading-shimmer profile-loading-menu-item" />
-        </div>
-      </div>
-    </section>
-  );
-};
-
 const ProfileOverviewScreen = ({
   dashboard,
   onEditProfile,
@@ -308,7 +280,7 @@ const ProfileOverviewScreen = ({
   const statCards = getStatCards(dashboard);
 
   return (
-    <section className="profile-screen profile-overview-screen">
+    <section className="profile-screen profile-overview-screen profile-screen-enter">
       <div className="profile-hero">
         <div className="profile-avatar-block">
           <div className={`profile-avatar profile-avatar-${visualRole}`}>
@@ -502,7 +474,7 @@ const EditProfileScreen = ({ dashboard, onBack, onSaved, onToast }: EditProfileP
   };
 
   return (
-    <section className="profile-screen profile-subscreen">
+    <section className="profile-screen profile-subscreen profile-screen-enter">
       <ProfileSubHeader title="Edit Profile" onBack={onBack} />
 
       <form className="profile-form profile-form-edit" onSubmit={handleSubmit}>
@@ -633,7 +605,7 @@ const SettingsScreen = ({
   };
 
   return (
-    <section className="profile-screen profile-settings-screen">
+    <section className="profile-screen profile-settings-screen profile-screen-enter">
       <div className="profile-settings-hero">
         <BackButton tone="light" onBack={onBack} />
         <h2>Settings</h2>
@@ -750,7 +722,7 @@ const ChangePasswordScreen = ({ onBack, onSaved, onToast }: ChangePasswordProps)
   };
 
   return (
-    <section className="profile-screen profile-subscreen">
+    <section className="profile-screen profile-subscreen profile-screen-enter">
       <ProfileSubHeader title="Change Password" onBack={onBack} />
 
       <form className="profile-form profile-form-subpage" onSubmit={handleSubmit}>
@@ -834,7 +806,7 @@ const ChangeLanguageScreen = ({ dashboard, onBack, onSaved, onToast }: ChangeLan
   };
 
   return (
-    <section className="profile-screen profile-subscreen">
+    <section className="profile-screen profile-subscreen profile-screen-enter">
       <ProfileSubHeader title="Change Language" onBack={onBack} />
 
       <form className="profile-form profile-form-subpage" onSubmit={handleSubmit}>
@@ -890,7 +862,7 @@ const InfoScreen = ({
   includePrivacySections = false,
 }: InfoScreenProps) => {
   return (
-    <section className="profile-screen profile-info-screen">
+    <section className="profile-screen profile-info-screen profile-screen-enter">
       <div className="profile-info-header">
         <div className="profile-info-header-inner">
           <BackButton onBack={onBack} tone="light" />
@@ -1054,7 +1026,12 @@ export function ProfilePage() {
   }
 
   if (isLoading && !dashboard) {
-    return <ProfileOverviewSkeleton />;
+    return (
+      <div className="profile-loading profile-screen-enter">
+        <IonSpinner name="crescent" />
+        <p>Loading profile...</p>
+      </div>
+    );
   }
 
   if (!dashboard) {
