@@ -1029,7 +1029,6 @@ export function ProfilePage() {
     return (
       <div className="profile-loading profile-screen-enter">
         <IonSpinner name="crescent" />
-        <p>Loading profile...</p>
       </div>
     );
   }
