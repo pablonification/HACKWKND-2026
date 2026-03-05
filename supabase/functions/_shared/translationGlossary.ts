@@ -457,7 +457,17 @@ export const translateWordByWordWithGlossary = (
       `(^|\\b)${escapeRegExp(normalizeComparable(entry[from]))}(?=\\b|$)`,
       'gi',
     );
-    remaining = remaining.replace(pattern, entry[to]);
+    const target = entry[to];
+    remaining = remaining.replace(pattern, (matched, prefix) => {
+      // Preserve sentence-initial capitalization from the matched phrase
+      const firstChar = matched.charAt(prefix.length);
+      const startsUpper =
+        firstChar === firstChar.toUpperCase() && firstChar !== firstChar.toLowerCase();
+      if (startsUpper) {
+        return `${prefix}${target.charAt(0).toUpperCase()}${target.slice(1)}`;
+      }
+      return `${prefix}${target}`;
+    });
   }
 
   // Single-token pass for remaining unmatched words

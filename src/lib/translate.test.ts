@@ -47,7 +47,6 @@ describe('translateText', () => {
     expect(mockedSupabase.functions.invoke).toHaveBeenCalledWith('ai-translate', {
       headers: {
         apikey: 'test-anon-key',
-        Authorization: 'Bearer test-anon-key',
       },
       body: {
         text: 'rumah',

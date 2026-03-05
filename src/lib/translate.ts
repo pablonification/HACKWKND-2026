@@ -73,8 +73,9 @@ export const translateText = async ({
 
   const { data, error } = await supabase.functions.invoke<TranslateApiResponse>('ai-translate', {
     headers: {
+      // Only pass apikey; omit Authorization so the Supabase SDK forwards
+      // the session-aware JWT for authenticated users automatically.
       apikey: supabasePublicAnonKey,
-      Authorization: `Bearer ${supabasePublicAnonKey}`,
     },
     body: {
       text: normalizedText,

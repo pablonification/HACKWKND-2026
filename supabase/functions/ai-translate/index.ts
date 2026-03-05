@@ -291,9 +291,15 @@ const requestCerebrasTranslation = async (
     }),
   });
 
-  const payload = (await response.json()) as unknown;
-
+  // Check response status before parsing JSON to avoid misleading SyntaxError
+  // when providers return plain-text or HTML error bodies.
   if (!response.ok) {
+    let payload: unknown = null;
+    try {
+      payload = await response.json();
+    } catch {
+      // Non-JSON error body — fall through with null payload
+    }
     const message = extractProviderErrorMessage(
       payload,
       `Cerebras request failed (${response.status})`,
@@ -302,6 +308,8 @@ const requestCerebrasTranslation = async (
     const withCode = code ? `${message} [code:${code}]` : message;
     throw new Error(withCode);
   }
+
+  const payload = (await response.json()) as unknown;
 
   const translatedText = cleanModelOutput(extractFirstChoiceText(payload));
 
@@ -370,15 +378,21 @@ const translateWithSeaLion = async (
     }),
   });
 
-  const payload = (await response.json()) as unknown;
-
   if (!response.ok) {
+    let payload: unknown = null;
+    try {
+      payload = await response.json();
+    } catch {
+      // Non-JSON error body — fall through with null payload
+    }
     const message = extractProviderErrorMessage(
       payload,
       `SEA-LION API request failed (${response.status})`,
     );
     throw new Error(message);
   }
+
+  const payload = (await response.json()) as unknown;
 
   const translatedText = cleanModelOutput(extractFirstChoiceText(payload));
 
