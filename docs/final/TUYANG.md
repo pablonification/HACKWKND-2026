@@ -247,7 +247,7 @@ A mobile-first recording interface designed for elderly users with minimal techn
 
 - Audio recording (AAC format)
 - Video recording (MP4, compressed)
-- Local SQLite database for metadata
+- @capacitor/preferences for metadata queue-based sync
 - Background sync when online
 - Whisper API integration (when online)
 
@@ -329,7 +329,7 @@ An engaging RPG-style learning experience where users grow a virtual village by 
 
 #### Technical Requirements
 
-- Game engine (React Native with animations)
+- Game engine (Ionic React with CSS animations + Capacitor)
 - Local progress storage
 - SEA-LION API for conversation
 - TTS for pronunciation playback
@@ -863,16 +863,16 @@ TUYANG leverages multiple AI technologies to enhance every module:
 
 ## Technical Stack
 
-### Mobile Application (React Native)
+### Mobile Application (Vite + Ionic React + Capacitor)
 
 | Component | Technology |
 |-----------|------------|
-| Framework | React Native (Expo) |
+| Framework | Vite 5 + Ionic React 8 + Capacitor 8 |
 | Language | TypeScript |
-| State Management | Zustand |
-| Navigation | React Navigation |
-| UI Components | React Native Paper |
-| Animations | Reanimated |
+| State Management | Zustand ^5 |
+| Navigation | React Router v6 (MemoryRouter) |
+| UI Components | Ionic React 8 + Tailwind CSS (preflight disabled) |
+| Animations | Ionic transitions + CSS animations |
 
 ### Backend
 
@@ -898,23 +898,23 @@ TUYANG leverages multiple AI technologies to enhance every module:
 
 | Component | Technology |
 |-----------|------------|
-| Local Database | WatermelonDB |
-| Sync | Supabase Local + remote |
-| Audio Caching | expo-file-system |
+| Local Storage | @capacitor/preferences (queue-based sync) |
+| Sync | Supabase + local queue |
+| Audio Caching | @capacitor/filesystem |
 
 ### DevOps
 
 | Component | Technology |
 |-----------|------------|
 | CI/CD | GitHub Actions |
-| Hosting | Vercel (web), Expo (mobile) |
+| Hosting | Vercel (web), Capacitor (mobile → TestFlight/Play Store) |
 | Monitoring | Sentry |
 
 ### Architecture Diagram
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                      CLIENT (React Native)                  │
+│                      CLIENT (Vite + Ionic React + Capacitor)        │
 ├─────────────────────────────────────────────────────────────┤
 │                                                             │
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐        │
@@ -924,8 +924,8 @@ TUYANG leverages multiple AI technologies to enhance every module:
 │         └────────────────┼────────────────┘                │
 │                          ↓                                  │
 │                  ┌─────────────┐                            │
-│                  │  Watermelon │                            │
-│                  │     DB      │                            │
+│                  │  @capacitor/ │                            │
+│                  │  preferences │                            │
 │                  └─────────────┘                            │
 │                          │                                  │
 │                    Sync ↓↑                                  │
@@ -999,8 +999,8 @@ Traditional apps won't work. TUYANG is designed from ground up to **work without
 
 ### Implementation
 
-- **WatermelonDB**: Local SQLite with sync capabilities
-- **expo-file-system**: Download and cache audio files
+- **@capacitor/preferences**: Local key-value storage with queue-based sync
+- **@capacitor/filesystem**: Download and cache audio files
 - **Background Tasks**: Sync when app is in background
 - **Conflict Resolution**: Last-write-wins with timestamps
 
@@ -1037,7 +1037,7 @@ Traditional apps won't work. TUYANG is designed from ground up to **work without
 
 | Day | Focus | Deliverable |
 |-----|-------|-------------|
-| **Day 1** | Core Infrastructure | React Native setup, Supabase, offline DB |
+| **Day 1** | Core Infrastructure | Vite + Ionic + Capacitor setup, Supabase, offline storage |
 | **Day 1-2** | Elder Studio | Recording UI, local storage, basic playback |
 | **Day 2** | Language Garden | Basic gamification, 50 sample words |
 | **Day 2-3** | Sound Archive | Browse + search, sample content |
@@ -1220,11 +1220,11 @@ Traditional apps won't work. TUYANG is designed from ground up to **work without
 
 | Layer | Technology | Version |
 |-------|------------|---------|
-| Mobile | React Native | 0.76+ |
+| Mobile | Vite 5 + Ionic React 8 + Capacitor 8 | Latest |
 | Backend | Supabase | Latest |
 | AI ASR | Whisper | v3 |
 | AI Translate | SEA-LION | v3.5 |
-| Local DB | WatermelonDB | Latest |
+| Local DB | @capacitor/preferences | Latest |
 | Search | Typesense | Latest |
 
 ---
