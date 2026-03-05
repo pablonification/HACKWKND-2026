@@ -18,16 +18,14 @@ const fallbackSupabaseUrl = 'https://example.supabase.co';
 const fallbackSupabaseAnonKey = 'missing-supabase-anon-key';
 
 export const isSupabaseConfigured = !supabaseConfigError;
+export const supabasePublicUrl = supabaseUrl ?? fallbackSupabaseUrl;
+export const supabasePublicAnonKey = supabaseAnonKey ?? fallbackSupabaseAnonKey;
 
-export const supabase = createClient<Database>(
-  supabaseUrl ?? fallbackSupabaseUrl,
-  supabaseAnonKey ?? fallbackSupabaseAnonKey,
-  {
-    auth: {
-      autoRefreshToken: true,
-      persistSession: true,
-      // Use URL hash for OAuth/magic-link flows in the browser
-      detectSessionInUrl: true,
-    },
+export const supabase = createClient<Database>(supabasePublicUrl, supabasePublicAnonKey, {
+  auth: {
+    autoRefreshToken: true,
+    persistSession: true,
+    // Use URL hash for OAuth/magic-link flows in the browser
+    detectSessionInUrl: true,
   },
-);
+});
