@@ -40,3 +40,11 @@ yarn-error.*
 # generated native folders
 /ios
 /android
+
+# local dictionary crawl artifacts (regenerate via scripts/)
+docs/plan/source/webonary-semai-*.json
+docs/plan/source/webonary-semai-*.csv
+docs/plan/source/webonary-semai-*.html.save
+
+# local Supabase CLI temp
+supabase/.temp/
