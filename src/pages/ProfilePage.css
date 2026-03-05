@@ -11,22 +11,6 @@
   width: 100%;
 }
 
-.profile-screen-enter {
-  animation: profile-screen-enter 180ms ease-out;
-}
-
-@keyframes profile-screen-enter {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 .profile-loading {
   align-items: center;
   background: #fff9e9;
@@ -43,6 +27,93 @@
 
 .profile-loading-error .button-native {
   --background: #cb403c;
+}
+
+.profile-skeleton .profile-cards {
+  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 95px);
+}
+
+.profile-hero-skeleton {
+  justify-content: flex-start;
+}
+
+.profile-skeleton-shimmer {
+  background: #ede6d8;
+  overflow: hidden;
+  position: relative;
+}
+
+.profile-skeleton-shimmer::after {
+  animation: profile-skeleton-shimmer 1300ms ease-in-out infinite;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0.56),
+    rgba(255, 255, 255, 0)
+  );
+  content: '';
+  inset: 0;
+  position: absolute;
+  transform: translateX(-100%);
+}
+
+@keyframes profile-skeleton-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.profile-skeleton-avatar {
+  border-radius: 24px;
+  height: 129px;
+  margin-top: 4px;
+  width: 134px;
+}
+
+.profile-skeleton-line {
+  border-radius: 999px;
+}
+
+.profile-skeleton-name {
+  height: 28px;
+  margin-top: 20px;
+  width: 240px;
+}
+
+.profile-skeleton-subtitle {
+  height: 18px;
+  margin-top: 12px;
+  width: 154px;
+}
+
+.profile-skeleton-level {
+  border-radius: 10px;
+  height: 71px;
+  width: 100%;
+}
+
+.profile-skeleton-stats {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.profile-skeleton-stat {
+  border-radius: 8px;
+  height: 69px;
+  width: 100%;
+}
+
+.profile-skeleton-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.profile-skeleton-menu-item {
+  border-radius: 10px;
+  height: 43px;
+  width: 100%;
 }
 
 .profile-overview-screen {
@@ -890,7 +961,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .profile-screen-enter {
+  .profile-skeleton-shimmer::after {
     animation: none;
   }
 
