@@ -33,9 +33,16 @@ const evaluateMatch = ({ testCase, normalizedOutput, normalizedExpected }) => {
       ? normalizedOutput === normalizedExpected
       : normalizedOutput.includes(normalizedExpected);
 
-  if (matchType === 'regex' && typeof testCase.expected_regex === 'string') {
-    const pattern = new RegExp(testCase.expected_regex, 'i');
-    passed = pattern.test(String(testCase.output_raw ?? ''));
+  if (matchType === 'regex') {
+    if (typeof testCase.expected_regex === 'string') {
+      const pattern = new RegExp(testCase.expected_regex, 'i');
+      passed = pattern.test(String(testCase.output_raw ?? ''));
+    } else {
+      // Warn: match=regex without expected_regex falls back to substring matching
+      console.warn(
+        `[${testCase.id ?? '?'}] match="regex" but expected_regex is missing — falling back to substring match`,
+      );
+    }
   }
 
   const expectedAll = normalizeList(testCase.expected_all);
@@ -234,7 +241,7 @@ const lines = [
   ...rows.map((row) => {
     const pair = `${row.from}->${row.to}`;
     const result = row.passed ? 'PASS' : 'FAIL';
-    const warning = row.warning ? String(row.warning).replace(/\|/g, '\|') : '';
+    const warning = row.warning ? String(row.warning).replace(/\|/g, '\\|') : '';
     const telemetry = row.telemetryRequired ? (row.telemetryValid ? 'OK' : 'MISSING') : '-';
     return `| ${row.id} | ${row.tier} | ${row.priority} | ${pair} | ${row.input} | ${row.expected} | ${row.output} | ${row.provider} | ${row.model} | ${telemetry} | ${warning} | ${result} |`;
   }),

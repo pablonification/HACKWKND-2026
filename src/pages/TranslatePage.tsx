@@ -24,6 +24,8 @@ const LANGUAGE_OPTIONS: LanguageOption[] = [
   { value: 'en', label: 'English' },
 ];
 
+// Semai has no dedicated locale in the Web Speech API; ms-MY (Malay) is the
+// closest available approximation for text-to-speech pronunciation.
 const VOICE_LANGUAGE_MAP: Record<TranslationLanguage, string> = {
   semai: 'ms-MY',
   ms: 'ms-MY',

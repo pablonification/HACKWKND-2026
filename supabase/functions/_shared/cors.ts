@@ -1,3 +1,5 @@
+// Wildcard origin is acceptable for this public, unauthenticated edge function.
+// Supabase anon-key auth protects the endpoint; CORS is not a security boundary here.
 export const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
