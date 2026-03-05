@@ -269,26 +269,26 @@ const ProfileSubHeader = ({ title, onBack }: { title: string; onBack: () => void
 
 const ProfileOverviewSkeleton = () => {
   return (
-    <section className="profile-screen profile-overview-screen profile-skeleton">
-      <div className="profile-hero profile-hero-skeleton">
-        <div className="profile-skeleton-shimmer profile-skeleton-avatar" />
-        <div className="profile-skeleton-shimmer profile-skeleton-line profile-skeleton-name" />
-        <div className="profile-skeleton-shimmer profile-skeleton-line profile-skeleton-subtitle" />
+    <section className="profile-screen profile-overview-screen profile-loading-shell">
+      <div className="profile-hero profile-hero-loading">
+        <div className="profile-loading-shimmer profile-loading-avatar" />
+        <div className="profile-loading-shimmer profile-loading-line profile-loading-name" />
+        <div className="profile-loading-shimmer profile-loading-line profile-loading-subtitle" />
       </div>
 
       <div className="profile-cards">
-        <div className="profile-skeleton-shimmer profile-skeleton-level" />
+        <div className="profile-loading-shimmer profile-loading-level" />
 
-        <div className="profile-skeleton-stats">
-          <div className="profile-skeleton-shimmer profile-skeleton-stat" />
-          <div className="profile-skeleton-shimmer profile-skeleton-stat" />
+        <div className="profile-loading-stats">
+          <div className="profile-loading-shimmer profile-loading-stat" />
+          <div className="profile-loading-shimmer profile-loading-stat" />
         </div>
 
-        <div className="profile-skeleton-menu">
-          <div className="profile-skeleton-shimmer profile-skeleton-menu-item" />
-          <div className="profile-skeleton-shimmer profile-skeleton-menu-item" />
-          <div className="profile-skeleton-shimmer profile-skeleton-menu-item" />
-          <div className="profile-skeleton-shimmer profile-skeleton-menu-item" />
+        <div className="profile-loading-menu">
+          <div className="profile-loading-shimmer profile-loading-menu-item" />
+          <div className="profile-loading-shimmer profile-loading-menu-item" />
+          <div className="profile-loading-shimmer profile-loading-menu-item" />
+          <div className="profile-loading-shimmer profile-loading-menu-item" />
         </div>
       </div>
     </section>

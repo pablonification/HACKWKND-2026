@@ -35,23 +35,23 @@
   --background: var(--profile-brand-red);
 }
 
-.profile-skeleton .profile-cards {
+.profile-loading-shell .profile-cards {
   padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 95px);
 }
 
-.profile-hero-skeleton {
+.profile-hero-loading {
   background: var(--profile-brand-red);
   justify-content: flex-start;
 }
 
-.profile-skeleton-shimmer {
+.profile-loading-shimmer {
   background: #ede6d8;
   overflow: hidden;
   position: relative;
 }
 
-.profile-skeleton-shimmer::after {
-  animation: profile-skeleton-shimmer 1300ms ease-in-out infinite;
+.profile-loading-shimmer::after {
+  animation: profile-loading-shimmer 1300ms ease-in-out infinite;
   background: linear-gradient(
     90deg,
     rgba(255, 255, 255, 0),
@@ -64,60 +64,60 @@
   transform: translateX(-100%);
 }
 
-@keyframes profile-skeleton-shimmer {
+@keyframes profile-loading-shimmer {
   100% {
     transform: translateX(100%);
   }
 }
 
-.profile-skeleton-avatar {
+.profile-loading-avatar {
   border-radius: 24px;
   height: 129px;
   margin-top: 4px;
   width: 134px;
 }
 
-.profile-skeleton-line {
+.profile-loading-line {
   border-radius: 999px;
 }
 
-.profile-skeleton-name {
+.profile-loading-name {
   height: 28px;
   margin-top: 20px;
   width: 240px;
 }
 
-.profile-skeleton-subtitle {
+.profile-loading-subtitle {
   height: 18px;
   margin-top: 12px;
   width: 154px;
 }
 
-.profile-skeleton-level {
+.profile-loading-level {
   border-radius: 10px;
   height: 71px;
   width: 100%;
 }
 
-.profile-skeleton-stats {
+.profile-loading-stats {
   display: grid;
   gap: 8px;
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-.profile-skeleton-stat {
+.profile-loading-stat {
   border-radius: 8px;
   height: 69px;
   width: 100%;
 }
 
-.profile-skeleton-menu {
+.profile-loading-menu {
   display: flex;
   flex-direction: column;
   gap: 9px;
 }
 
-.profile-skeleton-menu-item {
+.profile-loading-menu-item {
   border-radius: 10px;
   height: 43px;
   width: 100%;
@@ -968,7 +968,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .profile-skeleton-shimmer::after {
+  .profile-loading-shimmer::after {
     animation: none;
   }
 
