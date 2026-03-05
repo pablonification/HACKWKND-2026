@@ -1,0 +1,4581 @@
+[
+  {
+    "_id": "ga3defa76-a017-4ab2-b2d1-71d9c861b13b",
+    "xhtmlTemplate": "entry",
+    "guid": "ga3defa76-a017-4ab2-b2d1-71d9c861b13b",
+    "letterHead": "u",
+    "sortIndex": 3784,
+    "mainheadword": [
+      {
+        "lang": "sea",
+        "guid": "ga3defa76-a017-4ab2-b2d1-71d9c861b13b",
+        "value": "ubah"
+      }
+    ],
+    "etymologies": [
+      {
+        "languages": [
+          {
+            "abbreviation-2": [
+              {
+                "lang": "ms",
+                "value": "BM"
+              }
+            ]
+          }
+        ],
+        "form": [
+          {
+            "lang": "ms",
+            "value": "ubah"
+          }
+        ]
+      }
+    ],
+    "morphosyntaxanalysis": {
+      "graminfoname": [
+        {
+          "lang": "ms",
+          "value": "kata kerja"
+        }
+      ]
+    },
+    "senses": [
+      {
+        "guid": "ga3defa76-a017-4ab2-b2d1-71d9c861b13b",
+        "definitionorgloss": [
+          {
+            "lang": "ms",
+            "value": "ubah; alih"
+          },
+          {
+            "lang": "en",
+            "value": "to change (one for another)"
+          }
+        ],
+        "examplescontents": [
+          {
+            "example": [
+              {
+                "lang": "sea",
+                "value": "\"Ubah tilam ajih badeh,\" amek kisureh nu tenek eng."
+              }
+            ],
+            "translationcontents": [
+              {
+                "translation": [
+                  {
+                    "lang": "ms",
+                    "value": "\"Ubah tilam tu ke sini,\" ibu berkata kepada kakak saya."
+                  },
+                  {
+                    "lang": "en",
+                    "value": "\"Change this mattress here,\" mother said to my older sister."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "displayXhtml": "<div class=\"entry\" id=\"ga3defa76-a017-4ab2-b2d1-71d9c861b13b\"><span class=\"mainheadword\"><span lang=\"sea\"><a href=\"#ga3defa76-a017-4ab2-b2d1-71d9c861b13b\">ubah</a></span></span><span class=\"etymologies\"><span class=\"etymology\"><span class=\"languages\"><span class=\"language\"><span class=\"abbreviation-2\"><span lang=\"ms\">BM</span></span></span></span><span class=\"form\"><span lang=\"ms\">ubah</span></span></span></span><span class=\"senses\"><span class=\"sharedgrammaticalinfo\"><span class=\"morphosyntaxanalysis\"><span class=\"graminfoname\"><span lang=\"ms\">kata kerja</span></span></span></span><span class=\"sensecontent\"><span class=\"sense\" entryguid=\"ga3defa76-a017-4ab2-b2d1-71d9c861b13b\"><span class=\"definitionorgloss\"><span lang=\"ms\">ubah; alih</span><span lang=\"en\">to change (one for another)</span></span><span class=\"examplescontents\"><span class=\"examplescontent\"><span class=\"example\"><span lang=\"sea\">\"Ubah tilam ajih badeh,\" amek kisureh nu tenek eng.</span></span><span class=\"translationcontents\"><span class=\"translationcontent\"><span class=\"translation\"><span lang=\"ms\">\"Ubah tilam tu ke sini,\" ibu berkata kepada kakak saya.</span><span lang=\"en\">\"Change this mattress here,\" mother said to my older sister.</span></span></span></span></span></span></span></span></span></div>",
+    "dictionaryId": "semai",
+    "searchTexts": [
+      "ubah",
+      "BM",
+      "kata kerja",
+      "ubah; alih",
+      "to change (one for another)",
+      "\"Ubah tilam ajih badeh,\" amek kisureh nu tenek eng.",
+      "\"Ubah tilam tu ke sini,\" ibu berkata kepada kakak saya.",
+      "\"Change this mattress here,\" mother said to my older sister."
+    ],
+    "langTexts": {
+      "sea": [
+        "ubah",
+        "\"Ubah tilam ajih badeh,\" amek kisureh nu tenek eng."
+      ],
+      "ms": [
+        "BM",
+        "ubah",
+        "kata kerja",
+        "ubah; alih",
+        "\"Ubah tilam tu ke sini,\" ibu berkata kepada kakak saya."
+      ],
+      "en": [
+        "to change (one for another)",
+        "\"Change this mattress here,\" mother said to my older sister."
+      ]
+    },
+    "langUnaccentedTexts": {
+      "sea": [
+        "ubah",
+        "\"Ubah tilam ajih badeh,\" amek kisureh nu tenek eng."
+      ],
+      "ms": [
+        "BM",
+        "ubah",
+        "kata kerja",
+        "ubah; alih",
+        "\"Ubah tilam tu ke sini,\" ibu berkata kepada kakak saya."
+      ],
+      "en": [
+        "to change (one for another)",
+        "\"Change this mattress here,\" mother said to my older sister."
+      ]
+    },
+    "updatedAt": "2025-10-07T02:10:57.513Z",
+    "updatedBy": "ejincho"
+  },
+  {
+    "_id": "gdcccb2dc-a61b-4fac-8c93-b72e33a0971c",
+    "xhtmlTemplate": "entry",
+    "guid": "gdcccb2dc-a61b-4fac-8c93-b72e33a0971c",
+    "letterHead": "u",
+    "sortIndex": 3785,
+    "mainheadword": [
+      {
+        "lang": "sea",
+        "guid": "gdcccb2dc-a61b-4fac-8c93-b72e33a0971c",
+        "value": "ubai"
+      }
+    ],
+    "morphosyntaxanalysis": {
+      "graminfoname": [
+        {
+          "lang": "ms",
+          "value": "kata ganti nama"
+        }
+      ]
+    },
+    "senses": [
+      {
+        "guid": "gdcccb2dc-a61b-4fac-8c93-b72e33a0971c",
+        "definitionorgloss": [
+          {
+            "lang": "ms",
+            "value": "mereka berdua; kata ganti nama diri ketiga duaan"
+          },
+          {
+            "lang": "en",
+            "value": "they two; both of them; 3rd person dual pronoun"
+          }
+        ],
+        "examplescontents": [
+          {
+            "example": [
+              {
+                "lang": "sea",
+                "value": "Han Mila ru Han Kila ajeh pekerjak pai ku pejabat jik. Ubai ajeh ju Kampug Langkap, ru ubai ajeh adek-beradek."
+              }
+            ],
+            "translationcontents": [
+              {
+                "translation": [
+                  {
+                    "lang": "ms",
+                    "value": "Han Mila dan Han Kila adalah pekerja baharu di pejabat kami. Mereka berdua dari Kampung Langkap dan mereka berdua adalah adik-beradik."
+                  },
+                  {
+                    "lang": "en",
+                    "value": "Han Mila and Han Kila are the new workers at our office. Both of them are from Langkap village and they are sisters."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "displayXhtml": "<div class=\"entry\" id=\"gdcccb2dc-a61b-4fac-8c93-b72e33a0971c\"><span class=\"mainheadword\"><span lang=\"sea\"><a href=\"#gdcccb2dc-a61b-4fac-8c93-b72e33a0971c\">ubai</a></span></span><span class=\"senses\"><span class=\"sharedgrammaticalinfo\"><span class=\"morphosyntaxanalysis\"><span class=\"graminfoname\"><span lang=\"ms\">kata ganti nama</span></span></span></span><span class=\"sensecontent\"><span class=\"sense\" entryguid=\"gdcccb2dc-a61b-4fac-8c93-b72e33a0971c\"><span class=\"definitionorgloss\"><span lang=\"ms\">mereka berdua; kata ganti nama diri ketiga duaan</span><span lang=\"en\">they two; both of them; 3rd person dual pronoun</span></span><span class=\"examplescontents\"><span class=\"examplescontent\"><span class=\"example\"><span lang=\"sea\">Han Mila ru Han Kila ajeh pekerjak pai ku pejabat jik. Ubai ajeh ju Kampug Langkap, ru ubai ajeh adek-beradek.</span></span><span class=\"translationcontents\"><span class=\"translationcontent\"><span class=\"translation\"><span lang=\"ms\">Han Mila dan Han Kila adalah pekerja baharu di pejabat kami. Mereka berdua dari Kampung Langkap dan mereka berdua adalah adik-beradik.</span><span lang=\"en\">Han Mila and Han Kila are the new workers at our office. Both of them are from Langkap village and they are sisters.</span></span></span></span></span></span></span></span></span></div>",
+    "dictionaryId": "semai",
+    "searchTexts": [
+      "ubai",
+      "kata ganti nama",
+      "mereka berdua; kata ganti nama diri ketiga duaan",
+      "they two; both of them; 3rd person dual pronoun",
+      "Han Mila ru Han Kila ajeh pekerjak pai ku pejabat jik. Ubai ajeh ju Kampug Langkap, ru ubai ajeh adek-beradek.",
+      "Han Mila dan Han Kila adalah pekerja baharu di pejabat kami. Mereka berdua dari Kampung Langkap dan mereka berdua adalah adik-beradik.",
+      "Han Mila and Han Kila are the new workers at our office. Both of them are from Langkap village and they are sisters."
+    ],
+    "langTexts": {
+      "sea": [
+        "ubai",
+        "Han Mila ru Han Kila ajeh pekerjak pai ku pejabat jik. Ubai ajeh ju Kampug Langkap, ru ubai ajeh adek-beradek."
+      ],
+      "ms": [
+        "kata ganti nama",
+        "mereka berdua; kata ganti nama diri ketiga duaan",
+        "Han Mila dan Han Kila adalah pekerja baharu di pejabat kami. Mereka berdua dari Kampung Langkap dan mereka berdua adalah adik-beradik."
+      ],
+      "en": [
+        "they two; both of them; 3rd person dual pronoun",
+        "Han Mila and Han Kila are the new workers at our office. Both of them are from Langkap village and they are sisters."
+      ]
+    },
+    "langUnaccentedTexts": {
+      "sea": [
+        "ubai",
+        "Han Mila ru Han Kila ajeh pekerjak pai ku pejabat jik. Ubai ajeh ju Kampug Langkap, ru ubai ajeh adek-beradek."
+      ],
+      "ms": [
+        "kata ganti nama",
+        "mereka berdua; kata ganti nama diri ketiga duaan",
+        "Han Mila dan Han Kila adalah pekerja baharu di pejabat kami. Mereka berdua dari Kampung Langkap dan mereka berdua adalah adik-beradik."
+      ],
+      "en": [
+        "they two; both of them; 3rd person dual pronoun",
+        "Han Mila and Han Kila are the new workers at our office. Both of them are from Langkap village and they are sisters."
+      ]
+    },
+    "updatedAt": "2025-10-07T02:10:57.513Z",
+    "updatedBy": "ejincho"
+  },
+  {
+    "_id": "g7aececda-32b8-4ba1-9c0f-93a3f83400e1",
+    "xhtmlTemplate": "entry",
+    "guid": "g7aececda-32b8-4ba1-9c0f-93a3f83400e1",
+    "letterHead": "u",
+    "sortIndex": 3786,
+    "mainheadword": [
+      {
+        "lang": "sea",
+        "guid": "g7aececda-32b8-4ba1-9c0f-93a3f83400e1",
+        "value": "uda"
+      }
+    ],
+    "morphosyntaxanalysis": {
+      "graminfoname": [
+        {
+          "lang": "ms",
+          "value": "kata nama"
+        }
+      ]
+    },
+    "senses": [
+      {
+        "senseNumber": "1",
+        "guid": "g7aececda-32b8-4ba1-9c0f-93a3f83400e1",
+        "definitionorgloss": [
+          {
+            "lang": "ms",
+            "value": "anak ke-empat "
+          },
+          {
+            "lang": "en",
+            "value": "fourth child"
+          }
+        ],
+        "examplescontents": [
+          {
+            "example": [
+              {
+                "lang": "sea",
+                "value": "Eng iude ku kateh beradek eng."
+              }
+            ],
+            "translationcontents": [
+              {
+                "translation": [
+                  {
+                    "lang": "ms",
+                    "value": "Saya anak ke-empat di kalangan adik-beradik saya."
+                  },
+                  {
+                    "lang": "en",
+                    "value": "I am the fourth child in my family."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "senseNumber": "2",
+        "guid": "g7aececda-32b8-4ba1-9c0f-93a3f83400e1",
+        "definitionorgloss": [
+          {
+            "lang": "ms",
+            "value": "(U-) panggilan atau gelaran nama uang mengikut turutan kelahiran untuk anak ke-empat"
+          },
+          {
+            "lang": "en",
+            "value": "name for the fourth child in a family"
+          }
+        ],
+        "examplescontents": [
+          {
+            "example": [
+              {
+                "lang": "sea",
+                "value": "Eng bisebot muh eng Uda, made eng kenun ke-empat ku kateh keluarge eng."
+              }
+            ],
+            "translationcontents": [
+              {
+                "translation": [
+                  {
+                    "lang": "ms",
+                    "value": "Saya dipanggil dengan nama Uda, kerana saya adalah anak yang ke-empat."
+                  },
+                  {
+                    "lang": "en",
+                    "value": "I am called Uda, because I am the fourth child."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "displayXhtml": "<div class=\"entry\" id=\"g7aececda-32b8-4ba1-9c0f-93a3f83400e1\"><span class=\"mainheadword\"><span lang=\"sea\"><a href=\"#g7aececda-32b8-4ba1-9c0f-93a3f83400e1\">uda</a></span></span><span class=\"senses\"><span class=\"sharedgrammaticalinfo\"><span class=\"morphosyntaxanalysis\"><span class=\"graminfoname\"><span lang=\"ms\">kata nama</span></span></span></span><span class=\"sensecontent\"><span class=\"sensenumber\" lang=\"en\">1</span><span class=\"sense\" entryguid=\"g7aececda-32b8-4ba1-9c0f-93a3f83400e1\"><span class=\"definitionorgloss\"><span lang=\"ms\">anak ke-empat </span><span lang=\"en\">fourth child</span></span><span class=\"examplescontents\"><span class=\"examplescontent\"><span class=\"example\"><span lang=\"sea\">Eng iude ku kateh beradek eng.</span></span><span class=\"translationcontents\"><span class=\"translationcontent\"><span class=\"translation\"><span lang=\"ms\">Saya anak ke-empat di kalangan adik-beradik saya.</span><span lang=\"en\">I am the fourth child in my family.</span></span></span></span></span></span></span></span><span class=\"sensecontent\"><span class=\"sensenumber\" lang=\"en\">2</span><span class=\"sense\" entryguid=\"g7aececda-32b8-4ba1-9c0f-93a3f83400e1\"><span class=\"definitionorgloss\"><span lang=\"ms\">(U-) panggilan atau gelaran nama uang mengikut turutan kelahiran untuk anak ke-empat</span><span lang=\"en\">name for the fourth child in a family</span></span><span class=\"examplescontents\"><span class=\"examplescontent\"><span class=\"example\"><span lang=\"sea\">Eng bisebot muh eng Uda, made eng kenun ke-empat ku kateh keluarge eng.</span></span><span class=\"translationcontents\"><span class=\"translationcontent\"><span class=\"translation\"><span lang=\"ms\">Saya dipanggil dengan nama Uda, kerana saya adalah anak yang ke-empat.</span><span lang=\"en\">I am called Uda, because I am the fourth child.</span></span></span></span></span></span></span></span></span></div>",
+    "dictionaryId": "semai",
+    "searchTexts": [
+      "uda",
+      "kata nama",
+      "1",
+      "anak ke-empat ",
+      "fourth child",
+      "Eng iude ku kateh beradek eng.",
+      "Saya anak ke-empat di kalangan adik-beradik saya.",
+      "I am the fourth child in my family.",
+      "2",
+      "(U-) panggilan atau gelaran nama uang mengikut turutan kelahiran untuk anak ke-empat",
+      "name for the fourth child in a family",
+      "Eng bisebot muh eng Uda, made eng kenun ke-empat ku kateh keluarge eng.",
+      "Saya dipanggil dengan nama Uda, kerana saya adalah anak yang ke-empat.",
+      "I am called Uda, because I am the fourth child."
+    ],
+    "langTexts": {
+      "sea": [
+        "uda",
+        "Eng iude ku kateh beradek eng.",
+        "Eng bisebot muh eng Uda, made eng kenun ke-empat ku kateh keluarge eng."
+      ],
+      "ms": [
+        "kata nama",
+        "anak ke-empat ",
+        "Saya anak ke-empat di kalangan adik-beradik saya.",
+        "(U-) panggilan atau gelaran nama uang mengikut turutan kelahiran untuk anak ke-empat",
+        "Saya dipanggil dengan nama Uda, kerana saya adalah anak yang ke-empat."
+      ],
+      "en": [
+        "1",
+        "fourth child",
+        "I am the fourth child in my family.",
+        "2",
+        "name for the fourth child in a family",
+        "I am called Uda, because I am the fourth child."
+      ]
+    },
+    "langUnaccentedTexts": {
+      "sea": [
+        "uda",
+        "Eng iude ku kateh beradek eng.",
+        "Eng bisebot muh eng Uda, made eng kenun ke-empat ku kateh keluarge eng."
+      ],
+      "ms": [
+        "kata nama",
+        "anak ke-empat ",
+        "Saya anak ke-empat di kalangan adik-beradik saya.",
+        "(U-) panggilan atau gelaran nama uang mengikut turutan kelahiran untuk anak ke-empat",
+        "Saya dipanggil dengan nama Uda, kerana saya adalah anak yang ke-empat."
+      ],
+      "en": [
+        "1",
+        "fourth child",
+        "I am the fourth child in my family.",
+        "2",
+        "name for the fourth child in a family",
+        "I am called Uda, because I am the fourth child."
+      ]
+    },
+    "updatedAt": "2025-10-07T02:10:57.513Z",
+    "updatedBy": "ejincho"
+  },
+  {
+    "_id": "g5c110525-fa9c-473d-82fd-d0149e7957c6",
+    "xhtmlTemplate": "minorentryvariant",
+    "guid": "g5c110525-fa9c-473d-82fd-d0149e7957c6",
+    "letterHead": "u",
+    "sortIndex": 3787,
+    "headword-3": [
+      {
+        "lang": "sea",
+        "guid": "g5c110525-fa9c-473d-82fd-d0149e7957c6",
+        "value": "ugame"
+      },
+      {
+        "guid": "g5c110525-fa9c-473d-82fd-d0149e7957c6",
+        "lang": "sea-Zxxx-x-audio",
+        "value": {
+          "id": "gugame-63729340561657",
+          "src": "AudioVisual/ugame-63729340561657.mp3"
+        }
+      }
+    ],
+    "visiblevariantentryrefs": [
+      {
+        "referencedentries-2": [
+          {
+            "headword-7": [
+              {
+                "lang": "sea",
+                "guid": "g1e45aee5-2f81-467d-ada7-8d7077c28f3e",
+                "value": "agame"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "displayXhtml": "<div class=\"minorentryvariant\" id=\"g5c110525-fa9c-473d-82fd-d0149e7957c6\"><span class=\"headword-3\"><span lang=\"sea\"><a href=\"#g5c110525-fa9c-473d-82fd-d0149e7957c6\">ugame</a></span><span><audio id=\"gugame-63729340561657\"><source src=\"AudioVisual\\ugame-63729340561657.mp3\"></source></audio><a class=\"sea-Zxxx-x-audio\" href=\"#gugame-63729340561657\" onclick=\"document.getElementById('gugame-63729340561657').play()\"></a></span></span><span class=\"visiblevariantentryrefs\"><span class=\"visiblevariantentryref\"><span class=\"referencedentries-2\"><span class=\"referencedentry\"><span class=\"headword-7\"><span lang=\"sea\"><a href=\"#g1e45aee5-2f81-467d-ada7-8d7077c28f3e\">agame</a></span></span></span></span></span></span></div>",
+    "dictionaryId": "semai",
+    "searchTexts": [
+      "ugame",
+      "agame"
+    ],
+    "langTexts": {
+      "sea": [
+        "ugame",
+        "agame"
+      ]
+    },
+    "langUnaccentedTexts": {
+      "sea": [
+        "ugame",
+        "agame"
+      ]
+    },
+    "updatedAt": "2025-10-07T02:10:57.513Z",
+    "updatedBy": "ejincho"
+  },
+  {
+    "_id": "ge347b7b6-a42e-458c-ba5e-82cf9feb800b",
+    "xhtmlTemplate": "entry",
+    "guid": "ge347b7b6-a42e-458c-ba5e-82cf9feb800b",
+    "letterHead": "u",
+    "sortIndex": 3788,
+    "mainheadword": [
+      {
+        "lang": "sea",
+        "guid": "ge347b7b6-a42e-458c-ba5e-82cf9feb800b",
+        "value": "ugek"
+      }
+    ],
+    "dialectlabelsrs": [
+      {
+        "name": [
+          {
+            "lang": "sea",
+            "value": "Batang Padang"
+          }
+        ]
+      }
+    ],
+    "morphosyntaxanalysis": {
+      "graminfoname": [
+        {
+          "lang": "ms",
+          "value": "kata perintah"
+        }
+      ]
+    },
+    "senses": [
+      {
+        "guid": "ge347b7b6-a42e-458c-ba5e-82cf9feb800b",
+        "definitionorgloss": [
+          {
+            "lang": "ms",
+            "value": "jangan; untuk larangan yang menyatakan tidak boleh"
+          },
+          {
+            "lang": "en",
+            "value": "for prohibition"
+          }
+        ],
+        "lexsensereferences": [
+          {
+            "ownertype_name": [
+              {
+                "lang": "ms",
+                "value": "sinonim"
+              }
+            ],
+            "configtargets": [
+              {
+                "headword-2": [
+                  {
+                    "lang": "sea",
+                    "guid": "g2babd290-a61e-4cb0-b4e9-55dd91614f90",
+                    "value": "aga"
+                  }
+                ]
+              },
+              {
+                "headword-2": [
+                  {
+                    "lang": "sea",
+                    "guid": "g0722a929-eb32-47e5-a76d-085ebc371ca0",
+                    "value": "agok"
+                  }
+                ]
+              },
+              {
+                "headword-2": [
+                  {
+                    "lang": "sea",
+                    "guid": "g0722a929-eb32-47e5-a76d-085ebc371ca0",
+                    "value": "agok"
+                  }
+                ]
+              },
+              {
+                "headword-2": [
+                  {
+                    "lang": "sea",
+                    "guid": "g52a7fb00-8a05-4ef0-846b-57344960b739",
+                    "value": "ama"
+                  }
+                ]
+              },
+              {
+                "headword-2": [
+                  {
+                    "lang": "sea",
+                    "guid": "g8727b319-cd3b-47ca-a58c-eaa380225587",
+                    "value": "amai"
+                  }
+                ]
+              },
+              {
+                "headword-2": [
+                  {
+                    "lang": "sea",
+                    "guid": "gdf3e8353-ec02-4c62-a0b1-1b89673af7f0",
+                    "value": "dek"
+                  },
+                  {
+                    "lang": "sea",
+                    "style": "font-weight:bold;font-size:58%;position:relative;top:0.3em;",
+                    "guid": "gdf3e8353-ec02-4c62-a0b1-1b89673af7f0",
+                    "value": "4"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "examplescontents": [
+          {
+            "example": [
+              {
+                "lang": "sea",
+                "value": "\"Ugek usek arap mai!\" engrok apak nu menang eng mase jibeli barang ku kedei."
+              }
+            ],
+            "translationcontents": [
+              {
+                "translation": [
+                  {
+                    "lang": "ms",
+                    "value": "\"Jangan usik barang orang!\" kata bapa kepada adik saya semasa kami membeli barang di kedai."
+                  },
+                  {
+                    "lang": "en",
+                    "value": "\"Do not touch other people's belonging!\" said father to my younger brother when we were shopping at a store."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "displayXhtml": "<div class=\"entry\" id=\"ge347b7b6-a42e-458c-ba5e-82cf9feb800b\"><span class=\"mainheadword\"><span lang=\"sea\"><a href=\"#ge347b7b6-a42e-458c-ba5e-82cf9feb800b\">ugek</a></span></span><span class=\"dialectlabelsrs\"><span class=\"dialectlabelsr\"><span class=\"name\"><span lang=\"sea\">Batang Padang</span></span></span></span><span class=\"senses\"><span class=\"sharedgrammaticalinfo\"><span class=\"morphosyntaxanalysis\"><span class=\"graminfoname\"><span lang=\"ms\">kata perintah</span></span></span></span><span class=\"sensecontent\"><span class=\"sense\" entryguid=\"ge347b7b6-a42e-458c-ba5e-82cf9feb800b\"><span class=\"definitionorgloss\"><span lang=\"ms\">jangan; untuk larangan yang menyatakan tidak boleh</span><span lang=\"en\">for prohibition</span></span><span class=\"lexsensereferences\"><span class=\"lexsensereference\"><span class=\"ownertype_name\"><span lang=\"ms\">sinonim</span></span><span class=\"configtargets\"><span class=\"configtarget\"><span class=\"headword-2\"><span lang=\"sea\"><a href=\"#g2babd290-a61e-4cb0-b4e9-55dd91614f90\">aga</a></span></span></span><span class=\"configtarget\"><span class=\"headword-2\"><span lang=\"sea\"><a href=\"#g0722a929-eb32-47e5-a76d-085ebc371ca0\">agok</a></span></span></span><span class=\"configtarget\"><span class=\"headword-2\"><span lang=\"sea\"><a href=\"#g0722a929-eb32-47e5-a76d-085ebc371ca0\">agok</a></span></span></span><span class=\"configtarget\"><span class=\"headword-2\"><span lang=\"sea\"><a href=\"#g52a7fb00-8a05-4ef0-846b-57344960b739\">ama</a></span></span></span><span class=\"configtarget\"><span class=\"headword-2\"><span lang=\"sea\"><a href=\"#g8727b319-cd3b-47ca-a58c-eaa380225587\">amai</a></span></span></span><span class=\"configtarget\"><span class=\"headword-2\"><span lang=\"sea\"><span lang=\"sea\"><a href=\"#gdf3e8353-ec02-4c62-a0b1-1b89673af7f0\">dek</a></span><span lang=\"sea\" style=\"font-weight:bold;font-size:58%;position:relative;top:0.3em;\"><a href=\"#gdf3e8353-ec02-4c62-a0b1-1b89673af7f0\">4</a></span></span></span></span></span></span></span><span class=\"examplescontents\"><span class=\"examplescontent\"><span class=\"example\"><span lang=\"sea\">\"Ugek usek arap mai!\" engrok apak nu menang eng mase jibeli barang ku kedei.</span></span><span class=\"translationcontents\"><span class=\"translationcontent\"><span class=\"translation\"><span lang=\"ms\">\"Jangan usik barang orang!\" kata bapa kepada adik saya semasa kami membeli barang di kedai.</span><span lang=\"en\">\"Do not touch other people's belonging!\" said father to my younger brother when we were shopping at a store.</span></span></span></span></span></span></span></span></span></div>",
+    "dictionaryId": "semai",
+    "searchTexts": [
+      "ugek",
+      "Batang Padang",
+      "kata perintah",
+      "jangan; untuk larangan yang menyatakan tidak boleh",
+      "for prohibition",
+      "sinonim",
+      "aga",
+      "agok",
+      "ama",
+      "amai",
+      "dek4",
+      "dek",
+      "4",
+      "\"Ugek usek arap mai!\" engrok apak nu menang eng mase jibeli barang ku kedei.",
+      "\"Jangan usik barang orang!\" kata bapa kepada adik saya semasa kami membeli barang di kedai.",
+      "\"Do not touch other people's belonging!\" said father to my younger brother when we were shopping at a store."
+    ],
+    "langTexts": {
+      "sea": [
+        "ugek",
+        "Batang Padang",
+        "aga",
+        "agok",
+        "ama",
+        "amai",
+        "dek4",
+        "dek",
+        "4",
+        "\"Ugek usek arap mai!\" engrok apak nu menang eng mase jibeli barang ku kedei."
+      ],
+      "ms": [
+        "kata perintah",
+        "jangan; untuk larangan yang menyatakan tidak boleh",
+        "sinonim",
+        "\"Jangan usik barang orang!\" kata bapa kepada adik saya semasa kami membeli barang di kedai."
+      ],
+      "en": [
+        "for prohibition",
+        "\"Do not touch other people's belonging!\" said father to my younger brother when we were shopping at a store."
+      ]
+    },
+    "langUnaccentedTexts": {
+      "sea": [
+        "ugek",
+        "Batang Padang",
+        "aga",
+        "agok",
+        "ama",
+        "amai",
+        "dek4",
+        "dek",
+        "4",
+        "\"Ugek usek arap mai!\" engrok apak nu menang eng mase jibeli barang ku kedei."
+      ],
+      "ms": [
+        "kata perintah",
+        "jangan; untuk larangan yang menyatakan tidak boleh",
+        "sinonim",
+        "\"Jangan usik barang orang!\" kata bapa kepada adik saya semasa kami membeli barang di kedai."
+      ],
+      "en": [
+        "for prohibition",
+        "\"Do not touch other people's belonging!\" said father to my younger brother when we were shopping at a store."
+      ]
+    },
+    "updatedAt": "2025-10-07T02:10:57.513Z",
+    "updatedBy": "ejincho"
+  },
+  {
+    "_id": "gbfa8c1a5-8993-4f0f-ab53-fba2acecc4f8",
+    "xhtmlTemplate": "entry",
+    "guid": "gbfa8c1a5-8993-4f0f-ab53-fba2acecc4f8",
+    "letterHead": "u",
+    "sortIndex": 3789,
+    "mainheadword": [
+      {
+        "lang": "sea",
+        "guid": "gbfa8c1a5-8993-4f0f-ab53-fba2acecc4f8",
+        "value": "ui"
+      }
+    ],
+    "morphosyntaxanalysis": {
+      "graminfoname": [
+        {
+          "lang": "ms",
+          "value": "kata kerja"
+        }
+      ]
+    },
+    "senses": [
+      {
+        "guid": "gbfa8c1a5-8993-4f0f-ab53-fba2acecc4f8",
+        "definitionorgloss": [
+          {
+            "lang": "ms",
+            "value": "membuat; melakukan; mengerjakan"
+          },
+          {
+            "lang": "en",
+            "value": "to make; to build"
+          }
+        ],
+        "lexsensereferences": [
+          {
+            "ownertype_name": [
+              {
+                "lang": "ms",
+                "value": "sinonim"
+              }
+            ],
+            "configtargets": [
+              {
+                "headword-2": [
+                  {
+                    "lang": "sea",
+                    "guid": "ge16a05da-c1de-4eb5-b96f-9aa8ff84e244",
+                    "value": "beh"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "examplescontents": [
+          {
+            "example": [
+              {
+                "lang": "sea",
+                "value": "Abah eng kiui deg canuk sebelom kijekjeg."
+              }
+            ],
+            "translationcontents": [
+              {
+                "translation": [
+                  {
+                    "lang": "ms",
+                    "value": "Pakcik saya membuat rumah terlebih dahulu sebelum dia mendirikan rumah tangga."
+                  },
+                  {
+                    "lang": "en",
+                    "value": "My uncle built the house before he got married."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "displayXhtml": "<div class=\"entry\" id=\"gbfa8c1a5-8993-4f0f-ab53-fba2acecc4f8\"><span class=\"mainheadword\"><span lang=\"sea\"><a href=\"#gbfa8c1a5-8993-4f0f-ab53-fba2acecc4f8\">ui</a></span></span><span class=\"senses\"><span class=\"sharedgrammaticalinfo\"><span class=\"morphosyntaxanalysis\"><span class=\"graminfoname\"><span lang=\"ms\">kata kerja</span></span></span></span><span class=\"sensecontent\"><span class=\"sense\" entryguid=\"gbfa8c1a5-8993-4f0f-ab53-fba2acecc4f8\"><span class=\"definitionorgloss\"><span lang=\"ms\">membuat; melakukan; mengerjakan</span><span lang=\"en\">to make; to build</span></span><span class=\"lexsensereferences\"><span class=\"lexsensereference\"><span class=\"ownertype_name\"><span lang=\"ms\">sinonim</span></span><span class=\"configtargets\"><span class=\"configtarget\"><span class=\"headword-2\"><span lang=\"sea\"><a href=\"#ge16a05da-c1de-4eb5-b96f-9aa8ff84e244\">beh</a></span></span></span></span></span></span><span class=\"examplescontents\"><span class=\"examplescontent\"><span class=\"example\"><span lang=\"sea\">Abah eng kiui deg canuk sebelom kijekjeg.</span></span><span class=\"translationcontents\"><span class=\"translationcontent\"><span class=\"translation\"><span lang=\"ms\">Pakcik saya membuat rumah terlebih dahulu sebelum dia mendirikan rumah tangga.</span><span lang=\"en\">My uncle built the house before he got married.</span></span></span></span></span></span></span></span></span></div>",
+    "dictionaryId": "semai",
+    "searchTexts": [
+      "ui",
+      "kata kerja",
+      "membuat; melakukan; mengerjakan",
+      "to make; to build",
+      "sinonim",
+      "beh",
+      "Abah eng kiui deg canuk sebelom kijekjeg.",
+      "Pakcik saya membuat rumah terlebih dahulu sebelum dia mendirikan rumah tangga.",
+      "My uncle built the house before he got married."
+    ],
+    "langTexts": {
+      "sea": [
+        "ui",
+        "beh",
+        "Abah eng kiui deg canuk sebelom kijekjeg."
+      ],
+      "ms": [
+        "kata kerja",
+        "membuat; melakukan; mengerjakan",
+        "sinonim",
+        "Pakcik saya membuat rumah terlebih dahulu sebelum dia mendirikan rumah tangga."
+      ],
+      "en": [
+        "to make; to build",
+        "My uncle built the house before he got married."
+      ]
+    },
+    "langUnaccentedTexts": {
+      "sea": [
+        "ui",
+        "beh",
+        "Abah eng kiui deg canuk sebelom kijekjeg."
+      ],
+      "ms": [
+        "kata kerja",
+        "membuat; melakukan; mengerjakan",
+        "sinonim",
+        "Pakcik saya membuat rumah terlebih dahulu sebelum dia mendirikan rumah tangga."
+      ],
+      "en": [
+        "to make; to build",
+        "My uncle built the house before he got married."
+      ]
+    },
+    "updatedAt": "2025-10-07T02:10:57.513Z",
+    "updatedBy": "ejincho"
+  },
+  {
+    "_id": "g3b1cb4c7-2997-41d6-aff1-b620b9f45dbc",
+    "xhtmlTemplate": "entry",
+    "guid": "g3b1cb4c7-2997-41d6-aff1-b620b9f45dbc",
+    "letterHead": "u",
+    "sortIndex": 3790,
+    "mainheadword": [
+      {
+        "lang": "sea",
+        "guid": "g3b1cb4c7-2997-41d6-aff1-b620b9f45dbc",
+        "value": "uker"
+      }
+    ],
+    "etymologies": [
+      {
+        "languages": [
+          {
+            "abbreviation-2": [
+              {
+                "lang": "ms",
+                "value": "BM"
+              }
+            ]
+          }
+        ],
+        "form": [
+          {
+            "lang": "ms",
+            "value": "ukir"
+          }
+        ]
+      }
+    ],
+    "morphosyntaxanalysis": {
+      "graminfoname": [
+        {
+          "lang": "ms",
+          "value": "kata kerja"
+        }
+      ]
+    },
+    "senses": [
+      {
+        "guid": "g3b1cb4c7-2997-41d6-aff1-b620b9f45dbc",
+        "definitionorgloss": [
+          {
+            "lang": "ms",
+            "value": "ukir; kerja-kerja pertukangan yang melibatkan proses menggores, menoreh dll"
+          },
+          {
+            "lang": "en",
+            "value": "to carve; to engrave"
+          }
+        ],
+        "examplescontents": [
+          {
+            "example": [
+              {
+                "lang": "sea",
+                "value": "Mase tengah jitengroj, Bah Wan kiuker imuh ku keneng jehuk medei ha kibosan pekpoj ibaur pek bicak ya kak."
+              }
+            ],
+            "translationcontents": [
+              {
+                "translation": [
+                  {
+                    "lang": "ms",
+                    "value": "Semasa kami sedang memancing, Bah Wan mengukir namanya di batang pokok kerana bosan menunggu tali pancingnya tidak dimakan oleh ikan."
+                  },
+                  {
+                    "lang": "en",
+                    "value": "While we were fishing, Bah Wan carved his name on the tree trunk because he was bored waiting for the fish to bite. "
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "displayXhtml": "<div class=\"entry\" id=\"g3b1cb4c7-2997-41d6-aff1-b620b9f45dbc\"><span class=\"mainheadword\"><span lang=\"sea\"><a href=\"#g3b1cb4c7-2997-41d6-aff1-b620b9f45dbc\">uker</a></span></span><span class=\"etymologies\"><span class=\"etymology\"><span class=\"languages\"><span class=\"language\"><span class=\"abbreviation-2\"><span lang=\"ms\">BM</span></span></span></span><span class=\"form\"><span lang=\"ms\">ukir</span></span></span></span><span class=\"senses\"><span class=\"sharedgrammaticalinfo\"><span class=\"morphosyntaxanalysis\"><span class=\"graminfoname\"><span lang=\"ms\">kata kerja</span></span></span></span><span class=\"sensecontent\"><span class=\"sense\" entryguid=\"g3b1cb4c7-2997-41d6-aff1-b620b9f45dbc\"><span class=\"definitionorgloss\"><span lang=\"ms\">ukir; kerja-kerja pertukangan yang melibatkan proses menggores, menoreh dll</span><span lang=\"en\">to carve; to engrave</span></span><span class=\"examplescontents\"><span class=\"examplescontent\"><span class=\"example\"><span lang=\"sea\">Mase tengah jitengroj, Bah Wan kiuker imuh ku keneng jehuk medei ha kibosan pekpoj ibaur pek bicak ya kak.</span></span><span class=\"translationcontents\"><span class=\"translationcontent\"><span class=\"translation\"><span lang=\"ms\">Semasa kami sedang memancing, Bah Wan mengukir namanya di batang pokok kerana bosan menunggu tali pancingnya tidak dimakan oleh ikan.</span><span lang=\"en\">While we were fishing, Bah Wan carved his name on the tree trunk because he was bored waiting for the fish to bite. </span></span></span></span></span></span></span></span></span></div>",
+    "dictionaryId": "semai",
+    "searchTexts": [
+      "uker",
+      "BM",
+      "ukir",
+      "kata kerja",
+      "ukir; kerja-kerja pertukangan yang melibatkan proses menggores, menoreh dll",
+      "to carve; to engrave",
+      "Mase tengah jitengroj, Bah Wan kiuker imuh ku keneng jehuk medei ha kibosan pekpoj ibaur pek bicak ya kak.",
+      "Semasa kami sedang memancing, Bah Wan mengukir namanya di batang pokok kerana bosan menunggu tali pancingnya tidak dimakan oleh ikan.",
+      "While we were fishing, Bah Wan carved his name on the tree trunk because he was bored waiting for the fish to bite. "
+    ],
+    "langTexts": {
+      "sea": [
+        "uker",
+        "Mase tengah jitengroj, Bah Wan kiuker imuh ku keneng jehuk medei ha kibosan pekpoj ibaur pek bicak ya kak."
+      ],
+      "ms": [
+        "BM",
+        "ukir",
+        "kata kerja",
+        "ukir; kerja-kerja pertukangan yang melibatkan proses menggores, menoreh dll",
+        "Semasa kami sedang memancing, Bah Wan mengukir namanya di batang pokok kerana bosan menunggu tali pancingnya tidak dimakan oleh ikan."
+      ],
+      "en": [
+        "to carve; to engrave",
+        "While we were fishing, Bah Wan carved his name on the tree trunk because he was bored waiting for the fish to bite. "
+      ]
+    },
+    "langUnaccentedTexts": {
+      "sea": [
+        "uker",
+        "Mase tengah jitengroj, Bah Wan kiuker imuh ku keneng jehuk medei ha kibosan pekpoj ibaur pek bicak ya kak."
+      ],
+      "ms": [
+        "BM",
+        "ukir",
+        "kata kerja",
+        "ukir; kerja-kerja pertukangan yang melibatkan proses menggores, menoreh dll",
+        "Semasa kami sedang memancing, Bah Wan mengukir namanya di batang pokok kerana bosan menunggu tali pancingnya tidak dimakan oleh ikan."
+      ],
+      "en": [
+        "to carve; to engrave",
+        "While we were fishing, Bah Wan carved his name on the tree trunk because he was bored waiting for the fish to bite. "
+      ]
+    },
+    "updatedAt": "2025-10-07T02:10:57.513Z",
+    "updatedBy": "ejincho"
+  },
+  {
+    "_id": "g87fc7d44-f513-46ef-8c9f-75ae731b7176",
+    "xhtmlTemplate": "entry",
+    "guid": "g87fc7d44-f513-46ef-8c9f-75ae731b7176",
+    "letterHead": "u",
+    "sortIndex": 3791,
+    "mainheadword": [
+      {
+        "lang": "sea",
+        "guid": "g87fc7d44-f513-46ef-8c9f-75ae731b7176",
+        "value": "ulag"
+      }
+    ],
+    "etymologies": [
+      {
+        "languages": [
+          {
+            "abbreviation-2": [
+              {
+                "lang": "ms",
+                "value": "BM"
+              }
+            ]
+          }
+        ],
+        "form": [
+          {
+            "lang": "ms",
+            "value": "ulang"
+          }
+        ]
+      }
+    ],
+    "morphosyntaxanalysis": {
+      "graminfoname": [
+        {
+          "lang": "ms",
+          "value": "kata kerja"
+        }
+      ]
+    },
+    "senses": [
+      {
+        "guid": "g87fc7d44-f513-46ef-8c9f-75ae731b7176",
+        "definitionorgloss": [
+          {
+            "lang": "ms",
+            "value": "ulang; berulang; mengulangi perbuatan atau perkara yang sama secara berulang kali"
+          },
+          {
+            "lang": "en",
+            "value": "to repeat; to do something again and again, or repeatedly"
+          }
+        ],
+        "examplescontents": [
+          {
+            "example": [
+              {
+                "lang": "sea",
+                "value": "\"Agok ulag nij nu mateu, doh engkekcelog,\" Bah Deran kibesat nu ikekenon."
+              }
+            ],
+            "translationcontents": [
+              {
+                "translation": [
+                  {
+                    "lang": "ms",
+                    "value": "\"Jangan mengulangi pergi ke sungai lagi, nanti kamu semua lemas,\" Bah Deran berpesan kepada anak-anaknya."
+                  },
+                  {
+                    "lang": "en",
+                    "value": "\"Do not go to the river again and again, or you will drown,\" Bah Deran commanded his children."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "displayXhtml": "<div class=\"entry\" id=\"g87fc7d44-f513-46ef-8c9f-75ae731b7176\"><span class=\"mainheadword\"><span lang=\"sea\"><a href=\"#g87fc7d44-f513-46ef-8c9f-75ae731b7176\">ulag</a></span></span><span class=\"etymologies\"><span class=\"etymology\"><span class=\"languages\"><span class=\"language\"><span class=\"abbreviation-2\"><span lang=\"ms\">BM</span></span></span></span><span class=\"form\"><span lang=\"ms\">ulang</span></span></span></span><span class=\"senses\"><span class=\"sharedgrammaticalinfo\"><span class=\"morphosyntaxanalysis\"><span class=\"graminfoname\"><span lang=\"ms\">kata kerja</span></span></span></span><span class=\"sensecontent\"><span class=\"sense\" entryguid=\"g87fc7d44-f513-46ef-8c9f-75ae731b7176\"><span class=\"definitionorgloss\"><span lang=\"ms\">ulang; berulang; mengulangi perbuatan atau perkara yang sama secara berulang kali</span><span lang=\"en\">to repeat; to do something again and again, or repeatedly</span></span><span class=\"examplescontents\"><span class=\"examplescontent\"><span class=\"example\"><span lang=\"sea\">\"Agok ulag nij nu mateu, doh engkekcelog,\" Bah Deran kibesat nu ikekenon.</span></span><span class=\"translationcontents\"><span class=\"translationcontent\"><span class=\"translation\"><span lang=\"ms\">\"Jangan mengulangi pergi ke sungai lagi, nanti kamu semua lemas,\" Bah Deran berpesan kepada anak-anaknya.</span><span lang=\"en\">\"Do not go to the river again and again, or you will drown,\" Bah Deran commanded his children.</span></span></span></span></span></span></span></span></span></div>",
+    "dictionaryId": "semai",
+    "searchTexts": [
+      "ulag",
+      "BM",
+      "ulang",
+      "kata kerja",
+      "ulang; berulang; mengulangi perbuatan atau perkara yang sama secara berulang kali",
+      "to repeat; to do something again and again, or repeatedly",
+      "\"Agok ulag nij nu mateu, doh engkekcelog,\" Bah Deran kibesat nu ikekenon.",
+      "\"Jangan mengulangi pergi ke sungai lagi, nanti kamu semua lemas,\" Bah Deran berpesan kepada anak-anaknya.",
+      "\"Do not go to the river again and again, or you will drown,\" Bah Deran commanded his children."
+    ],
+    "langTexts": {
+      "sea": [
+        "ulag",
+        "\"Agok ulag nij nu mateu, doh engkekcelog,\" Bah Deran kibesat nu ikekenon."
+      ],
+      "ms": [
+        "BM",
+        "ulang",
+        "kata kerja",
+        "ulang; berulang; mengulangi perbuatan atau perkara yang sama secara berulang kali",
+        "\"Jangan mengulangi pergi ke sungai lagi, nanti kamu semua lemas,\" Bah Deran berpesan kepada anak-anaknya."
+      ],
+      "en": [
+        "to repeat; to do something again and again, or repeatedly",
+        "\"Do not go to the river again and again, or you will drown,\" Bah Deran commanded his children."
+      ]
+    },
+    "langUnaccentedTexts": {
+      "sea": [
+        "ulag",
+        "\"Agok ulag nij nu mateu, doh engkekcelog,\" Bah Deran kibesat nu ikekenon."
+      ],
+      "ms": [
+        "BM",
+        "ulang",
+        "kata kerja",
+        "ulang; berulang; mengulangi perbuatan atau perkara yang sama secara berulang kali",
+        "\"Jangan mengulangi pergi ke sungai lagi, nanti kamu semua lemas,\" Bah Deran berpesan kepada anak-anaknya."
+      ],
+      "en": [
+        "to repeat; to do something again and again, or repeatedly",
+        "\"Do not go to the river again and again, or you will drown,\" Bah Deran commanded his children."
+      ]
+    },
+    "updatedAt": "2025-10-07T02:10:57.513Z",
+    "updatedBy": "ejincho"
+  },
+  {
+    "_id": "g06c202c2-59d3-41a9-9cee-bc7fd1dacf7a",
+    "xhtmlTemplate": "entry",
+    "guid": "g06c202c2-59d3-41a9-9cee-bc7fd1dacf7a",
+    "letterHead": "u",
+    "sortIndex": 3792,
+    "mainheadword": [
+      {
+        "lang": "sea",
+        "guid": "g06c202c2-59d3-41a9-9cee-bc7fd1dacf7a",
+        "value": "ulah"
+      }
+    ],
+    "morphosyntaxanalysis": {
+      "graminfoname": [
+        {
+          "lang": "ms",
+          "value": "kata nama"
+        }
+      ]
+    },
+    "senses": [
+      {
+        "guid": "g06c202c2-59d3-41a9-9cee-bc7fd1dacf7a",
+        "definitionorgloss": [
+          {
+            "lang": "ms",
+            "value": "muka; wajah"
+          },
+          {
+            "lang": "en",
+            "value": "face"
+          }
+        ],
+        "lexsensereferences": [
+          {
+            "ownertype_name": [
+              {
+                "lang": "ms",
+                "value": "sinonim"
+              }
+            ],
+            "configtargets": [
+              {
+                "headword-2": [
+                  {
+                    "lang": "sea",
+                    "guid": "g4407ec1d-76c7-4175-8419-4bcd040ce64e",
+                    "value": "renes"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "examplescontents": [
+          {
+            "example": [
+              {
+                "lang": "sea",
+                "value": "\"Ulah hek bor walah pek bermon,\" Wak Manje kiurok nu Wak Mawar."
+              }
+            ],
+            "translationcontents": [
+              {
+                "translation": [
+                  {
+                    "lang": "ms",
+                    "value": "\"Muka kamu cantik tiada jerawat,\" Wak Manje berkata pada Wak Mawar."
+                  },
+                  {
+                    "lang": "en",
+                    "value": "\"Your face is pretty without any pimples,\" said Wak Manje to Wak Mawar, "
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "displayXhtml": "<div class=\"entry\" id=\"g06c202c2-59d3-41a9-9cee-bc7fd1dacf7a\"><span class=\"mainheadword\"><span lang=\"sea\"><a href=\"#g06c202c2-59d3-41a9-9cee-bc7fd1dacf7a\">ulah</a></span></span><span class=\"senses\"><span class=\"sharedgrammaticalinfo\"><span class=\"morphosyntaxanalysis\"><span class=\"graminfoname\"><span lang=\"ms\">kata nama</span></span></span></span><span class=\"sensecontent\"><span class=\"sense\" entryguid=\"g06c202c2-59d3-41a9-9cee-bc7fd1dacf7a\"><span class=\"definitionorgloss\"><span lang=\"ms\">muka; wajah</span><span lang=\"en\">face</span></span><span class=\"lexsensereferences\"><span class=\"lexsensereference\"><span class=\"ownertype_name\"><span lang=\"ms\">sinonim</span></span><span class=\"configtargets\"><span class=\"configtarget\"><span class=\"headword-2\"><span lang=\"sea\"><a href=\"#g4407ec1d-76c7-4175-8419-4bcd040ce64e\">renes</a></span></span></span></span></span></span><span class=\"examplescontents\"><span class=\"examplescontent\"><span class=\"example\"><span lang=\"sea\">\"Ulah hek bor walah pek bermon,\" Wak Manje kiurok nu Wak Mawar.</span></span><span class=\"translationcontents\"><span class=\"translationcontent\"><span class=\"translation\"><span lang=\"ms\">\"Muka kamu cantik tiada jerawat,\" Wak Manje berkata pada Wak Mawar.</span><span lang=\"en\">\"Your face is pretty without any pimples,\" said Wak Manje to Wak Mawar, </span></span></span></span></span></span></span></span></span></div>",
+    "dictionaryId": "semai",
+    "searchTexts": [
+      "ulah",
+      "kata nama",
+      "muka; wajah",
+      "face",
+      "sinonim",
+      "renes",
+      "\"Ulah hek bor walah pek bermon,\" Wak Manje kiurok nu Wak Mawar.",
+      "\"Muka kamu cantik tiada jerawat,\" Wak Manje berkata pada Wak Mawar.",
+      "\"Your face is pretty without any pimples,\" said Wak Manje to Wak Mawar, "
+    ],
+    "langTexts": {
+      "sea": [
+        "ulah",
+        "renes",
+        "\"Ulah hek bor walah pek bermon,\" Wak Manje kiurok nu Wak Mawar."
+      ],
+      "ms": [
+        "kata nama",
+        "muka; wajah",
+        "sinonim",
+        "\"Muka kamu cantik tiada jerawat,\" Wak Manje berkata pada Wak Mawar."
+      ],
+      "en": [
+        "face",
+        "\"Your face is pretty without any pimples,\" said Wak Manje to Wak Mawar, "
+      ]
+    },
+    "langUnaccentedTexts": {
+      "sea": [
+        "ulah",
+        "renes",
+        "\"Ulah hek bor walah pek bermon,\" Wak Manje kiurok nu Wak Mawar."
+      ],
+      "ms": [
+        "kata nama",
+        "muka; wajah",
+        "sinonim",
+        "\"Muka kamu cantik tiada jerawat,\" Wak Manje berkata pada Wak Mawar."
+      ],
+      "en": [
+        "face",
+        "\"Your face is pretty without any pimples,\" said Wak Manje to Wak Mawar, "
+      ]
+    },
+    "updatedAt": "2025-10-07T02:10:57.513Z",
+    "updatedBy": "ejincho"
+  },
+  {
+    "_id": "g20c977aa-0e3e-4ecc-b5d3-7071e63414af",
+    "xhtmlTemplate": "entry",
+    "guid": "g20c977aa-0e3e-4ecc-b5d3-7071e63414af",
+    "letterHead": "u",
+    "sortIndex": 3793,
+    "mainheadword": [
+      {
+        "lang": "sea",
+        "guid": "g20c977aa-0e3e-4ecc-b5d3-7071e63414af",
+        "value": "ulap"
+      }
+    ],
+    "etymologies": [
+      {
+        "languages": [
+          {
+            "abbreviation-2": [
+              {
+                "lang": "ms",
+                "value": "BM"
+              }
+            ]
+          }
+        ],
+        "form": [
+          {
+            "lang": "ms",
+            "value": "ulam"
+          }
+        ]
+      }
+    ],
+    "morphosyntaxanalysis": {
+      "graminfoname": [
+        {
+          "lang": "ms",
+          "value": "kata nama"
+        }
+      ]
+    },
+    "senses": [
+      {
+        "guid": "g20c977aa-0e3e-4ecc-b5d3-7071e63414af",
+        "definitionorgloss": [
+          {
+            "lang": "ms",
+            "value": "ulam; daun atau sayuran yang dimakan secara mentah bersama dengan nasi"
+          },
+          {
+            "lang": "en",
+            "value": "vegetable edible as raw or uncooked with rice and other dishes"
+          }
+        ],
+        "examplescontents": [
+          {
+            "example": [
+              {
+                "lang": "sea",
+                "value": "Amek eng kigemar chak ulap ru chanak. Ulap de selalo kichak ru icanak ajeh betar, kacag butol atao selak ulap raja."
+              }
+            ],
+            "translationcontents": [
+              {
+                "translation": [
+                  {
+                    "lang": "ms",
+                    "value": "Ibu saya suka memakan ulam dengan nasi. Ulam yang biasanya dia makan dengan nasinya adalah petai, kacang botol atau daun ulam raja."
+                  },
+                  {
+                    "lang": "en",
+                    "value": "My mother likes to eat raw vegetables with her rice. The vegetables that she likes to eat with rice are petai bean, winged bean or the leaves of cosmos caudatus."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "displayXhtml": "<div class=\"entry\" id=\"g20c977aa-0e3e-4ecc-b5d3-7071e63414af\"><span class=\"mainheadword\"><span lang=\"sea\"><a href=\"#g20c977aa-0e3e-4ecc-b5d3-7071e63414af\">ulap</a></span></span><span class=\"etymologies\"><span class=\"etymology\"><span class=\"languages\"><span class=\"language\"><span class=\"abbreviation-2\"><span lang=\"ms\">BM</span></span></span></span><span class=\"form\"><span lang=\"ms\">ulam</span></span></span></span><span class=\"senses\"><span class=\"sharedgrammaticalinfo\"><span class=\"morphosyntaxanalysis\"><span class=\"graminfoname\"><span lang=\"ms\">kata nama</span></span></span></span><span class=\"sensecontent\"><span class=\"sense\" entryguid=\"g20c977aa-0e3e-4ecc-b5d3-7071e63414af\"><span class=\"definitionorgloss\"><span lang=\"ms\">ulam; daun atau sayuran yang dimakan secara mentah bersama dengan nasi</span><span lang=\"en\">vegetable edible as raw or uncooked with rice and other dishes</span></span><span class=\"examplescontents\"><span class=\"examplescontent\"><span class=\"example\"><span lang=\"sea\">Amek eng kigemar chak ulap ru chanak. Ulap de selalo kichak ru icanak ajeh betar, kacag butol atao selak ulap raja.</span></span><span class=\"translationcontents\"><span class=\"translationcontent\"><span class=\"translation\"><span lang=\"ms\">Ibu saya suka memakan ulam dengan nasi. Ulam yang biasanya dia makan dengan nasinya adalah petai, kacang botol atau daun ulam raja.</span><span lang=\"en\">My mother likes to eat raw vegetables with her rice. The vegetables that she likes to eat with rice are petai bean, winged bean or the leaves of cosmos caudatus.</span></span></span></span></span></span></span></span></span></div>",
+    "dictionaryId": "semai",
+    "searchTexts": [
+      "ulap",
+      "BM",
+      "ulam",
+      "kata nama",
+      "ulam; daun atau sayuran yang dimakan secara mentah bersama dengan nasi",
+      "vegetable edible as raw or uncooked with rice and other dishes",
+      "Amek eng kigemar chak ulap ru chanak. Ulap de selalo kichak ru icanak ajeh betar, kacag butol atao selak ulap raja.",
+      "Ibu saya suka memakan ulam dengan nasi. Ulam yang biasanya dia makan dengan nasinya adalah petai, kacang botol atau daun ulam raja.",
+      "My mother likes to eat raw vegetables with her rice. The vegetables that she likes to eat with rice are petai bean, winged bean or the leaves of cosmos caudatus."
+    ],
+    "langTexts": {
+      "sea": [
+        "ulap",
+        "Amek eng kigemar chak ulap ru chanak. Ulap de selalo kichak ru icanak ajeh betar, kacag butol atao selak ulap raja."
+      ],
+      "ms": [
+        "BM",
+        "ulam",
+        "kata nama",
+        "ulam; daun atau sayuran yang dimakan secara mentah bersama dengan nasi",
+        "Ibu saya suka memakan ulam dengan nasi. Ulam yang biasanya dia makan dengan nasinya adalah petai, kacang botol atau daun ulam raja."
+      ],
+      "en": [
+        "vegetable edible as raw or uncooked with rice and other dishes",
+        "My mother likes to eat raw vegetables with her rice. The vegetables that she likes to eat with rice are petai bean, winged bean or the leaves of cosmos caudatus."
+      ]
+    },
+    "langUnaccentedTexts": {
+      "sea": [
+        "ulap",
+        "Amek eng kigemar chak ulap ru chanak. Ulap de selalo kichak ru icanak ajeh betar, kacag butol atao selak ulap raja."
+      ],
+      "ms": [
+        "BM",
+        "ulam",
+        "kata nama",
+        "ulam; daun atau sayuran yang dimakan secara mentah bersama dengan nasi",
+        "Ibu saya suka memakan ulam dengan nasi. Ulam yang biasanya dia makan dengan nasinya adalah petai, kacang botol atau daun ulam raja."
+      ],
+      "en": [
+        "vegetable edible as raw or uncooked with rice and other dishes",
+        "My mother likes to eat raw vegetables with her rice. The vegetables that she likes to eat with rice are petai bean, winged bean or the leaves of cosmos caudatus."
+      ]
+    },
+    "updatedAt": "2025-10-07T02:10:57.513Z",
+    "updatedBy": "ejincho"
+  },
+  {
+    "_id": "g9de81531-5294-492e-ae9d-b6fd302f8fde",
+    "xhtmlTemplate": "entry",
+    "guid": "g9de81531-5294-492e-ae9d-b6fd302f8fde",
+    "letterHead": "u",
+    "sortIndex": 3794,
+    "mainheadword": [
+      {
+        "lang": "sea",
+        "guid": "g9de81531-5294-492e-ae9d-b6fd302f8fde",
+        "value": "ulas"
+      }
+    ],
+    "etymologies": [
+      {
+        "languages": [
+          {
+            "abbreviation-2": [
+              {
+                "lang": "ms",
+                "value": "BM"
+              }
+            ]
+          }
+        ],
+        "form": [
+          {
+            "lang": "ms",
+            "value": "ulas"
+          }
+        ]
+      }
+    ],
+    "morphosyntaxanalysis": {
+      "graminfoname": [
+        {
+          "lang": "ms",
+          "value": "penjodoh bilangan"
+        }
+      ]
+    },
+    "senses": [
+      {
+        "guid": "g9de81531-5294-492e-ae9d-b6fd302f8fde",
+        "definitionorgloss": [
+          {
+            "lang": "ms",
+            "value": "penjodoh bilangan bagi benda yang berurai sebagai jem, isi buah-buahan, dll."
+          },
+          {
+            "lang": "en",
+            "value": "classifier for things that decompose as jam, fruit fillings, etc."
+          }
+        ],
+        "examplescontents": [
+          {
+            "example": [
+              {
+                "lang": "sea",
+                "value": "Hamapen Wak Norah ya kichak lapan ulas sempak, tapi lekat pek kirasa honj."
+              }
+            ],
+            "translationcontents": [
+              {
+                "translation": [
+                  {
+                    "lang": "ms",
+                    "value": "Walaupun Wak Norah sudah memakan lapan ulas durian, tetapi dia masih tidak merasa puas."
+                  },
+                  {
+                    "lang": "en",
+                    "value": "Even though she had already eaten eight pieces of durian, Wak Norah still did not feel satisfied."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "displayXhtml": "<div class=\"entry\" id=\"g9de81531-5294-492e-ae9d-b6fd302f8fde\"><span class=\"mainheadword\"><span lang=\"sea\"><a href=\"#g9de81531-5294-492e-ae9d-b6fd302f8fde\">ulas</a></span></span><span class=\"etymologies\"><span class=\"etymology\"><span class=\"languages\"><span class=\"language\"><span class=\"abbreviation-2\"><span lang=\"ms\">BM</span></span></span></span><span class=\"form\"><span lang=\"ms\">ulas</span></span></span></span><span class=\"senses\"><span class=\"sharedgrammaticalinfo\"><span class=\"morphosyntaxanalysis\"><span class=\"graminfoname\"><span lang=\"ms\">penjodoh bilangan</span></span></span></span><span class=\"sensecontent\"><span class=\"sense\" entryguid=\"g9de81531-5294-492e-ae9d-b6fd302f8fde\"><span class=\"definitionorgloss\"><span lang=\"ms\">penjodoh bilangan bagi benda yang berurai sebagai jem, isi buah-buahan, dll.</span><span lang=\"en\">classifier for things that decompose as jam, fruit fillings, etc.</span></span><span class=\"examplescontents\"><span class=\"examplescontent\"><span class=\"example\"><span lang=\"sea\">Hamapen Wak Norah ya kichak lapan ulas sempak, tapi lekat pek kirasa honj.</span></span><span class=\"translationcontents\"><span class=\"translationcontent\"><span class=\"translation\"><span lang=\"ms\">Walaupun Wak Norah sudah memakan lapan ulas durian, tetapi dia masih tidak merasa puas.</span><span lang=\"en\">Even though she had already eaten eight pieces of durian, Wak Norah still did not feel satisfied.</span></span></span></span></span></span></span></span></span></div>",
+    "dictionaryId": "semai",
+    "searchTexts": [
+      "ulas",
+      "BM",
+      "penjodoh bilangan",
+      "penjodoh bilangan bagi benda yang berurai sebagai jem, isi buah-buahan, dll.",
+      "classifier for things that decompose as jam, fruit fillings, etc.",
+      "Hamapen Wak Norah ya kichak lapan ulas sempak, tapi lekat pek kirasa honj.",
+      "Walaupun Wak Norah sudah memakan lapan ulas durian, tetapi dia masih tidak merasa puas.",
+      "Even though she had already eaten eight pieces of durian, Wak Norah still did not feel satisfied."
+    ],
+    "langTexts": {
+      "sea": [
+        "ulas",
+        "Hamapen Wak Norah ya kichak lapan ulas sempak, tapi lekat pek kirasa honj."
+      ],
+      "ms": [
+        "BM",
+        "ulas",
+        "penjodoh bilangan",
+        "penjodoh bilangan bagi benda yang berurai sebagai jem, isi buah-buahan, dll.",
+        "Walaupun Wak Norah sudah memakan lapan ulas durian, tetapi dia masih tidak merasa puas."
+      ],
+      "en": [
+        "classifier for things that decompose as jam, fruit fillings, etc.",
+        "Even though she had already eaten eight pieces of durian, Wak Norah still did not feel satisfied."
+      ]
+    },
+    "langUnaccentedTexts": {
+      "sea": [
+        "ulas",
+        "Hamapen Wak Norah ya kichak lapan ulas sempak, tapi lekat pek kirasa honj."
+      ],
+      "ms": [
+        "BM",
+        "ulas",
+        "penjodoh bilangan",
+        "penjodoh bilangan bagi benda yang berurai sebagai jem, isi buah-buahan, dll.",
+        "Walaupun Wak Norah sudah memakan lapan ulas durian, tetapi dia masih tidak merasa puas."
+      ],
+      "en": [
+        "classifier for things that decompose as jam, fruit fillings, etc.",
+        "Even though she had already eaten eight pieces of durian, Wak Norah still did not feel satisfied."
+      ]
+    },
+    "updatedAt": "2025-10-07T02:10:57.513Z",
+    "updatedBy": "ejincho"
+  },
+  {
+    "_id": "g79b71a4f-4466-46ca-93e7-e073898f974d",
+    "xhtmlTemplate": "entry",
+    "guid": "g79b71a4f-4466-46ca-93e7-e073898f974d",
+    "letterHead": "u",
+    "sortIndex": 3795,
+    "mainheadword": [
+      {
+        "lang": "sea",
+        "guid": "g79b71a4f-4466-46ca-93e7-e073898f974d",
+        "value": "ulur"
+      }
+    ],
+    "etymologies": [
+      {
+        "languages": [
+          {
+            "abbreviation-2": [
+              {
+                "lang": "ms",
+                "value": "BM"
+              }
+            ]
+          }
+        ],
+        "form": [
+          {
+            "lang": "ms",
+            "value": "hulur"
+          }
+        ]
+      }
+    ],
+    "morphosyntaxanalysis": {
+      "graminfoname": [
+        {
+          "lang": "ms",
+          "value": "kata kerja"
+        }
+      ]
+    },
+    "senses": [
+      {
+        "guid": "g79b71a4f-4466-46ca-93e7-e073898f974d",
+        "definitionorgloss": [
+          {
+            "lang": "ms",
+            "value": "menghulur"
+          },
+          {
+            "lang": "en",
+            "value": "to stretch out"
+          }
+        ],
+        "examplescontents": [
+          {
+            "example": [
+              {
+                "lang": "sea",
+                "value": "Bah Man kiulur iteg dea buleh ngtulog kek res batag arik."
+              }
+            ],
+            "translationcontents": [
+              {
+                "translation": [
+                  {
+                    "lang": "ms",
+                    "value": "Bah Man menghulurkan tangannya supaya saya boleh membantunya merentasi sungai."
+                  },
+                  {
+                    "lang": "en",
+                    "value": "Bah Man stretched out his hand so that I could help him crossing the river."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "displayXhtml": "<div class=\"entry\" id=\"g79b71a4f-4466-46ca-93e7-e073898f974d\"><span class=\"mainheadword\"><span lang=\"sea\"><a href=\"#g79b71a4f-4466-46ca-93e7-e073898f974d\">ulur</a></span></span><span class=\"etymologies\"><span class=\"etymology\"><span class=\"languages\"><span class=\"language\"><span class=\"abbreviation-2\"><span lang=\"ms\">BM</span></span></span></span><span class=\"form\"><span lang=\"ms\">hulur</span></span></span></span><span class=\"senses\"><span class=\"sharedgrammaticalinfo\"><span class=\"morphosyntaxanalysis\"><span class=\"graminfoname\"><span lang=\"ms\">kata kerja</span></span></span></span><span class=\"sensecontent\"><span class=\"sense\" entryguid=\"g79b71a4f-4466-46ca-93e7-e073898f974d\"><span class=\"definitionorgloss\"><span lang=\"ms\">menghulur</span><span lang=\"en\">to stretch out</span></span><span class=\"examplescontents\"><span class=\"examplescontent\"><span class=\"example\"><span lang=\"sea\">Bah Man kiulur iteg dea buleh ngtulog kek res batag arik.</span></span><span class=\"translationcontents\"><span class=\"translationcontent\"><span class=\"translation\"><span lang=\"ms\">Bah Man menghulurkan tangannya supaya saya boleh membantunya merentasi sungai.</span><span lang=\"en\">Bah Man stretched out his hand so that I could help him crossing the river.</span></span></span></span></span></span></span></span></span></div>",
+    "dictionaryId": "semai",
+    "searchTexts": [
+      "ulur",
+      "BM",
+      "hulur",
+      "kata kerja",
+      "menghulur",
+      "to stretch out",
+      "Bah Man kiulur iteg dea buleh ngtulog kek res batag arik.",
+      "Bah Man menghulurkan tangannya supaya saya boleh membantunya merentasi sungai.",
+      "Bah Man stretched out his hand so that I could help him crossing the river."
+    ],
+    "langTexts": {
+      "sea": [
+        "ulur",
+        "Bah Man kiulur iteg dea buleh ngtulog kek res batag arik."
+      ],
+      "ms": [
+        "BM",
+        "hulur",
+        "kata kerja",
+        "menghulur",
+        "Bah Man menghulurkan tangannya supaya saya boleh membantunya merentasi sungai."
+      ],
+      "en": [
+        "to stretch out",
+        "Bah Man stretched out his hand so that I could help him crossing the river."
+      ]
+    },
+    "langUnaccentedTexts": {
+      "sea": [
+        "ulur",
+        "Bah Man kiulur iteg dea buleh ngtulog kek res batag arik."
+      ],
+      "ms": [
+        "BM",
+        "hulur",
+        "kata kerja",
+        "menghulur",
+        "Bah Man menghulurkan tangannya supaya saya boleh membantunya merentasi sungai."
+      ],
+      "en": [
+        "to stretch out",
+        "Bah Man stretched out his hand so that I could help him crossing the river."
+      ]
+    },
+    "updatedAt": "2025-10-07T02:10:57.513Z",
+    "updatedBy": "ejincho"
+  },
+  {
+    "_id": "g1f996ff3-24ba-4567-a8e6-011adbaf590d",
+    "xhtmlTemplate": "entry",
+    "guid": "g1f996ff3-24ba-4567-a8e6-011adbaf590d",
+    "letterHead": "u",
+    "sortIndex": 3796,
+    "mainheadword": [
+      {
+        "lang": "sea",
+        "guid": "g1f996ff3-24ba-4567-a8e6-011adbaf590d",
+        "value": "umbak"
+      }
+    ],
+    "etymologies": [
+      {
+        "languages": [
+          {
+            "abbreviation-2": [
+              {
+                "lang": "ms",
+                "value": "BM"
+              }
+            ]
+          }
+        ],
+        "form": [
+          {
+            "lang": "ms",
+            "value": "ombak"
+          }
+        ]
+      }
+    ],
+    "morphosyntaxanalysis": {
+      "graminfoname": [
+        {
+          "lang": "ms",
+          "value": "kata nama"
+        }
+      ]
+    },
+    "senses": [
+      {
+        "guid": "g1f996ff3-24ba-4567-a8e6-011adbaf590d",
+        "definitionorgloss": [
+          {
+            "lang": "ms",
+            "value": "ombak; gerakkan air turun naik atau bergulung-gulung"
+          },
+          {
+            "lang": "en",
+            "value": "wave"
+          }
+        ],
+        "examplescontents": [
+          {
+            "example": [
+              {
+                "lang": "sea",
+                "value": "Ginei jik nyak ju laot jadi bile jiet nu beg pantei, jik jirasa serunuk medei buleh jineng ru jimuh teu laot ru jimain umbak ku depan mat."
+              }
+            ],
+            "translationcontents": [
+              {
+                "translation": [
+                  {
+                    "lang": "ms",
+                    "value": "Tempat tinggal kami jauh dari laut jadi bila kami ke tepi pantai, kami merasa seronok kerana boleh melihat dan mandi air laut dan bermain ombak yang di depan mata."
+                  },
+                  {
+                    "lang": "en",
+                    "value": "Our home is far from the sea so when we went to a beach, we feel very happy because we can see and swim at the sea, and play with the waves which are just in front of our eyes."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "displayXhtml": "<div class=\"entry\" id=\"g1f996ff3-24ba-4567-a8e6-011adbaf590d\"><span class=\"mainheadword\"><span lang=\"sea\"><a href=\"#g1f996ff3-24ba-4567-a8e6-011adbaf590d\">umbak</a></span></span><span class=\"etymologies\"><span class=\"etymology\"><span class=\"languages\"><span class=\"language\"><span class=\"abbreviation-2\"><span lang=\"ms\">BM</span></span></span></span><span class=\"form\"><span lang=\"ms\">ombak</span></span></span></span><span class=\"senses\"><span class=\"sharedgrammaticalinfo\"><span class=\"morphosyntaxanalysis\"><span class=\"graminfoname\"><span lang=\"ms\">kata nama</span></span></span></span><span class=\"sensecontent\"><span class=\"sense\" entryguid=\"g1f996ff3-24ba-4567-a8e6-011adbaf590d\"><span class=\"definitionorgloss\"><span lang=\"ms\">ombak; gerakkan air turun naik atau bergulung-gulung</span><span lang=\"en\">wave</span></span><span class=\"examplescontents\"><span class=\"examplescontent\"><span class=\"example\"><span lang=\"sea\">Ginei jik nyak ju laot jadi bile jiet nu beg pantei, jik jirasa serunuk medei buleh jineng ru jimuh teu laot ru jimain umbak ku depan mat.</span></span><span class=\"translationcontents\"><span class=\"translationcontent\"><span class=\"translation\"><span lang=\"ms\">Tempat tinggal kami jauh dari laut jadi bila kami ke tepi pantai, kami merasa seronok kerana boleh melihat dan mandi air laut dan bermain ombak yang di depan mata.</span><span lang=\"en\">Our home is far from the sea so when we went to a beach, we feel very happy because we can see and swim at the sea, and play with the waves which are just in front of our eyes.</span></span></span></span></span></span></span></span></span></div>",
+    "dictionaryId": "semai",
+    "searchTexts": [
+      "umbak",
+      "BM",
+      "ombak",
+      "kata nama",
+      "ombak; gerakkan air turun naik atau bergulung-gulung",
+      "wave",
+      "Ginei jik nyak ju laot jadi bile jiet nu beg pantei, jik jirasa serunuk medei buleh jineng ru jimuh teu laot ru jimain umbak ku depan mat.",
+      "Tempat tinggal kami jauh dari laut jadi bila kami ke tepi pantai, kami merasa seronok kerana boleh melihat dan mandi air laut dan bermain ombak yang di depan mata.",
+      "Our home is far from the sea so when we went to a beach, we feel very happy because we can see and swim at the sea, and play with the waves which are just in front of our eyes."
+    ],
+    "langTexts": {
+      "sea": [
+        "umbak",
+        "Ginei jik nyak ju laot jadi bile jiet nu beg pantei, jik jirasa serunuk medei buleh jineng ru jimuh teu laot ru jimain umbak ku depan mat."
+      ],
+      "ms": [
+        "BM",
+        "ombak",
+        "kata nama",
+        "ombak; gerakkan air turun naik atau bergulung-gulung",
+        "Tempat tinggal kami jauh dari laut jadi bila kami ke tepi pantai, kami merasa seronok kerana boleh melihat dan mandi air laut dan bermain ombak yang di depan mata."
+      ],
+      "en": [
+        "wave",
+        "Our home is far from the sea so when we went to a beach, we feel very happy because we can see and swim at the sea, and play with the waves which are just in front of our eyes."
+      ]
+    },
+    "langUnaccentedTexts": {
+      "sea": [
+        "umbak",
+        "Ginei jik nyak ju laot jadi bile jiet nu beg pantei, jik jirasa serunuk medei buleh jineng ru jimuh teu laot ru jimain umbak ku depan mat."
+      ],
+      "ms": [
+        "BM",
+        "ombak",
+        "kata nama",
+        "ombak; gerakkan air turun naik atau bergulung-gulung",
+        "Tempat tinggal kami jauh dari laut jadi bila kami ke tepi pantai, kami merasa seronok kerana boleh melihat dan mandi air laut dan bermain ombak yang di depan mata."
+      ],
+      "en": [
+        "wave",
+        "Our home is far from the sea so when we went to a beach, we feel very happy because we can see and swim at the sea, and play with the waves which are just in front of our eyes."
+      ]
+    },
+    "updatedAt": "2025-10-07T02:10:57.513Z",
+    "updatedBy": "ejincho"
+  },
+  {
+    "_id": "g2a83b949-441f-4850-8693-b2f0f47dd36f",
+    "xhtmlTemplate": "entry",
+    "guid": "g2a83b949-441f-4850-8693-b2f0f47dd36f",
+    "letterHead": "u",
+    "sortIndex": 3797,
+    "mainheadword": [
+      {
+        "lang": "sea",
+        "guid": "g2a83b949-441f-4850-8693-b2f0f47dd36f",
+        "value": "umor"
+      }
+    ],
+    "etymologies": [
+      {
+        "languages": [
+          {
+            "abbreviation-2": [
+              {
+                "lang": "ms",
+                "value": "BM"
+              }
+            ]
+          }
+        ],
+        "form": [
+          {
+            "lang": "ms",
+            "value": "umur"
+          }
+        ]
+      }
+    ],
+    "morphosyntaxanalysis": {
+      "graminfoname": [
+        {
+          "lang": "ms",
+          "value": "kata nama"
+        }
+      ]
+    },
+    "senses": [
+      {
+        "guid": "g2a83b949-441f-4850-8693-b2f0f47dd36f",
+        "definitionorgloss": [
+          {
+            "lang": "ms",
+            "value": "umur; usia; jangka hayat seseorang atau sesuatu dari saat dilahirkan"
+          },
+          {
+            "lang": "en",
+            "value": "age: length of time that a person has lived or a thing has existed"
+          }
+        ],
+        "examplescontents": [
+          {
+            "example": [
+              {
+                "lang": "sea",
+                "value": "Umor apak eng 57 tahut tapi inenneng tik lau."
+              }
+            ],
+            "translationcontents": [
+              {
+                "translation": [
+                  {
+                    "lang": "ms",
+                    "value": "Umur bapa saya 57 tahun tetapi penglihatannya masih jelas."
+                  },
+                  {
+                    "lang": "en",
+                    "value": "My father is aged 57 but his eyesight is still good."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "displayXhtml": "<div class=\"entry\" id=\"g2a83b949-441f-4850-8693-b2f0f47dd36f\"><span class=\"mainheadword\"><span lang=\"sea\"><a href=\"#g2a83b949-441f-4850-8693-b2f0f47dd36f\">umor</a></span></span><span class=\"etymologies\"><span class=\"etymology\"><span class=\"languages\"><span class=\"language\"><span class=\"abbreviation-2\"><span lang=\"ms\">BM</span></span></span></span><span class=\"form\"><span lang=\"ms\">umur</span></span></span></span><span class=\"senses\"><span class=\"sharedgrammaticalinfo\"><span class=\"morphosyntaxanalysis\"><span class=\"graminfoname\"><span lang=\"ms\">kata nama</span></span></span></span><span class=\"sensecontent\"><span class=\"sense\" entryguid=\"g2a83b949-441f-4850-8693-b2f0f47dd36f\"><span class=\"definitionorgloss\"><span lang=\"ms\">umur; usia; jangka hayat seseorang atau sesuatu dari saat dilahirkan</span><span lang=\"en\">age: length of time that a person has lived or a thing has existed</span></span><span class=\"examplescontents\"><span class=\"examplescontent\"><span class=\"example\"><span lang=\"sea\">Umor apak eng 57 tahut tapi inenneng tik lau.</span></span><span class=\"translationcontents\"><span class=\"translationcontent\"><span class=\"translation\"><span lang=\"ms\">Umur bapa saya 57 tahun tetapi penglihatannya masih jelas.</span><span lang=\"en\">My father is aged 57 but his eyesight is still good.</span></span></span></span></span></span></span></span></span></div>",
+    "dictionaryId": "semai",
+    "searchTexts": [
+      "umor",
+      "BM",
+      "umur",
+      "kata nama",
+      "umur; usia; jangka hayat seseorang atau sesuatu dari saat dilahirkan",
+      "age: length of time that a person has lived or a thing has existed",
+      "Umor apak eng 57 tahut tapi inenneng tik lau.",
+      "Umur bapa saya 57 tahun tetapi penglihatannya masih jelas.",
+      "My father is aged 57 but his eyesight is still good."
+    ],
+    "langTexts": {
+      "sea": [
+        "umor",
+        "Umor apak eng 57 tahut tapi inenneng tik lau."
+      ],
+      "ms": [
+        "BM",
+        "umur",
+        "kata nama",
+        "umur; usia; jangka hayat seseorang atau sesuatu dari saat dilahirkan",
+        "Umur bapa saya 57 tahun tetapi penglihatannya masih jelas."
+      ],
+      "en": [
+        "age: length of time that a person has lived or a thing has existed",
+        "My father is aged 57 but his eyesight is still good."
+      ]
+    },
+    "langUnaccentedTexts": {
+      "sea": [
+        "umor",
+        "Umor apak eng 57 tahut tapi inenneng tik lau."
+      ],
+      "ms": [
+        "BM",
+        "umur",
+        "kata nama",
+        "umur; usia; jangka hayat seseorang atau sesuatu dari saat dilahirkan",
+        "Umur bapa saya 57 tahun tetapi penglihatannya masih jelas."
+      ],
+      "en": [
+        "age: length of time that a person has lived or a thing has existed",
+        "My father is aged 57 but his eyesight is still good."
+      ]
+    },
+    "updatedAt": "2025-10-07T02:10:57.513Z",
+    "updatedBy": "ejincho"
+  },
+  {
+    "_id": "gbb4ce44c-0776-4fe8-9985-937978a75339",
+    "xhtmlTemplate": "entry",
+    "guid": "gbb4ce44c-0776-4fe8-9985-937978a75339",
+    "letterHead": "u",
+    "sortIndex": 3798,
+    "mainheadword": [
+      {
+        "lang": "sea",
+        "guid": "gbb4ce44c-0776-4fe8-9985-937978a75339",
+        "value": "umum"
+      }
+    ],
+    "etymologies": [
+      {
+        "languages": [
+          {
+            "abbreviation-2": [
+              {
+                "lang": "ms",
+                "value": "BM"
+              }
+            ]
+          }
+        ],
+        "form": [
+          {
+            "lang": "ms",
+            "value": "umum"
+          }
+        ]
+      }
+    ],
+    "morphosyntaxanalysis": {
+      "graminfoname": [
+        {
+          "lang": "ms",
+          "value": "kata kerja"
+        }
+      ]
+    },
+    "senses": [
+      {
+        "guid": "gbb4ce44c-0776-4fe8-9985-937978a75339",
+        "definitionorgloss": [
+          {
+            "lang": "ms",
+            "value": "mengumumkan"
+          },
+          {
+            "lang": "en",
+            "value": "to announce"
+          }
+        ],
+        "examplescontents": [
+          {
+            "example": [
+              {
+                "lang": "sea",
+                "value": "Mai JAKOA naihol nu kampug jik naiha-umum ha tempat-tempat pilihanraye ha mai kampug jik."
+              }
+            ],
+            "translationcontents": [
+              {
+                "translation": [
+                  {
+                    "lang": "ms",
+                    "value": "Orang dari JAKOA datang ke kampung kami bagi mengumumkan tempat-tempat pilihanraya bagi orang-orang di kampung kami."
+                  },
+                  {
+                    "lang": "en",
+                    "value": "The officers from JAKOA came to our village to announce the voting place for our villagers."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "displayXhtml": "<div class=\"entry\" id=\"gbb4ce44c-0776-4fe8-9985-937978a75339\"><span class=\"mainheadword\"><span lang=\"sea\"><a href=\"#gbb4ce44c-0776-4fe8-9985-937978a75339\">umum</a></span></span><span class=\"etymologies\"><span class=\"etymology\"><span class=\"languages\"><span class=\"language\"><span class=\"abbreviation-2\"><span lang=\"ms\">BM</span></span></span></span><span class=\"form\"><span lang=\"ms\">umum</span></span></span></span><span class=\"senses\"><span class=\"sharedgrammaticalinfo\"><span class=\"morphosyntaxanalysis\"><span class=\"graminfoname\"><span lang=\"ms\">kata kerja</span></span></span></span><span class=\"sensecontent\"><span class=\"sense\" entryguid=\"gbb4ce44c-0776-4fe8-9985-937978a75339\"><span class=\"definitionorgloss\"><span lang=\"ms\">mengumumkan</span><span lang=\"en\">to announce</span></span><span class=\"examplescontents\"><span class=\"examplescontent\"><span class=\"example\"><span lang=\"sea\">Mai JAKOA naihol nu kampug jik naiha-umum ha tempat-tempat pilihanraye ha mai kampug jik.</span></span><span class=\"translationcontents\"><span class=\"translationcontent\"><span class=\"translation\"><span lang=\"ms\">Orang dari JAKOA datang ke kampung kami bagi mengumumkan tempat-tempat pilihanraya bagi orang-orang di kampung kami.</span><span lang=\"en\">The officers from JAKOA came to our village to announce the voting place for our villagers.</span></span></span></span></span></span></span></span></span></div>",
+    "dictionaryId": "semai",
+    "searchTexts": [
+      "umum",
+      "BM",
+      "kata kerja",
+      "mengumumkan",
+      "to announce",
+      "Mai JAKOA naihol nu kampug jik naiha-umum ha tempat-tempat pilihanraye ha mai kampug jik.",
+      "Orang dari JAKOA datang ke kampung kami bagi mengumumkan tempat-tempat pilihanraya bagi orang-orang di kampung kami.",
+      "The officers from JAKOA came to our village to announce the voting place for our villagers."
+    ],
+    "langTexts": {
+      "sea": [
+        "umum",
+        "Mai JAKOA naihol nu kampug jik naiha-umum ha tempat-tempat pilihanraye ha mai kampug jik."
+      ],
+      "ms": [
+        "BM",
+        "umum",
+        "kata kerja",
+        "mengumumkan",
+        "Orang dari JAKOA datang ke kampung kami bagi mengumumkan tempat-tempat pilihanraya bagi orang-orang di kampung kami."
+      ],
+      "en": [
+        "to announce",
+        "The officers from JAKOA came to our village to announce the voting place for our villagers."
+      ]
+    },
+    "langUnaccentedTexts": {
+      "sea": [
+        "umum",
+        "Mai JAKOA naihol nu kampug jik naiha-umum ha tempat-tempat pilihanraye ha mai kampug jik."
+      ],
+      "ms": [
+        "BM",
+        "umum",
+        "kata kerja",
+        "mengumumkan",
+        "Orang dari JAKOA datang ke kampung kami bagi mengumumkan tempat-tempat pilihanraya bagi orang-orang di kampung kami."
+      ],
+      "en": [
+        "to announce",
+        "The officers from JAKOA came to our village to announce the voting place for our villagers."
+      ]
+    },
+    "updatedAt": "2025-10-07T02:10:57.513Z",
+    "updatedBy": "ejincho"
+  },
+  {
+    "_id": "ga4053902-432a-4ad7-bbb4-36336838b1c9",
+    "xhtmlTemplate": "entry",
+    "guid": "ga4053902-432a-4ad7-bbb4-36336838b1c9",
+    "letterHead": "u",
+    "sortIndex": 3799,
+    "mainheadword": [
+      {
+        "lang": "sea",
+        "guid": "ga4053902-432a-4ad7-bbb4-36336838b1c9",
+        "value": "un"
+      }
+    ],
+    "morphosyntaxanalysis": {
+      "graminfoname": [
+        {
+          "lang": "ms",
+          "value": "kata seru"
+        }
+      ]
+    },
+    "senses": [
+      {
+        "guid": "ga4053902-432a-4ad7-bbb4-36336838b1c9",
+        "definitionorgloss": [
+          {
+            "lang": "ms",
+            "value": "panggilan untuk menantu atau mertua; apabila menantu dan mertua bercakap antara satu sama yang lain, mereka tidak akan menyebut nama menantu atau mertua, tetapi menggantikannya dengan panggilan ini"
+          },
+          {
+            "lang": "en",
+            "value": "a title for in-laws; when in-laws talk to each other, they will not mention the name of the in-law, but replace it with this title"
+          }
+        ],
+        "examplescontents": [
+          {
+            "example": [
+              {
+                "lang": "sea",
+                "value": "Gensir menang eng kipelawe apak eng chaknaaq begei adeh, \"Caknak jen nek un.\""
+              }
+            ],
+            "translationcontents": [
+              {
+                "translation": [
+                  {
+                    "lang": "ms",
+                    "value": "Suami adik saya mempelawa bapa saya makan seperti ini, \"Sila makan, un.\""
+                  },
+                  {
+                    "lang": "en",
+                    "value": "My sister's husband asks my father to eat with him, he says, \"Let's eat, un.\""
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "displayXhtml": "<div class=\"entry\" id=\"ga4053902-432a-4ad7-bbb4-36336838b1c9\"><span class=\"mainheadword\"><span lang=\"sea\"><a href=\"#ga4053902-432a-4ad7-bbb4-36336838b1c9\">un</a></span></span><span class=\"senses\"><span class=\"sharedgrammaticalinfo\"><span class=\"morphosyntaxanalysis\"><span class=\"graminfoname\"><span lang=\"ms\">kata seru</span></span></span></span><span class=\"sensecontent\"><span class=\"sense\" entryguid=\"ga4053902-432a-4ad7-bbb4-36336838b1c9\"><span class=\"definitionorgloss\"><span lang=\"ms\">panggilan untuk menantu atau mertua; apabila menantu dan mertua bercakap antara satu sama yang lain, mereka tidak akan menyebut nama menantu atau mertua, tetapi menggantikannya dengan panggilan ini</span><span lang=\"en\">a title for in-laws; when in-laws talk to each other, they will not mention the name of the in-law, but replace it with this title</span></span><span class=\"examplescontents\"><span class=\"examplescontent\"><span class=\"example\"><span lang=\"sea\">Gensir menang eng kipelawe apak eng chaknaaq begei adeh, \"Caknak jen nek un.\"</span></span><span class=\"translationcontents\"><span class=\"translationcontent\"><span class=\"translation\"><span lang=\"ms\">Suami adik saya mempelawa bapa saya makan seperti ini, \"Sila makan, un.\"</span><span lang=\"en\">My sister's husband asks my father to eat with him, he says, \"Let's eat, un.\"</span></span></span></span></span></span></span></span></span></div>",
+    "dictionaryId": "semai",
+    "searchTexts": [
+      "un",
+      "kata seru",
+      "panggilan untuk menantu atau mertua; apabila menantu dan mertua bercakap antara satu sama yang lain, mereka tidak akan menyebut nama menantu atau mertua, tetapi menggantikannya dengan panggilan ini",
+      "a title for in-laws; when in-laws talk to each other, they will not mention the name of the in-law, but replace it with this title",
+      "Gensir menang eng kipelawe apak eng chaknaaq begei adeh, \"Caknak jen nek un.\"",
+      "Suami adik saya mempelawa bapa saya makan seperti ini, \"Sila makan, un.\"",
+      "My sister's husband asks my father to eat with him, he says, \"Let's eat, un.\""
+    ],
+    "langTexts": {
+      "sea": [
+        "un",
+        "Gensir menang eng kipelawe apak eng chaknaaq begei adeh, \"Caknak jen nek un.\""
+      ],
+      "ms": [
+        "kata seru",
+        "panggilan untuk menantu atau mertua; apabila menantu dan mertua bercakap antara satu sama yang lain, mereka tidak akan menyebut nama menantu atau mertua, tetapi menggantikannya dengan panggilan ini",
+        "Suami adik saya mempelawa bapa saya makan seperti ini, \"Sila makan, un.\""
+      ],
+      "en": [
+        "a title for in-laws; when in-laws talk to each other, they will not mention the name of the in-law, but replace it with this title",
+        "My sister's husband asks my father to eat with him, he says, \"Let's eat, un.\""
+      ]
+    },
+    "langUnaccentedTexts": {
+      "sea": [
+        "un",
+        "Gensir menang eng kipelawe apak eng chaknaaq begei adeh, \"Caknak jen nek un.\""
+      ],
+      "ms": [
+        "kata seru",
+        "panggilan untuk menantu atau mertua; apabila menantu dan mertua bercakap antara satu sama yang lain, mereka tidak akan menyebut nama menantu atau mertua, tetapi menggantikannya dengan panggilan ini",
+        "Suami adik saya mempelawa bapa saya makan seperti ini, \"Sila makan, un.\""
+      ],
+      "en": [
+        "a title for in-laws; when in-laws talk to each other, they will not mention the name of the in-law, but replace it with this title",
+        "My sister's husband asks my father to eat with him, he says, \"Let's eat, un.\""
+      ]
+    },
+    "updatedAt": "2025-10-07T02:10:57.513Z",
+    "updatedBy": "ejincho"
+  },
+  {
+    "_id": "g6e9b19fc-7cde-4e9a-b563-9bebb7d3df7b",
+    "xhtmlTemplate": "entry",
+    "guid": "g6e9b19fc-7cde-4e9a-b563-9bebb7d3df7b",
+    "letterHead": "u",
+    "sortIndex": 3800,
+    "mainheadword": [
+      {
+        "lang": "sea",
+        "guid": "g6e9b19fc-7cde-4e9a-b563-9bebb7d3df7b",
+        "value": "undang"
+      }
+    ],
+    "etymologies": [
+      {
+        "languages": [
+          {
+            "abbreviation-2": [
+              {
+                "lang": "ms",
+                "value": "BM"
+              }
+            ]
+          }
+        ],
+        "form": [
+          {
+            "lang": "sea",
+            "value": "undang"
+          }
+        ]
+      }
+    ],
+    "morphosyntaxanalysis": {
+      "graminfoname": [
+        {
+          "lang": "ms",
+          "value": "kata kerja"
+        }
+      ]
+    },
+    "senses": [
+      {
+        "guid": "g6e9b19fc-7cde-4e9a-b563-9bebb7d3df7b",
+        "definitionorgloss": [
+          {
+            "lang": "ms",
+            "value": "mengundang; menjemput"
+          },
+          {
+            "lang": "en",
+            "value": "to invite"
+          }
+        ],
+        "lexsensereferences": [
+          {
+            "ownertype_name": [
+              {
+                "lang": "ms",
+                "value": "sinonim"
+              }
+            ],
+            "configtargets": [
+              {
+                "headword-2": [
+                  {
+                    "lang": "sea",
+                    "guid": "g6d4a6c9e-4e42-442c-b8b2-f57c4ea28040",
+                    "value": "ajak"
+                  },
+                  {
+                    "lang": "sea",
+                    "style": "font-weight:bold;font-size:58%;position:relative;top:0.3em;",
+                    "guid": "g6d4a6c9e-4e42-442c-b8b2-f57c4ea28040",
+                    "value": "1"
+                  }
+                ]
+              },
+              {
+                "headword-2": [
+                  {
+                    "lang": "sea",
+                    "guid": "g4ae6ad70-3fb8-40e2-a02e-2b58cac06137",
+                    "value": "pakat"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "examplescontents": [
+          {
+            "example": [
+              {
+                "lang": "sea",
+                "value": "Wak Timah kiundang ikekawat kelas hool nu caknak harijadi ilei ku mengot adeh."
+              }
+            ],
+            "translationcontents": [
+              {
+                "translation": [
+                  {
+                    "lang": "ms",
+                    "value": "Wak Timah mengundang kawan-kawan sekelasnya ke majlis harijadinya pada malam ini."
+                  },
+                  {
+                    "lang": "en",
+                    "value": "Wak Timah is inviting her classmates to come to her birthday party tonight."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "displayXhtml": "<div class=\"entry\" id=\"g6e9b19fc-7cde-4e9a-b563-9bebb7d3df7b\"><span class=\"mainheadword\"><span lang=\"sea\"><a href=\"#g6e9b19fc-7cde-4e9a-b563-9bebb7d3df7b\">undang</a></span></span><span class=\"etymologies\"><span class=\"etymology\"><span class=\"languages\"><span class=\"language\"><span class=\"abbreviation-2\"><span lang=\"ms\">BM</span></span></span></span><span class=\"form\"><span lang=\"sea\">undang</span></span></span></span><span class=\"senses\"><span class=\"sharedgrammaticalinfo\"><span class=\"morphosyntaxanalysis\"><span class=\"graminfoname\"><span lang=\"ms\">kata kerja</span></span></span></span><span class=\"sensecontent\"><span class=\"sense\" entryguid=\"g6e9b19fc-7cde-4e9a-b563-9bebb7d3df7b\"><span class=\"definitionorgloss\"><span lang=\"ms\">mengundang; menjemput</span><span lang=\"en\">to invite</span></span><span class=\"lexsensereferences\"><span class=\"lexsensereference\"><span class=\"ownertype_name\"><span lang=\"ms\">sinonim</span></span><span class=\"configtargets\"><span class=\"configtarget\"><span class=\"headword-2\"><span lang=\"sea\"><span lang=\"sea\"><a href=\"#g6d4a6c9e-4e42-442c-b8b2-f57c4ea28040\">ajak</a></span><span lang=\"sea\" style=\"font-weight:bold;font-size:58%;position:relative;top:0.3em;\"><a href=\"#g6d4a6c9e-4e42-442c-b8b2-f57c4ea28040\">1</a></span></span></span></span><span class=\"configtarget\"><span class=\"headword-2\"><span lang=\"sea\"><a href=\"#g4ae6ad70-3fb8-40e2-a02e-2b58cac06137\">pakat</a></span></span></span></span></span></span><span class=\"examplescontents\"><span class=\"examplescontent\"><span class=\"example\"><span lang=\"sea\">Wak Timah kiundang ikekawat kelas hool nu caknak harijadi ilei ku mengot adeh.</span></span><span class=\"translationcontents\"><span class=\"translationcontent\"><span class=\"translation\"><span lang=\"ms\">Wak Timah mengundang kawan-kawan sekelasnya ke majlis harijadinya pada malam ini.</span><span lang=\"en\">Wak Timah is inviting her classmates to come to her birthday party tonight.</span></span></span></span></span></span></span></span></span></div>",
+    "dictionaryId": "semai",
+    "searchTexts": [
+      "undang",
+      "BM",
+      "kata kerja",
+      "mengundang; menjemput",
+      "to invite",
+      "sinonim",
+      "ajak1",
+      "ajak",
+      "1",
+      "pakat",
+      "Wak Timah kiundang ikekawat kelas hool nu caknak harijadi ilei ku mengot adeh.",
+      "Wak Timah mengundang kawan-kawan sekelasnya ke majlis harijadinya pada malam ini.",
+      "Wak Timah is inviting her classmates to come to her birthday party tonight."
+    ],
+    "langTexts": {
+      "sea": [
+        "undang",
+        "ajak1",
+        "ajak",
+        "1",
+        "pakat",
+        "Wak Timah kiundang ikekawat kelas hool nu caknak harijadi ilei ku mengot adeh."
+      ],
+      "ms": [
+        "BM",
+        "kata kerja",
+        "mengundang; menjemput",
+        "sinonim",
+        "Wak Timah mengundang kawan-kawan sekelasnya ke majlis harijadinya pada malam ini."
+      ],
+      "en": [
+        "to invite",
+        "Wak Timah is inviting her classmates to come to her birthday party tonight."
+      ]
+    },
+    "langUnaccentedTexts": {
+      "sea": [
+        "undang",
+        "ajak1",
+        "ajak",
+        "1",
+        "pakat",
+        "Wak Timah kiundang ikekawat kelas hool nu caknak harijadi ilei ku mengot adeh."
+      ],
+      "ms": [
+        "BM",
+        "kata kerja",
+        "mengundang; menjemput",
+        "sinonim",
+        "Wak Timah mengundang kawan-kawan sekelasnya ke majlis harijadinya pada malam ini."
+      ],
+      "en": [
+        "to invite",
+        "Wak Timah is inviting her classmates to come to her birthday party tonight."
+      ]
+    },
+    "updatedAt": "2025-10-07T02:10:59.147Z",
+    "updatedBy": "ejincho"
+  },
+  {
+    "_id": "g3708ee4b-1ea6-4c3f-8c29-2b65e6183191",
+    "xhtmlTemplate": "entry",
+    "guid": "g3708ee4b-1ea6-4c3f-8c29-2b65e6183191",
+    "letterHead": "u",
+    "sortIndex": 3801,
+    "mainheadword": [
+      {
+        "lang": "sea",
+        "guid": "g3708ee4b-1ea6-4c3f-8c29-2b65e6183191",
+        "value": "ungket"
+      }
+    ],
+    "morphosyntaxanalysis": {
+      "graminfoname": [
+        {
+          "lang": "ms",
+          "value": "kata kerja"
+        }
+      ]
+    },
+    "senses": [
+      {
+        "guid": "g3708ee4b-1ea6-4c3f-8c29-2b65e6183191",
+        "definitionorgloss": [
+          {
+            "lang": "ms",
+            "value": "bergurau"
+          },
+          {
+            "lang": "en",
+            "value": "to joke"
+          }
+        ],
+        "examplescontents": [
+          {
+            "example": [
+              {
+                "lang": "sea",
+                "value": "Apak jop eng ya walah. Hal de paleng ngriag ha kek, kek kigemar beungket ru mabek sanget. Lekat ngingat eng mesti ngrasa serunuk amen ngneng mabek sanget naileklog ru ilei."
+              }
+            ],
+            "translationcontents": [
+              {
+                "translation": [
+                  {
+                    "lang": "ms",
+                    "value": "Datuk saya sudah meninggal dunia. Perkara yang paling saya rindu mengenai beliau (adalah) beliau suka bergurau dengan kanak-kanak. (Saya) masih ingat saya mesti merasa gembira jika melihat kanak-kanak tertawa dengannya."
+                  },
+                  {
+                    "lang": "en",
+                    "value": "My grandfather has already passed away. The thing that I miss the most about him is that he liked to make jokes with the children. I still remember that I felt happy to see the children laughing with him."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "displayXhtml": "<div class=\"entry\" id=\"g3708ee4b-1ea6-4c3f-8c29-2b65e6183191\"><span class=\"mainheadword\"><span lang=\"sea\"><a href=\"#g3708ee4b-1ea6-4c3f-8c29-2b65e6183191\">ungket</a></span></span><span class=\"senses\"><span class=\"sharedgrammaticalinfo\"><span class=\"morphosyntaxanalysis\"><span class=\"graminfoname\"><span lang=\"ms\">kata kerja</span></span></span></span><span class=\"sensecontent\"><span class=\"sense\" entryguid=\"g3708ee4b-1ea6-4c3f-8c29-2b65e6183191\"><span class=\"definitionorgloss\"><span lang=\"ms\">bergurau</span><span lang=\"en\">to joke</span></span><span class=\"examplescontents\"><span class=\"examplescontent\"><span class=\"example\"><span lang=\"sea\">Apak jop eng ya walah. Hal de paleng ngriag ha kek, kek kigemar beungket ru mabek sanget. Lekat ngingat eng mesti ngrasa serunuk amen ngneng mabek sanget naileklog ru ilei.</span></span><span class=\"translationcontents\"><span class=\"translationcontent\"><span class=\"translation\"><span lang=\"ms\">Datuk saya sudah meninggal dunia. Perkara yang paling saya rindu mengenai beliau (adalah) beliau suka bergurau dengan kanak-kanak. (Saya) masih ingat saya mesti merasa gembira jika melihat kanak-kanak tertawa dengannya.</span><span lang=\"en\">My grandfather has already passed away. The thing that I miss the most about him is that he liked to make jokes with the children. I still remember that I felt happy to see the children laughing with him.</span></span></span></span></span></span></span></span></span></div>",
+    "dictionaryId": "semai",
+    "searchTexts": [
+      "ungket",
+      "kata kerja",
+      "bergurau",
+      "to joke",
+      "Apak jop eng ya walah. Hal de paleng ngriag ha kek, kek kigemar beungket ru mabek sanget. Lekat ngingat eng mesti ngrasa serunuk amen ngneng mabek sanget naileklog ru ilei.",
+      "Datuk saya sudah meninggal dunia. Perkara yang paling saya rindu mengenai beliau (adalah) beliau suka bergurau dengan kanak-kanak. (Saya) masih ingat saya mesti merasa gembira jika melihat kanak-kanak tertawa dengannya.",
+      "My grandfather has already passed away. The thing that I miss the most about him is that he liked to make jokes with the children. I still remember that I felt happy to see the children laughing with him."
+    ],
+    "langTexts": {
+      "sea": [
+        "ungket",
+        "Apak jop eng ya walah. Hal de paleng ngriag ha kek, kek kigemar beungket ru mabek sanget. Lekat ngingat eng mesti ngrasa serunuk amen ngneng mabek sanget naileklog ru ilei."
+      ],
+      "ms": [
+        "kata kerja",
+        "bergurau",
+        "Datuk saya sudah meninggal dunia. Perkara yang paling saya rindu mengenai beliau (adalah) beliau suka bergurau dengan kanak-kanak. (Saya) masih ingat saya mesti merasa gembira jika melihat kanak-kanak tertawa dengannya."
+      ],
+      "en": [
+        "to joke",
+        "My grandfather has already passed away. The thing that I miss the most about him is that he liked to make jokes with the children. I still remember that I felt happy to see the children laughing with him."
+      ]
+    },
+    "langUnaccentedTexts": {
+      "sea": [
+        "ungket",
+        "Apak jop eng ya walah. Hal de paleng ngriag ha kek, kek kigemar beungket ru mabek sanget. Lekat ngingat eng mesti ngrasa serunuk amen ngneng mabek sanget naileklog ru ilei."
+      ],
+      "ms": [
+        "kata kerja",
+        "bergurau",
+        "Datuk saya sudah meninggal dunia. Perkara yang paling saya rindu mengenai beliau (adalah) beliau suka bergurau dengan kanak-kanak. (Saya) masih ingat saya mesti merasa gembira jika melihat kanak-kanak tertawa dengannya."
+      ],
+      "en": [
+        "to joke",
+        "My grandfather has already passed away. The thing that I miss the most about him is that he liked to make jokes with the children. I still remember that I felt happy to see the children laughing with him."
+      ]
+    },
+    "updatedAt": "2025-10-07T02:10:59.147Z",
+    "updatedBy": "ejincho"
+  },
+  {
+    "_id": "g3e178377-ec79-4ade-8cbd-b322f41a5c90",
+    "xhtmlTemplate": "entry",
+    "guid": "g3e178377-ec79-4ade-8cbd-b322f41a5c90",
+    "letterHead": "u",
+    "sortIndex": 3802,
+    "mainheadword": [
+      {
+        "lang": "sea",
+        "guid": "g3e178377-ec79-4ade-8cbd-b322f41a5c90",
+        "value": "ungkit"
+      }
+    ],
+    "morphosyntaxanalysis": {
+      "graminfoname": [
+        {
+          "lang": "ms",
+          "value": "kata kerja"
+        }
+      ]
+    },
+    "senses": [
+      {
+        "guid": "g3e178377-ec79-4ade-8cbd-b322f41a5c90",
+        "definitionorgloss": [
+          {
+            "lang": "ms",
+            "value": "mengungkit; membangkitkan perkara yang telah lepas"
+          },
+          {
+            "lang": "en",
+            "value": "to bring up; to bring up the past event"
+          }
+        ],
+        "examplescontents": [
+          {
+            "example": [
+              {
+                "lang": "sea",
+                "value": "Wak Gayah kigemar beungkit hal manah, asyek kiperbual ha itenulog entem de pernah kitulog eng."
+              }
+            ],
+            "translationcontents": [
+              {
+                "translation": [
+                  {
+                    "lang": "ms",
+                    "value": "Wak Gayah suka mengungkit kisah lama, dia asyik menyatakan hal pertolongan yang pernah dia menolong saya dahulu."
+                  },
+                  {
+                    "lang": "en",
+                    "value": "Wak Gayah likes to bring up the past, she keeps mentioning the help that she gave to me in the past."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "displayXhtml": "<div class=\"entry\" id=\"g3e178377-ec79-4ade-8cbd-b322f41a5c90\"><span class=\"mainheadword\"><span lang=\"sea\"><a href=\"#g3e178377-ec79-4ade-8cbd-b322f41a5c90\">ungkit</a></span></span><span class=\"senses\"><span class=\"sharedgrammaticalinfo\"><span class=\"morphosyntaxanalysis\"><span class=\"graminfoname\"><span lang=\"ms\">kata kerja</span></span></span></span><span class=\"sensecontent\"><span class=\"sense\" entryguid=\"g3e178377-ec79-4ade-8cbd-b322f41a5c90\"><span class=\"definitionorgloss\"><span lang=\"ms\">mengungkit; membangkitkan perkara yang telah lepas</span><span lang=\"en\">to bring up; to bring up the past event</span></span><span class=\"examplescontents\"><span class=\"examplescontent\"><span class=\"example\"><span lang=\"sea\">Wak Gayah kigemar beungkit hal manah, asyek kiperbual ha itenulog entem de pernah kitulog eng.</span></span><span class=\"translationcontents\"><span class=\"translationcontent\"><span class=\"translation\"><span lang=\"ms\">Wak Gayah suka mengungkit kisah lama, dia asyik menyatakan hal pertolongan yang pernah dia menolong saya dahulu.</span><span lang=\"en\">Wak Gayah likes to bring up the past, she keeps mentioning the help that she gave to me in the past.</span></span></span></span></span></span></span></span></span></div>",
+    "dictionaryId": "semai",
+    "searchTexts": [
+      "ungkit",
+      "kata kerja",
+      "mengungkit; membangkitkan perkara yang telah lepas",
+      "to bring up; to bring up the past event",
+      "Wak Gayah kigemar beungkit hal manah, asyek kiperbual ha itenulog entem de pernah kitulog eng.",
+      "Wak Gayah suka mengungkit kisah lama, dia asyik menyatakan hal pertolongan yang pernah dia menolong saya dahulu.",
+      "Wak Gayah likes to bring up the past, she keeps mentioning the help that she gave to me in the past."
+    ],
+    "langTexts": {
+      "sea": [
+        "ungkit",
+        "Wak Gayah kigemar beungkit hal manah, asyek kiperbual ha itenulog entem de pernah kitulog eng."
+      ],
+      "ms": [
+        "kata kerja",
+        "mengungkit; membangkitkan perkara yang telah lepas",
+        "Wak Gayah suka mengungkit kisah lama, dia asyik menyatakan hal pertolongan yang pernah dia menolong saya dahulu."
+      ],
+      "en": [
+        "to bring up; to bring up the past event",
+        "Wak Gayah likes to bring up the past, she keeps mentioning the help that she gave to me in the past."
+      ]
+    },
+    "langUnaccentedTexts": {
+      "sea": [
+        "ungkit",
+        "Wak Gayah kigemar beungkit hal manah, asyek kiperbual ha itenulog entem de pernah kitulog eng."
+      ],
+      "ms": [
+        "kata kerja",
+        "mengungkit; membangkitkan perkara yang telah lepas",
+        "Wak Gayah suka mengungkit kisah lama, dia asyik menyatakan hal pertolongan yang pernah dia menolong saya dahulu."
+      ],
+      "en": [
+        "to bring up; to bring up the past event",
+        "Wak Gayah likes to bring up the past, she keeps mentioning the help that she gave to me in the past."
+      ]
+    },
+    "updatedAt": "2025-10-07T02:10:59.147Z",
+    "updatedBy": "ejincho"
+  },
+  {
+    "_id": "g5342252e-0858-4818-a15c-46f4f0516b08",
+    "xhtmlTemplate": "entry",
+    "guid": "g5342252e-0858-4818-a15c-46f4f0516b08",
+    "letterHead": "u",
+    "sortIndex": 3803,
+    "mainheadword": [
+      {
+        "lang": "sea",
+        "guid": "g5342252e-0858-4818-a15c-46f4f0516b08",
+        "value": "ungngu"
+      }
+    ],
+    "etymologies": [
+      {
+        "languages": [
+          {
+            "abbreviation-2": [
+              {
+                "lang": "ms",
+                "value": "BM"
+              }
+            ]
+          }
+        ],
+        "form": [
+          {
+            "lang": "ms",
+            "value": "ungu"
+          }
+        ]
+      }
+    ],
+    "morphosyntaxanalysis": {
+      "graminfoname": [
+        {
+          "lang": "ms",
+          "value": "kata nama"
+        }
+      ]
+    },
+    "senses": [
+      {
+        "guid": "g5342252e-0858-4818-a15c-46f4f0516b08",
+        "definitionorgloss": [
+          {
+            "lang": "ms",
+            "value": "ungu; warna campuran biru dan merah"
+          },
+          {
+            "lang": "en",
+            "value": "purple"
+          }
+        ],
+        "examplescontents": [
+          {
+            "example": [
+              {
+                "lang": "sea",
+                "value": "Bah sali kigemar leklog baju iwarna ungngu."
+              }
+            ],
+            "translationcontents": [
+              {
+                "translation": [
+                  {
+                    "lang": "ms",
+                    "value": "Bah Sali suka memakai pakaian unggu."
+                  },
+                  {
+                    "lang": "en",
+                    "value": "Bah Sali likes to wear purple clothes."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "displayXhtml": "<div class=\"entry\" id=\"g5342252e-0858-4818-a15c-46f4f0516b08\"><span class=\"mainheadword\"><span lang=\"sea\"><a href=\"#g5342252e-0858-4818-a15c-46f4f0516b08\">ungngu</a></span></span><span class=\"etymologies\"><span class=\"etymology\"><span class=\"languages\"><span class=\"language\"><span class=\"abbreviation-2\"><span lang=\"ms\">BM</span></span></span></span><span class=\"form\"><span lang=\"ms\">ungu</span></span></span></span><span class=\"senses\"><span class=\"sharedgrammaticalinfo\"><span class=\"morphosyntaxanalysis\"><span class=\"graminfoname\"><span lang=\"ms\">kata nama</span></span></span></span><span class=\"sensecontent\"><span class=\"sense\" entryguid=\"g5342252e-0858-4818-a15c-46f4f0516b08\"><span class=\"definitionorgloss\"><span lang=\"ms\">ungu; warna campuran biru dan merah</span><span lang=\"en\">purple</span></span><span class=\"examplescontents\"><span class=\"examplescontent\"><span class=\"example\"><span lang=\"sea\">Bah sali kigemar leklog baju iwarna ungngu.</span></span><span class=\"translationcontents\"><span class=\"translationcontent\"><span class=\"translation\"><span lang=\"ms\">Bah Sali suka memakai pakaian unggu.</span><span lang=\"en\">Bah Sali likes to wear purple clothes.</span></span></span></span></span></span></span></span></span></div>",
+    "dictionaryId": "semai",
+    "searchTexts": [
+      "ungngu",
+      "BM",
+      "ungu",
+      "kata nama",
+      "ungu; warna campuran biru dan merah",
+      "purple",
+      "Bah sali kigemar leklog baju iwarna ungngu.",
+      "Bah Sali suka memakai pakaian unggu.",
+      "Bah Sali likes to wear purple clothes."
+    ],
+    "langTexts": {
+      "sea": [
+        "ungngu",
+        "Bah sali kigemar leklog baju iwarna ungngu."
+      ],
+      "ms": [
+        "BM",
+        "ungu",
+        "kata nama",
+        "ungu; warna campuran biru dan merah",
+        "Bah Sali suka memakai pakaian unggu."
+      ],
+      "en": [
+        "purple",
+        "Bah Sali likes to wear purple clothes."
+      ]
+    },
+    "langUnaccentedTexts": {
+      "sea": [
+        "ungngu",
+        "Bah sali kigemar leklog baju iwarna ungngu."
+      ],
+      "ms": [
+        "BM",
+        "ungu",
+        "kata nama",
+        "ungu; warna campuran biru dan merah",
+        "Bah Sali suka memakai pakaian unggu."
+      ],
+      "en": [
+        "purple",
+        "Bah Sali likes to wear purple clothes."
+      ]
+    },
+    "updatedAt": "2025-10-07T02:10:59.147Z",
+    "updatedBy": "ejincho"
+  },
+  {
+    "_id": "g4f65c45e-b895-48dc-afcd-11a687e2ccf3",
+    "xhtmlTemplate": "entry",
+    "guid": "g4f65c45e-b895-48dc-afcd-11a687e2ccf3",
+    "letterHead": "u",
+    "sortIndex": 3804,
+    "mainheadword": [
+      {
+        "lang": "sea",
+        "guid": "g4f65c45e-b895-48dc-afcd-11a687e2ccf3",
+        "value": "unjih"
+      }
+    ],
+    "dialectlabelsrs": [
+      {
+        "name": [
+          {
+            "lang": "sea",
+            "value": "Bota"
+          }
+        ]
+      }
+    ],
+    "morphosyntaxanalysis": {
+      "graminfoname": [
+        {
+          "lang": "ms",
+          "value": "kata ganti nama"
+        }
+      ]
+    },
+    "senses": [
+      {
+        "guid": "g4f65c45e-b895-48dc-afcd-11a687e2ccf3",
+        "definitionorgloss": [
+          {
+            "lang": "ms",
+            "value": "mereka; ganti nama untuk menunjukkan jumlah bilangan orang yang ramai"
+          },
+          {
+            "lang": "en",
+            "value": "they"
+          }
+        ],
+        "lexsensereferences": [
+          {
+            "ownertype_name": [
+              {
+                "lang": "ms",
+                "value": "sinonim"
+              }
+            ],
+            "configtargets": [
+              {
+                "headword-2": [
+                  {
+                    "lang": "sea",
+                    "guid": "gf999f11e-b2d8-47ff-bf2a-402202741b7e",
+                    "value": "enai"
+                  }
+                ]
+              },
+              {
+                "headword-2": [
+                  {
+                    "lang": "sea",
+                    "guid": "g7aa95cca-7fd2-4fb1-9da1-1a28ea115c2e",
+                    "value": "mabek"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "examplescontents": [
+          {
+            "example": [
+              {
+                "lang": "sea",
+                "value": "Unjih mahu-et nu belok?"
+              }
+            ],
+            "translationcontents": [
+              {
+                "translation": [
+                  {
+                    "lang": "ms",
+                    "value": "Mereka hendak ke mana?"
+                  },
+                  {
+                    "lang": "en",
+                    "value": "Where are they going?"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "displayXhtml": "<div class=\"entry\" id=\"g4f65c45e-b895-48dc-afcd-11a687e2ccf3\"><span class=\"mainheadword\"><span lang=\"sea\"><a href=\"#g4f65c45e-b895-48dc-afcd-11a687e2ccf3\">unjih</a></span></span><span class=\"dialectlabelsrs\"><span class=\"dialectlabelsr\"><span class=\"name\"><span lang=\"sea\">Bota</span></span></span></span><span class=\"senses\"><span class=\"sharedgrammaticalinfo\"><span class=\"morphosyntaxanalysis\"><span class=\"graminfoname\"><span lang=\"ms\">kata ganti nama</span></span></span></span><span class=\"sensecontent\"><span class=\"sense\" entryguid=\"g4f65c45e-b895-48dc-afcd-11a687e2ccf3\"><span class=\"definitionorgloss\"><span lang=\"ms\">mereka; ganti nama untuk menunjukkan jumlah bilangan orang yang ramai</span><span lang=\"en\">they</span></span><span class=\"lexsensereferences\"><span class=\"lexsensereference\"><span class=\"ownertype_name\"><span lang=\"ms\">sinonim</span></span><span class=\"configtargets\"><span class=\"configtarget\"><span class=\"headword-2\"><span lang=\"sea\"><a href=\"#gf999f11e-b2d8-47ff-bf2a-402202741b7e\">enai</a></span></span></span><span class=\"configtarget\"><span class=\"headword-2\"><span lang=\"sea\"><a href=\"#g7aa95cca-7fd2-4fb1-9da1-1a28ea115c2e\">mabek</a></span></span></span></span></span></span><span class=\"examplescontents\"><span class=\"examplescontent\"><span class=\"example\"><span lang=\"sea\">Unjih mahu-et nu belok?</span></span><span class=\"translationcontents\"><span class=\"translationcontent\"><span class=\"translation\"><span lang=\"ms\">Mereka hendak ke mana?</span><span lang=\"en\">Where are they going?</span></span></span></span></span></span></span></span></span></div>",
+    "dictionaryId": "semai",
+    "searchTexts": [
+      "unjih",
+      "Bota",
+      "kata ganti nama",
+      "mereka; ganti nama untuk menunjukkan jumlah bilangan orang yang ramai",
+      "they",
+      "sinonim",
+      "enai",
+      "mabek",
+      "Unjih mahu-et nu belok?",
+      "Mereka hendak ke mana?",
+      "Where are they going?"
+    ],
+    "langTexts": {
+      "sea": [
+        "unjih",
+        "Bota",
+        "enai",
+        "mabek",
+        "Unjih mahu-et nu belok?"
+      ],
+      "ms": [
+        "kata ganti nama",
+        "mereka; ganti nama untuk menunjukkan jumlah bilangan orang yang ramai",
+        "sinonim",
+        "Mereka hendak ke mana?"
+      ],
+      "en": [
+        "they",
+        "Where are they going?"
+      ]
+    },
+    "langUnaccentedTexts": {
+      "sea": [
+        "unjih",
+        "Bota",
+        "enai",
+        "mabek",
+        "Unjih mahu-et nu belok?"
+      ],
+      "ms": [
+        "kata ganti nama",
+        "mereka; ganti nama untuk menunjukkan jumlah bilangan orang yang ramai",
+        "sinonim",
+        "Mereka hendak ke mana?"
+      ],
+      "en": [
+        "they",
+        "Where are they going?"
+      ]
+    },
+    "updatedAt": "2025-10-07T02:10:59.147Z",
+    "updatedBy": "ejincho"
+  },
+  {
+    "_id": "g5a2a8adc-0789-4cdb-91a5-c4fc91b767ef",
+    "xhtmlTemplate": "entry",
+    "guid": "g5a2a8adc-0789-4cdb-91a5-c4fc91b767ef",
+    "letterHead": "u",
+    "sortIndex": 3805,
+    "mainheadword": [
+      {
+        "lang": "sea",
+        "guid": "g5a2a8adc-0789-4cdb-91a5-c4fc91b767ef",
+        "value": "unte"
+      }
+    ],
+    "etymologies": [
+      {
+        "languages": [
+          {
+            "abbreviation-2": [
+              {
+                "lang": "ms",
+                "value": "BM"
+              }
+            ]
+          }
+        ],
+        "form": [
+          {
+            "lang": "ms",
+            "value": "unta"
+          }
+        ]
+      }
+    ],
+    "morphosyntaxanalysis": {
+      "graminfoname": [
+        {
+          "lang": "ms",
+          "value": "kata nama"
+        }
+      ]
+    },
+    "senses": [
+      {
+        "guid": "g5a2a8adc-0789-4cdb-91a5-c4fc91b767ef",
+        "definitionorgloss": [
+          {
+            "lang": "ms",
+            "value": "unta; sejenis binatang yang tinggal di padang gurun, berleher yang panjang dan mempunyai satu atau dua bonggol di bahagian belakang badannya yang berfungsi untuk menyimpan air"
+          },
+          {
+            "lang": "en",
+            "value": "camel; an animal that lives at the desert, its has a long neck and has one or two humps at its back to store water"
+          }
+        ],
+        "examplescontents": [
+          {
+            "example": [
+              {
+                "lang": "sea",
+                "value": "Ku hik adeh tiktok unte, ilei mong jeoi ku kawasan padag guron."
+              }
+            ],
+            "translationcontents": [
+              {
+                "translation": [
+                  {
+                    "lang": "ms",
+                    "value": "Di tempat kita tidak terdapat unta, ianya banyak terdapat di kawasan padang gurun."
+                  },
+                  {
+                    "lang": "en",
+                    "value": "In our area there are no camels, but there are plenty in the desert."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "displayXhtml": "<div class=\"entry\" id=\"g5a2a8adc-0789-4cdb-91a5-c4fc91b767ef\"><span class=\"mainheadword\"><span lang=\"sea\"><a href=\"#g5a2a8adc-0789-4cdb-91a5-c4fc91b767ef\">unte</a></span></span><span class=\"etymologies\"><span class=\"etymology\"><span class=\"languages\"><span class=\"language\"><span class=\"abbreviation-2\"><span lang=\"ms\">BM</span></span></span></span><span class=\"form\"><span lang=\"ms\">unta</span></span></span></span><span class=\"senses\"><span class=\"sharedgrammaticalinfo\"><span class=\"morphosyntaxanalysis\"><span class=\"graminfoname\"><span lang=\"ms\">kata nama</span></span></span></span><span class=\"sensecontent\"><span class=\"sense\" entryguid=\"g5a2a8adc-0789-4cdb-91a5-c4fc91b767ef\"><span class=\"definitionorgloss\"><span lang=\"ms\">unta; sejenis binatang yang tinggal di padang gurun, berleher yang panjang dan mempunyai satu atau dua bonggol di bahagian belakang badannya yang berfungsi untuk menyimpan air</span><span lang=\"en\">camel; an animal that lives at the desert, its has a long neck and has one or two humps at its back to store water</span></span><span class=\"examplescontents\"><span class=\"examplescontent\"><span class=\"example\"><span lang=\"sea\">Ku hik adeh tiktok unte, ilei mong jeoi ku kawasan padag guron.</span></span><span class=\"translationcontents\"><span class=\"translationcontent\"><span class=\"translation\"><span lang=\"ms\">Di tempat kita tidak terdapat unta, ianya banyak terdapat di kawasan padang gurun.</span><span lang=\"en\">In our area there are no camels, but there are plenty in the desert.</span></span></span></span></span></span></span></span></span></div>",
+    "dictionaryId": "semai",
+    "searchTexts": [
+      "unte",
+      "BM",
+      "unta",
+      "kata nama",
+      "unta; sejenis binatang yang tinggal di padang gurun, berleher yang panjang dan mempunyai satu atau dua bonggol di bahagian belakang badannya yang berfungsi untuk menyimpan air",
+      "camel; an animal that lives at the desert, its has a long neck and has one or two humps at its back to store water",
+      "Ku hik adeh tiktok unte, ilei mong jeoi ku kawasan padag guron.",
+      "Di tempat kita tidak terdapat unta, ianya banyak terdapat di kawasan padang gurun.",
+      "In our area there are no camels, but there are plenty in the desert."
+    ],
+    "langTexts": {
+      "sea": [
+        "unte",
+        "Ku hik adeh tiktok unte, ilei mong jeoi ku kawasan padag guron."
+      ],
+      "ms": [
+        "BM",
+        "unta",
+        "kata nama",
+        "unta; sejenis binatang yang tinggal di padang gurun, berleher yang panjang dan mempunyai satu atau dua bonggol di bahagian belakang badannya yang berfungsi untuk menyimpan air",
+        "Di tempat kita tidak terdapat unta, ianya banyak terdapat di kawasan padang gurun."
+      ],
+      "en": [
+        "camel; an animal that lives at the desert, its has a long neck and has one or two humps at its back to store water",
+        "In our area there are no camels, but there are plenty in the desert."
+      ]
+    },
+    "langUnaccentedTexts": {
+      "sea": [
+        "unte",
+        "Ku hik adeh tiktok unte, ilei mong jeoi ku kawasan padag guron."
+      ],
+      "ms": [
+        "BM",
+        "unta",
+        "kata nama",
+        "unta; sejenis binatang yang tinggal di padang gurun, berleher yang panjang dan mempunyai satu atau dua bonggol di bahagian belakang badannya yang berfungsi untuk menyimpan air",
+        "Di tempat kita tidak terdapat unta, ianya banyak terdapat di kawasan padang gurun."
+      ],
+      "en": [
+        "camel; an animal that lives at the desert, its has a long neck and has one or two humps at its back to store water",
+        "In our area there are no camels, but there are plenty in the desert."
+      ]
+    },
+    "updatedAt": "2025-10-07T02:10:59.147Z",
+    "updatedBy": "ejincho"
+  },
+  {
+    "_id": "g0f00cbb9-8f21-4ea6-b27f-74b61c0f3e8b",
+    "xhtmlTemplate": "entry",
+    "guid": "g0f00cbb9-8f21-4ea6-b27f-74b61c0f3e8b",
+    "letterHead": "u",
+    "sortIndex": 3806,
+    "mainheadword": [
+      {
+        "lang": "sea",
+        "guid": "g0f00cbb9-8f21-4ea6-b27f-74b61c0f3e8b",
+        "value": "upah"
+      }
+    ],
+    "etymologies": [
+      {
+        "languages": [
+          {
+            "abbreviation-2": [
+              {
+                "lang": "ms",
+                "value": "BM"
+              }
+            ]
+          }
+        ],
+        "form": [
+          {
+            "lang": "ms",
+            "value": "upah"
+          }
+        ]
+      }
+    ],
+    "morphosyntaxanalysis": {
+      "graminfoname": [
+        {
+          "lang": "ms",
+          "value": "kata nama"
+        }
+      ]
+    },
+    "senses": [
+      {
+        "guid": "g0f00cbb9-8f21-4ea6-b27f-74b61c0f3e8b",
+        "definitionorgloss": [
+          {
+            "lang": "ms",
+            "value": "upah"
+          },
+          {
+            "lang": "en",
+            "value": "wage; reward"
+          }
+        ]
+      }
+    ],
+    "displayXhtml": "<div class=\"entry\" id=\"g0f00cbb9-8f21-4ea6-b27f-74b61c0f3e8b\"><span class=\"mainheadword\"><span lang=\"sea\"><a href=\"#g0f00cbb9-8f21-4ea6-b27f-74b61c0f3e8b\">upah</a></span></span><span class=\"etymologies\"><span class=\"etymology\"><span class=\"languages\"><span class=\"language\"><span class=\"abbreviation-2\"><span lang=\"ms\">BM</span></span></span></span><span class=\"form\"><span lang=\"ms\">upah</span></span></span></span><span class=\"senses\"><span class=\"sharedgrammaticalinfo\"><span class=\"morphosyntaxanalysis\"><span class=\"graminfoname\"><span lang=\"ms\">kata nama</span></span></span></span><span class=\"sensecontent\"><span class=\"sense\" entryguid=\"g0f00cbb9-8f21-4ea6-b27f-74b61c0f3e8b\"><span class=\"definitionorgloss\"><span lang=\"ms\">upah</span><span lang=\"en\">wage; reward</span></span></span></span></span></div>",
+    "dictionaryId": "semai",
+    "searchTexts": [
+      "upah",
+      "BM",
+      "kata nama",
+      "wage; reward"
+    ],
+    "langTexts": {
+      "sea": [
+        "upah"
+      ],
+      "ms": [
+        "BM",
+        "upah",
+        "kata nama"
+      ],
+      "en": [
+        "wage; reward"
+      ]
+    },
+    "langUnaccentedTexts": {
+      "sea": [
+        "upah"
+      ],
+      "ms": [
+        "BM",
+        "upah",
+        "kata nama"
+      ],
+      "en": [
+        "wage; reward"
+      ]
+    },
+    "updatedAt": "2025-10-07T02:10:59.147Z",
+    "updatedBy": "ejincho"
+  },
+  {
+    "_id": "g1fd1a730-5366-42fd-8650-9f588d8edbc8",
+    "xhtmlTemplate": "entry",
+    "guid": "g1fd1a730-5366-42fd-8650-9f588d8edbc8",
+    "letterHead": "u",
+    "sortIndex": 3807,
+    "mainheadword": [
+      {
+        "lang": "sea",
+        "guid": "g1fd1a730-5366-42fd-8650-9f588d8edbc8",
+        "value": "upeh"
+      }
+    ],
+    "etymologies": [
+      {
+        "languages": [
+          {
+            "abbreviation-2": [
+              {
+                "lang": "ms",
+                "value": "BM"
+              }
+            ]
+          }
+        ],
+        "form": [
+          {
+            "lang": "ms",
+            "value": "upih"
+          }
+        ]
+      }
+    ],
+    "morphosyntaxanalysis": {
+      "graminfoname": [
+        {
+          "lang": "ms",
+          "value": "kata nama"
+        }
+      ]
+    },
+    "senses": [
+      {
+        "guid": "g1fd1a730-5366-42fd-8650-9f588d8edbc8",
+        "definitionorgloss": [
+          {
+            "lang": "ms",
+            "value": "upih; pangkal pelepah yang lembut, nipis serta lebar dan biasanya terdapat pada pokok jenis palma "
+          },
+          {
+            "lang": "en",
+            "value": "sheath; a soft, thin and wide sheath which usually exists on the palm type trees"
+          }
+        ],
+        "examplescontents": [
+          {
+            "example": [
+              {
+                "lang": "sea",
+                "value": "Upeh adeh jeoi igenuna nu mai hik. Ilei biguna ha nelapek raga atao buleh bibeh begei ha pingat caknak."
+              }
+            ],
+            "translationcontents": [
+              {
+                "translation": [
+                  {
+                    "lang": "ms",
+                    "value": "Upih terdapat banyak kegunaan kepada Orang Asli. Ianyanya digunakan bagi melapik raga atau boleh digunakan sebagai pinggan makanan."
+                  },
+                  {
+                    "lang": "en",
+                    "value": "A coconut sheath has plenty of uses for the aboriginal people. It can be used as a bottom cover for the basket or as a food platter."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "displayXhtml": "<div class=\"entry\" id=\"g1fd1a730-5366-42fd-8650-9f588d8edbc8\"><span class=\"mainheadword\"><span lang=\"sea\"><a href=\"#g1fd1a730-5366-42fd-8650-9f588d8edbc8\">upeh</a></span></span><span class=\"etymologies\"><span class=\"etymology\"><span class=\"languages\"><span class=\"language\"><span class=\"abbreviation-2\"><span lang=\"ms\">BM</span></span></span></span><span class=\"form\"><span lang=\"ms\">upih</span></span></span></span><span class=\"senses\"><span class=\"sharedgrammaticalinfo\"><span class=\"morphosyntaxanalysis\"><span class=\"graminfoname\"><span lang=\"ms\">kata nama</span></span></span></span><span class=\"sensecontent\"><span class=\"sense\" entryguid=\"g1fd1a730-5366-42fd-8650-9f588d8edbc8\"><span class=\"definitionorgloss\"><span lang=\"ms\">upih; pangkal pelepah yang lembut, nipis serta lebar dan biasanya terdapat pada pokok jenis palma </span><span lang=\"en\">sheath; a soft, thin and wide sheath which usually exists on the palm type trees</span></span><span class=\"examplescontents\"><span class=\"examplescontent\"><span class=\"example\"><span lang=\"sea\">Upeh adeh jeoi igenuna nu mai hik. Ilei biguna ha nelapek raga atao buleh bibeh begei ha pingat caknak.</span></span><span class=\"translationcontents\"><span class=\"translationcontent\"><span class=\"translation\"><span lang=\"ms\">Upih terdapat banyak kegunaan kepada Orang Asli. Ianyanya digunakan bagi melapik raga atau boleh digunakan sebagai pinggan makanan.</span><span lang=\"en\">A coconut sheath has plenty of uses for the aboriginal people. It can be used as a bottom cover for the basket or as a food platter.</span></span></span></span></span></span></span></span></span></div>",
+    "dictionaryId": "semai",
+    "searchTexts": [
+      "upeh",
+      "BM",
+      "upih",
+      "kata nama",
+      "upih; pangkal pelepah yang lembut, nipis serta lebar dan biasanya terdapat pada pokok jenis palma ",
+      "sheath; a soft, thin and wide sheath which usually exists on the palm type trees",
+      "Upeh adeh jeoi igenuna nu mai hik. Ilei biguna ha nelapek raga atao buleh bibeh begei ha pingat caknak.",
+      "Upih terdapat banyak kegunaan kepada Orang Asli. Ianyanya digunakan bagi melapik raga atau boleh digunakan sebagai pinggan makanan.",
+      "A coconut sheath has plenty of uses for the aboriginal people. It can be used as a bottom cover for the basket or as a food platter."
+    ],
+    "langTexts": {
+      "sea": [
+        "upeh",
+        "Upeh adeh jeoi igenuna nu mai hik. Ilei biguna ha nelapek raga atao buleh bibeh begei ha pingat caknak."
+      ],
+      "ms": [
+        "BM",
+        "upih",
+        "kata nama",
+        "upih; pangkal pelepah yang lembut, nipis serta lebar dan biasanya terdapat pada pokok jenis palma ",
+        "Upih terdapat banyak kegunaan kepada Orang Asli. Ianyanya digunakan bagi melapik raga atau boleh digunakan sebagai pinggan makanan."
+      ],
+      "en": [
+        "sheath; a soft, thin and wide sheath which usually exists on the palm type trees",
+        "A coconut sheath has plenty of uses for the aboriginal people. It can be used as a bottom cover for the basket or as a food platter."
+      ]
+    },
+    "langUnaccentedTexts": {
+      "sea": [
+        "upeh",
+        "Upeh adeh jeoi igenuna nu mai hik. Ilei biguna ha nelapek raga atao buleh bibeh begei ha pingat caknak."
+      ],
+      "ms": [
+        "BM",
+        "upih",
+        "kata nama",
+        "upih; pangkal pelepah yang lembut, nipis serta lebar dan biasanya terdapat pada pokok jenis palma ",
+        "Upih terdapat banyak kegunaan kepada Orang Asli. Ianyanya digunakan bagi melapik raga atau boleh digunakan sebagai pinggan makanan."
+      ],
+      "en": [
+        "sheath; a soft, thin and wide sheath which usually exists on the palm type trees",
+        "A coconut sheath has plenty of uses for the aboriginal people. It can be used as a bottom cover for the basket or as a food platter."
+      ]
+    },
+    "updatedAt": "2025-10-07T02:10:59.147Z",
+    "updatedBy": "ejincho"
+  },
+  {
+    "_id": "g67f2463e-8aa0-4c87-841b-4c951811c113",
+    "xhtmlTemplate": "entry",
+    "guid": "g67f2463e-8aa0-4c87-841b-4c951811c113",
+    "letterHead": "u",
+    "sortIndex": 3808,
+    "mainheadword": [
+      {
+        "lang": "sea",
+        "guid": "g67f2463e-8aa0-4c87-841b-4c951811c113",
+        "value": "urag"
+      }
+    ],
+    "etymologies": [
+      {
+        "languages": [
+          {
+            "abbreviation-2": [
+              {
+                "lang": "ms",
+                "value": "BM"
+              }
+            ]
+          }
+        ],
+        "form": [
+          {
+            "lang": "ms",
+            "value": "orang"
+          }
+        ]
+      }
+    ],
+    "morphosyntaxanalysis": {
+      "graminfoname": [
+        {
+          "lang": "ms",
+          "value": "penjodoh bilangan"
+        }
+      ]
+    },
+    "senses": [
+      {
+        "guid": "g67f2463e-8aa0-4c87-841b-4c951811c113",
+        "definitionorgloss": [
+          {
+            "lang": "ms",
+            "value": "bagi manusia"
+          },
+          {
+            "lang": "en",
+            "value": "classifier for the human being"
+          }
+        ],
+        "examplescontents": [
+          {
+            "example": [
+              {
+                "lang": "sea",
+                "value": "Tukeh kitanya, \"Merip urag sengoi de betulog hek kek sempak?\""
+              }
+            ],
+            "translationcontents": [
+              {
+                "translation": [
+                  {
+                    "lang": "ms",
+                    "value": "Taukeh bertanya, \"Berapa orang yang menolong kamu mencari durian?\""
+                  },
+                  {
+                    "lang": "en",
+                    "value": "\"How many people helped you look for durian?\" the boss asked, "
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "subentries": [
+      {
+        "headword-4": [
+          {
+            "lang": "sea",
+            "guid": "gd354321d-e738-48f9-a810-673f7bc0ad55",
+            "value": "nuurag"
+          }
+        ],
+        "morphosyntaxanalysis-2": {
+          "graminfoname-2": [
+            {
+              "lang": "ms",
+              "value": "kata nama"
+            }
+          ]
+        },
+        "senses-2": [
+          {
+            "guid": "gd354321d-e738-48f9-a810-673f7bc0ad55",
+            "definitionorgloss-2": [
+              {
+                "lang": "ms",
+                "value": "seorang"
+              },
+              {
+                "lang": "en",
+                "value": "one person"
+              }
+            ],
+            "lexsensereferences-2": [
+              {
+                "ownertype_name-2": [
+                  {
+                    "lang": "ms",
+                    "value": "sinonim"
+                  }
+                ],
+                "configtargets-2": [
+                  {
+                    "headword-9": [
+                      {
+                        "lang": "sea",
+                        "guid": "gd9d6d488-a970-4de1-99cf-2d4e26deff2f",
+                        "value": "numom"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "displayXhtml": "<div class=\"entry\" id=\"g67f2463e-8aa0-4c87-841b-4c951811c113\"><span class=\"mainheadword\"><span lang=\"sea\"><a href=\"#g67f2463e-8aa0-4c87-841b-4c951811c113\">urag</a></span></span><span class=\"etymologies\"><span class=\"etymology\"><span class=\"languages\"><span class=\"language\"><span class=\"abbreviation-2\"><span lang=\"ms\">BM</span></span></span></span><span class=\"form\"><span lang=\"ms\">orang</span></span></span></span><span class=\"senses\"><span class=\"sharedgrammaticalinfo\"><span class=\"morphosyntaxanalysis\"><span class=\"graminfoname\"><span lang=\"ms\">penjodoh bilangan</span></span></span></span><span class=\"sensecontent\"><span class=\"sense\" entryguid=\"g67f2463e-8aa0-4c87-841b-4c951811c113\"><span class=\"definitionorgloss\"><span lang=\"ms\">bagi manusia</span><span lang=\"en\">classifier for the human being</span></span><span class=\"examplescontents\"><span class=\"examplescontent\"><span class=\"example\"><span lang=\"sea\">Tukeh kitanya, \"Merip urag sengoi de betulog hek kek sempak?\"</span></span><span class=\"translationcontents\"><span class=\"translationcontent\"><span class=\"translation\"><span lang=\"ms\">Taukeh bertanya, \"Berapa orang yang menolong kamu mencari durian?\"</span><span lang=\"en\">\"How many people helped you look for durian?\" the boss asked, </span></span></span></span></span></span></span></span></span><span class=\"subentries\"><span class=\"subentry mainentrysubentry\"><span class=\"headword-4\"><span lang=\"sea\"><a href=\"#gd354321d-e738-48f9-a810-673f7bc0ad55\">nuurag</a></span></span><span class=\"senses-2\"><span class=\"sharedgrammaticalinfo\"><span class=\"morphosyntaxanalysis-2\"><span class=\"graminfoname-2\"><span lang=\"ms\">kata nama</span></span></span></span><span class=\"sensecontent\"><span class=\"sense\" entryguid=\"gd354321d-e738-48f9-a810-673f7bc0ad55\"><span class=\"definitionorgloss-2\"><span lang=\"ms\">seorang</span><span lang=\"en\">one person</span></span><span class=\"lexsensereferences-2\"><span class=\"lexsensereference\"><span class=\"ownertype_name-2\"><span lang=\"ms\">sinonim</span></span><span class=\"configtargets-2\"><span class=\"configtarget\"><span class=\"headword-9\"><span lang=\"sea\"><a href=\"#gd9d6d488-a970-4de1-99cf-2d4e26deff2f\">numom</a></span></span></span></span></span></span></span></span></span></span></span></div>",
+    "dictionaryId": "semai",
+    "searchTexts": [
+      "urag",
+      "BM",
+      "orang",
+      "penjodoh bilangan",
+      "bagi manusia",
+      "classifier for the human being",
+      "Tukeh kitanya, \"Merip urag sengoi de betulog hek kek sempak?\"",
+      "Taukeh bertanya, \"Berapa orang yang menolong kamu mencari durian?\"",
+      "\"How many people helped you look for durian?\" the boss asked, ",
+      "nuurag",
+      "kata nama",
+      "seorang",
+      "one person",
+      "sinonim",
+      "numom"
+    ],
+    "langTexts": {
+      "sea": [
+        "urag",
+        "Tukeh kitanya, \"Merip urag sengoi de betulog hek kek sempak?\"",
+        "nuurag",
+        "numom"
+      ],
+      "ms": [
+        "BM",
+        "orang",
+        "penjodoh bilangan",
+        "bagi manusia",
+        "Taukeh bertanya, \"Berapa orang yang menolong kamu mencari durian?\"",
+        "kata nama",
+        "seorang",
+        "sinonim"
+      ],
+      "en": [
+        "classifier for the human being",
+        "\"How many people helped you look for durian?\" the boss asked, ",
+        "one person"
+      ]
+    },
+    "langUnaccentedTexts": {
+      "sea": [
+        "urag",
+        "Tukeh kitanya, \"Merip urag sengoi de betulog hek kek sempak?\"",
+        "nuurag",
+        "numom"
+      ],
+      "ms": [
+        "BM",
+        "orang",
+        "penjodoh bilangan",
+        "bagi manusia",
+        "Taukeh bertanya, \"Berapa orang yang menolong kamu mencari durian?\"",
+        "kata nama",
+        "seorang",
+        "sinonim"
+      ],
+      "en": [
+        "classifier for the human being",
+        "\"How many people helped you look for durian?\" the boss asked, ",
+        "one person"
+      ]
+    },
+    "updatedAt": "2025-10-07T02:10:59.147Z",
+    "updatedBy": "ejincho"
+  },
+  {
+    "_id": "g53b7797a-6317-4e22-a4ca-14b19b6b3346",
+    "xhtmlTemplate": "entry",
+    "guid": "g53b7797a-6317-4e22-a4ca-14b19b6b3346",
+    "letterHead": "u",
+    "sortIndex": 3809,
+    "mainheadword": [
+      {
+        "lang": "sea",
+        "guid": "g53b7797a-6317-4e22-a4ca-14b19b6b3346",
+        "value": "urat"
+      }
+    ],
+    "etymologies": [
+      {
+        "languages": [
+          {
+            "abbreviation-2": [
+              {
+                "lang": "ms",
+                "value": "BM"
+              }
+            ]
+          }
+        ],
+        "form": [
+          {
+            "lang": "ms",
+            "value": "urat"
+          }
+        ]
+      }
+    ],
+    "morphosyntaxanalysis": {
+      "graminfoname": [
+        {
+          "lang": "ms",
+          "value": "kata nama"
+        }
+      ]
+    },
+    "senses": [
+      {
+        "guid": "g53b7797a-6317-4e22-a4ca-14b19b6b3346",
+        "definitionorgloss": [
+          {
+            "lang": "ms",
+            "value": "urat; nadi; pembuluh darah; pembuluh kecil di dalam tubuh, saluran tempat darah mengalir didalam anggota badan"
+          },
+          {
+            "lang": "en",
+            "value": "vein; small vessel in the body where blood flow"
+          }
+        ],
+        "examplescontents": [
+          {
+            "example": [
+              {
+                "lang": "sea",
+                "value": "Bah Abang lau i'urat teg amen kibeh kerjak nyeh."
+              }
+            ],
+            "translationcontents": [
+              {
+                "translation": [
+                  {
+                    "lang": "ms",
+                    "value": "Urat tangan Bah Abang kelihatan jika dia melakukan kerja berat."
+                  },
+                  {
+                    "lang": "en",
+                    "value": "Bah Abang's veins are visible if he is doing a heavy task."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "displayXhtml": "<div class=\"entry\" id=\"g53b7797a-6317-4e22-a4ca-14b19b6b3346\"><span class=\"mainheadword\"><span lang=\"sea\"><a href=\"#g53b7797a-6317-4e22-a4ca-14b19b6b3346\">urat</a></span></span><span class=\"etymologies\"><span class=\"etymology\"><span class=\"languages\"><span class=\"language\"><span class=\"abbreviation-2\"><span lang=\"ms\">BM</span></span></span></span><span class=\"form\"><span lang=\"ms\">urat</span></span></span></span><span class=\"senses\"><span class=\"sharedgrammaticalinfo\"><span class=\"morphosyntaxanalysis\"><span class=\"graminfoname\"><span lang=\"ms\">kata nama</span></span></span></span><span class=\"sensecontent\"><span class=\"sense\" entryguid=\"g53b7797a-6317-4e22-a4ca-14b19b6b3346\"><span class=\"definitionorgloss\"><span lang=\"ms\">urat; nadi; pembuluh darah; pembuluh kecil di dalam tubuh, saluran tempat darah mengalir didalam anggota badan</span><span lang=\"en\">vein; small vessel in the body where blood flow</span></span><span class=\"examplescontents\"><span class=\"examplescontent\"><span class=\"example\"><span lang=\"sea\">Bah Abang lau i'urat teg amen kibeh kerjak nyeh.</span></span><span class=\"translationcontents\"><span class=\"translationcontent\"><span class=\"translation\"><span lang=\"ms\">Urat tangan Bah Abang kelihatan jika dia melakukan kerja berat.</span><span lang=\"en\">Bah Abang's veins are visible if he is doing a heavy task.</span></span></span></span></span></span></span></span></span></div>",
+    "dictionaryId": "semai",
+    "searchTexts": [
+      "urat",
+      "BM",
+      "kata nama",
+      "urat; nadi; pembuluh darah; pembuluh kecil di dalam tubuh, saluran tempat darah mengalir didalam anggota badan",
+      "vein; small vessel in the body where blood flow",
+      "Bah Abang lau i'urat teg amen kibeh kerjak nyeh.",
+      "Urat tangan Bah Abang kelihatan jika dia melakukan kerja berat.",
+      "Bah Abang's veins are visible if he is doing a heavy task."
+    ],
+    "langTexts": {
+      "sea": [
+        "urat",
+        "Bah Abang lau i'urat teg amen kibeh kerjak nyeh."
+      ],
+      "ms": [
+        "BM",
+        "urat",
+        "kata nama",
+        "urat; nadi; pembuluh darah; pembuluh kecil di dalam tubuh, saluran tempat darah mengalir didalam anggota badan",
+        "Urat tangan Bah Abang kelihatan jika dia melakukan kerja berat."
+      ],
+      "en": [
+        "vein; small vessel in the body where blood flow",
+        "Bah Abang's veins are visible if he is doing a heavy task."
+      ]
+    },
+    "langUnaccentedTexts": {
+      "sea": [
+        "urat",
+        "Bah Abang lau i'urat teg amen kibeh kerjak nyeh."
+      ],
+      "ms": [
+        "BM",
+        "urat",
+        "kata nama",
+        "urat; nadi; pembuluh darah; pembuluh kecil di dalam tubuh, saluran tempat darah mengalir didalam anggota badan",
+        "Urat tangan Bah Abang kelihatan jika dia melakukan kerja berat."
+      ],
+      "en": [
+        "vein; small vessel in the body where blood flow",
+        "Bah Abang's veins are visible if he is doing a heavy task."
+      ]
+    },
+    "updatedAt": "2025-10-07T02:10:59.147Z",
+    "updatedBy": "ejincho"
+  },
+  {
+    "_id": "g78b3aa9d-7862-4740-a126-cf4212fb3a7f",
+    "xhtmlTemplate": "entry",
+    "guid": "g78b3aa9d-7862-4740-a126-cf4212fb3a7f",
+    "letterHead": "u",
+    "sortIndex": 3810,
+    "mainheadword": [
+      {
+        "lang": "sea",
+        "guid": "g78b3aa9d-7862-4740-a126-cf4212fb3a7f",
+        "value": "ureh"
+      }
+    ],
+    "morphosyntaxanalysis": {
+      "graminfoname": [
+        {
+          "lang": "ms",
+          "value": "kata keterangan"
+        }
+      ]
+    },
+    "senses": [
+      {
+        "guid": "g78b3aa9d-7862-4740-a126-cf4212fb3a7f",
+        "definitionorgloss": [
+          {
+            "lang": "ms",
+            "value": "itu"
+          },
+          {
+            "lang": "en",
+            "value": "there"
+          }
+        ],
+        "examplescontents": [
+          {
+            "example": [
+              {
+                "lang": "sea",
+                "value": "Wak Melah kiurok nu i'amek, \"Ureh apak ya kihol, or kek dea kiterbor pili dea buleh harha-sahsah.\""
+              }
+            ],
+            "translationcontents": [
+              {
+                "translation": [
+                  {
+                    "lang": "ms",
+                    "value": "Wak Melah berkata kepada ibunya, \"Itu bapa sudah datang, suruh dia membaiki paip (air) supaya kita boleh membasuh pakaian.\""
+                  },
+                  {
+                    "lang": "en",
+                    "value": "\"There is father coming, ask him to repair the water pipe so that both of us can do the laundry,\" said Wak Melah to her mother."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "displayXhtml": "<div class=\"entry\" id=\"g78b3aa9d-7862-4740-a126-cf4212fb3a7f\"><span class=\"mainheadword\"><span lang=\"sea\"><a href=\"#g78b3aa9d-7862-4740-a126-cf4212fb3a7f\">ureh</a></span></span><span class=\"senses\"><span class=\"sharedgrammaticalinfo\"><span class=\"morphosyntaxanalysis\"><span class=\"graminfoname\"><span lang=\"ms\">kata keterangan</span></span></span></span><span class=\"sensecontent\"><span class=\"sense\" entryguid=\"g78b3aa9d-7862-4740-a126-cf4212fb3a7f\"><span class=\"definitionorgloss\"><span lang=\"ms\">itu</span><span lang=\"en\">there</span></span><span class=\"examplescontents\"><span class=\"examplescontent\"><span class=\"example\"><span lang=\"sea\">Wak Melah kiurok nu i'amek, \"Ureh apak ya kihol, or kek dea kiterbor pili dea buleh harha-sahsah.\"</span></span><span class=\"translationcontents\"><span class=\"translationcontent\"><span class=\"translation\"><span lang=\"ms\">Wak Melah berkata kepada ibunya, \"Itu bapa sudah datang, suruh dia membaiki paip (air) supaya kita boleh membasuh pakaian.\"</span><span lang=\"en\">\"There is father coming, ask him to repair the water pipe so that both of us can do the laundry,\" said Wak Melah to her mother.</span></span></span></span></span></span></span></span></span></div>",
+    "dictionaryId": "semai",
+    "searchTexts": [
+      "ureh",
+      "kata keterangan",
+      "itu",
+      "there",
+      "Wak Melah kiurok nu i'amek, \"Ureh apak ya kihol, or kek dea kiterbor pili dea buleh harha-sahsah.\"",
+      "Wak Melah berkata kepada ibunya, \"Itu bapa sudah datang, suruh dia membaiki paip (air) supaya kita boleh membasuh pakaian.\"",
+      "\"There is father coming, ask him to repair the water pipe so that both of us can do the laundry,\" said Wak Melah to her mother."
+    ],
+    "langTexts": {
+      "sea": [
+        "ureh",
+        "Wak Melah kiurok nu i'amek, \"Ureh apak ya kihol, or kek dea kiterbor pili dea buleh harha-sahsah.\""
+      ],
+      "ms": [
+        "kata keterangan",
+        "itu",
+        "Wak Melah berkata kepada ibunya, \"Itu bapa sudah datang, suruh dia membaiki paip (air) supaya kita boleh membasuh pakaian.\""
+      ],
+      "en": [
+        "there",
+        "\"There is father coming, ask him to repair the water pipe so that both of us can do the laundry,\" said Wak Melah to her mother."
+      ]
+    },
+    "langUnaccentedTexts": {
+      "sea": [
+        "ureh",
+        "Wak Melah kiurok nu i'amek, \"Ureh apak ya kihol, or kek dea kiterbor pili dea buleh harha-sahsah.\""
+      ],
+      "ms": [
+        "kata keterangan",
+        "itu",
+        "Wak Melah berkata kepada ibunya, \"Itu bapa sudah datang, suruh dia membaiki paip (air) supaya kita boleh membasuh pakaian.\""
+      ],
+      "en": [
+        "there",
+        "\"There is father coming, ask him to repair the water pipe so that both of us can do the laundry,\" said Wak Melah to her mother."
+      ]
+    },
+    "updatedAt": "2025-10-07T02:10:59.147Z",
+    "updatedBy": "ejincho"
+  },
+  {
+    "_id": "ge6939b61-917c-4ba5-b59f-5860379ddffc",
+    "xhtmlTemplate": "entry",
+    "guid": "ge6939b61-917c-4ba5-b59f-5860379ddffc",
+    "letterHead": "u",
+    "sortIndex": 3811,
+    "mainheadword": [
+      {
+        "lang": "sea",
+        "guid": "ge6939b61-917c-4ba5-b59f-5860379ddffc",
+        "value": "urok"
+      }
+    ],
+    "morphosyntaxanalysis": {
+      "graminfoname": [
+        {
+          "lang": "ms",
+          "value": "kata kerja"
+        }
+      ]
+    },
+    "senses": [
+      {
+        "guid": "ge6939b61-917c-4ba5-b59f-5860379ddffc",
+        "definitionorgloss": [
+          {
+            "lang": "ms",
+            "value": "cakap; beritahu"
+          },
+          {
+            "lang": "en",
+            "value": "to say; to speak; to tell"
+          }
+        ],
+        "lexsensereferences": [
+          {
+            "ownertype_name": [
+              {
+                "lang": "ms",
+                "value": "sinonim"
+              }
+            ],
+            "configtargets": [
+              {
+                "headword-2": [
+                  {
+                    "lang": "sea",
+                    "guid": "g55b38dfd-9db2-4e52-95d3-14255fc1a38b",
+                    "value": "bual"
+                  }
+                ]
+              },
+              {
+                "headword-2": [
+                  {
+                    "lang": "sea",
+                    "guid": "gb7a2d80b-1c67-48aa-ae73-13f2de6aa1df",
+                    "value": "cal"
+                  }
+                ]
+              },
+              {
+                "headword-2": [
+                  {
+                    "lang": "sea",
+                    "guid": "g1886a319-d96c-4836-aba7-2253de293f06",
+                    "value": "dot"
+                  }
+                ]
+              },
+              {
+                "headword-2": [
+                  {
+                    "lang": "sea",
+                    "guid": "g60f51286-b813-45ab-8e3d-0665538bc842",
+                    "value": "pasal"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "examplescontents": [
+          {
+            "example": [
+              {
+                "lang": "sea",
+                "value": "Bah Man kiurok kek pek pernah kiet nu Kuala Lumpur."
+              }
+            ],
+            "translationcontents": [
+              {
+                "translation": [
+                  {
+                    "lang": "ms",
+                    "value": "Bah Man berkata (bahawa) dia tidak pernah ke Kuala Lumpur."
+                  },
+                  {
+                    "lang": "en",
+                    "value": "Bah Man says that he has never visited Kuala Lumpur."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "subentries": [
+      {
+        "headword-4": [
+          {
+            "lang": "sea",
+            "guid": "ge3d11f03-b712-4029-9d5a-a56e6d647ae7",
+            "value": "engrok"
+          },
+          {
+            "lang": "sea",
+            "style": "font-weight:bold;font-size:58%;position:relative;top:0.3em;",
+            "guid": "ge3d11f03-b712-4029-9d5a-a56e6d647ae7",
+            "value": "2"
+          },
+          {
+            "guid": "ge3d11f03-b712-4029-9d5a-a56e6d647ae7",
+            "lang": "sea-Zxxx-x-audio",
+            "value": {
+              "id": "gengrok-63733358461463",
+              "src": "AudioVisual/engrok-63733358461463.mp3"
+            }
+          }
+        ],
+        "morphosyntaxanalysis-2": {
+          "graminfoname-2": [
+            {
+              "lang": "ms",
+              "value": "kata nama"
+            }
+          ]
+        },
+        "senses-2": [
+          {
+            "senseNumber": "1",
+            "guid": "ge3d11f03-b712-4029-9d5a-a56e6d647ae7",
+            "definitionorgloss-2": [
+              {
+                "lang": "ms",
+                "value": "perbualan; percakapan; kata-kata"
+              },
+              {
+                "lang": "en",
+                "value": "conversation; utterance; words"
+              }
+            ],
+            "examplescontents-2": [
+              {
+                "example-2": [
+                  {
+                    "lang": "sea",
+                    "value": "Bah Sudin ajeh degel isengoi, ilei pek pernah kicerengai engrok ikeneng-menek."
+                  }
+                ],
+                "translationcontents-2": [
+                  {
+                    "translation-2": [
+                      {
+                        "lang": "ms",
+                        "value": "Bah Sudin adalah seorang yang degil, dia tidak pernah mendengar kata-kata ibubapanya."
+                      },
+                      {
+                        "lang": "en",
+                        "value": "Bah Sudin is a stubborn person, he never listens to his parents' words."
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "senseNumber": "2",
+            "guid": "ge3d11f03-b712-4029-9d5a-a56e6d647ae7",
+            "definitionorgloss-2": [
+              {
+                "lang": "ms",
+                "value": "bahasa"
+              },
+              {
+                "lang": "en",
+                "value": "language"
+              }
+            ],
+            "examplescontents-2": [
+              {
+                "example-2": [
+                  {
+                    "lang": "sea",
+                    "value": "Wak Tina kipanei belwal engrok hik, engrok gop, engrok cina, ru engrok mai biyeg."
+                  }
+                ],
+                "translationcontents-2": [
+                  {
+                    "translation-2": [
+                      {
+                        "lang": "ms",
+                        "value": "Wak Tian tahu bertutur dalam Bahasa Semai, Bahasa Melayu, Bahasa Mandrin, dan Bahasa Inggeris."
+                      },
+                      {
+                        "lang": "en",
+                        "value": "Wak Tina knows how to speak in Semai, Malay, Mandarin, and English languages."
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "lexsensereferences-2": [
+              {
+                "ownertype_name-2": [
+                  {
+                    "lang": "ms",
+                    "value": "sinonim"
+                  }
+                ],
+                "configtargets-2": [
+                  {
+                    "headword-9": [
+                      {
+                        "lang": "sea",
+                        "guid": "gca2ce52b-78fe-4635-b965-902f442785fa",
+                        "value": "bahase"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "displayXhtml": "<div class=\"entry\" id=\"ge6939b61-917c-4ba5-b59f-5860379ddffc\"><span class=\"mainheadword\"><span lang=\"sea\"><a href=\"#ge6939b61-917c-4ba5-b59f-5860379ddffc\">urok</a></span></span><span class=\"senses\"><span class=\"sharedgrammaticalinfo\"><span class=\"morphosyntaxanalysis\"><span class=\"graminfoname\"><span lang=\"ms\">kata kerja</span></span></span></span><span class=\"sensecontent\"><span class=\"sense\" entryguid=\"ge6939b61-917c-4ba5-b59f-5860379ddffc\"><span class=\"definitionorgloss\"><span lang=\"ms\">cakap; beritahu</span><span lang=\"en\">to say; to speak; to tell</span></span><span class=\"lexsensereferences\"><span class=\"lexsensereference\"><span class=\"ownertype_name\"><span lang=\"ms\">sinonim</span></span><span class=\"configtargets\"><span class=\"configtarget\"><span class=\"headword-2\"><span lang=\"sea\"><a href=\"#g55b38dfd-9db2-4e52-95d3-14255fc1a38b\">bual</a></span></span></span><span class=\"configtarget\"><span class=\"headword-2\"><span lang=\"sea\"><a href=\"#gb7a2d80b-1c67-48aa-ae73-13f2de6aa1df\">cal</a></span></span></span><span class=\"configtarget\"><span class=\"headword-2\"><span lang=\"sea\"><a href=\"#g1886a319-d96c-4836-aba7-2253de293f06\">dot</a></span></span></span><span class=\"configtarget\"><span class=\"headword-2\"><span lang=\"sea\"><a href=\"#g60f51286-b813-45ab-8e3d-0665538bc842\">pasal</a></span></span></span></span></span></span><span class=\"examplescontents\"><span class=\"examplescontent\"><span class=\"example\"><span lang=\"sea\">Bah Man kiurok kek pek pernah kiet nu Kuala Lumpur.</span></span><span class=\"translationcontents\"><span class=\"translationcontent\"><span class=\"translation\"><span lang=\"ms\">Bah Man berkata (bahawa) dia tidak pernah ke Kuala Lumpur.</span><span lang=\"en\">Bah Man says that he has never visited Kuala Lumpur.</span></span></span></span></span></span></span></span></span><span class=\"subentries\"><span class=\"subentry mainentrysubentry\"><span class=\"headword-4\"><span lang=\"sea\"><span lang=\"sea\"><a href=\"#ge3d11f03-b712-4029-9d5a-a56e6d647ae7\">engrok</a></span><span lang=\"sea\" style=\"font-weight:bold;font-size:58%;position:relative;top:0.3em;\"><a href=\"#ge3d11f03-b712-4029-9d5a-a56e6d647ae7\">2</a></span></span><span><audio id=\"gengrok-63733358461463\"><source src=\"AudioVisual\\engrok-63733358461463.mp3\"></source></audio><a class=\"sea-Zxxx-x-audio\" href=\"#gengrok-63733358461463\" onclick=\"document.getElementById('gengrok-63733358461463').play()\"></a></span></span><span class=\"senses-2\"><span class=\"sharedgrammaticalinfo\"><span class=\"morphosyntaxanalysis-2\"><span class=\"graminfoname-2\"><span lang=\"ms\">kata nama</span></span></span></span><span class=\"sensecontent\"><span class=\"sensenumber\" lang=\"en\">1</span><span class=\"sense\" entryguid=\"ge3d11f03-b712-4029-9d5a-a56e6d647ae7\"><span class=\"definitionorgloss-2\"><span lang=\"ms\">perbualan; percakapan; kata-kata</span><span lang=\"en\">conversation; utterance; words</span></span><span class=\"examplescontents-2\"><span class=\"examplescontent\"><span class=\"example-2\"><span lang=\"sea\">Bah Sudin ajeh degel isengoi, ilei pek pernah kicerengai engrok ikeneng-menek.</span></span><span class=\"translationcontents-2\"><span class=\"translationcontent\"><span class=\"translation-2\"><span lang=\"ms\">Bah Sudin adalah seorang yang degil, dia tidak pernah mendengar kata-kata ibubapanya.</span><span lang=\"en\">Bah Sudin is a stubborn person, he never listens to his parents' words.</span></span></span></span></span></span></span></span><span class=\"sensecontent\"><span class=\"sensenumber\" lang=\"en\">2</span><span class=\"sense\" entryguid=\"ge3d11f03-b712-4029-9d5a-a56e6d647ae7\"><span class=\"definitionorgloss-2\"><span lang=\"ms\">bahasa</span><span lang=\"en\">language</span></span><span class=\"examplescontents-2\"><span class=\"examplescontent\"><span class=\"example-2\"><span lang=\"sea\">Wak Tina kipanei belwal engrok hik, engrok gop, engrok cina, ru engrok mai biyeg.</span></span><span class=\"translationcontents-2\"><span class=\"translationcontent\"><span class=\"translation-2\"><span lang=\"ms\">Wak Tian tahu bertutur dalam Bahasa Semai, Bahasa Melayu, Bahasa Mandrin, dan Bahasa Inggeris.</span><span lang=\"en\">Wak Tina knows how to speak in Semai, Malay, Mandarin, and English languages.</span></span></span></span></span></span><span class=\"lexsensereferences-2\"><span class=\"lexsensereference\"><span class=\"ownertype_name-2\"><span lang=\"ms\">sinonim</span></span><span class=\"configtargets-2\"><span class=\"configtarget\"><span class=\"headword-9\"><span lang=\"sea\"><a href=\"#gca2ce52b-78fe-4635-b965-902f442785fa\">bahase</a></span></span></span></span></span></span></span></span></span></span></span></div>",
+    "dictionaryId": "semai",
+    "searchTexts": [
+      "urok",
+      "kata kerja",
+      "cakap; beritahu",
+      "to say; to speak; to tell",
+      "sinonim",
+      "bual",
+      "cal",
+      "dot",
+      "pasal",
+      "Bah Man kiurok kek pek pernah kiet nu Kuala Lumpur.",
+      "Bah Man berkata (bahawa) dia tidak pernah ke Kuala Lumpur.",
+      "Bah Man says that he has never visited Kuala Lumpur.",
+      "engrok2",
+      "engrok",
+      "2",
+      "kata nama",
+      "1",
+      "perbualan; percakapan; kata-kata",
+      "conversation; utterance; words",
+      "Bah Sudin ajeh degel isengoi, ilei pek pernah kicerengai engrok ikeneng-menek.",
+      "Bah Sudin adalah seorang yang degil, dia tidak pernah mendengar kata-kata ibubapanya.",
+      "Bah Sudin is a stubborn person, he never listens to his parents' words.",
+      "bahasa",
+      "language",
+      "Wak Tina kipanei belwal engrok hik, engrok gop, engrok cina, ru engrok mai biyeg.",
+      "Wak Tian tahu bertutur dalam Bahasa Semai, Bahasa Melayu, Bahasa Mandrin, dan Bahasa Inggeris.",
+      "Wak Tina knows how to speak in Semai, Malay, Mandarin, and English languages.",
+      "bahase"
+    ],
+    "langTexts": {
+      "sea": [
+        "urok",
+        "bual",
+        "cal",
+        "dot",
+        "pasal",
+        "Bah Man kiurok kek pek pernah kiet nu Kuala Lumpur.",
+        "engrok2",
+        "engrok",
+        "2",
+        "Bah Sudin ajeh degel isengoi, ilei pek pernah kicerengai engrok ikeneng-menek.",
+        "Wak Tina kipanei belwal engrok hik, engrok gop, engrok cina, ru engrok mai biyeg.",
+        "bahase"
+      ],
+      "ms": [
+        "kata kerja",
+        "cakap; beritahu",
+        "sinonim",
+        "Bah Man berkata (bahawa) dia tidak pernah ke Kuala Lumpur.",
+        "kata nama",
+        "perbualan; percakapan; kata-kata",
+        "Bah Sudin adalah seorang yang degil, dia tidak pernah mendengar kata-kata ibubapanya.",
+        "bahasa",
+        "Wak Tian tahu bertutur dalam Bahasa Semai, Bahasa Melayu, Bahasa Mandrin, dan Bahasa Inggeris."
+      ],
+      "en": [
+        "to say; to speak; to tell",
+        "Bah Man says that he has never visited Kuala Lumpur.",
+        "1",
+        "conversation; utterance; words",
+        "Bah Sudin is a stubborn person, he never listens to his parents' words.",
+        "2",
+        "language",
+        "Wak Tina knows how to speak in Semai, Malay, Mandarin, and English languages."
+      ]
+    },
+    "langUnaccentedTexts": {
+      "sea": [
+        "urok",
+        "bual",
+        "cal",
+        "dot",
+        "pasal",
+        "Bah Man kiurok kek pek pernah kiet nu Kuala Lumpur.",
+        "engrok2",
+        "engrok",
+        "2",
+        "Bah Sudin ajeh degel isengoi, ilei pek pernah kicerengai engrok ikeneng-menek.",
+        "Wak Tina kipanei belwal engrok hik, engrok gop, engrok cina, ru engrok mai biyeg.",
+        "bahase"
+      ],
+      "ms": [
+        "kata kerja",
+        "cakap; beritahu",
+        "sinonim",
+        "Bah Man berkata (bahawa) dia tidak pernah ke Kuala Lumpur.",
+        "kata nama",
+        "perbualan; percakapan; kata-kata",
+        "Bah Sudin adalah seorang yang degil, dia tidak pernah mendengar kata-kata ibubapanya.",
+        "bahasa",
+        "Wak Tian tahu bertutur dalam Bahasa Semai, Bahasa Melayu, Bahasa Mandrin, dan Bahasa Inggeris."
+      ],
+      "en": [
+        "to say; to speak; to tell",
+        "Bah Man says that he has never visited Kuala Lumpur.",
+        "1",
+        "conversation; utterance; words",
+        "Bah Sudin is a stubborn person, he never listens to his parents' words.",
+        "2",
+        "language",
+        "Wak Tina knows how to speak in Semai, Malay, Mandarin, and English languages."
+      ]
+    },
+    "updatedAt": "2025-10-07T02:10:59.147Z",
+    "updatedBy": "ejincho"
+  },
+  {
+    "_id": "gf76f7722-9777-4f98-beba-2537621b3981",
+    "xhtmlTemplate": "entry",
+    "guid": "gf76f7722-9777-4f98-beba-2537621b3981",
+    "letterHead": "u",
+    "sortIndex": 3812,
+    "mainheadword": [
+      {
+        "lang": "sea",
+        "guid": "gf76f7722-9777-4f98-beba-2537621b3981",
+        "value": "urot"
+      }
+    ],
+    "etymologies": [
+      {
+        "languages": [
+          {
+            "abbreviation-2": [
+              {
+                "lang": "ms",
+                "value": "BM"
+              }
+            ]
+          }
+        ],
+        "form": [
+          {
+            "lang": "ms",
+            "value": "urot"
+          }
+        ]
+      }
+    ],
+    "morphosyntaxanalysis": {
+      "graminfoname": [
+        {
+          "lang": "ms",
+          "value": "kata kerja"
+        }
+      ]
+    },
+    "senses": [
+      {
+        "guid": "gf76f7722-9777-4f98-beba-2537621b3981",
+        "definitionorgloss": [
+          {
+            "lang": "ms",
+            "value": "mengurut; memicit, menggosok atau meramas bahagian anggota tubuh badan untuk menghilangkan kesakitan"
+          },
+          {
+            "lang": "en",
+            "value": "to massage; to rub and squeeze parts of the body to get rid of pain"
+          }
+        ],
+        "examplescontents": [
+          {
+            "example": [
+              {
+                "lang": "sea",
+                "value": "Bah Dendi kiurot kemong iamek medei iamek kikalei kiangkot jehuk rangas cinek."
+              }
+            ],
+            "translationcontents": [
+              {
+                "translation": [
+                  {
+                    "lang": "ms",
+                    "value": "Bah Dendi mengurut betis ibunya kerana ibunya penat mengangkut kayu api tadi."
+                  },
+                  {
+                    "lang": "en",
+                    "value": "Bah Dendi massaged his mother's calf muscles because she was tired after loading the firewood."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "displayXhtml": "<div class=\"entry\" id=\"gf76f7722-9777-4f98-beba-2537621b3981\"><span class=\"mainheadword\"><span lang=\"sea\"><a href=\"#gf76f7722-9777-4f98-beba-2537621b3981\">urot</a></span></span><span class=\"etymologies\"><span class=\"etymology\"><span class=\"languages\"><span class=\"language\"><span class=\"abbreviation-2\"><span lang=\"ms\">BM</span></span></span></span><span class=\"form\"><span lang=\"ms\">urot</span></span></span></span><span class=\"senses\"><span class=\"sharedgrammaticalinfo\"><span class=\"morphosyntaxanalysis\"><span class=\"graminfoname\"><span lang=\"ms\">kata kerja</span></span></span></span><span class=\"sensecontent\"><span class=\"sense\" entryguid=\"gf76f7722-9777-4f98-beba-2537621b3981\"><span class=\"definitionorgloss\"><span lang=\"ms\">mengurut; memicit, menggosok atau meramas bahagian anggota tubuh badan untuk menghilangkan kesakitan</span><span lang=\"en\">to massage; to rub and squeeze parts of the body to get rid of pain</span></span><span class=\"examplescontents\"><span class=\"examplescontent\"><span class=\"example\"><span lang=\"sea\">Bah Dendi kiurot kemong iamek medei iamek kikalei kiangkot jehuk rangas cinek.</span></span><span class=\"translationcontents\"><span class=\"translationcontent\"><span class=\"translation\"><span lang=\"ms\">Bah Dendi mengurut betis ibunya kerana ibunya penat mengangkut kayu api tadi.</span><span lang=\"en\">Bah Dendi massaged his mother's calf muscles because she was tired after loading the firewood.</span></span></span></span></span></span></span></span></span></div>",
+    "dictionaryId": "semai",
+    "searchTexts": [
+      "urot",
+      "BM",
+      "kata kerja",
+      "mengurut; memicit, menggosok atau meramas bahagian anggota tubuh badan untuk menghilangkan kesakitan",
+      "to massage; to rub and squeeze parts of the body to get rid of pain",
+      "Bah Dendi kiurot kemong iamek medei iamek kikalei kiangkot jehuk rangas cinek.",
+      "Bah Dendi mengurut betis ibunya kerana ibunya penat mengangkut kayu api tadi.",
+      "Bah Dendi massaged his mother's calf muscles because she was tired after loading the firewood."
+    ],
+    "langTexts": {
+      "sea": [
+        "urot",
+        "Bah Dendi kiurot kemong iamek medei iamek kikalei kiangkot jehuk rangas cinek."
+      ],
+      "ms": [
+        "BM",
+        "urot",
+        "kata kerja",
+        "mengurut; memicit, menggosok atau meramas bahagian anggota tubuh badan untuk menghilangkan kesakitan",
+        "Bah Dendi mengurut betis ibunya kerana ibunya penat mengangkut kayu api tadi."
+      ],
+      "en": [
+        "to massage; to rub and squeeze parts of the body to get rid of pain",
+        "Bah Dendi massaged his mother's calf muscles because she was tired after loading the firewood."
+      ]
+    },
+    "langUnaccentedTexts": {
+      "sea": [
+        "urot",
+        "Bah Dendi kiurot kemong iamek medei iamek kikalei kiangkot jehuk rangas cinek."
+      ],
+      "ms": [
+        "BM",
+        "urot",
+        "kata kerja",
+        "mengurut; memicit, menggosok atau meramas bahagian anggota tubuh badan untuk menghilangkan kesakitan",
+        "Bah Dendi mengurut betis ibunya kerana ibunya penat mengangkut kayu api tadi."
+      ],
+      "en": [
+        "to massage; to rub and squeeze parts of the body to get rid of pain",
+        "Bah Dendi massaged his mother's calf muscles because she was tired after loading the firewood."
+      ]
+    },
+    "updatedAt": "2025-10-07T02:10:59.147Z",
+    "updatedBy": "ejincho"
+  },
+  {
+    "_id": "gaa36ecad-479e-45d9-b3d6-5f5ced4d20e7",
+    "xhtmlTemplate": "entry",
+    "guid": "gaa36ecad-479e-45d9-b3d6-5f5ced4d20e7",
+    "letterHead": "u",
+    "sortIndex": 3813,
+    "mainheadword": [
+      {
+        "lang": "sea",
+        "guid": "gaa36ecad-479e-45d9-b3d6-5f5ced4d20e7",
+        "value": "usek"
+      }
+    ],
+    "etymologies": [
+      {
+        "languages": [
+          {
+            "abbreviation-2": [
+              {
+                "lang": "ms",
+                "value": "BM"
+              }
+            ]
+          }
+        ],
+        "form": [
+          {
+            "lang": "ms",
+            "value": "usik"
+          }
+        ]
+      }
+    ],
+    "morphosyntaxanalysis": {
+      "graminfoname": [
+        {
+          "lang": "ms",
+          "value": "kata kerja"
+        }
+      ]
+    },
+    "senses": [
+      {
+        "guid": "gaa36ecad-479e-45d9-b3d6-5f5ced4d20e7",
+        "definitionorgloss": [
+          {
+            "lang": "ms",
+            "value": "mengusik; mengganggu"
+          },
+          {
+            "lang": "en",
+            "value": "to disturb; to tease"
+          }
+        ],
+        "examplescontents": [
+          {
+            "example": [
+              {
+                "lang": "sea",
+                "value": "Bah Kairul kigemar beusek imenang, kadang-kadang lei imenang ajeh kijap."
+              }
+            ],
+            "translationcontents": [
+              {
+                "translation": [
+                  {
+                    "lang": "ms",
+                    "value": "Bah Kairul suka mengusik adiknya, kadang-kadang sehingga adiknya tersebut menangis."
+                  },
+                  {
+                    "lang": "en",
+                    "value": "Bah Kairul likes to tease his sister, sometimes until she cries."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "displayXhtml": "<div class=\"entry\" id=\"gaa36ecad-479e-45d9-b3d6-5f5ced4d20e7\"><span class=\"mainheadword\"><span lang=\"sea\"><a href=\"#gaa36ecad-479e-45d9-b3d6-5f5ced4d20e7\">usek</a></span></span><span class=\"etymologies\"><span class=\"etymology\"><span class=\"languages\"><span class=\"language\"><span class=\"abbreviation-2\"><span lang=\"ms\">BM</span></span></span></span><span class=\"form\"><span lang=\"ms\">usik</span></span></span></span><span class=\"senses\"><span class=\"sharedgrammaticalinfo\"><span class=\"morphosyntaxanalysis\"><span class=\"graminfoname\"><span lang=\"ms\">kata kerja</span></span></span></span><span class=\"sensecontent\"><span class=\"sense\" entryguid=\"gaa36ecad-479e-45d9-b3d6-5f5ced4d20e7\"><span class=\"definitionorgloss\"><span lang=\"ms\">mengusik; mengganggu</span><span lang=\"en\">to disturb; to tease</span></span><span class=\"examplescontents\"><span class=\"examplescontent\"><span class=\"example\"><span lang=\"sea\">Bah Kairul kigemar beusek imenang, kadang-kadang lei imenang ajeh kijap.</span></span><span class=\"translationcontents\"><span class=\"translationcontent\"><span class=\"translation\"><span lang=\"ms\">Bah Kairul suka mengusik adiknya, kadang-kadang sehingga adiknya tersebut menangis.</span><span lang=\"en\">Bah Kairul likes to tease his sister, sometimes until she cries.</span></span></span></span></span></span></span></span></span></div>",
+    "dictionaryId": "semai",
+    "searchTexts": [
+      "usek",
+      "BM",
+      "usik",
+      "kata kerja",
+      "mengusik; mengganggu",
+      "to disturb; to tease",
+      "Bah Kairul kigemar beusek imenang, kadang-kadang lei imenang ajeh kijap.",
+      "Bah Kairul suka mengusik adiknya, kadang-kadang sehingga adiknya tersebut menangis.",
+      "Bah Kairul likes to tease his sister, sometimes until she cries."
+    ],
+    "langTexts": {
+      "sea": [
+        "usek",
+        "Bah Kairul kigemar beusek imenang, kadang-kadang lei imenang ajeh kijap."
+      ],
+      "ms": [
+        "BM",
+        "usik",
+        "kata kerja",
+        "mengusik; mengganggu",
+        "Bah Kairul suka mengusik adiknya, kadang-kadang sehingga adiknya tersebut menangis."
+      ],
+      "en": [
+        "to disturb; to tease",
+        "Bah Kairul likes to tease his sister, sometimes until she cries."
+      ]
+    },
+    "langUnaccentedTexts": {
+      "sea": [
+        "usek",
+        "Bah Kairul kigemar beusek imenang, kadang-kadang lei imenang ajeh kijap."
+      ],
+      "ms": [
+        "BM",
+        "usik",
+        "kata kerja",
+        "mengusik; mengganggu",
+        "Bah Kairul suka mengusik adiknya, kadang-kadang sehingga adiknya tersebut menangis."
+      ],
+      "en": [
+        "to disturb; to tease",
+        "Bah Kairul likes to tease his sister, sometimes until she cries."
+      ]
+    },
+    "updatedAt": "2025-10-07T02:10:59.147Z",
+    "updatedBy": "ejincho"
+  },
+  {
+    "_id": "g44bc1504-ad4d-4307-8e02-308ff4b1ff4f",
+    "xhtmlTemplate": "entry",
+    "guid": "g44bc1504-ad4d-4307-8e02-308ff4b1ff4f",
+    "letterHead": "u",
+    "sortIndex": 3814,
+    "mainheadword": [
+      {
+        "lang": "sea",
+        "guid": "g44bc1504-ad4d-4307-8e02-308ff4b1ff4f",
+        "value": "utame"
+      }
+    ],
+    "etymologies": [
+      {
+        "languages": [
+          {
+            "abbreviation-2": [
+              {
+                "lang": "ms",
+                "value": "BM"
+              }
+            ]
+          }
+        ],
+        "form": [
+          {
+            "lang": "ms",
+            "value": "utama"
+          }
+        ]
+      }
+    ],
+    "morphosyntaxanalysis": {
+      "graminfoname": [
+        {
+          "lang": "ms",
+          "value": "kata sifat"
+        }
+      ]
+    },
+    "senses": [
+      {
+        "guid": "g44bc1504-ad4d-4307-8e02-308ff4b1ff4f",
+        "definitionorgloss": [
+          {
+            "lang": "ms",
+            "value": "utama; terpenting"
+          },
+          {
+            "lang": "en",
+            "value": "main; primary"
+          }
+        ],
+        "examplescontents": [
+          {
+            "example": [
+              {
+                "lang": "sea",
+                "value": "Tujuan utame teniba Tok Long nu deg jik kelemnek, madey kiha-pasal gah danan atok jik ku Hospital Tanah Rata."
+              }
+            ],
+            "translationcontents": [
+              {
+                "translation": [
+                  {
+                    "lang": "ms",
+                    "value": "Tujuan utama kedatangan Tok Long ke rumah kami semalam adalah untuk memberitahu berita kematian datuk kami di Hospital Tanah Rata."
+                  },
+                  {
+                    "lang": "en",
+                    "value": "The main objective of Tok Long's visit to our house today was to tell us the news of the death of our grandfather in Tanah Rata Hospital."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "displayXhtml": "<div class=\"entry\" id=\"g44bc1504-ad4d-4307-8e02-308ff4b1ff4f\"><span class=\"mainheadword\"><span lang=\"sea\"><a href=\"#g44bc1504-ad4d-4307-8e02-308ff4b1ff4f\">utame</a></span></span><span class=\"etymologies\"><span class=\"etymology\"><span class=\"languages\"><span class=\"language\"><span class=\"abbreviation-2\"><span lang=\"ms\">BM</span></span></span></span><span class=\"form\"><span lang=\"ms\">utama</span></span></span></span><span class=\"senses\"><span class=\"sharedgrammaticalinfo\"><span class=\"morphosyntaxanalysis\"><span class=\"graminfoname\"><span lang=\"ms\">kata sifat</span></span></span></span><span class=\"sensecontent\"><span class=\"sense\" entryguid=\"g44bc1504-ad4d-4307-8e02-308ff4b1ff4f\"><span class=\"definitionorgloss\"><span lang=\"ms\">utama; terpenting</span><span lang=\"en\">main; primary</span></span><span class=\"examplescontents\"><span class=\"examplescontent\"><span class=\"example\"><span lang=\"sea\">Tujuan utame teniba Tok Long nu deg jik kelemnek, madey kiha-pasal gah danan atok jik ku Hospital Tanah Rata.</span></span><span class=\"translationcontents\"><span class=\"translationcontent\"><span class=\"translation\"><span lang=\"ms\">Tujuan utama kedatangan Tok Long ke rumah kami semalam adalah untuk memberitahu berita kematian datuk kami di Hospital Tanah Rata.</span><span lang=\"en\">The main objective of Tok Long's visit to our house today was to tell us the news of the death of our grandfather in Tanah Rata Hospital.</span></span></span></span></span></span></span></span></span></div>",
+    "dictionaryId": "semai",
+    "searchTexts": [
+      "utame",
+      "BM",
+      "utama",
+      "kata sifat",
+      "utama; terpenting",
+      "main; primary",
+      "Tujuan utame teniba Tok Long nu deg jik kelemnek, madey kiha-pasal gah danan atok jik ku Hospital Tanah Rata.",
+      "Tujuan utama kedatangan Tok Long ke rumah kami semalam adalah untuk memberitahu berita kematian datuk kami di Hospital Tanah Rata.",
+      "The main objective of Tok Long's visit to our house today was to tell us the news of the death of our grandfather in Tanah Rata Hospital."
+    ],
+    "langTexts": {
+      "sea": [
+        "utame",
+        "Tujuan utame teniba Tok Long nu deg jik kelemnek, madey kiha-pasal gah danan atok jik ku Hospital Tanah Rata."
+      ],
+      "ms": [
+        "BM",
+        "utama",
+        "kata sifat",
+        "utama; terpenting",
+        "Tujuan utama kedatangan Tok Long ke rumah kami semalam adalah untuk memberitahu berita kematian datuk kami di Hospital Tanah Rata."
+      ],
+      "en": [
+        "main; primary",
+        "The main objective of Tok Long's visit to our house today was to tell us the news of the death of our grandfather in Tanah Rata Hospital."
+      ]
+    },
+    "langUnaccentedTexts": {
+      "sea": [
+        "utame",
+        "Tujuan utame teniba Tok Long nu deg jik kelemnek, madey kiha-pasal gah danan atok jik ku Hospital Tanah Rata."
+      ],
+      "ms": [
+        "BM",
+        "utama",
+        "kata sifat",
+        "utama; terpenting",
+        "Tujuan utama kedatangan Tok Long ke rumah kami semalam adalah untuk memberitahu berita kematian datuk kami di Hospital Tanah Rata."
+      ],
+      "en": [
+        "main; primary",
+        "The main objective of Tok Long's visit to our house today was to tell us the news of the death of our grandfather in Tanah Rata Hospital."
+      ]
+    },
+    "updatedAt": "2025-10-07T02:10:59.147Z",
+    "updatedBy": "ejincho"
+  },
+  {
+    "_id": "g11b420f3-484d-46b6-9acb-35497c82a5f9",
+    "xhtmlTemplate": "entry",
+    "guid": "g11b420f3-484d-46b6-9acb-35497c82a5f9",
+    "letterHead": "u",
+    "sortIndex": 3815,
+    "mainheadword": [
+      {
+        "lang": "sea",
+        "guid": "g11b420f3-484d-46b6-9acb-35497c82a5f9",
+        "value": "utos"
+      }
+    ],
+    "etymologies": [
+      {
+        "languages": [
+          {
+            "abbreviation-2": [
+              {
+                "lang": "ms",
+                "value": "BM"
+              }
+            ]
+          }
+        ],
+        "form": [
+          {
+            "lang": "ms",
+            "value": "utus"
+          }
+        ]
+      }
+    ],
+    "morphosyntaxanalysis": {
+      "graminfoname": [
+        {
+          "lang": "ms",
+          "value": "kata kerja"
+        }
+      ]
+    },
+    "senses": [
+      {
+        "guid": "g11b420f3-484d-46b6-9acb-35497c82a5f9",
+        "definitionorgloss": [
+          {
+            "lang": "ms",
+            "value": "utus; mengirim sesuatu atau seseorang kepada orang lain berupa barang, keperluan atau perkhabaran  "
+          },
+          {
+            "lang": "en",
+            "value": "to send"
+          }
+        ],
+        "examplescontents": [
+          {
+            "example": [
+              {
+                "lang": "sea",
+                "value": "\"Hek utos surat adeh nu Bah Kamal jis adeh jugak,\" engrok Bah Mat nu Wak Timah."
+              }
+            ],
+            "translationcontents": [
+              {
+                "translation": [
+                  {
+                    "lang": "ms",
+                    "value": "\"Kamu utus surat ini kepada Bah Kamal pada hari ini juga,\" Bah Mat berkata kepada Wak Timah."
+                  },
+                  {
+                    "lang": "en",
+                    "value": "\"You must send this letter to Bah Kamal today,\" said Bah Mat to Wak Timah."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "displayXhtml": "<div class=\"entry\" id=\"g11b420f3-484d-46b6-9acb-35497c82a5f9\"><span class=\"mainheadword\"><span lang=\"sea\"><a href=\"#g11b420f3-484d-46b6-9acb-35497c82a5f9\">utos</a></span></span><span class=\"etymologies\"><span class=\"etymology\"><span class=\"languages\"><span class=\"language\"><span class=\"abbreviation-2\"><span lang=\"ms\">BM</span></span></span></span><span class=\"form\"><span lang=\"ms\">utus</span></span></span></span><span class=\"senses\"><span class=\"sharedgrammaticalinfo\"><span class=\"morphosyntaxanalysis\"><span class=\"graminfoname\"><span lang=\"ms\">kata kerja</span></span></span></span><span class=\"sensecontent\"><span class=\"sense\" entryguid=\"g11b420f3-484d-46b6-9acb-35497c82a5f9\"><span class=\"definitionorgloss\"><span lang=\"ms\">utus; mengirim sesuatu atau seseorang kepada orang lain berupa barang, keperluan atau perkhabaran  </span><span lang=\"en\">to send</span></span><span class=\"examplescontents\"><span class=\"examplescontent\"><span class=\"example\"><span lang=\"sea\">\"Hek utos surat adeh nu Bah Kamal jis adeh jugak,\" engrok Bah Mat nu Wak Timah.</span></span><span class=\"translationcontents\"><span class=\"translationcontent\"><span class=\"translation\"><span lang=\"ms\">\"Kamu utus surat ini kepada Bah Kamal pada hari ini juga,\" Bah Mat berkata kepada Wak Timah.</span><span lang=\"en\">\"You must send this letter to Bah Kamal today,\" said Bah Mat to Wak Timah.</span></span></span></span></span></span></span></span></span></div>",
+    "dictionaryId": "semai",
+    "searchTexts": [
+      "utos",
+      "BM",
+      "utus",
+      "kata kerja",
+      "utus; mengirim sesuatu atau seseorang kepada orang lain berupa barang, keperluan atau perkhabaran  ",
+      "to send",
+      "\"Hek utos surat adeh nu Bah Kamal jis adeh jugak,\" engrok Bah Mat nu Wak Timah.",
+      "\"Kamu utus surat ini kepada Bah Kamal pada hari ini juga,\" Bah Mat berkata kepada Wak Timah.",
+      "\"You must send this letter to Bah Kamal today,\" said Bah Mat to Wak Timah."
+    ],
+    "langTexts": {
+      "sea": [
+        "utos",
+        "\"Hek utos surat adeh nu Bah Kamal jis adeh jugak,\" engrok Bah Mat nu Wak Timah."
+      ],
+      "ms": [
+        "BM",
+        "utus",
+        "kata kerja",
+        "utus; mengirim sesuatu atau seseorang kepada orang lain berupa barang, keperluan atau perkhabaran  ",
+        "\"Kamu utus surat ini kepada Bah Kamal pada hari ini juga,\" Bah Mat berkata kepada Wak Timah."
+      ],
+      "en": [
+        "to send",
+        "\"You must send this letter to Bah Kamal today,\" said Bah Mat to Wak Timah."
+      ]
+    },
+    "langUnaccentedTexts": {
+      "sea": [
+        "utos",
+        "\"Hek utos surat adeh nu Bah Kamal jis adeh jugak,\" engrok Bah Mat nu Wak Timah."
+      ],
+      "ms": [
+        "BM",
+        "utus",
+        "kata kerja",
+        "utus; mengirim sesuatu atau seseorang kepada orang lain berupa barang, keperluan atau perkhabaran  ",
+        "\"Kamu utus surat ini kepada Bah Kamal pada hari ini juga,\" Bah Mat berkata kepada Wak Timah."
+      ],
+      "en": [
+        "to send",
+        "\"You must send this letter to Bah Kamal today,\" said Bah Mat to Wak Timah."
+      ]
+    },
+    "updatedAt": "2025-10-07T02:10:59.147Z",
+    "updatedBy": "ejincho"
+  },
+  {
+    "_id": "g9f53b664-25cf-4e96-bb76-0ae588345bff",
+    "xhtmlTemplate": "entry",
+    "guid": "g9f53b664-25cf-4e96-bb76-0ae588345bff",
+    "letterHead": "u",
+    "sortIndex": 3816,
+    "mainheadword": [
+      {
+        "lang": "sea",
+        "guid": "g9f53b664-25cf-4e96-bb76-0ae588345bff",
+        "value": "uyong"
+      }
+    ],
+    "dialectlabelsrs": [
+      {
+        "name": [
+          {
+            "lang": "sea",
+            "value": "Bota"
+          }
+        ]
+      },
+      {
+        "name": [
+          {
+            "lang": "sea",
+            "value": "Bidor"
+          }
+        ]
+      }
+    ],
+    "morphosyntaxanalysis": {
+      "graminfoname": [
+        {
+          "lang": "ms",
+          "value": "kata nama"
+        }
+      ]
+    },
+    "senses": [
+      {
+        "guid": "g9f53b664-25cf-4e96-bb76-0ae588345bff",
+        "definitionorgloss": [
+          {
+            "lang": "ms",
+            "value": "babi hutan; babi; khinzir"
+          },
+          {
+            "lang": "en",
+            "value": "boar; pig"
+          }
+        ],
+        "lexsensereferences": [
+          {
+            "ownertype_name": [
+              {
+                "lang": "ms",
+                "value": "sinonim"
+              }
+            ],
+            "configtargets": [
+              {
+                "headword-2": [
+                  {
+                    "lang": "sea",
+                    "guid": "g051f5cea-193e-4a08-8d76-e375442bf59e",
+                    "value": "gau"
+                  }
+                ]
+              },
+              {
+                "headword-2": [
+                  {
+                    "lang": "sea",
+                    "guid": "ga3aebccb-c2dd-4dac-a066-396dfa3d38d5",
+                    "value": "lek"
+                  },
+                  {
+                    "lang": "sea",
+                    "style": "font-weight:bold;font-size:58%;position:relative;top:0.3em;",
+                    "guid": "ga3aebccb-c2dd-4dac-a066-396dfa3d38d5",
+                    "value": "2"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "examplescontents": [
+          {
+            "example": [
+              {
+                "lang": "sea",
+                "value": "Wak Ani kiurok nu Bah Long, \"Amok en kiperes uyong. Tapi dah telas, kijar.\""
+              }
+            ],
+            "translationcontents": [
+              {
+                "translation": [
+                  {
+                    "lang": "ms",
+                    "value": "Wak Ani berkata kepada Bah Long, \"Makcik saya membela babi. Tetapi telah terlepas, ianya lari.\" "
+                  },
+                  {
+                    "lang": "en",
+                    "value": "\"My auntie did raise a pig. But it escaped, it ran away,\" said Wak Ani to Bah Long."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "displayXhtml": "<div class=\"entry\" id=\"g9f53b664-25cf-4e96-bb76-0ae588345bff\"><span class=\"mainheadword\"><span lang=\"sea\"><a href=\"#g9f53b664-25cf-4e96-bb76-0ae588345bff\">uyong</a></span></span><span class=\"dialectlabelsrs\"><span class=\"dialectlabelsr\"><span class=\"name\"><span lang=\"sea\">Bota</span></span></span><span class=\"dialectlabelsr\"><span class=\"name\"><span lang=\"sea\">Bidor</span></span></span></span><span class=\"senses\"><span class=\"sharedgrammaticalinfo\"><span class=\"morphosyntaxanalysis\"><span class=\"graminfoname\"><span lang=\"ms\">kata nama</span></span></span></span><span class=\"sensecontent\"><span class=\"sense\" entryguid=\"g9f53b664-25cf-4e96-bb76-0ae588345bff\"><span class=\"definitionorgloss\"><span lang=\"ms\">babi hutan; babi; khinzir</span><span lang=\"en\">boar; pig</span></span><span class=\"lexsensereferences\"><span class=\"lexsensereference\"><span class=\"ownertype_name\"><span lang=\"ms\">sinonim</span></span><span class=\"configtargets\"><span class=\"configtarget\"><span class=\"headword-2\"><span lang=\"sea\"><a href=\"#g051f5cea-193e-4a08-8d76-e375442bf59e\">gau</a></span></span></span><span class=\"configtarget\"><span class=\"headword-2\"><span lang=\"sea\"><span lang=\"sea\"><a href=\"#ga3aebccb-c2dd-4dac-a066-396dfa3d38d5\">lek</a></span><span lang=\"sea\" style=\"font-weight:bold;font-size:58%;position:relative;top:0.3em;\"><a href=\"#ga3aebccb-c2dd-4dac-a066-396dfa3d38d5\">2</a></span></span></span></span></span></span></span><span class=\"examplescontents\"><span class=\"examplescontent\"><span class=\"example\"><span lang=\"sea\">Wak Ani kiurok nu Bah Long, \"Amok en kiperes uyong. Tapi dah telas, kijar.\"</span></span><span class=\"translationcontents\"><span class=\"translationcontent\"><span class=\"translation\"><span lang=\"ms\">Wak Ani berkata kepada Bah Long, \"Makcik saya membela babi. Tetapi telah terlepas, ianya lari.\" </span><span lang=\"en\">\"My auntie did raise a pig. But it escaped, it ran away,\" said Wak Ani to Bah Long.</span></span></span></span></span></span></span></span></span></div>",
+    "dictionaryId": "semai",
+    "searchTexts": [
+      "uyong",
+      "Bota",
+      "Bidor",
+      "kata nama",
+      "babi hutan; babi; khinzir",
+      "boar; pig",
+      "sinonim",
+      "gau",
+      "lek2",
+      "lek",
+      "2",
+      "Wak Ani kiurok nu Bah Long, \"Amok en kiperes uyong. Tapi dah telas, kijar.\"",
+      "Wak Ani berkata kepada Bah Long, \"Makcik saya membela babi. Tetapi telah terlepas, ianya lari.\" ",
+      "\"My auntie did raise a pig. But it escaped, it ran away,\" said Wak Ani to Bah Long."
+    ],
+    "langTexts": {
+      "sea": [
+        "uyong",
+        "Bota",
+        "Bidor",
+        "gau",
+        "lek2",
+        "lek",
+        "2",
+        "Wak Ani kiurok nu Bah Long, \"Amok en kiperes uyong. Tapi dah telas, kijar.\""
+      ],
+      "ms": [
+        "kata nama",
+        "babi hutan; babi; khinzir",
+        "sinonim",
+        "Wak Ani berkata kepada Bah Long, \"Makcik saya membela babi. Tetapi telah terlepas, ianya lari.\" "
+      ],
+      "en": [
+        "boar; pig",
+        "\"My auntie did raise a pig. But it escaped, it ran away,\" said Wak Ani to Bah Long."
+      ]
+    },
+    "langUnaccentedTexts": {
+      "sea": [
+        "uyong",
+        "Bota",
+        "Bidor",
+        "gau",
+        "lek2",
+        "lek",
+        "2",
+        "Wak Ani kiurok nu Bah Long, \"Amok en kiperes uyong. Tapi dah telas, kijar.\""
+      ],
+      "ms": [
+        "kata nama",
+        "babi hutan; babi; khinzir",
+        "sinonim",
+        "Wak Ani berkata kepada Bah Long, \"Makcik saya membela babi. Tetapi telah terlepas, ianya lari.\" "
+      ],
+      "en": [
+        "boar; pig",
+        "\"My auntie did raise a pig. But it escaped, it ran away,\" said Wak Ani to Bah Long."
+      ]
+    },
+    "updatedAt": "2025-10-07T02:10:59.147Z",
+    "updatedBy": "ejincho"
+  }
+]

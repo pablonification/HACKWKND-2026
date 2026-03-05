@@ -1,0 +1,729 @@
+[
+  {
+    "_id": "gf869f4f0-f13d-4667-aca5-b004f6ec888b",
+    "xhtmlTemplate": "entry",
+    "guid": "gf869f4f0-f13d-4667-aca5-b004f6ec888b",
+    "letterHead": "z",
+    "sortIndex": 3897,
+    "mainheadword": [
+      {
+        "lang": "sea",
+        "guid": "gf869f4f0-f13d-4667-aca5-b004f6ec888b",
+        "value": "zaiton"
+      }
+    ],
+    "etymologies": [
+      {
+        "languages": [
+          {
+            "abbreviation-2": [
+              {
+                "lang": "ms",
+                "value": "BM"
+              }
+            ]
+          }
+        ],
+        "form": [
+          {
+            "lang": "ms",
+            "value": "zaitun"
+          }
+        ]
+      }
+    ],
+    "morphosyntaxanalysis": {
+      "graminfoname": [
+        {
+          "lang": "ms",
+          "value": "kata nama"
+        }
+      ]
+    },
+    "senses": [
+      {
+        "guid": "gf869f4f0-f13d-4667-aca5-b004f6ec888b",
+        "definitionorgloss": [
+          {
+            "lang": "ms",
+            "value": "zaitun; sejenis pokok atau buahnya yang dibuat minyak"
+          },
+          {
+            "lang": "en",
+            "value": "olive"
+          }
+        ]
+      }
+    ],
+    "displayXhtml": "<div class=\"entry\" id=\"gf869f4f0-f13d-4667-aca5-b004f6ec888b\"><span class=\"mainheadword\"><span lang=\"sea\"><a href=\"#gf869f4f0-f13d-4667-aca5-b004f6ec888b\">zaiton</a></span></span><span class=\"etymologies\"><span class=\"etymology\"><span class=\"languages\"><span class=\"language\"><span class=\"abbreviation-2\"><span lang=\"ms\">BM</span></span></span></span><span class=\"form\"><span lang=\"ms\">zaitun</span></span></span></span><span class=\"senses\"><span class=\"sharedgrammaticalinfo\"><span class=\"morphosyntaxanalysis\"><span class=\"graminfoname\"><span lang=\"ms\">kata nama</span></span></span></span><span class=\"sensecontent\"><span class=\"sense\" entryguid=\"gf869f4f0-f13d-4667-aca5-b004f6ec888b\"><span class=\"definitionorgloss\"><span lang=\"ms\">zaitun; sejenis pokok atau buahnya yang dibuat minyak</span><span lang=\"en\">olive</span></span></span></span></span></div>",
+    "dictionaryId": "semai",
+    "searchTexts": [
+      "zaiton",
+      "BM",
+      "zaitun",
+      "kata nama",
+      "zaitun; sejenis pokok atau buahnya yang dibuat minyak",
+      "olive"
+    ],
+    "langTexts": {
+      "sea": [
+        "zaiton"
+      ],
+      "ms": [
+        "BM",
+        "zaitun",
+        "kata nama",
+        "zaitun; sejenis pokok atau buahnya yang dibuat minyak"
+      ],
+      "en": [
+        "olive"
+      ]
+    },
+    "langUnaccentedTexts": {
+      "sea": [
+        "zaiton"
+      ],
+      "ms": [
+        "BM",
+        "zaitun",
+        "kata nama",
+        "zaitun; sejenis pokok atau buahnya yang dibuat minyak"
+      ],
+      "en": [
+        "olive"
+      ]
+    },
+    "updatedAt": "2025-10-07T02:11:01.604Z",
+    "updatedBy": "ejincho"
+  },
+  {
+    "_id": "ged89a640-ef50-4742-9472-17fd210c1139",
+    "xhtmlTemplate": "entry",
+    "guid": "ged89a640-ef50-4742-9472-17fd210c1139",
+    "letterHead": "z",
+    "sortIndex": 3898,
+    "mainheadword": [
+      {
+        "lang": "sea",
+        "guid": "ged89a640-ef50-4742-9472-17fd210c1139",
+        "value": "zaman"
+      }
+    ],
+    "etymologies": [
+      {
+        "languages": [
+          {
+            "abbreviation-2": [
+              {
+                "lang": "ms",
+                "value": "BM"
+              }
+            ]
+          }
+        ],
+        "form": [
+          {
+            "lang": "sea",
+            "value": "zaman"
+          }
+        ]
+      }
+    ],
+    "morphosyntaxanalysis": {
+      "graminfoname": [
+        {
+          "lang": "ms",
+          "value": "kata nama"
+        }
+      ]
+    },
+    "senses": [
+      {
+        "guid": "ged89a640-ef50-4742-9472-17fd210c1139",
+        "definitionorgloss": [
+          {
+            "lang": "ms",
+            "value": "zaman"
+          },
+          {
+            "lang": "en",
+            "value": "times; age"
+          }
+        ]
+      }
+    ],
+    "displayXhtml": "<div class=\"entry\" id=\"ged89a640-ef50-4742-9472-17fd210c1139\"><span class=\"mainheadword\"><span lang=\"sea\"><a href=\"#ged89a640-ef50-4742-9472-17fd210c1139\">zaman</a></span></span><span class=\"etymologies\"><span class=\"etymology\"><span class=\"languages\"><span class=\"language\"><span class=\"abbreviation-2\"><span lang=\"ms\">BM</span></span></span></span><span class=\"form\"><span lang=\"sea\">zaman</span></span></span></span><span class=\"senses\"><span class=\"sharedgrammaticalinfo\"><span class=\"morphosyntaxanalysis\"><span class=\"graminfoname\"><span lang=\"ms\">kata nama</span></span></span></span><span class=\"sensecontent\"><span class=\"sense\" entryguid=\"ged89a640-ef50-4742-9472-17fd210c1139\"><span class=\"definitionorgloss\"><span lang=\"ms\">zaman</span><span lang=\"en\">times; age</span></span></span></span></span></div>",
+    "dictionaryId": "semai",
+    "searchTexts": [
+      "zaman",
+      "BM",
+      "kata nama",
+      "times; age"
+    ],
+    "langTexts": {
+      "sea": [
+        "zaman"
+      ],
+      "ms": [
+        "BM",
+        "kata nama",
+        "zaman"
+      ],
+      "en": [
+        "times; age"
+      ]
+    },
+    "langUnaccentedTexts": {
+      "sea": [
+        "zaman"
+      ],
+      "ms": [
+        "BM",
+        "kata nama",
+        "zaman"
+      ],
+      "en": [
+        "times; age"
+      ]
+    },
+    "updatedAt": "2025-10-07T02:11:01.604Z",
+    "updatedBy": "ejincho"
+  },
+  {
+    "_id": "g5a4256da-b468-4dfa-980b-fba3955b098e",
+    "xhtmlTemplate": "entry",
+    "guid": "g5a4256da-b468-4dfa-980b-fba3955b098e",
+    "letterHead": "z",
+    "sortIndex": 3899,
+    "mainheadword": [
+      {
+        "lang": "sea",
+        "guid": "g5a4256da-b468-4dfa-980b-fba3955b098e",
+        "value": "zamrud"
+      }
+    ],
+    "etymologies": [
+      {
+        "languages": [
+          {
+            "abbreviation-2": [
+              {
+                "lang": "ms",
+                "value": "BM"
+              }
+            ]
+          }
+        ],
+        "form": [
+          {
+            "lang": "ms",
+            "value": "zamrud"
+          }
+        ]
+      }
+    ],
+    "morphosyntaxanalysis": {
+      "graminfoname": [
+        {
+          "lang": "ms",
+          "value": "kata nama"
+        }
+      ]
+    },
+    "senses": [
+      {
+        "guid": "g5a4256da-b468-4dfa-980b-fba3955b098e",
+        "definitionorgloss": [
+          {
+            "lang": "ms",
+            "value": "zamrud; batu permata yang berwarna hijau"
+          },
+          {
+            "lang": "en",
+            "value": "emerald"
+          }
+        ]
+      }
+    ],
+    "displayXhtml": "<div class=\"entry\" id=\"g5a4256da-b468-4dfa-980b-fba3955b098e\"><span class=\"mainheadword\"><span lang=\"sea\"><a href=\"#g5a4256da-b468-4dfa-980b-fba3955b098e\">zamrud</a></span></span><span class=\"etymologies\"><span class=\"etymology\"><span class=\"languages\"><span class=\"language\"><span class=\"abbreviation-2\"><span lang=\"ms\">BM</span></span></span></span><span class=\"form\"><span lang=\"ms\">zamrud</span></span></span></span><span class=\"senses\"><span class=\"sharedgrammaticalinfo\"><span class=\"morphosyntaxanalysis\"><span class=\"graminfoname\"><span lang=\"ms\">kata nama</span></span></span></span><span class=\"sensecontent\"><span class=\"sense\" entryguid=\"g5a4256da-b468-4dfa-980b-fba3955b098e\"><span class=\"definitionorgloss\"><span lang=\"ms\">zamrud; batu permata yang berwarna hijau</span><span lang=\"en\">emerald</span></span></span></span></span></div>",
+    "dictionaryId": "semai",
+    "searchTexts": [
+      "zamrud",
+      "BM",
+      "kata nama",
+      "zamrud; batu permata yang berwarna hijau",
+      "emerald"
+    ],
+    "langTexts": {
+      "sea": [
+        "zamrud"
+      ],
+      "ms": [
+        "BM",
+        "zamrud",
+        "kata nama",
+        "zamrud; batu permata yang berwarna hijau"
+      ],
+      "en": [
+        "emerald"
+      ]
+    },
+    "langUnaccentedTexts": {
+      "sea": [
+        "zamrud"
+      ],
+      "ms": [
+        "BM",
+        "zamrud",
+        "kata nama",
+        "zamrud; batu permata yang berwarna hijau"
+      ],
+      "en": [
+        "emerald"
+      ]
+    },
+    "updatedAt": "2025-10-07T02:11:01.604Z",
+    "updatedBy": "ejincho"
+  },
+  {
+    "_id": "g30ae6231-6eaa-419d-acd6-8592986cafcc",
+    "xhtmlTemplate": "entry",
+    "guid": "g30ae6231-6eaa-419d-acd6-8592986cafcc",
+    "letterHead": "z",
+    "sortIndex": 3900,
+    "mainheadword": [
+      {
+        "lang": "sea",
+        "guid": "g30ae6231-6eaa-419d-acd6-8592986cafcc",
+        "value": "zinah"
+      }
+    ],
+    "etymologies": [
+      {
+        "languages": [
+          {
+            "abbreviation-2": [
+              {
+                "lang": "ms",
+                "value": "BM"
+              }
+            ]
+          }
+        ],
+        "form": [
+          {
+            "lang": "ms",
+            "value": "zina"
+          }
+        ]
+      }
+    ],
+    "morphosyntaxanalysis": {
+      "graminfoname": [
+        {
+          "lang": "ms",
+          "value": "kata nama"
+        }
+      ]
+    },
+    "senses": [
+      {
+        "guid": "g30ae6231-6eaa-419d-acd6-8592986cafcc",
+        "definitionorgloss": [
+          {
+            "lang": "ms",
+            "value": "zina"
+          },
+          {
+            "lang": "en",
+            "value": "adultary"
+          }
+        ]
+      }
+    ],
+    "displayXhtml": "<div class=\"entry\" id=\"g30ae6231-6eaa-419d-acd6-8592986cafcc\"><span class=\"mainheadword\"><span lang=\"sea\"><a href=\"#g30ae6231-6eaa-419d-acd6-8592986cafcc\">zinah</a></span></span><span class=\"etymologies\"><span class=\"etymology\"><span class=\"languages\"><span class=\"language\"><span class=\"abbreviation-2\"><span lang=\"ms\">BM</span></span></span></span><span class=\"form\"><span lang=\"ms\">zina</span></span></span></span><span class=\"senses\"><span class=\"sharedgrammaticalinfo\"><span class=\"morphosyntaxanalysis\"><span class=\"graminfoname\"><span lang=\"ms\">kata nama</span></span></span></span><span class=\"sensecontent\"><span class=\"sense\" entryguid=\"g30ae6231-6eaa-419d-acd6-8592986cafcc\"><span class=\"definitionorgloss\"><span lang=\"ms\">zina</span><span lang=\"en\">adultary</span></span></span></span></span></div>",
+    "dictionaryId": "semai",
+    "searchTexts": [
+      "zinah",
+      "BM",
+      "zina",
+      "kata nama",
+      "adultary"
+    ],
+    "langTexts": {
+      "sea": [
+        "zinah"
+      ],
+      "ms": [
+        "BM",
+        "zina",
+        "kata nama"
+      ],
+      "en": [
+        "adultary"
+      ]
+    },
+    "langUnaccentedTexts": {
+      "sea": [
+        "zinah"
+      ],
+      "ms": [
+        "BM",
+        "zina",
+        "kata nama"
+      ],
+      "en": [
+        "adultary"
+      ]
+    },
+    "updatedAt": "2025-10-07T02:11:03.489Z",
+    "updatedBy": "ejincho"
+  },
+  {
+    "_id": "gbf707135-82e2-4db7-beb4-27a81199969e",
+    "xhtmlTemplate": "entry",
+    "guid": "gbf707135-82e2-4db7-beb4-27a81199969e",
+    "letterHead": "z",
+    "sortIndex": 3901,
+    "mainheadword": [
+      {
+        "lang": "sea",
+        "guid": "gbf707135-82e2-4db7-beb4-27a81199969e",
+        "value": "zirafah"
+      }
+    ],
+    "etymologies": [
+      {
+        "languages": [
+          {
+            "abbreviation-2": [
+              {
+                "lang": "ms",
+                "value": "BM"
+              }
+            ]
+          }
+        ],
+        "form": [
+          {
+            "lang": "ms",
+            "value": "zirafah"
+          }
+        ]
+      }
+    ],
+    "morphosyntaxanalysis": {
+      "graminfoname": [
+        {
+          "lang": "ms",
+          "value": "kata nama"
+        }
+      ]
+    },
+    "senses": [
+      {
+        "guid": "gbf707135-82e2-4db7-beb4-27a81199969e",
+        "definitionorgloss": [
+          {
+            "lang": "ms",
+            "value": "zirafah"
+          },
+          {
+            "lang": "en",
+            "value": "giraffe"
+          }
+        ]
+      }
+    ],
+    "displayXhtml": "<div class=\"entry\" id=\"gbf707135-82e2-4db7-beb4-27a81199969e\"><span class=\"mainheadword\"><span lang=\"sea\"><a href=\"#gbf707135-82e2-4db7-beb4-27a81199969e\">zirafah</a></span></span><span class=\"etymologies\"><span class=\"etymology\"><span class=\"languages\"><span class=\"language\"><span class=\"abbreviation-2\"><span lang=\"ms\">BM</span></span></span></span><span class=\"form\"><span lang=\"ms\">zirafah</span></span></span></span><span class=\"senses\"><span class=\"sharedgrammaticalinfo\"><span class=\"morphosyntaxanalysis\"><span class=\"graminfoname\"><span lang=\"ms\">kata nama</span></span></span></span><span class=\"sensecontent\"><span class=\"sense\" entryguid=\"gbf707135-82e2-4db7-beb4-27a81199969e\"><span class=\"definitionorgloss\"><span lang=\"ms\">zirafah</span><span lang=\"en\">giraffe</span></span></span></span></span></div>",
+    "dictionaryId": "semai",
+    "searchTexts": [
+      "zirafah",
+      "BM",
+      "kata nama",
+      "giraffe"
+    ],
+    "langTexts": {
+      "sea": [
+        "zirafah"
+      ],
+      "ms": [
+        "BM",
+        "zirafah",
+        "kata nama"
+      ],
+      "en": [
+        "giraffe"
+      ]
+    },
+    "langUnaccentedTexts": {
+      "sea": [
+        "zirafah"
+      ],
+      "ms": [
+        "BM",
+        "zirafah",
+        "kata nama"
+      ],
+      "en": [
+        "giraffe"
+      ]
+    },
+    "updatedAt": "2025-10-07T02:11:03.489Z",
+    "updatedBy": "ejincho"
+  },
+  {
+    "_id": "g64fe032e-0429-46e8-b949-c5eba7762209",
+    "xhtmlTemplate": "entry",
+    "guid": "g64fe032e-0429-46e8-b949-c5eba7762209",
+    "letterHead": "z",
+    "sortIndex": 3902,
+    "mainheadword": [
+      {
+        "lang": "sea",
+        "guid": "g64fe032e-0429-46e8-b949-c5eba7762209",
+        "value": "zu"
+      }
+    ],
+    "etymologies": [
+      {
+        "languages": [
+          {
+            "abbreviation-2": [
+              {
+                "lang": "ms",
+                "value": "BM"
+              }
+            ]
+          }
+        ],
+        "form": [
+          {
+            "lang": "ms",
+            "value": "zoo"
+          }
+        ]
+      },
+      {
+        "languages": [
+          {
+            "abbreviation-2": [
+              {
+                "lang": "ms",
+                "value": "BI"
+              }
+            ]
+          }
+        ],
+        "form": [
+          {
+            "lang": "en",
+            "value": "zoo"
+          }
+        ]
+      }
+    ],
+    "morphosyntaxanalysis": {
+      "graminfoname": [
+        {
+          "lang": "ms",
+          "value": "kata nama"
+        }
+      ]
+    },
+    "senses": [
+      {
+        "guid": "g64fe032e-0429-46e8-b949-c5eba7762209",
+        "definitionorgloss": [
+          {
+            "lang": "ms",
+            "value": "zoo; taman haiwan"
+          },
+          {
+            "lang": "en",
+            "value": "zoo"
+          }
+        ],
+        "examplescontents": [
+          {
+            "example": [
+              {
+                "lang": "sea",
+                "value": "Mase cuti sekulah, eng ru peringak eng jiet melawat nu zu."
+              }
+            ],
+            "translationcontents": [
+              {
+                "translation": [
+                  {
+                    "lang": "ms",
+                    "value": "Semasa cuti sekolah, saya dan keluarga pergi melawat ke zoo. "
+                  },
+                  {
+                    "lang": "en",
+                    "value": "During school holidays, my family and I went to visit the zoo."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "displayXhtml": "<div class=\"entry\" id=\"g64fe032e-0429-46e8-b949-c5eba7762209\"><span class=\"mainheadword\"><span lang=\"sea\"><a href=\"#g64fe032e-0429-46e8-b949-c5eba7762209\">zu</a></span></span><span class=\"etymologies\"><span class=\"etymology\"><span class=\"languages\"><span class=\"language\"><span class=\"abbreviation-2\"><span lang=\"ms\">BM</span></span></span></span><span class=\"form\"><span lang=\"ms\">zoo</span></span></span><span class=\"etymology\"><span class=\"languages\"><span class=\"language\"><span class=\"abbreviation-2\"><span lang=\"ms\">BI</span></span></span></span><span class=\"form\"><span lang=\"en\">zoo</span></span></span></span><span class=\"senses\"><span class=\"sharedgrammaticalinfo\"><span class=\"morphosyntaxanalysis\"><span class=\"graminfoname\"><span lang=\"ms\">kata nama</span></span></span></span><span class=\"sensecontent\"><span class=\"sense\" entryguid=\"g64fe032e-0429-46e8-b949-c5eba7762209\"><span class=\"definitionorgloss\"><span lang=\"ms\">zoo; taman haiwan</span><span lang=\"en\">zoo</span></span><span class=\"examplescontents\"><span class=\"examplescontent\"><span class=\"example\"><span lang=\"sea\">Mase cuti sekulah, eng ru peringak eng jiet melawat nu zu.</span></span><span class=\"translationcontents\"><span class=\"translationcontent\"><span class=\"translation\"><span lang=\"ms\">Semasa cuti sekolah, saya dan keluarga pergi melawat ke zoo. </span><span lang=\"en\">During school holidays, my family and I went to visit the zoo.</span></span></span></span></span></span></span></span></span></div>",
+    "dictionaryId": "semai",
+    "searchTexts": [
+      "zu",
+      "BM",
+      "zoo",
+      "BI",
+      "kata nama",
+      "zoo; taman haiwan",
+      "Mase cuti sekulah, eng ru peringak eng jiet melawat nu zu.",
+      "Semasa cuti sekolah, saya dan keluarga pergi melawat ke zoo. ",
+      "During school holidays, my family and I went to visit the zoo."
+    ],
+    "langTexts": {
+      "sea": [
+        "zu",
+        "Mase cuti sekulah, eng ru peringak eng jiet melawat nu zu."
+      ],
+      "ms": [
+        "BM",
+        "zoo",
+        "BI",
+        "kata nama",
+        "zoo; taman haiwan",
+        "Semasa cuti sekolah, saya dan keluarga pergi melawat ke zoo. "
+      ],
+      "en": [
+        "zoo",
+        "During school holidays, my family and I went to visit the zoo."
+      ]
+    },
+    "langUnaccentedTexts": {
+      "sea": [
+        "zu",
+        "Mase cuti sekulah, eng ru peringak eng jiet melawat nu zu."
+      ],
+      "ms": [
+        "BM",
+        "zoo",
+        "BI",
+        "kata nama",
+        "zoo; taman haiwan",
+        "Semasa cuti sekolah, saya dan keluarga pergi melawat ke zoo. "
+      ],
+      "en": [
+        "zoo",
+        "During school holidays, my family and I went to visit the zoo."
+      ]
+    },
+    "updatedAt": "2025-10-07T02:11:03.489Z",
+    "updatedBy": "ejincho"
+  },
+  {
+    "_id": "gfbed6414-75db-42dc-823e-0ddea532cc91",
+    "xhtmlTemplate": "entry",
+    "guid": "gfbed6414-75db-42dc-823e-0ddea532cc91",
+    "letterHead": "z",
+    "sortIndex": 3903,
+    "mainheadword": [
+      {
+        "lang": "sea",
+        "guid": "gfbed6414-75db-42dc-823e-0ddea532cc91",
+        "value": "zup"
+      }
+    ],
+    "morphosyntaxanalysis": {
+      "graminfoname": [
+        {
+          "lang": "ms",
+          "value": "kata seru"
+        }
+      ]
+    },
+    "senses": [
+      {
+        "guid": "gfbed6414-75db-42dc-823e-0ddea532cc91",
+        "definitionorgloss": [
+          {
+            "lang": "ms",
+            "value": "bunyi sesuatu meluru dengan pantas dan laju"
+          },
+          {
+            "lang": "en",
+            "value": "sound of something rushing fast"
+          }
+        ],
+        "examplescontents": [
+          {
+            "example": [
+              {
+                "lang": "sea",
+                "value": "Bah Amat ki en imutu had inelaju, zup…, tok dan eng ngterhan ilei."
+              }
+            ],
+            "translationcontents": [
+              {
+                "translation": [
+                  {
+                    "lang": "ms",
+                    "value": "Bah Amat membawa motosikalnya terlalu laju, zup..., tidak sempat saya mahu menahannya. "
+                  },
+                  {
+                    "lang": "en",
+                    "value": "Bah Amat drove his motorcycle too quickly; zoom! ... I couldn't stand it!"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "displayXhtml": "<div class=\"entry\" id=\"gfbed6414-75db-42dc-823e-0ddea532cc91\"><span class=\"mainheadword\"><span lang=\"sea\"><a href=\"#gfbed6414-75db-42dc-823e-0ddea532cc91\">zup</a></span></span><span class=\"senses\"><span class=\"sharedgrammaticalinfo\"><span class=\"morphosyntaxanalysis\"><span class=\"graminfoname\"><span lang=\"ms\">kata seru</span></span></span></span><span class=\"sensecontent\"><span class=\"sense\" entryguid=\"gfbed6414-75db-42dc-823e-0ddea532cc91\"><span class=\"definitionorgloss\"><span lang=\"ms\">bunyi sesuatu meluru dengan pantas dan laju</span><span lang=\"en\">sound of something rushing fast</span></span><span class=\"examplescontents\"><span class=\"examplescontent\"><span class=\"example\"><span lang=\"sea\">Bah Amat ki en imutu had inelaju, zup…, tok dan eng ngterhan ilei.</span></span><span class=\"translationcontents\"><span class=\"translationcontent\"><span class=\"translation\"><span lang=\"ms\">Bah Amat membawa motosikalnya terlalu laju, zup..., tidak sempat saya mahu menahannya. </span><span lang=\"en\">Bah Amat drove his motorcycle too quickly; zoom! ... I couldn't stand it!</span></span></span></span></span></span></span></span></span></div>",
+    "dictionaryId": "semai",
+    "searchTexts": [
+      "zup",
+      "kata seru",
+      "bunyi sesuatu meluru dengan pantas dan laju",
+      "sound of something rushing fast",
+      "Bah Amat ki en imutu had inelaju, zup…, tok dan eng ngterhan ilei.",
+      "Bah Amat membawa motosikalnya terlalu laju, zup..., tidak sempat saya mahu menahannya. ",
+      "Bah Amat drove his motorcycle too quickly; zoom! ... I couldn't stand it!"
+    ],
+    "langTexts": {
+      "sea": [
+        "zup",
+        "Bah Amat ki en imutu had inelaju, zup…, tok dan eng ngterhan ilei."
+      ],
+      "ms": [
+        "kata seru",
+        "bunyi sesuatu meluru dengan pantas dan laju",
+        "Bah Amat membawa motosikalnya terlalu laju, zup..., tidak sempat saya mahu menahannya. "
+      ],
+      "en": [
+        "sound of something rushing fast",
+        "Bah Amat drove his motorcycle too quickly; zoom! ... I couldn't stand it!"
+      ]
+    },
+    "langUnaccentedTexts": {
+      "sea": [
+        "zup",
+        "Bah Amat ki en imutu had inelaju, zup…, tok dan eng ngterhan ilei."
+      ],
+      "ms": [
+        "kata seru",
+        "bunyi sesuatu meluru dengan pantas dan laju",
+        "Bah Amat membawa motosikalnya terlalu laju, zup..., tidak sempat saya mahu menahannya. "
+      ],
+      "en": [
+        "sound of something rushing fast",
+        "Bah Amat drove his motorcycle too quickly; zoom! ... I couldn't stand it!"
+      ]
+    },
+    "updatedAt": "2025-10-07T02:11:03.489Z",
+    "updatedBy": "ejincho"
+  }
+]

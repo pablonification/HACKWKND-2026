@@ -1,0 +1,887 @@
+[
+  {
+    "_id": "g41d3888a-2fac-4ef6-8739-c6a7ff18103c",
+    "xhtmlTemplate": "entry",
+    "guid": "g41d3888a-2fac-4ef6-8739-c6a7ff18103c",
+    "letterHead": "o",
+    "sortIndex": 2497,
+    "mainheadword": [
+      {
+        "lang": "sea",
+        "guid": "g41d3888a-2fac-4ef6-8739-c6a7ff18103c",
+        "value": "og"
+      },
+      {
+        "lang": "sea",
+        "style": "font-weight:bold;font-size:58%;position:relative;top:0.3em;",
+        "guid": "g41d3888a-2fac-4ef6-8739-c6a7ff18103c",
+        "value": "1"
+      }
+    ],
+    "morphosyntaxanalysis": {
+      "graminfoname": [
+        {
+          "lang": "ms",
+          "value": "kata nama"
+        }
+      ]
+    },
+    "senses": [
+      {
+        "guid": "g41d3888a-2fac-4ef6-8739-c6a7ff18103c",
+        "definitionorgloss": [
+          {
+            "lang": "ms",
+            "value": "tebuan tanah"
+          },
+          {
+            "lang": "en",
+            "value": "ground wasp"
+          }
+        ],
+        "examplescontents": [
+          {
+            "example": [
+              {
+                "lang": "sea",
+                "value": "Mong deg og ajeh ku kemil keneng sempak."
+              }
+            ],
+            "translationcontents": [
+              {
+                "translation": [
+                  {
+                    "lang": "ms",
+                    "value": "Terdapat sarang tebuan tanah di atas pokok durian."
+                  },
+                  {
+                    "lang": "en",
+                    "value": "There is a ground wasp's nest in the durian tree."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "displayXhtml": "<div class=\"entry\" id=\"g41d3888a-2fac-4ef6-8739-c6a7ff18103c\"><span class=\"mainheadword\"><span lang=\"sea\"><span lang=\"sea\"><a href=\"#g41d3888a-2fac-4ef6-8739-c6a7ff18103c\">og</a></span><span lang=\"sea\" style=\"font-weight:bold;font-size:58%;position:relative;top:0.3em;\"><a href=\"#g41d3888a-2fac-4ef6-8739-c6a7ff18103c\">1</a></span></span></span><span class=\"senses\"><span class=\"sharedgrammaticalinfo\"><span class=\"morphosyntaxanalysis\"><span class=\"graminfoname\"><span lang=\"ms\">kata nama</span></span></span></span><span class=\"sensecontent\"><span class=\"sense\" entryguid=\"g41d3888a-2fac-4ef6-8739-c6a7ff18103c\"><span class=\"definitionorgloss\"><span lang=\"ms\">tebuan tanah</span><span lang=\"en\">ground wasp</span></span><span class=\"examplescontents\"><span class=\"examplescontent\"><span class=\"example\"><span lang=\"sea\">Mong deg og ajeh ku kemil keneng sempak.</span></span><span class=\"translationcontents\"><span class=\"translationcontent\"><span class=\"translation\"><span lang=\"ms\">Terdapat sarang tebuan tanah di atas pokok durian.</span><span lang=\"en\">There is a ground wasp's nest in the durian tree.</span></span></span></span></span></span></span></span></span></div>",
+    "dictionaryId": "semai",
+    "searchTexts": [
+      "og1",
+      "og",
+      "1",
+      "kata nama",
+      "tebuan tanah",
+      "ground wasp",
+      "Mong deg og ajeh ku kemil keneng sempak.",
+      "Terdapat sarang tebuan tanah di atas pokok durian.",
+      "There is a ground wasp's nest in the durian tree."
+    ],
+    "langTexts": {
+      "sea": [
+        "og1",
+        "og",
+        "1",
+        "Mong deg og ajeh ku kemil keneng sempak."
+      ],
+      "ms": [
+        "kata nama",
+        "tebuan tanah",
+        "Terdapat sarang tebuan tanah di atas pokok durian."
+      ],
+      "en": [
+        "ground wasp",
+        "There is a ground wasp's nest in the durian tree."
+      ]
+    },
+    "langUnaccentedTexts": {
+      "sea": [
+        "og1",
+        "og",
+        "1",
+        "Mong deg og ajeh ku kemil keneng sempak."
+      ],
+      "ms": [
+        "kata nama",
+        "tebuan tanah",
+        "Terdapat sarang tebuan tanah di atas pokok durian."
+      ],
+      "en": [
+        "ground wasp",
+        "There is a ground wasp's nest in the durian tree."
+      ]
+    },
+    "updatedAt": "2025-10-07T02:10:10.334Z",
+    "updatedBy": "ejincho"
+  },
+  {
+    "_id": "gbd3d0218-39d2-4476-a630-d7515080fe2b",
+    "xhtmlTemplate": "entry",
+    "guid": "gbd3d0218-39d2-4476-a630-d7515080fe2b",
+    "letterHead": "o",
+    "sortIndex": 2498,
+    "mainheadword": [
+      {
+        "lang": "sea",
+        "guid": "gbd3d0218-39d2-4476-a630-d7515080fe2b",
+        "value": "og"
+      },
+      {
+        "lang": "sea",
+        "style": "font-weight:bold;font-size:58%;position:relative;top:0.3em;",
+        "guid": "gbd3d0218-39d2-4476-a630-d7515080fe2b",
+        "value": "2"
+      }
+    ],
+    "morphosyntaxanalysis": {
+      "graminfoname": [
+        {
+          "lang": "ms",
+          "value": "kata kerja"
+        }
+      ]
+    },
+    "senses": [
+      {
+        "guid": "gbd3d0218-39d2-4476-a630-d7515080fe2b",
+        "definitionorgloss": [
+          {
+            "lang": "ms",
+            "value": "memberi; membagi"
+          },
+          {
+            "lang": "en",
+            "value": "to give"
+          }
+        ],
+        "lexsensereferences": [
+          {
+            "ownertype_name": [
+              {
+                "lang": "ms",
+                "value": "sinonim"
+              }
+            ],
+            "configtargets": [
+              {
+                "headword-2": [
+                  {
+                    "lang": "sea",
+                    "guid": "g19579985-78e0-4136-87d2-e3dd32d8c98b",
+                    "value": "bak"
+                  },
+                  {
+                    "lang": "sea",
+                    "style": "font-weight:bold;font-size:58%;position:relative;top:0.3em;",
+                    "guid": "g19579985-78e0-4136-87d2-e3dd32d8c98b",
+                    "value": "1"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "examplescontents": [
+          {
+            "example": [
+              {
+                "lang": "sea",
+                "value": "\"Baju ajeh biog ya Bah Nan ha hek,\" Wak Jari kiurok nu Wak Mila."
+              }
+            ],
+            "translationcontents": [
+              {
+                "translation": [
+                  {
+                    "lang": "ms",
+                    "value": "\"Baju tersebut diberi oleh Bah Nan bagi kamu,\" Wak Jari berkata kepada Wak Mila."
+                  },
+                  {
+                    "lang": "en",
+                    "value": "\"The shirt was given by Bah Nan for you,\" Wak Jari said to Wak Mila."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "subentries": [
+      {
+        "headword-4": [
+          {
+            "lang": "sea",
+            "guid": "gd9d8b305-0cda-4d8c-8b79-bcb1f3ba8fe5",
+            "value": "ennog"
+          },
+          {
+            "guid": "gd9d8b305-0cda-4d8c-8b79-bcb1f3ba8fe5",
+            "lang": "sea-Zxxx-x-audio",
+            "value": {
+              "id": "gennog-63733358597259",
+              "src": "AudioVisual/ennog-63733358597259.mp3"
+            }
+          }
+        ],
+        "morphosyntaxanalysis-2": {
+          "graminfoname-2": [
+            {
+              "lang": "ms",
+              "value": "kata nama"
+            }
+          ]
+        },
+        "senses-2": [
+          {
+            "guid": "gd9d8b305-0cda-4d8c-8b79-bcb1f3ba8fe5",
+            "definitionorgloss-2": [
+              {
+                "lang": "ms",
+                "value": "pemberian"
+              },
+              {
+                "lang": "en",
+                "value": "gift; grant"
+              }
+            ],
+            "examplescontents-2": [
+              {
+                "example-2": [
+                  {
+                    "lang": "sea",
+                    "value": "Jam adeh ennog ju amek eng."
+                  }
+                ],
+                "translationcontents-2": [
+                  {
+                    "translation-2": [
+                      {
+                        "lang": "ms",
+                        "value": "Jam ini pemberian dari ibu saya."
+                      },
+                      {
+                        "lang": "en",
+                        "value": "This watch is a gift from my mother."
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "example-2": [
+                  {
+                    "lang": "sea",
+                    "value": "Gulei adeh ennog bok?"
+                  }
+                ],
+                "translationcontents-2": [
+                  {
+                    "translation-2": [
+                      {
+                        "lang": "ms",
+                        "value": "Gulai ini pemberian siapa?"
+                      },
+                      {
+                        "lang": "en",
+                        "value": "Whose gift is this dish?"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "displayXhtml": "<div class=\"entry\" id=\"gbd3d0218-39d2-4476-a630-d7515080fe2b\"><span class=\"mainheadword\"><span lang=\"sea\"><span lang=\"sea\"><a href=\"#gbd3d0218-39d2-4476-a630-d7515080fe2b\">og</a></span><span lang=\"sea\" style=\"font-weight:bold;font-size:58%;position:relative;top:0.3em;\"><a href=\"#gbd3d0218-39d2-4476-a630-d7515080fe2b\">2</a></span></span></span><span class=\"senses\"><span class=\"sharedgrammaticalinfo\"><span class=\"morphosyntaxanalysis\"><span class=\"graminfoname\"><span lang=\"ms\">kata kerja</span></span></span></span><span class=\"sensecontent\"><span class=\"sense\" entryguid=\"gbd3d0218-39d2-4476-a630-d7515080fe2b\"><span class=\"definitionorgloss\"><span lang=\"ms\">memberi; membagi</span><span lang=\"en\">to give</span></span><span class=\"lexsensereferences\"><span class=\"lexsensereference\"><span class=\"ownertype_name\"><span lang=\"ms\">sinonim</span></span><span class=\"configtargets\"><span class=\"configtarget\"><span class=\"headword-2\"><span lang=\"sea\"><span lang=\"sea\"><a href=\"#g19579985-78e0-4136-87d2-e3dd32d8c98b\">bak</a></span><span lang=\"sea\" style=\"font-weight:bold;font-size:58%;position:relative;top:0.3em;\"><a href=\"#g19579985-78e0-4136-87d2-e3dd32d8c98b\">1</a></span></span></span></span></span></span></span><span class=\"examplescontents\"><span class=\"examplescontent\"><span class=\"example\"><span lang=\"sea\">\"Baju ajeh biog ya Bah Nan ha hek,\" Wak Jari kiurok nu Wak Mila.</span></span><span class=\"translationcontents\"><span class=\"translationcontent\"><span class=\"translation\"><span lang=\"ms\">\"Baju tersebut diberi oleh Bah Nan bagi kamu,\" Wak Jari berkata kepada Wak Mila.</span><span lang=\"en\">\"The shirt was given by Bah Nan for you,\" Wak Jari said to Wak Mila.</span></span></span></span></span></span></span></span></span><span class=\"subentries\"><span class=\"subentry mainentrysubentry\"><span class=\"headword-4\"><span lang=\"sea\"><a href=\"#gd9d8b305-0cda-4d8c-8b79-bcb1f3ba8fe5\">ennog</a></span><span><audio id=\"gennog-63733358597259\"><source src=\"AudioVisual\\ennog-63733358597259.mp3\"></source></audio><a class=\"sea-Zxxx-x-audio\" href=\"#gennog-63733358597259\" onclick=\"document.getElementById('gennog-63733358597259').play()\"></a></span></span><span class=\"senses-2\"><span class=\"sharedgrammaticalinfo\"><span class=\"morphosyntaxanalysis-2\"><span class=\"graminfoname-2\"><span lang=\"ms\">kata nama</span></span></span></span><span class=\"sensecontent\"><span class=\"sense\" entryguid=\"gd9d8b305-0cda-4d8c-8b79-bcb1f3ba8fe5\"><span class=\"definitionorgloss-2\"><span lang=\"ms\">pemberian</span><span lang=\"en\">gift; grant</span></span><span class=\"examplescontents-2\"><span class=\"examplescontent\"><span class=\"example-2\"><span lang=\"sea\">Jam adeh ennog ju amek eng.</span></span><span class=\"translationcontents-2\"><span class=\"translationcontent\"><span class=\"translation-2\"><span lang=\"ms\">Jam ini pemberian dari ibu saya.</span><span lang=\"en\">This watch is a gift from my mother.</span></span></span></span></span><span class=\"examplescontent\"><span class=\"example-2\"><span lang=\"sea\">Gulei adeh ennog bok?</span></span><span class=\"translationcontents-2\"><span class=\"translationcontent\"><span class=\"translation-2\"><span lang=\"ms\">Gulai ini pemberian siapa?</span><span lang=\"en\">Whose gift is this dish?</span></span></span></span></span></span></span></span></span></span></span></div>",
+    "dictionaryId": "semai",
+    "searchTexts": [
+      "og2",
+      "og",
+      "2",
+      "kata kerja",
+      "memberi; membagi",
+      "to give",
+      "sinonim",
+      "bak1",
+      "bak",
+      "1",
+      "\"Baju ajeh biog ya Bah Nan ha hek,\" Wak Jari kiurok nu Wak Mila.",
+      "\"Baju tersebut diberi oleh Bah Nan bagi kamu,\" Wak Jari berkata kepada Wak Mila.",
+      "\"The shirt was given by Bah Nan for you,\" Wak Jari said to Wak Mila.",
+      "ennog",
+      "kata nama",
+      "pemberian",
+      "gift; grant",
+      "Jam adeh ennog ju amek eng.",
+      "Jam ini pemberian dari ibu saya.",
+      "This watch is a gift from my mother.",
+      "Gulei adeh ennog bok?",
+      "Gulai ini pemberian siapa?",
+      "Whose gift is this dish?"
+    ],
+    "langTexts": {
+      "sea": [
+        "og2",
+        "og",
+        "2",
+        "bak1",
+        "bak",
+        "1",
+        "\"Baju ajeh biog ya Bah Nan ha hek,\" Wak Jari kiurok nu Wak Mila.",
+        "ennog",
+        "Jam adeh ennog ju amek eng.",
+        "Gulei adeh ennog bok?"
+      ],
+      "ms": [
+        "kata kerja",
+        "memberi; membagi",
+        "sinonim",
+        "\"Baju tersebut diberi oleh Bah Nan bagi kamu,\" Wak Jari berkata kepada Wak Mila.",
+        "kata nama",
+        "pemberian",
+        "Jam ini pemberian dari ibu saya.",
+        "Gulai ini pemberian siapa?"
+      ],
+      "en": [
+        "to give",
+        "\"The shirt was given by Bah Nan for you,\" Wak Jari said to Wak Mila.",
+        "gift; grant",
+        "This watch is a gift from my mother.",
+        "Whose gift is this dish?"
+      ]
+    },
+    "langUnaccentedTexts": {
+      "sea": [
+        "og2",
+        "og",
+        "2",
+        "bak1",
+        "bak",
+        "1",
+        "\"Baju ajeh biog ya Bah Nan ha hek,\" Wak Jari kiurok nu Wak Mila.",
+        "ennog",
+        "Jam adeh ennog ju amek eng.",
+        "Gulei adeh ennog bok?"
+      ],
+      "ms": [
+        "kata kerja",
+        "memberi; membagi",
+        "sinonim",
+        "\"Baju tersebut diberi oleh Bah Nan bagi kamu,\" Wak Jari berkata kepada Wak Mila.",
+        "kata nama",
+        "pemberian",
+        "Jam ini pemberian dari ibu saya.",
+        "Gulai ini pemberian siapa?"
+      ],
+      "en": [
+        "to give",
+        "\"The shirt was given by Bah Nan for you,\" Wak Jari said to Wak Mila.",
+        "gift; grant",
+        "This watch is a gift from my mother.",
+        "Whose gift is this dish?"
+      ]
+    },
+    "updatedAt": "2025-10-07T02:10:10.334Z",
+    "updatedBy": "ejincho"
+  },
+  {
+    "_id": "gcd147db0-8f6a-4e78-a3a5-7eaee92024d0",
+    "xhtmlTemplate": "entry",
+    "guid": "gcd147db0-8f6a-4e78-a3a5-7eaee92024d0",
+    "letterHead": "o",
+    "sortIndex": 2499,
+    "mainheadword": [
+      {
+        "lang": "sea",
+        "guid": "gcd147db0-8f6a-4e78-a3a5-7eaee92024d0",
+        "value": "oh"
+      }
+    ],
+    "morphosyntaxanalysis": {
+      "graminfoname": [
+        {
+          "lang": "ms",
+          "value": "kata keterangan"
+        }
+      ]
+    },
+    "senses": [
+      {
+        "guid": "gcd147db0-8f6a-4e78-a3a5-7eaee92024d0",
+        "definitionorgloss": [
+          {
+            "lang": "ms",
+            "value": "entah"
+          },
+          {
+            "lang": "en",
+            "value": "word to express that one does not know, perhaps, maybe"
+          }
+        ],
+        "examplescontents": [
+          {
+            "example": [
+              {
+                "lang": "sea",
+                "value": "\"Oh,\" Bah Gurek kiberlag bile bitanya belok imemenang ya iamek."
+              }
+            ],
+            "translationcontents": [
+              {
+                "translation": [
+                  {
+                    "lang": "ms",
+                    "value": "\"Entah,\" Bah Gurek menjawab bila ibunya bertanya ke mana adik-adiknya pergi."
+                  },
+                  {
+                    "lang": "en",
+                    "value": "\"I don't know,\" Bah Gurek replied when his mother asked where his siblings had gone."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "displayXhtml": "<div class=\"entry\" id=\"gcd147db0-8f6a-4e78-a3a5-7eaee92024d0\"><span class=\"mainheadword\"><span lang=\"sea\"><a href=\"#gcd147db0-8f6a-4e78-a3a5-7eaee92024d0\">oh</a></span></span><span class=\"senses\"><span class=\"sharedgrammaticalinfo\"><span class=\"morphosyntaxanalysis\"><span class=\"graminfoname\"><span lang=\"ms\">kata keterangan</span></span></span></span><span class=\"sensecontent\"><span class=\"sense\" entryguid=\"gcd147db0-8f6a-4e78-a3a5-7eaee92024d0\"><span class=\"definitionorgloss\"><span lang=\"ms\">entah</span><span lang=\"en\">word to express that one does not know, perhaps, maybe</span></span><span class=\"examplescontents\"><span class=\"examplescontent\"><span class=\"example\"><span lang=\"sea\">\"Oh,\" Bah Gurek kiberlag bile bitanya belok imemenang ya iamek.</span></span><span class=\"translationcontents\"><span class=\"translationcontent\"><span class=\"translation\"><span lang=\"ms\">\"Entah,\" Bah Gurek menjawab bila ibunya bertanya ke mana adik-adiknya pergi.</span><span lang=\"en\">\"I don't know,\" Bah Gurek replied when his mother asked where his siblings had gone.</span></span></span></span></span></span></span></span></span></div>",
+    "dictionaryId": "semai",
+    "searchTexts": [
+      "oh",
+      "kata keterangan",
+      "entah",
+      "word to express that one does not know, perhaps, maybe",
+      "\"Oh,\" Bah Gurek kiberlag bile bitanya belok imemenang ya iamek.",
+      "\"Entah,\" Bah Gurek menjawab bila ibunya bertanya ke mana adik-adiknya pergi.",
+      "\"I don't know,\" Bah Gurek replied when his mother asked where his siblings had gone."
+    ],
+    "langTexts": {
+      "sea": [
+        "oh",
+        "\"Oh,\" Bah Gurek kiberlag bile bitanya belok imemenang ya iamek."
+      ],
+      "ms": [
+        "kata keterangan",
+        "entah",
+        "\"Entah,\" Bah Gurek menjawab bila ibunya bertanya ke mana adik-adiknya pergi."
+      ],
+      "en": [
+        "word to express that one does not know, perhaps, maybe",
+        "\"I don't know,\" Bah Gurek replied when his mother asked where his siblings had gone."
+      ]
+    },
+    "langUnaccentedTexts": {
+      "sea": [
+        "oh",
+        "\"Oh,\" Bah Gurek kiberlag bile bitanya belok imemenang ya iamek."
+      ],
+      "ms": [
+        "kata keterangan",
+        "entah",
+        "\"Entah,\" Bah Gurek menjawab bila ibunya bertanya ke mana adik-adiknya pergi."
+      ],
+      "en": [
+        "word to express that one does not know, perhaps, maybe",
+        "\"I don't know,\" Bah Gurek replied when his mother asked where his siblings had gone."
+      ]
+    },
+    "updatedAt": "2025-10-07T02:10:10.334Z",
+    "updatedBy": "ejincho"
+  },
+  {
+    "_id": "gd6f3ab3b-2822-4933-b974-341266a901bf",
+    "xhtmlTemplate": "entry",
+    "guid": "gd6f3ab3b-2822-4933-b974-341266a901bf",
+    "letterHead": "o",
+    "sortIndex": 2500,
+    "mainheadword": [
+      {
+        "lang": "sea",
+        "guid": "gd6f3ab3b-2822-4933-b974-341266a901bf",
+        "value": "op"
+      }
+    ],
+    "morphosyntaxanalysis": {
+      "graminfoname": [
+        {
+          "lang": "ms",
+          "value": "kata kerja"
+        }
+      ]
+    },
+    "senses": [
+      {
+        "guid": "gd6f3ab3b-2822-4933-b974-341266a901bf",
+        "definitionorgloss": [
+          {
+            "lang": "ms",
+            "value": "buat-buat tidur"
+          },
+          {
+            "lang": "en",
+            "value": "to be awake but not willing to get up; to be lazy to get up"
+          }
+        ],
+        "examplescontents": [
+          {
+            "example": [
+              {
+                "lang": "sea",
+                "value": "Iarik la yah tapi lekakt kiop."
+              }
+            ],
+            "translationcontents": [
+              {
+                "translation": [
+                  {
+                    "lang": "ms",
+                    "value": "Hari sudah siang tetapi dia buat-buat tidur."
+                  },
+                  {
+                    "lang": "en",
+                    "value": "It's already daytime but he's too lazy to get up."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "displayXhtml": "<div class=\"entry\" id=\"gd6f3ab3b-2822-4933-b974-341266a901bf\"><span class=\"mainheadword\"><span lang=\"sea\"><a href=\"#gd6f3ab3b-2822-4933-b974-341266a901bf\">op</a></span></span><span class=\"senses\"><span class=\"sharedgrammaticalinfo\"><span class=\"morphosyntaxanalysis\"><span class=\"graminfoname\"><span lang=\"ms\">kata kerja</span></span></span></span><span class=\"sensecontent\"><span class=\"sense\" entryguid=\"gd6f3ab3b-2822-4933-b974-341266a901bf\"><span class=\"definitionorgloss\"><span lang=\"ms\">buat-buat tidur</span><span lang=\"en\">to be awake but not willing to get up; to be lazy to get up</span></span><span class=\"examplescontents\"><span class=\"examplescontent\"><span class=\"example\"><span lang=\"sea\">Iarik la yah tapi lekakt kiop.</span></span><span class=\"translationcontents\"><span class=\"translationcontent\"><span class=\"translation\"><span lang=\"ms\">Hari sudah siang tetapi dia buat-buat tidur.</span><span lang=\"en\">It's already daytime but he's too lazy to get up.</span></span></span></span></span></span></span></span></span></div>",
+    "dictionaryId": "semai",
+    "searchTexts": [
+      "op",
+      "kata kerja",
+      "buat-buat tidur",
+      "to be awake but not willing to get up; to be lazy to get up",
+      "Iarik la yah tapi lekakt kiop.",
+      "Hari sudah siang tetapi dia buat-buat tidur.",
+      "It's already daytime but he's too lazy to get up."
+    ],
+    "langTexts": {
+      "sea": [
+        "op",
+        "Iarik la yah tapi lekakt kiop."
+      ],
+      "ms": [
+        "kata kerja",
+        "buat-buat tidur",
+        "Hari sudah siang tetapi dia buat-buat tidur."
+      ],
+      "en": [
+        "to be awake but not willing to get up; to be lazy to get up",
+        "It's already daytime but he's too lazy to get up."
+      ]
+    },
+    "langUnaccentedTexts": {
+      "sea": [
+        "op",
+        "Iarik la yah tapi lekakt kiop."
+      ],
+      "ms": [
+        "kata kerja",
+        "buat-buat tidur",
+        "Hari sudah siang tetapi dia buat-buat tidur."
+      ],
+      "en": [
+        "to be awake but not willing to get up; to be lazy to get up",
+        "It's already daytime but he's too lazy to get up."
+      ]
+    },
+    "updatedAt": "2025-10-07T02:10:12.187Z",
+    "updatedBy": "ejincho"
+  },
+  {
+    "_id": "gd5a60566-263e-40e0-af12-b01463469dde",
+    "xhtmlTemplate": "entry",
+    "guid": "gd5a60566-263e-40e0-af12-b01463469dde",
+    "letterHead": "o",
+    "sortIndex": 2501,
+    "mainheadword": [
+      {
+        "lang": "sea",
+        "guid": "gd5a60566-263e-40e0-af12-b01463469dde",
+        "value": "or"
+      }
+    ],
+    "morphosyntaxanalysis": {
+      "graminfoname": [
+        {
+          "lang": "ms",
+          "value": "kata kerja"
+        }
+      ]
+    },
+    "senses": [
+      {
+        "guid": "gd5a60566-263e-40e0-af12-b01463469dde",
+        "definitionorgloss": [
+          {
+            "lang": "ms",
+            "value": "menyuruh"
+          },
+          {
+            "lang": "en",
+            "value": "to order; to command"
+          }
+        ],
+        "examplescontents": [
+          {
+            "example": [
+              {
+                "lang": "sea",
+                "value": "Bah Hussin kior ianak buah kot bantal."
+              }
+            ],
+            "translationcontents": [
+              {
+                "translation": [
+                  {
+                    "lang": "ms",
+                    "value": "Bah Husin menyuruh anak buahnya mengambil bantal."
+                  },
+                  {
+                    "lang": "en",
+                    "value": "Bah Husin ordered his nephew to take a pillow."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "displayXhtml": "<div class=\"entry\" id=\"gd5a60566-263e-40e0-af12-b01463469dde\"><span class=\"mainheadword\"><span lang=\"sea\"><a href=\"#gd5a60566-263e-40e0-af12-b01463469dde\">or</a></span></span><span class=\"senses\"><span class=\"sharedgrammaticalinfo\"><span class=\"morphosyntaxanalysis\"><span class=\"graminfoname\"><span lang=\"ms\">kata kerja</span></span></span></span><span class=\"sensecontent\"><span class=\"sense\" entryguid=\"gd5a60566-263e-40e0-af12-b01463469dde\"><span class=\"definitionorgloss\"><span lang=\"ms\">menyuruh</span><span lang=\"en\">to order; to command</span></span><span class=\"examplescontents\"><span class=\"examplescontent\"><span class=\"example\"><span lang=\"sea\">Bah Hussin kior ianak buah kot bantal.</span></span><span class=\"translationcontents\"><span class=\"translationcontent\"><span class=\"translation\"><span lang=\"ms\">Bah Husin menyuruh anak buahnya mengambil bantal.</span><span lang=\"en\">Bah Husin ordered his nephew to take a pillow.</span></span></span></span></span></span></span></span></span></div>",
+    "dictionaryId": "semai",
+    "searchTexts": [
+      "or",
+      "kata kerja",
+      "menyuruh",
+      "to order; to command",
+      "Bah Hussin kior ianak buah kot bantal.",
+      "Bah Husin menyuruh anak buahnya mengambil bantal.",
+      "Bah Husin ordered his nephew to take a pillow."
+    ],
+    "langTexts": {
+      "sea": [
+        "or",
+        "Bah Hussin kior ianak buah kot bantal."
+      ],
+      "ms": [
+        "kata kerja",
+        "menyuruh",
+        "Bah Husin menyuruh anak buahnya mengambil bantal."
+      ],
+      "en": [
+        "to order; to command",
+        "Bah Husin ordered his nephew to take a pillow."
+      ]
+    },
+    "langUnaccentedTexts": {
+      "sea": [
+        "or",
+        "Bah Hussin kior ianak buah kot bantal."
+      ],
+      "ms": [
+        "kata kerja",
+        "menyuruh",
+        "Bah Husin menyuruh anak buahnya mengambil bantal."
+      ],
+      "en": [
+        "to order; to command",
+        "Bah Husin ordered his nephew to take a pillow."
+      ]
+    },
+    "updatedAt": "2025-10-07T02:10:12.187Z",
+    "updatedBy": "ejincho"
+  },
+  {
+    "_id": "ge68d9cb4-6542-408b-914b-f81133598c7b",
+    "xhtmlTemplate": "entry",
+    "guid": "ge68d9cb4-6542-408b-914b-f81133598c7b",
+    "letterHead": "o",
+    "sortIndex": 2502,
+    "mainheadword": [
+      {
+        "lang": "sea",
+        "guid": "ge68d9cb4-6542-408b-914b-f81133598c7b",
+        "value": "os"
+      }
+    ],
+    "morphosyntaxanalysis": {
+      "graminfoname": [
+        {
+          "lang": "ms",
+          "value": "kata nama"
+        }
+      ]
+    },
+    "senses": [
+      {
+        "guid": "ge68d9cb4-6542-408b-914b-f81133598c7b",
+        "definitionorgloss": [
+          {
+            "lang": "ms",
+            "value": "api"
+          },
+          {
+            "lang": "en",
+            "value": "fire"
+          }
+        ],
+        "examplescontents": [
+          {
+            "example": [
+              {
+                "lang": "sea",
+                "value": "Bah Midin kirup os ku deg pender mandei kaha-jop gale."
+              }
+            ],
+            "translationcontents": [
+              {
+                "translation": [
+                  {
+                    "lang": "ms",
+                    "value": "Bah Midin menyala api di dalam pondok kerana mahu membakar ubi kayu."
+                  },
+                  {
+                    "lang": "en",
+                    "value": "Bah Midin lit a fire in the hut because he wanted to roast the tapioca."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "displayXhtml": "<div class=\"entry\" id=\"ge68d9cb4-6542-408b-914b-f81133598c7b\"><span class=\"mainheadword\"><span lang=\"sea\"><a href=\"#ge68d9cb4-6542-408b-914b-f81133598c7b\">os</a></span></span><span class=\"senses\"><span class=\"sharedgrammaticalinfo\"><span class=\"morphosyntaxanalysis\"><span class=\"graminfoname\"><span lang=\"ms\">kata nama</span></span></span></span><span class=\"sensecontent\"><span class=\"sense\" entryguid=\"ge68d9cb4-6542-408b-914b-f81133598c7b\"><span class=\"definitionorgloss\"><span lang=\"ms\">api</span><span lang=\"en\">fire</span></span><span class=\"examplescontents\"><span class=\"examplescontent\"><span class=\"example\"><span lang=\"sea\">Bah Midin kirup os ku deg pender mandei kaha-jop gale.</span></span><span class=\"translationcontents\"><span class=\"translationcontent\"><span class=\"translation\"><span lang=\"ms\">Bah Midin menyala api di dalam pondok kerana mahu membakar ubi kayu.</span><span lang=\"en\">Bah Midin lit a fire in the hut because he wanted to roast the tapioca.</span></span></span></span></span></span></span></span></span></div>",
+    "dictionaryId": "semai",
+    "searchTexts": [
+      "os",
+      "kata nama",
+      "api",
+      "fire",
+      "Bah Midin kirup os ku deg pender mandei kaha-jop gale.",
+      "Bah Midin menyala api di dalam pondok kerana mahu membakar ubi kayu.",
+      "Bah Midin lit a fire in the hut because he wanted to roast the tapioca."
+    ],
+    "langTexts": {
+      "sea": [
+        "os",
+        "Bah Midin kirup os ku deg pender mandei kaha-jop gale."
+      ],
+      "ms": [
+        "kata nama",
+        "api",
+        "Bah Midin menyala api di dalam pondok kerana mahu membakar ubi kayu."
+      ],
+      "en": [
+        "fire",
+        "Bah Midin lit a fire in the hut because he wanted to roast the tapioca."
+      ]
+    },
+    "langUnaccentedTexts": {
+      "sea": [
+        "os",
+        "Bah Midin kirup os ku deg pender mandei kaha-jop gale."
+      ],
+      "ms": [
+        "kata nama",
+        "api",
+        "Bah Midin menyala api di dalam pondok kerana mahu membakar ubi kayu."
+      ],
+      "en": [
+        "fire",
+        "Bah Midin lit a fire in the hut because he wanted to roast the tapioca."
+      ]
+    },
+    "updatedAt": "2025-10-07T02:10:12.187Z",
+    "updatedBy": "ejincho"
+  },
+  {
+    "_id": "ga60d4a2e-a0ce-4494-83bd-004fef0e3f2f",
+    "xhtmlTemplate": "minorentrycomplex",
+    "guid": "ga60d4a2e-a0ce-4494-83bd-004fef0e3f2f",
+    "letterHead": "o",
+    "sortIndex": 2503,
+    "headword-5": [
+      {
+        "lang": "sea",
+        "guid": "ga60d4a2e-a0ce-4494-83bd-004fef0e3f2f",
+        "value": "os nyeng"
+      },
+      {
+        "guid": "ga60d4a2e-a0ce-4494-83bd-004fef0e3f2f",
+        "lang": "sea-Zxxx-x-audio",
+        "value": {
+          "id": "gos_nyeng-63732025055417",
+          "src": "AudioVisual/os nyeng-63732025055417.mp3"
+        }
+      }
+    ],
+    "complexformentryrefs": [
+      {
+        "referencedentries": [
+          {
+            "headword-6": [
+              {
+                "lang": "sea",
+                "guid": "ge68d9cb4-6542-408b-914b-f81133598c7b",
+                "value": "os"
+              }
+            ]
+          },
+          {
+            "headword-6": [
+              {
+                "lang": "sea",
+                "guid": "g836d07eb-00ad-4c14-8e8a-70a540b098ca",
+                "value": "nyeng"
+              }
+            ]
+          }
+        ],
+        "nontrivialentryroots": [
+          {
+            "headword-8": [
+              {
+                "lang": "sea",
+                "guid": "g836d07eb-00ad-4c14-8e8a-70a540b098ca",
+                "value": "nyeng"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "displayXhtml": "<div class=\"minorentrycomplex\" id=\"ga60d4a2e-a0ce-4494-83bd-004fef0e3f2f\"><span class=\"headword-5\"><span lang=\"sea\"><a href=\"#ga60d4a2e-a0ce-4494-83bd-004fef0e3f2f\">os nyeng</a></span><span><audio id=\"gos_nyeng-63732025055417\"><source src=\"AudioVisual\\os nyeng-63732025055417.mp3\"></source></audio><a class=\"sea-Zxxx-x-audio\" href=\"#gos_nyeng-63732025055417\" onclick=\"document.getElementById('gos_nyeng-63732025055417').play()\"></a></span></span><span class=\"complexformentryrefs\"><span class=\"complexformentryref\"><span class=\"referencedentries\"><span class=\"referencedentry\"><span class=\"headword-6\"><span lang=\"sea\"><a href=\"#ge68d9cb4-6542-408b-914b-f81133598c7b\">os</a></span></span></span><span class=\"referencedentry\"><span class=\"headword-6\"><span lang=\"sea\"><a href=\"#g836d07eb-00ad-4c14-8e8a-70a540b098ca\">nyeng</a></span></span></span></span><span class=\"nontrivialentryroots\"><span class=\"nontrivialentryroot\"><span class=\"headword-8\"><span lang=\"sea\"><a href=\"#g836d07eb-00ad-4c14-8e8a-70a540b098ca\">nyeng</a></span></span></span></span></span></span></div>",
+    "dictionaryId": "semai",
+    "searchTexts": [
+      "os nyeng",
+      "os",
+      "nyeng"
+    ],
+    "langTexts": {
+      "sea": [
+        "os nyeng",
+        "os",
+        "nyeng"
+      ]
+    },
+    "langUnaccentedTexts": {
+      "sea": [
+        "os nyeng",
+        "os",
+        "nyeng"
+      ]
+    },
+    "updatedAt": "2025-10-07T02:10:12.187Z",
+    "updatedBy": "ejincho"
+  }
+]
