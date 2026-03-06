@@ -1573,6 +1573,30 @@ const filenameFromHttpUrl = (sourceUrl) => {
  * @param {ReturnType<typeof buildRuntimeConfig>} config
  */
 const downloadFromHttpUrl = async (sourceUrl, config) => {
+  // Block SSRF: reject private, loopback, and link-local addresses.
+  const parsed = new URL(sourceUrl);
+  const hostname = parsed.hostname;
+  const BLOCKED_PATTERNS = [
+    /^localhost$/i,
+    /^127\./,
+    /^10\./,
+    /^172\.(1[6-9]|2\d|3[01])\./,
+    /^192\.168\./,
+    /^169\.254\./,
+    /^0\./,
+    /^\[::1\]$/,
+    /^\[fc/i,
+    /^\[fd/i,
+    /^\[fe80:/i,
+  ];
+  if (BLOCKED_PATTERNS.some((pattern) => pattern.test(hostname))) {
+    throw new HttpError(
+      400,
+      'audio_url must not point to a private or loopback address.',
+      'blocked_url',
+    );
+  }
+
   const response = await fetchWithTimeout(sourceUrl, { method: 'GET' }, config.timeoutMs);
 
   if (!response.ok) {

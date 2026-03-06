@@ -54,6 +54,9 @@ import {
   DEFAULT_STUDIO_WAVEFORM_BARS,
 } from '../lib/studioWaveform';
 import { useAuthStore } from '../stores/authStore';
+import micIllustration from '../../assets/studio/mic-illustration.png';
+import archiveBook from '../../assets/studio/archive-book.png';
+import recorderHero from '../../assets/studio/recorder-hero.png';
 
 const RECORDING_TYPE_LABEL: Record<StudioRecordingType, string> = {
   word: 'Word',
@@ -984,11 +987,7 @@ export function ElderStudioTab() {
           onClick={handleOpenComposer}
           aria-label="Record new story"
         >
-          <img
-            src="/assets/studio/mic-illustration.png"
-            alt=""
-            className="studio-hero-illustration"
-          />
+          <img src={micIllustration} alt="" className="studio-hero-illustration" />
           <div className="studio-hero-copy">
             <h3>
               <span>Record</span>
@@ -1040,11 +1039,7 @@ export function ElderStudioTab() {
                 <span>Sync now</span>
               </button>
             </div>
-            <img
-              src="/assets/studio/archive-book.png"
-              alt=""
-              className="studio-archive-preview-illustration"
-            />
+            <img src={archiveBook} alt="" className="studio-archive-preview-illustration" />
           </header>
 
           {recordings.length === 0 ? (
@@ -1127,11 +1122,7 @@ export function ElderStudioTab() {
                 <div
                   className={`studio-capture-orb ${isRecording ? 'is-recording' : ''} ${draftBlob ? 'is-ready' : ''}`}
                 >
-                  <img
-                    src="/assets/studio/recorder-hero.png"
-                    alt=""
-                    className="studio-capture-orb-image"
-                  />
+                  <img src={recorderHero} alt="" className="studio-capture-orb-image" />
                 </div>
                 <p className="studio-capture-clock">
                   {formatStudioRecorderClock(recordedDuration)}

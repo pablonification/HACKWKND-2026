@@ -1231,7 +1231,7 @@ export const retryStudioRecordingTranscription = async (
     updatedAt,
   });
 
-  const { error } = await supabase
+  const { data: rows, error } = await supabase
     .from('recordings')
     .update({
       transcription: resolveStudioRecordingTranscription(updatedRecording),
@@ -1247,10 +1247,15 @@ export const retryStudioRecordingTranscription = async (
       updated_at: updatedAt,
     })
     .eq('id', recording.id)
-    .eq('uploader_id', recording.uploaderId);
+    .eq('uploader_id', recording.uploaderId)
+    .select('id');
 
   if (error) {
     throw new Error(`Recordings transcription update failed: ${error.message}`);
+  }
+
+  if (!rows || rows.length === 0) {
+    throw new Error('Recordings transcription update failed: no rows were updated.');
   }
 
   await updateRecording(updatedRecording);
@@ -1273,7 +1278,7 @@ export const saveStudioRecordingReviewDraft = async (
     updatedAt,
   });
 
-  const { error } = await supabase
+  const { data: rows, error } = await supabase
     .from('recordings')
     .update({
       verified_transcription: nextVerifiedTranscription,
@@ -1283,10 +1288,15 @@ export const saveStudioRecordingReviewDraft = async (
       updated_at: updatedAt,
     })
     .eq('id', recording.id)
-    .eq('uploader_id', recording.uploaderId);
+    .eq('uploader_id', recording.uploaderId)
+    .select('id');
 
   if (error) {
     throw new Error(`Recordings review draft update failed: ${error.message}`);
+  }
+
+  if (!rows || rows.length === 0) {
+    throw new Error('Recordings review draft update failed: no rows were updated.');
   }
 
   if (updatedRecording.isVerified) {
@@ -1323,7 +1333,7 @@ export const approveStudioRecordingReview = async (
     updatedAt,
   });
 
-  const { error } = await supabase
+  const { data: rows, error } = await supabase
     .from('recordings')
     .update({
       transcription: verifiedTranscription,
@@ -1336,10 +1346,17 @@ export const approveStudioRecordingReview = async (
       updated_at: updatedAt,
     })
     .eq('id', recording.id)
-    .eq('uploader_id', recording.uploaderId);
+    .eq('uploader_id', recording.uploaderId)
+    .select('id');
 
   if (error) {
     throw new Error(`Recordings verification failed: ${error.message}`);
+  }
+
+  if (!rows || rows.length === 0) {
+    throw new Error(
+      'Recordings verification failed: no rows were updated. You may not have permission to verify this recording.',
+    );
   }
 
   await syncVerifiedWordToWords(updatedRecording);
