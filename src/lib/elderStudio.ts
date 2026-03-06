@@ -859,10 +859,13 @@ const requestAiTranscription = async (
 
   let response: Response;
   try {
+    const { data: sessionData } = await supabase.auth.getSession();
+    const accessToken = sessionData?.session?.access_token ?? '';
     response = await fetch(`${AI_BASE_URL}/ai/transcribe`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
       },
       body: JSON.stringify({
         audio_url: audioUrl,
@@ -1004,8 +1007,8 @@ const syncVerifiedWordToWords = async (recording: StudioRecording): Promise<void
     semai_key: semaiKey,
     meaning_ms: verifiedTranslationMs,
     malay_translation: verifiedTranslationMs,
-    meaning_en: verifiedTranslationMs,
-    english_translation: verifiedTranslationMs,
+    meaning_en: null,
+    english_translation: null,
     pronunciation_url: recording.audioUrl ?? recording.storagePath,
     topic_tags: normalizedTopicTags,
     category,
@@ -1297,6 +1300,7 @@ export const saveStudioRecordingReviewDraft = async (
 export const approveStudioRecordingReview = async (
   recording: StudioRecording,
   draft: StudioReviewDraftInput,
+  reviewerId: string,
 ): Promise<StudioRecording> => {
   const verifiedTranscription = draft.verifiedTranscription.trim();
   const verifiedTranslationMs = draft.verifiedTranslationMs?.trim() || null;
@@ -1315,7 +1319,7 @@ export const approveStudioRecordingReview = async (
     verifiedTranslationMs,
     isVerified: true,
     verifiedAt,
-    verifiedBy: recording.uploaderId,
+    verifiedBy: reviewerId,
     updatedAt,
   });
 
@@ -1328,7 +1332,7 @@ export const approveStudioRecordingReview = async (
       verified_translation_ms: verifiedTranslationMs,
       is_verified: true,
       verified_at: verifiedAt,
-      verified_by: recording.uploaderId,
+      verified_by: reviewerId,
       updated_at: updatedAt,
     })
     .eq('id', recording.id)

@@ -1903,6 +1903,21 @@ const handleHealth = async (request, response, config, requestUrl) => {
  * @param {ReturnType<typeof buildRuntimeConfig>} config
  */
 const handleTranscribe = async (request, response, config) => {
+  // Require a valid Supabase session JWT in Authorization header.
+  const authHeader = request.headers['authorization'] ?? '';
+  const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7).trim() : '';
+  if (!token) {
+    throw new HttpError(401, 'Authorization header with Bearer token is required.', 'unauthorized');
+  }
+  const supabaseAuth = createSupabaseServiceClient(config);
+  const {
+    data: { user },
+    error: authError,
+  } = await supabaseAuth.auth.getUser(token);
+  if (authError || !user) {
+    throw new HttpError(401, 'Invalid or expired authentication token.', 'unauthorized');
+  }
+
   const payload = await readJsonBody(request);
   const audioUrl = payload?.audio_url;
   const recordingType =

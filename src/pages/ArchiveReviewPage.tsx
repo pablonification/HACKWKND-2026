@@ -524,14 +524,22 @@ export function ArchiveReviewPage() {
       return;
     }
 
+    if (!user) {
+      return;
+    }
+
     triggerHapticFeedback('medium');
     setVerifyingRecordingId(recording.id);
     try {
       const draft = getDraftForRecording(recording);
-      const updatedRecording = await approveStudioRecordingReview(recording, {
-        verifiedTranscription: draft.verifiedTranscription,
-        verifiedTranslationMs: draft.verifiedTranslationMs || null,
-      });
+      const updatedRecording = await approveStudioRecordingReview(
+        recording,
+        {
+          verifiedTranscription: draft.verifiedTranscription,
+          verifiedTranslationMs: draft.verifiedTranslationMs || null,
+        },
+        user.id,
+      );
       updateRecording(updatedRecording);
       setToast({
         color: 'success',
