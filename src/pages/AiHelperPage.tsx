@@ -26,9 +26,7 @@ function TaviIntro({ onStart }: { onStart: () => void }) {
     <div className="tavi-intro">
       {/* Header */}
       <header className="tavi-intro-header">
-        <button className="tavi-back-button" aria-label="Go back">
-          <span className="tavi-back-chevron" aria-hidden="true" />
-        </button>
+        <button className="tavi-back-button" aria-label="Go back" onClick={() => {/* navigate back or close */}}>
         <span className="tavi-intro-header-pill">Personal AI Buddy</span>
         <div style={{ width: 36 }} />
       </header>
