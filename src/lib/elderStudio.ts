@@ -1012,8 +1012,8 @@ const syncVerifiedWordToWords = async (recording: StudioRecording): Promise<void
     pronunciation_url: recording.audioUrl ?? recording.storagePath,
     topic_tags: normalizedTopicTags,
     category,
-    elder_id: recording.uploaderId,
-    created_by: recording.uploaderId,
+    elder_id: recording.verifiedBy ?? recording.uploaderId,
+    created_by: recording.verifiedBy ?? recording.uploaderId,
   });
 
   if (insertError) {
@@ -1300,6 +1300,16 @@ export const saveStudioRecordingReviewDraft = async (
   }
 
   if (updatedRecording.isVerified) {
+    // If the transcript changed, remove the orphaned word entry for the old semai_key.
+    const oldKey = recording.verifiedTranscription
+      ? normalizeSemaiKey(recording.verifiedTranscription.trim())
+      : null;
+    const newKey = updatedRecording.verifiedTranscription
+      ? normalizeSemaiKey(updatedRecording.verifiedTranscription.trim())
+      : null;
+    if (oldKey && newKey && oldKey !== newKey) {
+      await supabase.from('words').delete().eq('semai_key', oldKey);
+    }
     await syncVerifiedWordToWords(updatedRecording);
   }
 
