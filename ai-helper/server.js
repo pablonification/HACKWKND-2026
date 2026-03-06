@@ -1631,7 +1631,7 @@ const downloadFromHttpUrl = async (sourceUrl, config) => {
     }
   } catch (err) {
     if (err instanceof HttpError) throw err;
-    throw new HttpError(400, `Could not resolve hostname: ${hostname}`, 'blocked_url');
+    throw new HttpError(400, 'Could not resolve the provided audio URL hostname.', 'blocked_url');
   }
 
   const response = await fetchWithTimeout(sourceUrl, { method: 'GET' }, config.timeoutMs);

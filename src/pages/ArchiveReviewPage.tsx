@@ -16,6 +16,7 @@ import {
   countPendingStudioReview,
   deleteStudioRecording,
   doesStudioRecordingNeedReview,
+  fetchRecordingsForReview,
   fetchRemoteStudioRecordings,
   formatRecordingDuration,
   formatRelativeTime,
@@ -181,10 +182,23 @@ export function ArchiveReviewPage() {
     setIsLoading(true);
     try {
       const localRecordings = await getStudioRecordingsForUser(user.id);
-      let remoteRecordings: StudioRecording[] = [];
+      const remoteRecordings: StudioRecording[] = [];
 
       try {
-        remoteRecordings = await fetchRemoteStudioRecordings(user.id);
+        // Fetch both the user's own recordings and recordings eligible for
+        // elder/admin review (uploaded by others, not yet verified).
+        const [ownRemote, reviewable] = await Promise.all([
+          fetchRemoteStudioRecordings(user.id),
+          fetchRecordingsForReview(user.id),
+        ]);
+        // Deduplicate by id in case of overlap.
+        const seen = new Set<string>();
+        for (const r of [...ownRemote, ...reviewable]) {
+          if (!seen.has(r.id)) {
+            seen.add(r.id);
+            remoteRecordings.push(r);
+          }
+        }
       } catch {
         // Local cache keeps review usable while remote refresh fails.
       }

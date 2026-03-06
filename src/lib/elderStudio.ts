@@ -1084,6 +1084,26 @@ export const fetchRemoteStudioRecordings = async (
   return ((data ?? []) as RecordingRow[]).map(fromRemoteRow);
 };
 
+/**
+ * Fetch recordings eligible for elder/admin review: unverified and not
+ * uploaded by the given reviewer.  RLS enforces the same constraint, but
+ * filtering client-side avoids a confusing empty list.
+ */
+export const fetchRecordingsForReview = async (reviewerId: string): Promise<StudioRecording[]> => {
+  const { data, error } = await supabase
+    .from('recordings')
+    .select('*')
+    .neq('uploader_id', reviewerId)
+    .or('is_verified.is.null,is_verified.eq.false')
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    throw error;
+  }
+
+  return ((data ?? []) as RecordingRow[]).map(fromRemoteRow);
+};
+
 export const saveStudioRecordingDraft = async (
   draft: StudioRecordingDraftInput,
 ): Promise<StudioRecording> => {

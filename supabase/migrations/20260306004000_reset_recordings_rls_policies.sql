@@ -63,19 +63,23 @@ $$;
 
 do $$
 begin
+  -- Drop the overly permissive public SELECT policy if present.
+  execute 'drop policy if exists "Anyone can read recordings" on public.recordings';
+
   if not exists (
     select 1
     from pg_policies
     where schemaname = 'public'
       and tablename = 'recordings'
-      and policyname = 'Anyone can read recordings'
+      and policyname = 'Authenticated users can read recordings'
       and cmd = 'SELECT'
   ) then
     execute '
-      create policy "Anyone can read recordings"
+      create policy "Authenticated users can read recordings"
       on public.recordings
       for select
-      using (true)
+      to authenticated
+      using (auth.uid() is not null)
     ';
   end if;
 end
@@ -128,7 +132,8 @@ using (
   )
 )
 with check (
-  exists (
+  uploader_id <> auth.uid()
+  and exists (
     select 1
     from public.profiles
     where id = auth.uid() and role in ('elder', 'admin')

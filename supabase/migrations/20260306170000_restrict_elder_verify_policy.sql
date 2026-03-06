@@ -35,7 +35,8 @@ begin
       )
     )
     with check (
-      exists (
+      uploader_id <> auth.uid()
+      and exists (
         select 1
         from public.profiles
         where id = auth.uid() and role in (''elder'', ''admin'')
