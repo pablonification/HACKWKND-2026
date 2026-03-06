@@ -1958,6 +1958,32 @@ const handleHealth = async (request, response, config, requestUrl) => {
   sendJson(response, payload.status === 'ok' ? 200 : 503, payload, request, config);
 };
 
+// In-memory per-user rate limiter for /ai/transcribe.
+// Allows RATE_LIMIT_MAX requests per RATE_LIMIT_WINDOW_MS sliding window per user.
+const RATE_LIMIT_MAX = 10;
+const RATE_LIMIT_WINDOW_MS = 60_000;
+/** @type {Map<string, number[]>} */
+const rateLimitMap = new Map();
+const checkRateLimit = (userId) => {
+  const now = Date.now();
+  const timestamps = (rateLimitMap.get(userId) ?? []).filter((t) => now - t < RATE_LIMIT_WINDOW_MS);
+  if (timestamps.length >= RATE_LIMIT_MAX) {
+    rateLimitMap.set(userId, timestamps);
+    return false;
+  }
+  timestamps.push(now);
+  rateLimitMap.set(userId, timestamps);
+  return true;
+};
+// Periodically prune expired entries to avoid memory growth.
+setInterval(() => {
+  const now = Date.now();
+  for (const [uid, timestamps] of rateLimitMap) {
+    const active = timestamps.filter((t) => now - t < RATE_LIMIT_WINDOW_MS);
+    if (active.length === 0) rateLimitMap.delete(uid);
+    else rateLimitMap.set(uid, active);
+  }
+}, RATE_LIMIT_WINDOW_MS);
 /**
  * @param {import('node:http').IncomingMessage} request
  * @param {import('node:http').ServerResponse} response
@@ -1979,6 +2005,9 @@ const handleTranscribe = async (request, response, config) => {
     throw new HttpError(401, 'Invalid or expired authentication token.', 'unauthorized');
   }
 
+  if (!checkRateLimit(user.id)) {
+    throw new HttpError(429, 'Rate limit exceeded. Please wait before retrying.', 'rate_limited');
+  }
   const payload = await readJsonBody(request);
   const audioUrl = payload?.audio_url;
   const recordingType =

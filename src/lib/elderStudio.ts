@@ -1005,14 +1005,16 @@ const syncVerifiedWordToWords = async (recording: StudioRecording): Promise<void
   let pronunciationUrl: string | null = null;
   const audioSource = normalizeStorageSourcePath(recording.storagePath ?? recording.audioUrl ?? '');
   if (audioSource) {
-    const destPath = `${semaiKey}.webm`;
+    const mimeType = recording.mimeType ?? 'audio/webm';
+    const extension = getAudioExtension(mimeType);
+    const destPath = `${semaiKey}.${extension}`;
     const { data: audioBlob, error: downloadError } = await supabase.storage
       .from(RECORDINGS_BUCKET)
       .download(audioSource);
     if (!downloadError && audioBlob) {
       await supabase.storage.from(PRONUNCIATIONS_BUCKET).upload(destPath, audioBlob, {
         upsert: true,
-        contentType: 'audio/webm',
+        contentType: mimeType,
       });
       const { data: publicUrlData } = supabase.storage
         .from(PRONUNCIATIONS_BUCKET)
@@ -1330,7 +1332,12 @@ export const saveStudioRecordingReviewDraft = async (
     if (oldKey && newKey && oldKey !== newKey) {
       await supabase.from('words').delete().eq('semai_key', oldKey);
     }
-    await syncVerifiedWordToWords(updatedRecording);
+    // Best-effort: word promotion should not fail the review update.
+    try {
+      await syncVerifiedWordToWords(updatedRecording);
+    } catch (syncError) {
+      console.warn('Word promotion failed (best-effort):', syncError);
+    }
   }
 
   await updateRecording(updatedRecording);
@@ -1389,7 +1396,12 @@ export const approveStudioRecordingReview = async (
     );
   }
 
-  await syncVerifiedWordToWords(updatedRecording);
+  // Best-effort: word promotion should not fail the verification.
+  try {
+    await syncVerifiedWordToWords(updatedRecording);
+  } catch (syncError) {
+    console.warn('Word promotion failed (best-effort):', syncError);
+  }
   await updateRecording(updatedRecording);
   return updatedRecording;
 };
