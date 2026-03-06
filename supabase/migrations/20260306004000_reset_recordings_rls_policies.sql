@@ -117,7 +117,9 @@ on public.recordings
 for update
 to authenticated
 using (
-  exists (
+  uploader_id <> auth.uid()
+  and (is_verified = false or is_verified is null)
+  and exists (
     select 1
     from public.profiles
     where id = auth.uid() and role in ('elder', 'admin')

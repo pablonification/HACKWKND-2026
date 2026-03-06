@@ -10,6 +10,7 @@ const PENDING_SYNC_KEY = STORAGE_KEYS.PENDING_SYNC;
 const LOCAL_AUDIO_DIRECTORY = 'studio-recordings';
 const AI_BASE_URL = (import.meta.env.VITE_AI_BASE_URL as string | undefined)?.replace(/\/$/, '');
 const RECORDINGS_BUCKET = 'recordings';
+const PRONUNCIATIONS_BUCKET = 'pronunciations';
 
 export const STUDIO_CULTURAL_TAGS = [
   'forest',
@@ -1000,6 +1001,25 @@ const syncVerifiedWordToWords = async (recording: StudioRecording): Promise<void
   const normalizedTopicTags = normalizeTopicTags(recording.recordingType, recording.topicTags);
   const category =
     recording.topicTags.find((tag) => tag.trim().length > 0) ?? recording.recordingType;
+  // Copy audio from private recordings bucket to public pronunciations bucket.
+  let pronunciationUrl: string | null = null;
+  const audioSource = normalizeStorageSourcePath(recording.storagePath ?? recording.audioUrl ?? '');
+  if (audioSource) {
+    const destPath = `${semaiKey}.webm`;
+    const { data: audioBlob, error: downloadError } = await supabase.storage
+      .from(RECORDINGS_BUCKET)
+      .download(audioSource);
+    if (!downloadError && audioBlob) {
+      await supabase.storage.from(PRONUNCIATIONS_BUCKET).upload(destPath, audioBlob, {
+        upsert: true,
+        contentType: 'audio/webm',
+      });
+      const { data: publicUrlData } = supabase.storage
+        .from(PRONUNCIATIONS_BUCKET)
+        .getPublicUrl(destPath);
+      pronunciationUrl = publicUrlData?.publicUrl ?? null;
+    }
+  }
 
   const { error: insertError } = await supabase.from('words').insert({
     semai: verifiedTranscription,
@@ -1009,7 +1029,7 @@ const syncVerifiedWordToWords = async (recording: StudioRecording): Promise<void
     malay_translation: verifiedTranslationMs,
     meaning_en: null,
     english_translation: null,
-    pronunciation_url: recording.audioUrl ?? recording.storagePath,
+    pronunciation_url: pronunciationUrl,
     topic_tags: normalizedTopicTags,
     category,
     elder_id: recording.verifiedBy ?? recording.uploaderId,

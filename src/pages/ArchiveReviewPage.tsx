@@ -168,7 +168,7 @@ export function ArchiveReviewPage() {
   const [playingRecordingId, setPlayingRecordingId] = useState<string | null>(null);
   const [loadingPlaybackRecordingId, setLoadingPlaybackRecordingId] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const playbackSourceCacheRef = useRef<Map<string, string>>(new Map());
+  const playbackSourceCacheRef = useRef<Map<string, { url: string; expiresAt: number }>>(new Map());
   const objectUrlsRef = useRef<Set<string>>(new Set());
 
   const loadRecordings = useCallback(async () => {
@@ -368,9 +368,9 @@ export function ArchiveReviewPage() {
     const cachedSource = playbackSourceCacheRef.current.get(recordingId);
     if (cachedSource) {
       playbackSourceCacheRef.current.delete(recordingId);
-      if (objectUrlsRef.current.has(cachedSource)) {
-        URL.revokeObjectURL(cachedSource);
-        objectUrlsRef.current.delete(cachedSource);
+      if (objectUrlsRef.current.has(cachedSource.url)) {
+        URL.revokeObjectURL(cachedSource.url);
+        objectUrlsRef.current.delete(cachedSource.url);
       }
     }
 
@@ -441,11 +441,18 @@ export function ArchiveReviewPage() {
 
     setLoadingPlaybackRecordingId(recording.id);
     try {
-      let sourceUrl = playbackSourceCacheRef.current.get(recording.id);
-      if (!sourceUrl) {
+      const cached = playbackSourceCacheRef.current.get(recording.id);
+      let sourceUrl: string | undefined;
+      if (cached && cached.expiresAt > Date.now()) {
+        sourceUrl = cached.url;
+      } else {
+        // Expired or not cached — resolve a fresh signed URL (TTL 600s, cache for 500s).
         const source = await resolveStudioRecordingPlaybackSource(recording);
         sourceUrl = source.url;
-        playbackSourceCacheRef.current.set(recording.id, source.url);
+        playbackSourceCacheRef.current.set(recording.id, {
+          url: source.url,
+          expiresAt: Date.now() + 500_000,
+        });
         if (source.isObjectUrl) {
           objectUrlsRef.current.add(source.url);
         }
