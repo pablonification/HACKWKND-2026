@@ -227,3 +227,32 @@ begin
   end if;
 end
 $$;
+
+do $$
+begin
+  -- Allow elders and admins to read any file in the recordings bucket so they
+  -- can create signed URLs for recordings uploaded by other users during review.
+  if not exists (
+    select 1
+    from pg_policies
+    where schemaname = 'storage'
+      and tablename = 'objects'
+      and policyname = 'Elders and admins can read recordings'
+  ) then
+    execute '
+      create policy "Elders and admins can read recordings"
+      on storage.objects
+      for select
+      to authenticated
+      using (
+        bucket_id = ''recordings''
+        and exists (
+          select 1
+          from public.profiles
+          where id = auth.uid() and role in (''elder'', ''admin'')
+        )
+      )
+    ';
+  end if;
+end
+$$;

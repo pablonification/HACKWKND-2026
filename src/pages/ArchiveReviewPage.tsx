@@ -1007,7 +1007,8 @@ export function ArchiveReviewPage() {
                         disabled={
                           !canVerify ||
                           Boolean(verifyingRecordingId) ||
-                          Boolean(deletingRecordingId)
+                          Boolean(deletingRecordingId) ||
+                          Boolean(savingRecordingId)
                         }
                       >
                         <IonIcon aria-hidden icon={checkmarkOutline} />

@@ -24,7 +24,7 @@ create policy "Users can update own profile"
   on public.profiles for update using (auth.uid() = id)
   with check (auth.uid() = id and role is not distinct from (select p.role from public.profiles p where p.id = auth.uid()));
 create policy "Users can insert own profile"
-  on public.profiles for insert with check (auth.uid() = id and role in ('learner', 'elder'));
+  on public.profiles for insert with check (auth.uid() = id and (role is null or role in ('learner', 'elder')));
 -- ─────────────────────────────────────────────
 -- recordings
 -- ─────────────────────────────────────────────
