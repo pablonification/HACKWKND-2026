@@ -1,7 +1,7 @@
 -- Restrict the elder/admin verification UPDATE policy to add a row-level guard.
--- Elders may only verify recordings they did not upload (prevents self-verification)
--- and only while the recording is not yet verified (prevents overwriting an existing
--- verified record without also being the uploader).
+-- Elders may only update recordings they did not upload (prevents self-verification).
+-- The is_verified = false guard is removed from USING so elders can save draft progress
+-- on already-verified recordings without being blocked.
 -- Safe to run multiple times.
 
 do $$
@@ -27,7 +27,6 @@ begin
     to authenticated
     using (
       uploader_id <> auth.uid()
-      and (is_verified = false or is_verified is null)
       and exists (
         select 1
         from public.profiles

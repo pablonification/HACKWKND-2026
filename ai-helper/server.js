@@ -1625,8 +1625,20 @@ const downloadFromHttpUrl = async (sourceUrl, config) => {
     return false;
   };
   try {
-    const { address } = await dns.lookup(hostname);
-    if (isPrivateIp(address)) {
+    // Resolve all IPv4 and IPv6 addresses (not just the first) to prevent
+    // round-robin DNS rebinding attacks where only one address is private.
+    const [ipv4Addresses, ipv6Addresses] = await Promise.allSettled([
+      dns.resolve4(hostname),
+      dns.resolve6(hostname),
+    ]);
+    const allAddresses = [
+      ...(ipv4Addresses.status === 'fulfilled' ? ipv4Addresses.value : []),
+      ...(ipv6Addresses.status === 'fulfilled' ? ipv6Addresses.value : []),
+    ];
+    if (allAddresses.length === 0) {
+      throw new HttpError(400, 'Could not resolve the provided audio URL hostname.', 'blocked_url');
+    }
+    if (allAddresses.some(isPrivateIp)) {
       throw new HttpError(400, 'audio_url resolved to a private address.', 'blocked_url');
     }
   } catch (err) {
@@ -1674,11 +1686,23 @@ const createSupabaseServiceClient = (config) => {
 /**
  * @param {string} storagePath
  * @param {ReturnType<typeof buildRuntimeConfig>} config
+ * @param {string} userId - The authenticated user's ID; used to verify path ownership.
  */
-const downloadFromSupabaseStorage = async (storagePath, config) => {
+const downloadFromSupabaseStorage = async (storagePath, config, userId) => {
   const normalizedPath = normalizeStoragePath(storagePath, config.recordingsBucket);
   if (!normalizedPath) {
     throw new HttpError(400, 'audio_url storage path is empty.', 'invalid_audio_url');
+  }
+
+  // Ownership check: the normalized path must begin with the requesting user's ID.
+  // This prevents any authenticated user from supplying another user's storage path
+  // and exfiltrating their recording via the service-role download.
+  if (!normalizedPath.startsWith(`${userId}/`)) {
+    throw new HttpError(
+      403,
+      'Access denied: audio_url does not belong to the requesting user.',
+      'forbidden',
+    );
   }
 
   const supabase = createSupabaseServiceClient(config);
@@ -1707,12 +1731,13 @@ const downloadFromSupabaseStorage = async (storagePath, config) => {
 /**
  * @param {string} audioSource
  * @param {ReturnType<typeof buildRuntimeConfig>} config
+ * @param {string} userId
  */
-const downloadAudioSource = async (audioSource, config) => {
+const downloadAudioSource = async (audioSource, config, userId) => {
   if (isHttpUrl(audioSource)) {
     return downloadFromHttpUrl(audioSource, config);
   }
-  return downloadFromSupabaseStorage(audioSource, config);
+  return downloadFromSupabaseStorage(audioSource, config, userId);
 };
 
 /**
@@ -2023,7 +2048,7 @@ const handleTranscribe = async (request, response, config) => {
     );
   }
 
-  const audioFile = await downloadAudioSource(audioUrl.trim(), config);
+  const audioFile = await downloadAudioSource(audioUrl.trim(), config, user.id);
   const languageOrder = buildAsrLanguageOrder(config.omniLanguage);
   const candidates = await requestOmniAsrEnsemble(audioFile, config, languageOrder);
   const runtimeLexicon = await getSemaiRuntimeLexicon(config);
