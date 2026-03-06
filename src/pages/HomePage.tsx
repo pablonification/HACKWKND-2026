@@ -10,7 +10,10 @@ import {
 } from 'ionicons/icons';
 
 import { triggerHapticFeedback } from '../lib/feedback';
+import { ArchiveReviewPage } from './ArchiveReviewPage';
+import { ElderStudioTab } from './ElderStudioTab';
 import { ProfilePage } from './ProfilePage';
+import { SoundArchiveTab } from './SoundArchiveTab';
 import { TranslatePage } from './TranslatePage';
 
 import './HomePage.css';
@@ -22,16 +25,6 @@ function TabPlaceholder({ title, description }: { title: string; description: st
       <p className="text-gray-500">{description}</p>
     </section>
   );
-}
-
-function ElderStudioTab() {
-  return (
-    <TabPlaceholder title="Elder Studio" description="Record and upload audio for the archive." />
-  );
-}
-
-function SoundArchiveTab() {
-  return <TabPlaceholder title="Sound Archive" description="Browse and search recordings." />;
 }
 
 function LanguageGardenTab() {
@@ -67,6 +60,9 @@ export function HomePage() {
 
   const isActiveTab = (href: string) =>
     location.pathname === href || location.pathname.startsWith(`${href}/`);
+  const shouldHideMenu = location.pathname.startsWith('/home/archive/review');
+  const usesStudioSurface =
+    location.pathname.startsWith('/home/studio') || location.pathname.startsWith('/home/archive');
 
   const handleMenuNavigate = (href: string) => {
     triggerHapticFeedback('light');
@@ -91,6 +87,7 @@ export function HomePage() {
     'home-shell',
     isProfileRoute ? 'profile-route' : '',
     isTranslateRoute ? 'is-translate' : '',
+    usesStudioSurface ? 'is-studio-surface' : '',
   ]
     .filter(Boolean)
     .join(' ');
@@ -99,9 +96,10 @@ export function HomePage() {
     <IonPage>
       <IonContent fullscreen className={ionContentClassName}>
         <div className={homeShellClassName}>
-          <div className="home-content">
+          <div className={`home-content ${usesStudioSurface ? 'is-studio-surface' : ''}`}>
             <Routes>
               <Route path="studio" element={<ElderStudioTab />} />
+              <Route path="archive/review" element={<ArchiveReviewPage />} />
               <Route path="archive" element={<SoundArchiveTab />} />
               <Route path="ai" element={<TranslatePage />} />
               <Route path="garden" element={<LanguageGardenTab />} />
@@ -111,7 +109,7 @@ export function HomePage() {
             </Routes>
           </div>
 
-          {shouldShowTabMenu && (
+          {shouldShowTabMenu && !shouldHideMenu ? (
             <nav className="home-menu" aria-label="Main">
               {menuItems.map((item) => {
                 const active = isActiveTab(item.href);
@@ -129,7 +127,7 @@ export function HomePage() {
                 );
               })}
             </nav>
-          )}
+          ) : null}
         </div>
 
         <IonToast

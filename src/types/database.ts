@@ -68,7 +68,18 @@ export type Database = {
           topic_tags: string[] | null;
           transcription: string | null;
           translation: string | null;
+          raw_transcription: string | null;
+          auto_transcription: string | null;
+          verified_transcription: string | null;
+          transcription_candidates: unknown | null;
+          transcription_match: unknown | null;
+          transcription_word_replacements: unknown | null;
+          transcription_language: string | null;
+          auto_translation_ms: string | null;
+          verified_translation_ms: string | null;
           is_verified: boolean;
+          verified_at: string | null;
+          verified_by: string | null;
           created_at: string;
           updated_at: string | null;
         };
@@ -84,7 +95,18 @@ export type Database = {
           topic_tags?: string[] | null;
           transcription?: string | null;
           translation?: string | null;
+          raw_transcription?: string | null;
+          auto_transcription?: string | null;
+          verified_transcription?: string | null;
+          transcription_candidates?: unknown | null;
+          transcription_match?: unknown | null;
+          transcription_word_replacements?: unknown | null;
+          transcription_language?: string | null;
+          auto_translation_ms?: string | null;
+          verified_translation_ms?: string | null;
           is_verified?: boolean;
+          verified_at?: string | null;
+          verified_by?: string | null;
           created_at?: string;
           updated_at?: string | null;
         };
@@ -98,7 +120,18 @@ export type Database = {
           topic_tags?: string[] | null;
           transcription?: string | null;
           translation?: string | null;
+          raw_transcription?: string | null;
+          auto_transcription?: string | null;
+          verified_transcription?: string | null;
+          transcription_candidates?: unknown | null;
+          transcription_match?: unknown | null;
+          transcription_word_replacements?: unknown | null;
+          transcription_language?: string | null;
+          auto_translation_ms?: string | null;
+          verified_translation_ms?: string | null;
           is_verified?: boolean;
+          verified_at?: string | null;
+          verified_by?: string | null;
           updated_at?: string | null;
         };
         Relationships: [
@@ -108,43 +141,77 @@ export type Database = {
             referencedRelation: 'profiles';
             referencedColumns: ['id'];
           },
+          {
+            foreignKeyName: 'recordings_verified_by_fkey';
+            columns: ['verified_by'];
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          },
         ];
       };
       words: {
         Row: {
           id: string;
+          semai: string | null;
           semai_word: string;
+          semai_key: string | null;
+          meaning_ms: string | null;
           malay_translation: string | null;
+          meaning_en: string | null;
           english_translation: string | null;
           pronunciation_url: string | null;
           example_sentence: string | null;
           topic_tags: string[] | null;
-          difficulty: 'beginner' | 'intermediate' | 'advanced' | null;
+          category: string | null;
+          difficulty: number | 'beginner' | 'intermediate' | 'advanced' | null;
+          elder_id: string | null;
           created_by: string | null;
           created_at: string;
+          updated_at: string | null;
         };
         Insert: {
           id?: string;
-          semai_word: string;
+          semai?: string | null;
+          semai_word?: string;
+          semai_key?: string;
+          meaning_ms?: string | null;
           malay_translation?: string | null;
+          meaning_en?: string | null;
           english_translation?: string | null;
           pronunciation_url?: string | null;
           example_sentence?: string | null;
           topic_tags?: string[] | null;
-          difficulty?: 'beginner' | 'intermediate' | 'advanced' | null;
+          category?: string | null;
+          difficulty?: number | 'beginner' | 'intermediate' | 'advanced' | null;
+          elder_id?: string | null;
           created_by?: string | null;
           created_at?: string;
+          updated_at?: string | null;
         };
         Update: {
+          semai?: string | null;
           semai_word?: string;
+          semai_key?: string;
+          meaning_ms?: string | null;
           malay_translation?: string | null;
+          meaning_en?: string | null;
           english_translation?: string | null;
           pronunciation_url?: string | null;
           example_sentence?: string | null;
           topic_tags?: string[] | null;
-          difficulty?: 'beginner' | 'intermediate' | 'advanced' | null;
+          category?: string | null;
+          difficulty?: number | 'beginner' | 'intermediate' | 'advanced' | null;
+          elder_id?: string | null;
+          created_by?: string | null;
+          updated_at?: string | null;
         };
         Relationships: [
+          {
+            foreignKeyName: 'words_elder_id_fkey';
+            columns: ['elder_id'];
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          },
           {
             foreignKeyName: 'words_created_by_fkey';
             columns: ['created_by'];

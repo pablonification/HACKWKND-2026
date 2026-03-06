@@ -22,7 +22,6 @@ begin
   end if;
 end
 $$;
-
 -- 2. Add missing DELETE policies
 
 -- profiles: users can delete own profile
@@ -41,7 +40,6 @@ begin
   end if;
 end
 $$;
-
 -- 3. Restrict requests UPDATE policy
 -- Requesters can only update content/type while the request is still pending.
 -- Elders and admins can update status and fulfilled_by on any request.
