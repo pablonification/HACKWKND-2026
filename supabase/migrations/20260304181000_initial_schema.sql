@@ -74,7 +74,11 @@ create policy "Anyone can read words"
 create policy "Authenticated users can insert words"
   on public.words for insert with check (auth.uid() = created_by);
 create policy "Creators can update own words"
-  on public.words for update using (auth.uid() = created_by);
+  on public.words for update using (auth.uid() = created_by)
+  with check (auth.uid() = created_by);
+create policy "Elders and admins can update words"
+  on public.words for update
+  using (exists (select 1 from public.profiles where id = auth.uid() and role in ('elder', 'admin')));
 -- ─────────────────────────────────────────────
 -- progress
 -- ─────────────────────────────────────────────
@@ -160,7 +164,11 @@ create policy "Anyone can read requests"
 create policy "Users can create requests"
   on public.requests for insert with check (auth.uid() = requester_id);
 create policy "Users can update own requests"
-  on public.requests for update using (auth.uid() = requester_id);
+  on public.requests for update using (auth.uid() = requester_id)
+  with check (auth.uid() = requester_id);
+create policy "Elders and admins can update requests"
+  on public.requests for update
+  using (exists (select 1 from public.profiles where id = auth.uid() and role in ('elder', 'admin')));
 -- ─────────────────────────────────────────────
 -- follows
 -- ─────────────────────────────────────────────

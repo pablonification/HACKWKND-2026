@@ -1694,18 +1694,31 @@ const downloadFromSupabaseStorage = async (storagePath, config, userId) => {
     throw new HttpError(400, 'audio_url storage path is empty.', 'invalid_audio_url');
   }
 
-  // Ownership check: the normalized path must begin with the requesting user's ID.
-  // This prevents any authenticated user from supplying another user's storage path
-  // and exfiltrating their recording via the service-role download.
-  if (!normalizedPath.startsWith(`${userId}/`)) {
-    throw new HttpError(
-      403,
-      'Access denied: audio_url does not belong to the requesting user.',
-      'forbidden',
-    );
+  // Ownership check: verify the user can access this recording by querying the DB.
+  // Uploaders can access their own recordings; elders and admins can access any recording.
+  const supabase = createSupabaseServiceClient(config);
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', userId)
+    .maybeSingle();
+  const isElder = profile?.role === 'elder' || profile?.role === 'admin';
+  if (!isElder) {
+    const { data: recording } = await supabase
+      .from('recordings')
+      .select('id')
+      .eq('audio_url', normalizedPath)
+      .eq('uploader_id', userId)
+      .maybeSingle();
+    if (!recording) {
+      throw new HttpError(
+        403,
+        'Access denied: audio_url does not belong to the requesting user.',
+        'forbidden',
+      );
+    }
   }
 
-  const supabase = createSupabaseServiceClient(config);
   const { data, error } = await supabase.storage
     .from(config.recordingsBucket)
     .download(normalizedPath);

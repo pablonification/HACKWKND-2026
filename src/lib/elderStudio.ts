@@ -986,21 +986,6 @@ const syncVerifiedWordToWords = async (recording: StudioRecording): Promise<void
     return;
   }
 
-  const { data, error } = await supabase
-    .from('words')
-    .select('id')
-    .eq('semai_key', semaiKey)
-    .limit(1)
-    .maybeSingle();
-
-  if (error) {
-    throw new Error(`Words lookup failed: ${error.message}`);
-  }
-
-  if (data?.id) {
-    return;
-  }
-
   const normalizedTopicTags = normalizeTopicTags(recording.recordingType, recording.topicTags);
   const category =
     recording.topicTags.find((tag) => tag.trim().length > 0) ?? recording.recordingType;
@@ -1026,23 +1011,29 @@ const syncVerifiedWordToWords = async (recording: StudioRecording): Promise<void
     }
   }
 
-  const { error: insertError } = await supabase.from('words').insert({
-    semai: verifiedTranscription,
-    semai_word: verifiedTranscription,
-    semai_key: semaiKey,
-    meaning_ms: verifiedTranslationMs,
-    malay_translation: verifiedTranslationMs,
-    meaning_en: null,
-    english_translation: null,
-    pronunciation_url: pronunciationUrl,
-    topic_tags: normalizedTopicTags,
-    category,
-    elder_id: recording.verifiedBy ?? recording.uploaderId,
-    created_by: recording.verifiedBy ?? recording.uploaderId,
-  });
+  // Upsert instead of select-then-insert to eliminate the TOCTOU race where concurrent
+  // verifications of the same word could cause one INSERT to fail with a unique-constraint
+  // error. ignoreDuplicates means no-op if the semai_key already exists.
+  const { error: upsertError } = await supabase.from('words').upsert(
+    {
+      semai: verifiedTranscription,
+      semai_word: verifiedTranscription,
+      semai_key: semaiKey,
+      meaning_ms: verifiedTranslationMs,
+      malay_translation: verifiedTranslationMs,
+      meaning_en: null,
+      english_translation: null,
+      pronunciation_url: pronunciationUrl,
+      topic_tags: normalizedTopicTags,
+      category,
+      elder_id: recording.verifiedBy ?? recording.uploaderId,
+      created_by: recording.verifiedBy ?? recording.uploaderId,
+    },
+    { onConflict: 'semai_key', ignoreDuplicates: true },
+  );
 
-  if (insertError) {
-    throw new Error(`Words insert failed: ${insertError.message}`);
+  if (upsertError) {
+    throw new Error(`Words upsert failed: ${upsertError.message}`);
   }
 };
 
