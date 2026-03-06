@@ -6,7 +6,7 @@ import pkg from './package.json';
 export default defineConfig({
   plugins: [react()],
   server: {
-    host: '0.0.0.0',
+    host: '0.0.0.0', // Binds to all interfaces for Capacitor device testing
   },
   define: {
     'import.meta.env.VITE_APP_VERSION': JSON.stringify(pkg.version),

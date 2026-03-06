@@ -1,4 +1,5 @@
 import { Buffer } from 'node:buffer';
+import dns from 'node:dns/promises';
 import { existsSync, readFileSync } from 'node:fs';
 import { createServer } from 'node:http';
 import { join } from 'node:path';
@@ -1596,6 +1597,41 @@ const downloadFromHttpUrl = async (sourceUrl, config) => {
       'audio_url must not point to a private or loopback address.',
       'blocked_url',
     );
+  }
+
+  // DNS rebinding protection: resolve hostname and verify the resolved IP
+  // is not private before issuing the actual HTTP request.
+  const isPrivateIp = (ip) => {
+    if (ip === '127.0.0.1' || ip === '::1') return true;
+    const parts = ip.split('.');
+    if (parts.length === 4) {
+      const [a, b] = parts.map(Number);
+      if (a === 10) return true;
+      if (a === 172 && b >= 16 && b <= 31) return true;
+      if (a === 192 && b === 168) return true;
+      if (a === 169 && b === 254) return true;
+      if (a === 0) return true;
+      if (a === 127) return true;
+    }
+    // IPv6 private ranges
+    const lower = ip.toLowerCase();
+    if (
+      lower.startsWith('fc') ||
+      lower.startsWith('fd') ||
+      lower.startsWith('fe80:') ||
+      lower.startsWith('::ffff:')
+    )
+      return true;
+    return false;
+  };
+  try {
+    const { address } = await dns.lookup(hostname);
+    if (isPrivateIp(address)) {
+      throw new HttpError(400, 'audio_url resolved to a private address.', 'blocked_url');
+    }
+  } catch (err) {
+    if (err instanceof HttpError) throw err;
+    throw new HttpError(400, `Could not resolve hostname: ${hostname}`, 'blocked_url');
   }
 
   const response = await fetchWithTimeout(sourceUrl, { method: 'GET' }, config.timeoutMs);

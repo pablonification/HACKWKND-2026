@@ -24,7 +24,7 @@ create policy "Users can update own profile"
   on public.profiles for update using (auth.uid() = id)
   with check (auth.uid() = id and role is not distinct from (select p.role from public.profiles p where p.id = auth.uid()));
 create policy "Users can insert own profile"
-  on public.profiles for insert with check (auth.uid() = id);
+  on public.profiles for insert with check (auth.uid() = id and role in ('learner', 'elder'));
 -- ─────────────────────────────────────────────
 -- recordings
 -- ─────────────────────────────────────────────
@@ -50,7 +50,7 @@ create policy "Anyone can read recordings"
 create policy "Authenticated users can insert recordings"
   on public.recordings for insert with check (auth.uid() = uploader_id);
 create policy "Uploaders can update own recordings"
-  on public.recordings for update using (auth.uid() = uploader_id);
+  on public.recordings for update using (auth.uid() = uploader_id and (is_verified = false or is_verified is null));
 create policy "Uploaders can delete own recordings"
   on public.recordings for delete using (auth.uid() = uploader_id);
 -- ─────────────────────────────────────────────
@@ -72,7 +72,7 @@ alter table public.words enable row level security;
 create policy "Anyone can read words"
   on public.words for select using (true);
 create policy "Authenticated users can insert words"
-  on public.words for insert with check (auth.uid() is not null);
+  on public.words for insert with check (auth.uid() = created_by);
 create policy "Creators can update own words"
   on public.words for update using (auth.uid() = created_by);
 -- ─────────────────────────────────────────────
@@ -138,7 +138,7 @@ create policy "Anyone can read published stories"
 create policy "Authors can read own stories"
   on public.stories for select using (auth.uid() = author_id);
 create policy "Authenticated users can insert stories"
-  on public.stories for insert with check (auth.uid() is not null);
+  on public.stories for insert with check (auth.uid() = author_id);
 create policy "Authors can update own stories"
   on public.stories for update using (auth.uid() = author_id);
 -- ─────────────────────────────────────────────
