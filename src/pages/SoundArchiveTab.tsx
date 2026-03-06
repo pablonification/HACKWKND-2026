@@ -8,15 +8,21 @@ import {
   refreshOutline,
 } from 'ionicons/icons';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import {
+  countPendingStudioReview,
+  doesStudioRecordingNeedReview,
   fetchRemoteStudioRecordings,
   formatRecordingDuration,
   formatRelativeTime,
   getStudioRecordingsForUser,
   getStudioSyncState,
   mergeStudioRecordings,
+  paginateStudioItems,
   resolveStudioRecordingPlaybackSource,
+  resolveStudioRecordingTranscription,
+  resolveStudioRecordingTranslation,
   retryStudioRecordingTranscription,
   retryFailedStudioSync,
   syncPendingStudioRecordings,
@@ -45,6 +51,8 @@ const statusLabelBySyncStatus: Record<StudioRecording['syncStatus'], string> = {
   sync_failed: 'Retry',
 };
 
+const ARCHIVE_PAGE_SIZE = 6;
+
 const normalizeErrorMessage = (error: unknown): string => {
   if (error instanceof Error && error.message.trim().length > 0) {
     return error.message;
@@ -61,12 +69,14 @@ const toPreviewText = (value: string, maxLength = 140): string => {
 };
 
 export function SoundArchiveTab() {
+  const navigate = useNavigate();
   const aiBaseUrl = import.meta.env.VITE_AI_BASE_URL as string | undefined;
   const isAiHelperConfigured = Boolean(aiBaseUrl && aiBaseUrl.trim().length > 0);
   const { user } = useAuthStore();
   const [recordings, setRecordings] = useState<StudioRecording[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isSyncing, setIsSyncing] = useState(false);
+  const [page, setPage] = useState(1);
   const [transcribingRecordingId, setTranscribingRecordingId] = useState<string | null>(null);
   const [playingRecordingId, setPlayingRecordingId] = useState<string | null>(null);
   const [loadingPlaybackRecordingId, setLoadingPlaybackRecordingId] = useState<string | null>(null);
@@ -208,6 +218,22 @@ export function SoundArchiveTab() {
     }
     return { icon: cloudDoneOutline, label: 'Synced', tone: 'success' };
   }, [syncState]);
+  const pendingReviewCount = useMemo(() => countPendingStudioReview(recordings), [recordings]);
+  const archivePagination = useMemo(
+    () => paginateStudioItems(recordings, page, ARCHIVE_PAGE_SIZE),
+    [page, recordings],
+  );
+
+  useEffect(() => {
+    if (page !== archivePagination.currentPage) {
+      setPage(archivePagination.currentPage);
+    }
+  }, [archivePagination.currentPage, page]);
+
+  const handleOpenReviewQueue = () => {
+    triggerHapticFeedback('light');
+    navigate('/home/archive/review', { replace: true });
+  };
 
   const handleRetrySync = async () => {
     if (!user?.id || isSyncing) {
@@ -331,6 +357,17 @@ export function SoundArchiveTab() {
         <p className="studio-subcopy">
           Browse all synced recordings from Elder Studio. Latest uploads appear here automatically.
         </p>
+        {pendingReviewCount > 0 ? (
+          <div className="studio-review-cta">
+            <div>
+              <strong>{pendingReviewCount} recordings need review</strong>
+              <span>Verify the Semai transcript first. Malay meaning stays optional.</span>
+            </div>
+            <button type="button" className="studio-link-button" onClick={handleOpenReviewQueue}>
+              Review Queue
+            </button>
+          </div>
+        ) : null}
         {!isAiHelperConfigured ? (
           <p className="studio-subcopy studio-subcopy--warning">
             AI Helper base URL is not configured, so automatic transcription is disabled.
@@ -343,15 +380,20 @@ export function SoundArchiveTab() {
         >
           <header className="studio-recent-header">
             <h3>Recordings ({recordings.length})</h3>
-            <button
-              type="button"
-              className="studio-sync-button"
-              onClick={handleRetrySync}
-              disabled={!isOnline || isSyncing}
-            >
-              <IonIcon aria-hidden icon={refreshOutline} />
-              <span>Sync now</span>
-            </button>
+            <div className="studio-recent-actions">
+              <button type="button" className="studio-link-button" onClick={handleOpenReviewQueue}>
+                Review Queue
+              </button>
+              <button
+                type="button"
+                className="studio-sync-button"
+                onClick={handleRetrySync}
+                disabled={!isOnline || isSyncing}
+              >
+                <IonIcon aria-hidden icon={refreshOutline} />
+                <span>Sync now</span>
+              </button>
+            </div>
           </header>
 
           {isLoading ? (
@@ -365,7 +407,7 @@ export function SoundArchiveTab() {
             </div>
           ) : (
             <ul className="studio-recordings-list studio-recordings-list--full">
-              {recordings.map((recording) => (
+              {archivePagination.items.map((recording) => (
                 <li key={recording.id} className="studio-recording-item">
                   <header className="studio-recording-header">
                     <div className="studio-recording-main">
@@ -376,25 +418,43 @@ export function SoundArchiveTab() {
                         {formatRelativeTime(recording.createdAt)}
                       </p>
                     </div>
-                    <span
-                      className={`studio-recording-status is-${recording.syncStatus.replace('_', '-')}`}
-                    >
-                      {statusLabelBySyncStatus[recording.syncStatus]}
-                    </span>
+                    <div className="studio-recording-status-stack">
+                      <span
+                        className={`studio-recording-status is-${recording.syncStatus.replace('_', '-')}`}
+                      >
+                        {statusLabelBySyncStatus[recording.syncStatus]}
+                      </span>
+                      {recording.syncStatus === 'synced' ? (
+                        <span
+                          className={`studio-recording-status ${recording.isVerified ? 'is-synced' : 'is-local-only'}`}
+                        >
+                          {recording.isVerified ? 'Verified' : 'Draft'}
+                        </span>
+                      ) : null}
+                    </div>
                   </header>
 
-                  {recording.transcription ? (
+                  {resolveStudioRecordingTranscription(recording) ? (
                     <p className="studio-recording-transcript">
-                      <strong>Transcript:</strong> {toPreviewText(recording.transcription)}
+                      <strong>Transcript:</strong>{' '}
+                      {toPreviewText(resolveStudioRecordingTranscription(recording) ?? '')}
                     </p>
                   ) : null}
-                  {recording.translation ? (
+                  {resolveStudioRecordingTranslation(recording) ? (
                     <p className="studio-recording-translation">
-                      <strong>Translation:</strong> {toPreviewText(recording.translation)}
+                      <strong>Malay:</strong>{' '}
+                      {toPreviewText(resolveStudioRecordingTranslation(recording) ?? '')}
                     </p>
                   ) : null}
-                  {!recording.transcription && recording.syncStatus === 'synced' ? (
+                  {!resolveStudioRecordingTranscription(recording) &&
+                  recording.syncStatus === 'synced' ? (
                     <p className="studio-recording-note">No AI transcript yet.</p>
+                  ) : null}
+                  {doesStudioRecordingNeedReview(recording) ? (
+                    <p className="studio-recording-note">
+                      This recording still needs Semai transcript review before it becomes trusted
+                      data.
+                    </p>
                   ) : null}
                   {recording.lastSyncError ? (
                     <p className="studio-recording-error">{recording.lastSyncError}</p>
@@ -436,9 +496,19 @@ export function SoundArchiveTab() {
                         >
                           {transcribingRecordingId === recording.id
                             ? 'Working...'
-                            : recording.transcription
+                            : resolveStudioRecordingTranscription(recording)
                               ? 'Re-run ASR'
                               : 'Transcribe'}
+                        </button>
+                      ) : null}
+
+                      {recording.syncStatus === 'synced' ? (
+                        <button
+                          type="button"
+                          className="studio-recording-action-button is-primary"
+                          onClick={handleOpenReviewQueue}
+                        >
+                          Review
                         </button>
                       ) : null}
                     </footer>
@@ -447,6 +517,35 @@ export function SoundArchiveTab() {
               ))}
             </ul>
           )}
+          {archivePagination.totalPages > 1 ? (
+            <footer className="studio-pagination" aria-label="Sound archive pagination">
+              <button
+                type="button"
+                className="studio-pagination-button"
+                onClick={() => {
+                  triggerHapticFeedback('light');
+                  setPage((current) => Math.max(1, current - 1));
+                }}
+                disabled={archivePagination.currentPage <= 1}
+              >
+                Previous
+              </button>
+              <span className="studio-pagination-label">
+                Page {archivePagination.currentPage} of {archivePagination.totalPages}
+              </span>
+              <button
+                type="button"
+                className="studio-pagination-button"
+                onClick={() => {
+                  triggerHapticFeedback('light');
+                  setPage((current) => Math.min(archivePagination.totalPages, current + 1));
+                }}
+                disabled={archivePagination.currentPage >= archivePagination.totalPages}
+              >
+                Next
+              </button>
+            </footer>
+          ) : null}
         </section>
       </div>
 

@@ -13,6 +13,7 @@ import { triggerHapticFeedback } from '../lib/feedback';
 import { supabase } from '../lib/supabase';
 import { useAuthStore } from '../stores/authStore';
 import { toAuthErrorMessage } from '../utils/authErrors';
+import { ArchiveReviewPage } from './ArchiveReviewPage';
 import { ElderStudioTab } from './ElderStudioTab';
 import { SoundArchiveTab } from './SoundArchiveTab';
 
@@ -116,6 +117,9 @@ export function HomePage() {
 
   const isActiveTab = (href: string) =>
     location.pathname === href || location.pathname.startsWith(`${href}/`);
+  const shouldHideMenu = location.pathname.startsWith('/home/archive/review');
+  const usesStudioSurface =
+    location.pathname.startsWith('/home/studio') || location.pathname.startsWith('/home/archive');
 
   const handleMenuNavigate = (href: string) => {
     triggerHapticFeedback('light');
@@ -128,10 +132,11 @@ export function HomePage() {
   return (
     <IonPage>
       <IonContent fullscreen>
-        <div className="home-shell">
-          <div className="home-content">
+        <div className={`home-shell ${usesStudioSurface ? 'is-studio-surface' : ''}`}>
+          <div className={`home-content ${usesStudioSurface ? 'is-studio-surface' : ''}`}>
             <Routes>
               <Route path="studio" element={<ElderStudioTab />} />
+              <Route path="archive/review" element={<ArchiveReviewPage />} />
               <Route path="archive" element={<SoundArchiveTab />} />
               <Route path="ai" element={<AIHelperTab />} />
               <Route path="garden" element={<LanguageGardenTab />} />
@@ -141,23 +146,25 @@ export function HomePage() {
             </Routes>
           </div>
 
-          <nav className="home-menu" aria-label="Main">
-            {menuItems.map((item) => {
-              const active = isActiveTab(item.href);
-              return (
-                <button
-                  key={item.id}
-                  type="button"
-                  className={`home-menu-item ${active ? 'is-active' : ''}`}
-                  onClick={() => handleMenuNavigate(item.href)}
-                  aria-current={active ? 'page' : undefined}
-                >
-                  <IonIcon icon={item.icon} />
-                  <IonLabel>{item.label}</IonLabel>
-                </button>
-              );
-            })}
-          </nav>
+          {!shouldHideMenu ? (
+            <nav className="home-menu" aria-label="Main">
+              {menuItems.map((item) => {
+                const active = isActiveTab(item.href);
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    className={`home-menu-item ${active ? 'is-active' : ''}`}
+                    onClick={() => handleMenuNavigate(item.href)}
+                    aria-current={active ? 'page' : undefined}
+                  >
+                    <IonIcon icon={item.icon} />
+                    <IonLabel>{item.label}</IonLabel>
+                  </button>
+                );
+              })}
+            </nav>
+          ) : null}
         </div>
 
         <IonToast
