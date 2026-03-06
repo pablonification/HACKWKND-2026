@@ -12,6 +12,12 @@ export type Database = {
           role: Role | null;
           avatar_url: string | null;
           bio: string | null;
+          village: string | null;
+          age: number | null;
+          specialty: string | null;
+          app_language: string;
+          indigenous_language: string;
+          push_notifications_enabled: boolean;
           created_at: string | null;
           updated_at: string | null;
         };
@@ -23,6 +29,12 @@ export type Database = {
           role?: Role | null;
           avatar_url?: string | null;
           bio?: string | null;
+          village?: string | null;
+          age?: number | null;
+          specialty?: string | null;
+          app_language?: string;
+          indigenous_language?: string;
+          push_notifications_enabled?: boolean;
           created_at?: string | null;
           updated_at?: string | null;
         };
@@ -33,6 +45,12 @@ export type Database = {
           role?: Role | null;
           avatar_url?: string | null;
           bio?: string | null;
+          village?: string | null;
+          age?: number | null;
+          specialty?: string | null;
+          app_language?: string;
+          indigenous_language?: string;
+          push_notifications_enabled?: boolean;
           updated_at?: string | null;
         };
         Relationships: [];

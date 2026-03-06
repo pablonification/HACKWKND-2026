@@ -21,7 +21,12 @@
     "cap:sync": "cap sync",
     "cap:android": "npm run build && cap sync android && cap open android",
     "cap:ios": "npm run build && cap sync ios && cap open ios",
-    "cap:ios:dev": "CAPACITOR_DEV=true CAPACITOR_DEV_SERVER_URL=$CAPACITOR_DEV_SERVER_URL cap sync ios && cap open ios"
+    "cap:ios:dev": "CAPACITOR_DEV=true CAPACITOR_DEV_SERVER_URL=$CAPACITOR_DEV_SERVER_URL cap sync ios && cap open ios",
+    "eval:translation": "node scripts/evaluate-translation.mjs",
+    "scrape:dictionary": "node scripts/scrape-webonary.mjs",
+    "parse:dictionary": "node scripts/parse-webonary.mjs",
+    "build:dictionary-glossary": "node scripts/build-webonary-glossary.mjs",
+    "build:dictionary-sentences": "node scripts/build-webonary-sentence-examples.mjs"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [

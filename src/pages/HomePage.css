@@ -2,6 +2,19 @@
   display: flex;
   flex-direction: column;
   min-height: 100%;
+  min-height: 100dvh;
+}
+
+.home-shell.is-translate {
+  background: #fff9e9;
+}
+
+.home-content-translate-mode {
+  --background: #fff9e9;
+}
+
+.home-content-translate-mode::part(background) {
+  background: #fff9e9;
 }
 
 .home-shell.is-studio-surface,
@@ -11,10 +24,18 @@
 }
 
 .home-content {
+  background: transparent;
   display: flex;
   flex: 1;
+  flex-direction: column;
   min-height: 0;
   position: relative;
+}
+
+.home-content > section,
+.home-content > .profile-screen,
+.home-content > .profile-loading {
+  min-height: 100%;
 }
 
 .home-tab-content {
@@ -1193,6 +1214,18 @@
   --color: currentcolor;
   height: 14px;
   width: 14px;
+}
+
+.home-ion-content-profile {
+  --background: #fff9e9;
+}
+
+.home-shell.profile-route {
+  background: #fff9e9;
+}
+
+.home-shell.profile-route .home-content {
+  background: #fff9e9;
 }
 
 .home-menu {

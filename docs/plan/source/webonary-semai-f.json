@@ -1,0 +1,106 @@
+[
+  {
+    "_id": "g36e8c0b8-6ac8-49a6-a0c8-2121615ce899",
+    "xhtmlTemplate": "entry",
+    "guid": "g36e8c0b8-6ac8-49a6-a0c8-2121615ce899",
+    "letterHead": "f",
+    "sortIndex": 1061,
+    "mainheadword": [
+      {
+        "lang": "sea",
+        "guid": "g36e8c0b8-6ac8-49a6-a0c8-2121615ce899",
+        "value": "Februari"
+      }
+    ],
+    "morphosyntaxanalysis": {
+      "graminfoname": [
+        {
+          "lang": "ms",
+          "value": "kata nama"
+        }
+      ]
+    },
+    "senses": [
+      {
+        "guid": "g36e8c0b8-6ac8-49a6-a0c8-2121615ce899",
+        "definitionorgloss": [
+          {
+            "lang": "ms",
+            "value": "Februari; bulan kedua dalam setahun"
+          },
+          {
+            "lang": "en",
+            "value": "February; the second month of the year"
+          }
+        ],
+        "examplescontents": [
+          {
+            "example": [
+              {
+                "lang": "sea",
+                "value": "Wak Tina ru Bah Alan baibekenah-gensir ku gecek Februari."
+              }
+            ],
+            "translationcontents": [
+              {
+                "translation": [
+                  {
+                    "lang": "ms",
+                    "value": "Wak Tina dan Bah Alan berkahwin pada bulan Februari."
+                  },
+                  {
+                    "lang": "en",
+                    "value": "Wak Tina and Bah Alan got married in February. "
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "displayXhtml": "<div class=\"entry\" id=\"g36e8c0b8-6ac8-49a6-a0c8-2121615ce899\"><span class=\"mainheadword\"><span lang=\"sea\"><a href=\"#g36e8c0b8-6ac8-49a6-a0c8-2121615ce899\">Februari</a></span></span><span class=\"senses\"><span class=\"sharedgrammaticalinfo\"><span class=\"morphosyntaxanalysis\"><span class=\"graminfoname\"><span lang=\"ms\">kata nama</span></span></span></span><span class=\"sensecontent\"><span class=\"sense\" entryguid=\"g36e8c0b8-6ac8-49a6-a0c8-2121615ce899\"><span class=\"definitionorgloss\"><span lang=\"ms\">Februari; bulan kedua dalam setahun</span><span lang=\"en\">February; the second month of the year</span></span><span class=\"examplescontents\"><span class=\"examplescontent\"><span class=\"example\"><span lang=\"sea\">Wak Tina ru Bah Alan baibekenah-gensir ku gecek Februari.</span></span><span class=\"translationcontents\"><span class=\"translationcontent\"><span class=\"translation\"><span lang=\"ms\">Wak Tina dan Bah Alan berkahwin pada bulan Februari.</span><span lang=\"en\">Wak Tina and Bah Alan got married in February. </span></span></span></span></span></span></span></span></span></div>",
+    "dictionaryId": "semai",
+    "searchTexts": [
+      "Februari",
+      "kata nama",
+      "Februari; bulan kedua dalam setahun",
+      "February; the second month of the year",
+      "Wak Tina ru Bah Alan baibekenah-gensir ku gecek Februari.",
+      "Wak Tina dan Bah Alan berkahwin pada bulan Februari.",
+      "Wak Tina and Bah Alan got married in February. "
+    ],
+    "langTexts": {
+      "sea": [
+        "Februari",
+        "Wak Tina ru Bah Alan baibekenah-gensir ku gecek Februari."
+      ],
+      "ms": [
+        "kata nama",
+        "Februari; bulan kedua dalam setahun",
+        "Wak Tina dan Bah Alan berkahwin pada bulan Februari."
+      ],
+      "en": [
+        "February; the second month of the year",
+        "Wak Tina and Bah Alan got married in February. "
+      ]
+    },
+    "langUnaccentedTexts": {
+      "sea": [
+        "Februari",
+        "Wak Tina ru Bah Alan baibekenah-gensir ku gecek Februari."
+      ],
+      "ms": [
+        "kata nama",
+        "Februari; bulan kedua dalam setahun",
+        "Wak Tina dan Bah Alan berkahwin pada bulan Februari."
+      ],
+      "en": [
+        "February; the second month of the year",
+        "Wak Tina and Bah Alan got married in February. "
+      ]
+    },
+    "updatedAt": "2025-10-07T02:09:18.475Z",
+    "updatedBy": "ejincho"
+  }
+]

@@ -8,6 +8,7 @@ alter table public.profiles
   add column if not exists app_language text,
   add column if not exists indigenous_language text,
   add column if not exists push_notifications_enabled boolean;
+
 do $$
 begin
   if not exists (
@@ -22,19 +23,24 @@ begin
   end if;
 end
 $$;
+
 update public.profiles
 set app_language = 'English'
 where app_language is null;
+
 update public.profiles
 set indigenous_language = 'Semai'
 where indigenous_language is null;
+
 update public.profiles
 set push_notifications_enabled = true
 where push_notifications_enabled is null;
+
 alter table public.profiles
   alter column app_language set default 'English',
   alter column indigenous_language set default 'Semai',
   alter column push_notifications_enabled set default true;
+
 alter table public.profiles
   alter column app_language set not null,
   alter column indigenous_language set not null,

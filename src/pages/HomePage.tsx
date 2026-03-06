@@ -1,4 +1,4 @@
-import { IonButton, IonContent, IonIcon, IonLabel, IonPage, IonToast } from '@ionic/react';
+import { IonContent, IonIcon, IonLabel, IonPage, IonToast } from '@ionic/react';
 import { useEffect, useState } from 'react';
 import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import {
@@ -10,12 +10,11 @@ import {
 } from 'ionicons/icons';
 
 import { triggerHapticFeedback } from '../lib/feedback';
-import { supabase } from '../lib/supabase';
-import { useAuthStore } from '../stores/authStore';
-import { toAuthErrorMessage } from '../utils/authErrors';
 import { ArchiveReviewPage } from './ArchiveReviewPage';
 import { ElderStudioTab } from './ElderStudioTab';
+import { ProfilePage } from './ProfilePage';
 import { SoundArchiveTab } from './SoundArchiveTab';
+import { TranslatePage } from './TranslatePage';
 
 import './HomePage.css';
 
@@ -28,10 +27,6 @@ function TabPlaceholder({ title, description }: { title: string; description: st
   );
 }
 
-function AIHelperTab() {
-  return <TabPlaceholder title="AI Helper" description="Transcribe, translate, and listen." />;
-}
-
 function LanguageGardenTab() {
   return (
     <TabPlaceholder
@@ -41,65 +36,13 @@ function LanguageGardenTab() {
   );
 }
 
-function ProfileTab() {
-  const { user } = useAuthStore();
-  const [isSigningOut, setIsSigningOut] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const handleSignOut = async () => {
-    if (isSigningOut) {
-      return;
-    }
-
-    setIsSigningOut(true);
-    setError(null);
-    triggerHapticFeedback('light');
-
-    try {
-      const { error: signOutError } = await supabase.auth.signOut();
-      if (signOutError) {
-        throw signOutError;
-      }
-
-      triggerHapticFeedback('success');
-    } catch (err) {
-      setError(toAuthErrorMessage(err));
-      triggerHapticFeedback('error');
-    } finally {
-      setIsSigningOut(false);
-    }
-  };
-
-  return (
-    <section className="home-tab-content ion-padding">
-      <h2>Profile</h2>
-      <p className="mb-4 text-gray-600">{user?.email ?? 'Guest'}</p>
-      <IonButton
-        color="danger"
-        fill="outline"
-        onClick={() => void handleSignOut()}
-        disabled={isSigningOut}
-      >
-        {isSigningOut ? 'Signing out...' : 'Sign out'}
-      </IonButton>
-
-      <IonToast
-        isOpen={Boolean(error)}
-        message={error ?? ''}
-        duration={3200}
-        color="danger"
-        onDidDismiss={() => setError(null)}
-      />
-    </section>
-  );
-}
-
 export function HomePage() {
   const navigate = useNavigate();
   const location = useLocation();
   const profileWarningFromState =
     (location.state as { profileWarning?: string } | null)?.profileWarning ?? null;
   const [profileWarning, setProfileWarning] = useState<string | null>(profileWarningFromState);
+  const isTranslateRoute = location.pathname.startsWith('/home/ai');
 
   useEffect(() => {
     if (profileWarningFromState) {
@@ -129,24 +72,44 @@ export function HomePage() {
     }
   };
 
+  const shouldShowTabMenu = !isTranslateRoute && !location.pathname.startsWith('/home/profile/');
+  const isProfileRoute = location.pathname.startsWith('/home/profile');
+
+  const ionContentClassName =
+    [
+      isProfileRoute ? 'home-ion-content-profile' : '',
+      isTranslateRoute ? 'home-content-translate-mode' : '',
+    ]
+      .filter(Boolean)
+      .join(' ') || undefined;
+
+  const homeShellClassName = [
+    'home-shell',
+    isProfileRoute ? 'profile-route' : '',
+    isTranslateRoute ? 'is-translate' : '',
+    usesStudioSurface ? 'is-studio-surface' : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
+
   return (
     <IonPage>
-      <IonContent fullscreen>
-        <div className={`home-shell ${usesStudioSurface ? 'is-studio-surface' : ''}`}>
+      <IonContent fullscreen className={ionContentClassName}>
+        <div className={homeShellClassName}>
           <div className={`home-content ${usesStudioSurface ? 'is-studio-surface' : ''}`}>
             <Routes>
               <Route path="studio" element={<ElderStudioTab />} />
               <Route path="archive/review" element={<ArchiveReviewPage />} />
               <Route path="archive" element={<SoundArchiveTab />} />
-              <Route path="ai" element={<AIHelperTab />} />
+              <Route path="ai" element={<TranslatePage />} />
               <Route path="garden" element={<LanguageGardenTab />} />
-              <Route path="profile" element={<ProfileTab />} />
+              <Route path="profile/*" element={<ProfilePage />} />
               <Route index element={<Navigate to="garden" replace />} />
               <Route path="*" element={<Navigate to="garden" replace />} />
             </Routes>
           </div>
 
-          {!shouldHideMenu ? (
+          {shouldShowTabMenu && !shouldHideMenu ? (
             <nav className="home-menu" aria-label="Main">
               {menuItems.map((item) => {
                 const active = isActiveTab(item.href);

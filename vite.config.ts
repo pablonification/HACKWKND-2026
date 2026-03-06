@@ -1,11 +1,15 @@
 import react from '@vitejs/plugin-react';
 import path from 'path';
 import { defineConfig } from 'vite';
+import pkg from './package.json';
 
 export default defineConfig({
   plugins: [react()],
   server: {
     host: '0.0.0.0',
+  },
+  define: {
+    'import.meta.env.VITE_APP_VERSION': JSON.stringify(pkg.version),
   },
   resolve: {
     alias: {

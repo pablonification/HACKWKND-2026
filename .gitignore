@@ -41,5 +41,5 @@ yarn-error.*
 /ios
 /android
 
-# Supabase CLI temp files
+# local Supabase CLI temp
 supabase/.temp/
