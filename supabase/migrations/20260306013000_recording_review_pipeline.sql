@@ -6,23 +6,26 @@ returns text
 language sql
 immutable
 as $$
-  select regexp_replace(
-    replace(
+  select nullif(
+    regexp_replace(
       replace(
         replace(
-          lower(coalesce(input, '')),
-          'ɔ',
-          'o'
+          replace(
+            lower(coalesce(input, '')),
+            'ɔ',
+            'o'
+          ),
+          'ə',
+          'e'
         ),
-        'ə',
-        'e'
+        'ɨ',
+        'i'
       ),
-      'ɨ',
-      'i'
+      '[^a-z0-9]+',
+      '',
+      'g'
     ),
-    '[^a-z0-9]+',
-    '',
-    'g'
+    ''
   )
 $$;
 
@@ -111,9 +114,9 @@ begin
       or created_by is null
       or updated_at is null;
 
-    alter table public.words alter column semai_key set not null;
+    -- Allow NULL for rows with no semai data (normalize_semai_key returns NULL for empty input).
   end if;
 end
 $$;
 
-create unique index if not exists words_semai_key_unique_idx on public.words (semai_key);
+create unique index if not exists words_semai_key_unique_idx on public.words (semai_key) where semai_key is not null;

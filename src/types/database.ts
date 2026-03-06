@@ -136,7 +136,7 @@ export type Database = {
           id: string;
           semai: string | null;
           semai_word: string;
-          semai_key: string;
+          semai_key: string | null;
           meaning_ms: string | null;
           malay_translation: string | null;
           meaning_en: string | null;

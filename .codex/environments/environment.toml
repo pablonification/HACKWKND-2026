@@ -8,20 +8,12 @@ set -euo pipefail
 
 npm ci
 
-SOURCE_ENV="/Users/macbook/Documents/coding/HACKWKND/.env"
-
-if [ -f "$SOURCE_ENV" ]; then
-  if [ ! -f .env ]; then
-    cp "$SOURCE_ENV" .env
-    echo "✅ .env copied from $SOURCE_ENV"
-  else
-    echo "ℹ️ .env already exists, skip overwrite"
-  fi
+if [ -f .env ]; then
+  echo "ℹ️ .env already exists"
 else
-  echo "❌ Source .env not found at $SOURCE_ENV"
+  echo "⚠️ .env not found — copy .env.example or create one manually"
   exit 1
 fi
 
 npm run typecheck
-
 '''

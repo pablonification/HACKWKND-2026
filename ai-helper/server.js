@@ -1588,6 +1588,7 @@ const downloadFromHttpUrl = async (sourceUrl, config) => {
     /^\[fc/i,
     /^\[fd/i,
     /^\[fe80:/i,
+    /^\[::ffff:/i,
   ];
   if (BLOCKED_PATTERNS.some((pattern) => pattern.test(hostname))) {
     throw new HttpError(

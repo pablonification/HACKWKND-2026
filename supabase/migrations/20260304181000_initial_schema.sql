@@ -21,7 +21,8 @@ alter table public.profiles enable row level security;
 create policy "Users can read any profile"
   on public.profiles for select using (true);
 create policy "Users can update own profile"
-  on public.profiles for update using (auth.uid() = id);
+  on public.profiles for update using (auth.uid() = id)
+  with check (auth.uid() = id and role is not distinct from (select p.role from public.profiles p where p.id = auth.uid()));
 create policy "Users can insert own profile"
   on public.profiles for insert with check (auth.uid() = id);
 -- ─────────────────────────────────────────────
