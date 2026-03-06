@@ -1,5 +1,5 @@
 import { IonButton, IonContent, IonIcon, IonLabel, IonPage, IonToast } from '@ionic/react';
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import {
   leafOutline,
@@ -10,10 +10,10 @@ import {
 } from 'ionicons/icons';
 
 import { triggerHapticFeedback } from '../lib/feedback';
+import { AiHelperPage } from './AiHelperPage';
 import { supabase } from '../lib/supabase';
 import { useAuthStore } from '../stores/authStore';
 import { toAuthErrorMessage } from '../utils/authErrors';
-
 import './HomePage.css';
 
 function TabPlaceholder({ title, description }: { title: string; description: string }) {
@@ -33,10 +33,6 @@ function ElderStudioTab() {
 
 function SoundArchiveTab() {
   return <TabPlaceholder title="Sound Archive" description="Browse and search recordings." />;
-}
-
-function AIHelperTab() {
-  return <TabPlaceholder title="AI Helper" description="Transcribe, translate, and listen." />;
 }
 
 function LanguageGardenTab() {
@@ -141,7 +137,7 @@ export function HomePage() {
             <Routes>
               <Route path="studio" element={<ElderStudioTab />} />
               <Route path="archive" element={<SoundArchiveTab />} />
-              <Route path="ai" element={<AIHelperTab />} />
+              <Route path="ai" element={<AiHelperPage />} />
               <Route path="garden" element={<LanguageGardenTab />} />
               <Route path="profile" element={<ProfileTab />} />
               <Route index element={<Navigate to="garden" replace />} />
