@@ -86,7 +86,7 @@ export function SoundArchiveTab() {
   const [toast, setToast] = useState<ToastState | null>(null);
   const isSyncingRef = useRef(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const playbackSourceCacheRef = useRef<Map<string, string>>(new Map());
+  const playbackSourceCacheRef = useRef<Map<string, { url: string; expiresAt: number }>>(new Map());
   const objectUrlsRef = useRef<Set<string>>(new Set());
 
   const loadRecordings = useCallback(async () => {
@@ -314,11 +314,18 @@ export function SoundArchiveTab() {
 
     setLoadingPlaybackRecordingId(recording.id);
     try {
-      let sourceUrl = playbackSourceCacheRef.current.get(recording.id);
-      if (!sourceUrl) {
+      const cached = playbackSourceCacheRef.current.get(recording.id);
+      let sourceUrl: string | undefined;
+      if (cached && cached.expiresAt > Date.now()) {
+        sourceUrl = cached.url;
+      } else {
+        // Expired or not cached — resolve a fresh signed URL (TTL 600s, cache for 500s).
         const source = await resolveStudioRecordingPlaybackSource(recording);
         sourceUrl = source.url;
-        playbackSourceCacheRef.current.set(recording.id, source.url);
+        playbackSourceCacheRef.current.set(recording.id, {
+          url: source.url,
+          expiresAt: Date.now() + 500_000,
+        });
         if (source.isObjectUrl) {
           objectUrlsRef.current.add(source.url);
         }

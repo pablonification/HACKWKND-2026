@@ -789,7 +789,10 @@ const fromRemoteRow = (row: RecordingRow): StudioRecording =>
     recordingType: extractRecordingType(row.topic_tags),
     topicTags: sanitizeRemoteTopicTags(row.topic_tags),
     durationSeconds: row.duration_seconds ? Number(row.duration_seconds) : 0,
-    mimeType: 'audio/wav',
+    mimeType: (() => {
+      const ext = row.audio_url?.split('.').pop()?.trim().toLowerCase() ?? '';
+      return AUDIO_MIME_BY_EXTENSION[ext] ?? 'audio/webm';
+    })(),
     localFilePath: '',
     storagePath: row.audio_url,
     audioUrl: row.audio_url,
