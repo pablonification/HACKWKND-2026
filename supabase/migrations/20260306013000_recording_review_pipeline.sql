@@ -120,3 +120,35 @@ end
 $$;
 
 create unique index if not exists words_semai_key_unique_idx on public.words (semai_key) where semai_key is not null;
+
+-- Allow elders and admins to delete words (required for orphan cleanup when
+-- a verified transcript's semai_key changes).
+do $$
+begin
+  if exists (
+    select 1 from information_schema.tables
+    where table_schema = 'public' and table_name = 'words'
+  ) then
+    execute 'alter table public.words enable row level security';
+
+    if not exists (
+      select 1 from pg_policies
+      where schemaname = 'public' and tablename = 'words'
+        and policyname = 'Elders and admins can delete words'
+    ) then
+      execute '
+        create policy "Elders and admins can delete words"
+        on public.words
+        for delete
+        to authenticated
+        using (
+          exists (
+            select 1 from public.profiles
+            where id = auth.uid() and role in (''elder'', ''admin'')
+          )
+        )
+      ';
+    end if;
+  end if;
+end
+$$;

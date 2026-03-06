@@ -974,7 +974,7 @@ const syncVerifiedWordToWords = async (recording: StudioRecording): Promise<void
 
   const verifiedTranscription = recording.verifiedTranscription?.trim() ?? '';
   const verifiedTranslationMs = recording.verifiedTranslationMs?.trim() ?? '';
-  if (!verifiedTranscription || !verifiedTranslationMs) {
+  if (!verifiedTranscription) {
     return;
   }
 

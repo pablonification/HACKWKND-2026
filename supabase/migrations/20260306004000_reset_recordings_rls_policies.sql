@@ -107,6 +107,7 @@ with check (
   auth.uid() is not null
   and auth.uid() = uploader_id
   and (is_verified = false or is_verified is null)
+  and verified_transcription is null
 );
 
 create policy "Uploaders can delete own recordings"
