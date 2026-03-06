@@ -1,0 +1,474 @@
+.tavi-chat-outer {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  background: #fff9e9;
+}
+
+.tavi-loading-screen {
+  align-items: center;
+  background: #fff9e9;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  min-height: 100dvh;
+}
+
+.tavi-intro {
+  background: #fff9e9;
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  padding: 0 0 calc(env(safe-area-inset-bottom, 0px) + 88px);
+}
+
+.tavi-intro-mascot-wrap {
+  align-items: center;
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  padding: 16px 24px 0;
+  position: relative;
+  max-height: 300px;
+}
+
+.tavi-intro-mascot {
+  border-radius: 50%;
+  height: 240px;
+  object-fit: contain;
+  position: relative;
+  width: 240px;
+  z-index: 1;
+
+  animation: tavi-float 3.6s ease-in-out infinite;
+}
+
+@keyframes tavi-float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-10px); }
+}
+
+.tavi-intro-aura {
+  border-radius: 50%;
+  height: 340px;
+  left: 50%;
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 340px;
+  background: radial-gradient(
+    circle,
+    rgba(203, 64, 60, 0.60) 0%,
+    rgba(203, 64, 60, 0.25) 45%,
+    rgba(203, 64, 60, 0.00) 70%
+  );
+  animation: tavi-aura-pulse 3.6s ease-in-out infinite;
+}
+
+@keyframes tavi-aura-pulse {
+  0%, 100% { opacity: 0.85; transform: translate(-50%, -50%) scale(1); }
+  50%       { opacity: 1;    transform: translate(-50%, -50%) scale(1.1); }
+}
+
+.tavi-intro-header {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding: calc(env(safe-area-inset-top, 0px) + 14px) 20px 0;
+}
+
+.tavi-back-button {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  color: #1a1a1a;
+  cursor: pointer;
+  display: inline-flex;
+  gap: 9px;
+  padding: 8px 4px;
+  transition:
+    opacity 160ms ease,
+    transform 140ms ease;
+  flex-shrink: 0;
+  width: 36px;
+  justify-content: center;
+}
+
+.tavi-back-button:active {
+  transform: scale(0.92);
+}
+
+.tavi-back-chevron {
+  border-bottom: 2px solid currentcolor;
+  border-left: 2px solid currentcolor;
+  display: block;
+  height: 9px;
+  transform: rotate(45deg);
+  width: 9px;
+}
+
+.tavi-intro-header-pill {
+  background: #cb403c;
+  border: 0;
+  border-radius: 100px;
+  color: #fff;
+  font-family: 'Satoshi', 'Poppins', ui-sans-serif, system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.1px;
+  padding: 9px 22px;
+  line-height: 1;
+}
+
+.tavi-intro-text {
+  padding: 12px 32px 0;
+  text-align: center;
+}
+
+.tavi-intro-text h1 {
+  color: #1a1a1a;
+  font-family: 'PlayfairDisplay', Georgia, serif;
+  font-size: 43px;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+  line-height: 1.1;
+  margin: 0 0 6px;
+}
+
+.tavi-intro-name {
+  color: #cb403c;
+  font-family: 'PlayfairDisplay', Georgia, 'Times New Roman', serif;
+  font-style: italic;
+  font-weight: 300;
+}
+
+.tavi-intro-subtitle {
+  color: #1a1a1a;
+  font-family: 'PlayfairDisplay', Georgia, serif;
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 0 0 16px;
+}
+
+.tavi-intro-desc {
+  color: #989898;
+  font-family: 'Satoshi', 'Poppins', ui-sans-serif, system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 250;
+  line-height: 1.6;
+  margin: 0 auto;
+  max-width: 280px;
+  padding-top: 3em;
+}
+
+.tavi-intro-footer {
+  padding: 32px 24px 16px;
+}
+
+.tavi-intro-cta {
+  background: #cb403c;
+  border: 0;
+  border-radius: 100px;
+  color: #fff;
+  cursor: pointer;
+  font-family: 'Satoshi', 'Poppins', ui-sans-serif, system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  height: 52px;
+  letter-spacing: 0.2px;
+  transition:
+    transform 120ms ease,
+    opacity 120ms ease;
+  width: 100%;
+}
+
+.tavi-intro-cta:active {
+  opacity: 0.88;
+  transform: scale(0.97);
+}
+
+.tavi-chat-shell {
+  background: #fff9e9;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  position: relative;
+}
+
+.tavi-chat-header {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding: calc(env(safe-area-inset-top, 0px) + 14px) 20px 12px;
+  position: relative;
+}
+
+.tavi-chat-header-pill {
+  background: #cb403c;
+  border-radius: 100px;
+  color: #fff;
+  font-family: 'Satoshi', 'Poppins', ui-sans-serif, system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 7px 20px;
+}
+
+.tavi-chat-greeting {
+  padding: 28px 24px 0;
+}
+
+.tavi-chat-greeting-title {
+  color: #1a1a1a;
+  font-family: 'PlayfairDisplay', Georgia, serif;
+  font-size: 40px;
+  font-weight: 500;
+  letter-spacing: -0.5px;
+  line-height: 1.1;
+  margin: 0 0 10px;
+}
+
+.tavi-chat-greeting-title span {
+  color: #1a1a1a;
+}
+
+.tavi-chat-greeting-sub {
+  color: #000000;
+  font-family: 'Satoshi', ui-sans-serif, system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.55;
+  margin: 0;
+  max-width: 300px;
+}
+
+.tavi-chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 16px 16px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.tavi-bubble-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.tavi-bubble-row--user {
+  flex-direction: row-reverse;
+}
+
+.tavi-bubble-row--tavi {
+  flex-direction: row;
+}
+
+.tavi-bubble-avatar {
+  border-radius: 50%;
+  flex-shrink: 0;
+  height: 32px;
+  object-fit: cover;
+  width: 32px;
+  align-self: flex-end;
+}
+
+.tavi-bubble {
+  border-radius: 18px;
+  max-width: 72%;
+  padding: 10px 14px;
+}
+
+.tavi-bubble-tavi-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 72%;
+}
+
+.tavi-bubble--tavi-reply {
+  background: #f5c0be;
+  border-bottom-left-radius: 4px;
+}
+
+.tavi-bubble--translation {
+  background: #fff;
+  border-radius: 18px;
+  border-top-left-radius: 4px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
+  min-width: min-content;
+}
+
+.tavi-bubble--user {
+  background: #cb403c;
+  border-bottom-right-radius: 4px;
+}
+
+.tavi-bubble-translation-label {
+  color: #1a1a1a;
+  font-family: 'Satoshi', 'Poppins', ui-sans-serif, system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.4;
+  margin: 0 0 2px;
+}
+
+.tavi-bubble-text {
+  color: inherit;
+  font-family: 'Satoshi', 'Poppins', ui-sans-serif, system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.tavi-bubble--tavi-reply .tavi-bubble-text {
+  color: #1a1a1a;
+}
+
+.tavi-bubble--translation .tavi-bubble-text {
+  color: #1a1a1a;
+}
+
+.tavi-bubble--user .tavi-bubble-text {
+  color: #fff;
+}
+
+.tavi-bubble-play {
+  background: transparent;
+  border: 0;
+  color: #cb403c;
+  cursor: pointer;
+  font-size: 12px;
+  margin-top: 6px;
+  padding: 0;
+  transition: transform 120ms ease;
+}
+
+.tavi-bubble-play:active {
+  transform: scale(0.9);
+}
+
+.tavi-bubble-loading {
+  align-items: center;
+  display: flex;
+  gap: 5px;
+  height: 20px;
+  padding: 2px 4px;
+}
+
+.tavi-bubble-loading span {
+  animation: tavi-dot-bounce 1.2s ease-in-out infinite;
+  background: #b0a99f;
+  border-radius: 50%;
+  display: block;
+  height: 7px;
+  width: 7px;
+}
+
+.tavi-bubble-loading span:nth-child(2) { animation-delay: 0.18s; }
+.tavi-bubble-loading span:nth-child(3) { animation-delay: 0.36s; }
+
+@keyframes tavi-dot-bounce {
+  0%, 80%, 100% { transform: translateY(0);    opacity: 0.4; }
+  40%            { transform: translateY(-6px); opacity: 1; }
+}
+
+
+.tavi-chat-inputbar {
+  align-items: flex-end;
+  background: #fff9e9;
+  display: flex;
+  flex-shrink: 0;
+  gap: 10px;
+  padding: 10px 16px calc(env(safe-area-inset-bottom, 0px) + 10px);
+  position: relative;
+  z-index: 20;
+}
+
+.tavi-chat-inputbar-right {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  position: relative;
+}
+
+.tavi-chat-inputbar-icon {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  color: #cb403c;
+  cursor: pointer;
+  display: flex;
+  flex-shrink: 0;
+  height: 44px;
+  justify-content: center;
+  transition: transform 120ms ease;
+  width: 44px;
+  padding: 0;
+}
+
+.tavi-chat-inputbar-icon img {
+  display: block;
+  height: 28px;
+  width: 28px;
+  object-fit: contain;
+}
+
+.tavi-chat-inputbar-icon:active {
+  transform: scale(0.93);
+}
+
+.tavi-chat-input {
+  background: #fff;
+  border: 1.5px solid rgba(0, 0, 0, 0.1);
+  border-radius: 22px;
+  color: #1a1a1a;
+  width: 100%;
+  font-family: 'Satoshi', 'Poppins', ui-sans-serif, system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.4;
+  max-height: 120px;
+  outline: none;
+  overflow-y: auto;
+  padding: 9px 42px 9px 14px;
+  resize: none;
+  transition: border-color 150ms ease;
+}
+
+.tavi-chat-input::placeholder {
+  color: #b0a99f;
+}
+
+.tavi-chat-input:focus {
+  border-color: rgba(203, 64, 60, 0.4);
+}
+
+.tavi-chat-inputbar-send {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  display: flex;
+  height: 38px;
+  justify-content: center;
+  padding: 0;
+  position: absolute;
+  right: 4px;
+  bottom: 4px;
+  transition:
+    transform 120ms ease,
+    opacity 120ms ease;
+  width: 38px;
+  z-index: 1;
+}
+
+.tavi-chat-inputbar-send:disabled {
+  opacity: 0.35;
+}
+
+.tavi-chat-inputbar-send:not(:disabled):active {
+  transform: scale(0.9);
+}
