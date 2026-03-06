@@ -18,10 +18,11 @@ const fallbackSupabaseUrl = 'https://example.supabase.co';
 const fallbackSupabaseAnonKey = 'missing-supabase-anon-key';
 
 export const isSupabaseConfigured = !supabaseConfigError;
+export const supabasePublicAnonKey = supabaseAnonKey ?? fallbackSupabaseAnonKey;
 
 export const supabase = createClient<Database>(
   supabaseUrl ?? fallbackSupabaseUrl,
-  supabaseAnonKey ?? fallbackSupabaseAnonKey,
+  supabasePublicAnonKey,
   {
     auth: {
       autoRefreshToken: true,
