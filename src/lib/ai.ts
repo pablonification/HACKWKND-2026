@@ -62,7 +62,7 @@ export const transcribeAudio = async (payload: TranscribePayload): Promise<Trans
 };
 
 /**
- * Generate TTS audio for a given text using Coqui TTS.
+ * Generate TTS audio for a given text using ElevenLabs TTS.
  * The audio is uploaded to the pronunciations bucket and the public URL is returned.
  * @param payload - { text, voice_settings? }
  */

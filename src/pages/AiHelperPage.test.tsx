@@ -396,16 +396,3 @@ describe('AiHelperPage', () => {
     });
   });
 });
-
-vi.mock('../lib/feedback', () => ({
-  triggerHapticFeedback: vi.fn(),
-}));
-
-vi.mock('../lib/storage', () => ({
-  setBoolean: vi.fn().mockResolvedValue(undefined),
-  getBoolean: vi.fn().mockResolvedValue(false),
-}));
-
-vi.mock('../utils/authErrors', () => ({
-  toAuthErrorMessage: (err: unknown) => (err instanceof Error ? err.message : 'An error occurred'),
-}));

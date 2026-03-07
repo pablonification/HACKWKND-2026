@@ -31,6 +31,7 @@ Deno.serve(async (req) => {
       ...(typeof callerSettings.use_speaker_boost === 'boolean' && {
         use_speaker_boost: callerSettings.use_speaker_boost,
       }),
+      ...(typeof callerSettings.speed === 'number' && { speed: callerSettings.speed }),
     };
 
     if (!text) {

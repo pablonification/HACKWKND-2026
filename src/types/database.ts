@@ -327,7 +327,16 @@ export type Database = {
         Returns: { translated_text: string };
       };
       'ai-tts': {
-        Args: { text: string; voice_settings?: { speed?: number; pitch?: number } };
+        Args: {
+          text: string;
+          voice_settings?: {
+            stability?: number;
+            similarity_boost?: number;
+            style?: number;
+            use_speaker_boost?: boolean;
+            speed?: number;
+          };
+        };
         Returns: { audio_url: string };
       };
       'ai-generate-sentence': {

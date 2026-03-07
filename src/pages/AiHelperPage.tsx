@@ -97,7 +97,8 @@ function TaviIntro({ onStart }: { onStart: () => void }) {
           className="tavi-back-button"
           aria-label="Go back"
           onClick={() => {
-            /* navigate back or close */
+            triggerHapticFeedback('light');
+            history.back();
           }}
         >
           <span className="tavi-back-chevron" aria-hidden="true" />
@@ -304,7 +305,10 @@ export function AiHelperPage() {
           <button
             className="tavi-back-button"
             aria-label="Go back"
-            onClick={() => setShowIntro(true)}
+            onClick={() => {
+              triggerHapticFeedback('light');
+              setShowIntro(true);
+            }}
           >
             <span className="tavi-back-chevron" aria-hidden="true" />
           </button>
