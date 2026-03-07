@@ -52,14 +52,14 @@ vi.mock('@ionic/react', () => ({
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
-/** Render the page and skip past the intro screen by clicking the input bar. */
+/** Render the page and skip past the intro screen by focusing the input bar. */
 async function renderChat() {
   render(<AiHelperPage />);
 
-  // The intro shows an input bar — clicking it transitions to chat
+  // The intro textarea has onFocus={() => onStart()} — focus it to transition to chat
   const input = await screen.findByPlaceholderText(/write your message here/i);
   await act(async () => {
-    fireEvent.click(input);
+    fireEvent.focus(input);
   });
 
   // Wait for chat shell to appear
@@ -97,21 +97,21 @@ describe('AiHelperPage', () => {
       expect(await screen.findByPlaceholderText(/write your message here/i)).toBeInTheDocument();
     });
 
-    it('transitions to chat when the input bar is clicked', async () => {
+    it('transitions to chat when the input bar is focused', async () => {
       render(<AiHelperPage />);
       const input = await screen.findByPlaceholderText(/write your message here/i);
       await act(async () => {
-        fireEvent.click(input);
+        fireEvent.focus(input);
       });
       expect(await screen.findByRole('button', { name: /send message/i })).toBeInTheDocument();
     });
 
-    it('calls setBoolean to persist intro-seen when input bar is clicked', async () => {
+    it('calls setBoolean to persist intro-seen when input bar is focused', async () => {
       const { setBoolean } = await import('../lib/storage');
       render(<AiHelperPage />);
       const input = await screen.findByPlaceholderText(/write your message here/i);
       await act(async () => {
-        fireEvent.click(input);
+        fireEvent.focus(input);
       });
       expect(setBoolean).toHaveBeenCalledWith('tavi-intro-seen', true);
     });
@@ -388,13 +388,14 @@ describe('AiHelperPage', () => {
       });
     });
 
-    it('triggers medium haptic when input bar is clicked on intro', async () => {
+    it('triggers medium haptic when mic button is tapped on intro', async () => {
       const { triggerHapticFeedback } = await import('../lib/feedback');
       render(<AiHelperPage />);
 
-      const input = await screen.findByPlaceholderText(/write your message here/i);
+      // The mic/send button (aria-label "Start listening") fires handleMicClick → medium haptic
+      const micBtn = await screen.findByRole('button', { name: /start listening/i });
       await act(async () => {
-        fireEvent.click(input);
+        fireEvent.click(micBtn);
       });
 
       expect(triggerHapticFeedback).toHaveBeenCalledWith('medium');
