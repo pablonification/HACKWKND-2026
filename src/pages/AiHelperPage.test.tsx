@@ -23,6 +23,11 @@ vi.mock('../utils/authErrors', () => ({
   toAuthErrorMessage: (err: unknown) => (err instanceof Error ? err.message : 'An error occurred'),
 }));
 
+vi.mock('react-router-dom', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('react-router-dom')>();
+  return { ...actual, useNavigate: () => vi.fn() };
+});
+
 vi.mock('../lib/supabase', () => ({
   supabase: {
     auth: {

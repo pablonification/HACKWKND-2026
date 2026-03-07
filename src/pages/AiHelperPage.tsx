@@ -1,5 +1,6 @@
 import { IonSpinner, IonToast } from '@ionic/react';
 import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import taviImg from '../../assets/tavi.png';
 import cameraImg from '../../assets/camera.png';
@@ -24,7 +25,7 @@ interface Message {
   loading?: boolean;
 }
 
-function TaviIntro({ onStart }: { onStart: () => void }) {
+function TaviIntro({ onStart, onBack }: { onStart: () => void; onBack: () => void }) {
   const [listening, setListening] = useState(false);
 
   const handleMicClick = () => {
@@ -98,7 +99,7 @@ function TaviIntro({ onStart }: { onStart: () => void }) {
           aria-label="Go back"
           onClick={() => {
             triggerHapticFeedback('light');
-            history.back();
+            onBack();
           }}
         >
           <span className="tavi-back-chevron" aria-hidden="true" />
@@ -204,6 +205,7 @@ function ChatBubble({ message }: { message: Message }) {
 // ─── Main Page ────────────────────────────────────────────────────────────────
 
 export function AiHelperPage() {
+  const navigate = useNavigate();
   const [showIntro, setShowIntro] = useState<boolean | null>(null); // null = loading
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState('');
@@ -294,7 +296,7 @@ export function AiHelperPage() {
   }
 
   if (showIntro) {
-    return <TaviIntro onStart={() => void handleStartChat()} />;
+    return <TaviIntro onStart={() => void handleStartChat()} onBack={() => navigate(-1)} />;
   }
 
   return (
