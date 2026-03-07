@@ -94,14 +94,14 @@ describe('ai', () => {
       });
     });
 
-    it('throws on Coqui TTS error', async () => {
+    it('throws on ElevenLabs TTS error', async () => {
       mockedSupabase.functions.invoke.mockResolvedValue({
         data: null,
-        error: new Error('Coqui TTS error: connection refused'),
+        error: new Error('ElevenLabs TTS error: connection refused'),
       });
 
       await expect(generateTts({ text: 'bobolian' })).rejects.toThrow(
-        'Coqui TTS error: connection refused',
+        'ElevenLabs TTS error: connection refused',
       );
     });
   });

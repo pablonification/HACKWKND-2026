@@ -23,6 +23,8 @@ export interface TtsPayload {
     style?: number;
     /** Boosts speaker clarity. Default: true */
     use_speaker_boost?: boolean;
+    /** 0.7–1.2. Controls speaking speed. Default: 1.0 */
+    speed?: number;
   };
 }
 
