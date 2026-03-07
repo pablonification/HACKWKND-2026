@@ -87,10 +87,18 @@ describe('ai', () => {
         error: null,
       });
 
-      await generateTts({ text: 'bobolian', voice_settings: { speed: 0.75 } });
+      await generateTts({
+        text: 'bobolian',
+        speed: 1.1,
+        voice_settings: { stability: 0.8, similarity_boost: 0.6 },
+      });
 
       expect(mockedSupabase.functions.invoke).toHaveBeenCalledWith('ai-tts', {
-        body: { text: 'bobolian', voice_settings: { speed: 0.75 } },
+        body: {
+          text: 'bobolian',
+          speed: 1.1,
+          voice_settings: { stability: 0.8, similarity_boost: 0.6 },
+        },
       });
     });
 

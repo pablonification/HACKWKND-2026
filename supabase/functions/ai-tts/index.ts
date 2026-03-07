@@ -12,15 +12,50 @@ Deno.serve(async (req) => {
     return new Response('ok', { headers: corsHeaders });
   }
 
+  // Require a valid authenticated user — reject anon/unauthenticated requests
+  // so that only signed-in users can spend ElevenLabs quota.
+  const authHeader = req.headers.get('Authorization') ?? '';
+  const jwt = authHeader.replace(/^Bearer\s+/i, '');
+  if (!jwt) {
+    return new Response(JSON.stringify({ error: 'Missing Authorization header' }), {
+      status: 401,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+    });
+  }
+
+  const supabaseUrl = Deno.env.get('SUPABASE_URL');
+  const supabaseAnonKey = Deno.env.get('SUPABASE_ANON_KEY');
+  if (!supabaseUrl || !supabaseAnonKey) {
+    return new Response(JSON.stringify({ error: 'Supabase env vars not configured' }), {
+      status: 500,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+    });
+  }
+
+  // Verify the JWT by calling Supabase Auth — rejects expired/anon tokens.
+  const userRes = await fetch(supabaseUrl + '/auth/v1/user', {
+    headers: { Authorization: 'Bearer ' + jwt, apikey: supabaseAnonKey },
+  });
+  if (!userRes.ok) {
+    return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+      status: 401,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+    });
+  }
+
   try {
     const body = await req.json();
     const text = body.text;
 
+    // speed is a top-level ElevenLabs field, NOT nested inside voice_settings.
+    const speed = typeof body.speed === 'number' ? body.speed : undefined;
+
     // Accept caller-supplied voice_settings; fall back to sensible defaults.
     // Field names mirror the ElevenLabs API exactly (stability, similarity_boost,
-    // style, use_speaker_boost) — NOT the old speed/pitch contract.
+    // style, use_speaker_boost).
     const callerSettings =
       body.voice_settings && typeof body.voice_settings === 'object' ? body.voice_settings : {};
+
     const voiceSettings = {
       stability: typeof callerSettings.stability === 'number' ? callerSettings.stability : 0.5,
       similarity_boost:
@@ -31,7 +66,6 @@ Deno.serve(async (req) => {
       ...(typeof callerSettings.use_speaker_boost === 'boolean' && {
         use_speaker_boost: callerSettings.use_speaker_boost,
       }),
-      ...(typeof callerSettings.speed === 'number' && { speed: callerSettings.speed }),
     };
 
     if (!text) {
@@ -49,9 +83,8 @@ Deno.serve(async (req) => {
       });
     }
 
-    const supabaseUrl = Deno.env.get('SUPABASE_URL');
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
-    if (!supabaseUrl || !supabaseServiceKey) {
+    if (!supabaseServiceKey) {
       return new Response(JSON.stringify({ error: 'Supabase env vars not configured' }), {
         status: 500,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -72,6 +105,7 @@ Deno.serve(async (req) => {
           text: text,
           model_id: 'eleven_turbo_v2_5',
           language_code: 'ms',
+          ...(speed !== undefined && { speed }),
           voice_settings: voiceSettings,
         }),
       },
@@ -109,9 +143,47 @@ Deno.serve(async (req) => {
       });
     }
 
-    const publicUrl = supabaseUrl + '/storage/v1/object/public/pronunciations/tts/' + fileName;
+    // Build a short-lived signed URL (5 minutes) so the caller can stream the
+    // audio without keeping a permanent file in storage.
+    const signedUrlRes = await fetch(
+      supabaseUrl + '/storage/v1/object/sign/pronunciations/tts/' + fileName,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: 'Bearer ' + supabaseServiceKey,
+          apikey: supabaseServiceKey,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ expiresIn: 300 }),
+      },
+    );
 
-    return new Response(JSON.stringify({ audio_url: publicUrl }), {
+    // Schedule deletion regardless of whether signed-URL generation succeeded.
+    // Fire-and-forget: the response is already determined, so we don't await.
+    void fetch(
+      supabaseUrl + '/storage/v1/object/pronunciations/tts/' + fileName,
+      {
+        method: 'DELETE',
+        headers: {
+          Authorization: 'Bearer ' + supabaseServiceKey,
+          apikey: supabaseServiceKey,
+        },
+      },
+    );
+
+    if (!signedUrlRes.ok) {
+      // Fallback: return the public URL even though the file will be deleted soon.
+      const publicUrl = supabaseUrl + '/storage/v1/object/public/pronunciations/tts/' + fileName;
+      return new Response(JSON.stringify({ audio_url: publicUrl }), {
+        status: 200,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    const { signedURL } = await signedUrlRes.json() as { signedURL: string };
+    const audio_url = supabaseUrl + '/storage/v1' + signedURL;
+
+    return new Response(JSON.stringify({ audio_url }), {
       status: 200,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });

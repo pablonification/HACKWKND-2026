@@ -14,6 +14,8 @@ export interface TranscribeResult {
 
 export interface TtsPayload {
   text: string;
+  /** 0.7–1.2. Controls speaking speed (top-level ElevenLabs field). Default: 1.0 */
+  speed?: number;
   voice_settings?: {
     /** 0–1. How consistent the voice sounds across generations. Default: 0.5 */
     stability?: number;
@@ -23,8 +25,6 @@ export interface TtsPayload {
     style?: number;
     /** Boosts speaker clarity. Default: true */
     use_speaker_boost?: boolean;
-    /** 0.7–1.2. Controls speaking speed. Default: 1.0 */
-    speed?: number;
   };
 }
 
