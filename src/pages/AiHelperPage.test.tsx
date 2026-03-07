@@ -23,9 +23,10 @@ vi.mock('../utils/authErrors', () => ({
   toAuthErrorMessage: (err: unknown) => (err instanceof Error ? err.message : 'An error occurred'),
 }));
 
+const mockNavigate = vi.fn();
 vi.mock('react-router-dom', async (importOriginal) => {
   const actual = await importOriginal<typeof import('react-router-dom')>();
-  return { ...actual, useNavigate: () => vi.fn() };
+  return { ...actual, useNavigate: () => mockNavigate };
 });
 
 vi.mock('../lib/supabase', () => ({
@@ -354,6 +355,14 @@ describe('AiHelperPage', () => {
       fireEvent.click(backBtn);
 
       expect(await screen.findByText(/meet/i)).toBeInTheDocument();
+    });
+
+    it('pressing back on the intro screen calls navigate', async () => {
+      render(<AiHelperPage />);
+      const backBtn = await screen.findByRole('button', { name: /go back/i });
+      fireEvent.click(backBtn);
+      // Without an onBack prop the component falls back to navigate(-1)
+      expect(mockNavigate).toHaveBeenCalledWith(-1);
     });
   });
 

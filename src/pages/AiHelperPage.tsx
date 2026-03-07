@@ -143,7 +143,6 @@ function TaviIntro({ onStart, onBack }: { onStart: () => void; onBack: () => voi
             value=""
             onChange={() => {}}
             onFocus={() => void onStart()}
-            onClick={() => void onStart()}
             readOnly
           />
           <button
@@ -204,8 +203,9 @@ function ChatBubble({ message }: { message: Message }) {
 
 // ─── Main Page ────────────────────────────────────────────────────────────────
 
-export function AiHelperPage() {
+export function AiHelperPage({ onBack }: { onBack?: () => void } = {}) {
   const navigate = useNavigate();
+  const handleBack = onBack ?? (() => navigate(-1));
   const [showIntro, setShowIntro] = useState<boolean | null>(null); // null = loading
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState('');
@@ -296,7 +296,7 @@ export function AiHelperPage() {
   }
 
   if (showIntro) {
-    return <TaviIntro onStart={() => void handleStartChat()} onBack={() => navigate(-1)} />;
+    return <TaviIntro onStart={() => void handleStartChat()} onBack={handleBack} />;
   }
 
   return (

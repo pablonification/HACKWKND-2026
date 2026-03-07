@@ -137,7 +137,7 @@ export function HomePage() {
             <Routes>
               <Route path="studio" element={<ElderStudioTab />} />
               <Route path="archive" element={<SoundArchiveTab />} />
-              <Route path="ai" element={<AiHelperPage />} />
+              <Route path="ai" element={<AiHelperPage onBack={() => navigate('/home/garden', { replace: true })} />} />
               <Route path="garden" element={<LanguageGardenTab />} />
               <Route path="profile" element={<ProfileTab />} />
               <Route index element={<Navigate to="garden" replace />} />
