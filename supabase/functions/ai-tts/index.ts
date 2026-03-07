@@ -143,8 +143,18 @@ Deno.serve(async (req) => {
       });
     }
 
-    // Build a short-lived signed URL (5 minutes) so the caller can stream the
-    // audio without keeping a permanent file in storage.
+    // Return a short-lived signed URL (5 minutes) so the caller can stream the
+    // audio without a permanent public URL.
+    //
+    // Cleanup strategy: files accumulate in pronunciations/tts/ and must be
+    // purged out-of-band. Options (pick one before production):
+    //   A) pg_cron job: DELETE FROM storage.objects WHERE bucket_id = 'pronunciations'
+    //      AND name LIKE 'tts/%' AND created_at < now() - interval '10 minutes';
+    //   B) Supabase Storage lifecycle policy (when available in your plan).
+    //   C) A separate scheduled Edge Function that sweeps old tts/ objects.
+    //
+    // Do NOT delete here — any in-function deletion races with the client
+    // fetching the signed URL and causes immediate 404s.
     const signedUrlRes = await fetch(
       supabaseUrl + '/storage/v1/object/sign/pronunciations/tts/' + fileName,
       {
@@ -158,18 +168,9 @@ Deno.serve(async (req) => {
       },
     );
 
-    // Schedule deletion regardless of whether signed-URL generation succeeded.
-    // Fire-and-forget: the response is already determined, so we don't await.
-    void fetch(supabaseUrl + '/storage/v1/object/pronunciations/tts/' + fileName, {
-      method: 'DELETE',
-      headers: {
-        Authorization: 'Bearer ' + supabaseServiceKey,
-        apikey: supabaseServiceKey,
-      },
-    });
-
     if (!signedUrlRes.ok) {
-      // Fallback: return the public URL even though the file will be deleted soon.
+      // Signed URL generation failed — fall back to the permanent public URL.
+      // The file will be cleaned up by the scheduled purge job.
       const publicUrl = supabaseUrl + '/storage/v1/object/public/pronunciations/tts/' + fileName;
       return new Response(JSON.stringify({ audio_url: publicUrl }), {
         status: 200,

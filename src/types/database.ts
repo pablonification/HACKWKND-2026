@@ -329,12 +329,12 @@ export type Database = {
       'ai-tts': {
         Args: {
           text: string;
+          speed?: number;
           voice_settings?: {
             stability?: number;
             similarity_boost?: number;
             style?: number;
             use_speaker_boost?: boolean;
-            speed?: number;
           };
         };
         Returns: { audio_url: string };
