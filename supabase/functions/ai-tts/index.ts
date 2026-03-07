@@ -160,16 +160,13 @@ Deno.serve(async (req) => {
 
     // Schedule deletion regardless of whether signed-URL generation succeeded.
     // Fire-and-forget: the response is already determined, so we don't await.
-    void fetch(
-      supabaseUrl + '/storage/v1/object/pronunciations/tts/' + fileName,
-      {
-        method: 'DELETE',
-        headers: {
-          Authorization: 'Bearer ' + supabaseServiceKey,
-          apikey: supabaseServiceKey,
-        },
+    void fetch(supabaseUrl + '/storage/v1/object/pronunciations/tts/' + fileName, {
+      method: 'DELETE',
+      headers: {
+        Authorization: 'Bearer ' + supabaseServiceKey,
+        apikey: supabaseServiceKey,
       },
-    );
+    });
 
     if (!signedUrlRes.ok) {
       // Fallback: return the public URL even though the file will be deleted soon.
@@ -180,7 +177,7 @@ Deno.serve(async (req) => {
       });
     }
 
-    const { signedURL } = await signedUrlRes.json() as { signedURL: string };
+    const { signedURL } = (await signedUrlRes.json()) as { signedURL: string };
     const audio_url = supabaseUrl + '/storage/v1' + signedURL;
 
     return new Response(JSON.stringify({ audio_url }), {
