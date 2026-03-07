@@ -15,8 +15,14 @@ export interface TranscribeResult {
 export interface TtsPayload {
   text: string;
   voice_settings?: {
-    speed?: number;
-    pitch?: number;
+    /** 0–1. How consistent the voice sounds across generations. Default: 0.5 */
+    stability?: number;
+    /** 0–1. How closely the voice matches the original. Default: 0.75 */
+    similarity_boost?: number;
+    /** 0–1. Speaking style exaggeration (v2 models only). Default: 0 */
+    style?: number;
+    /** Boosts speaker clarity. Default: true */
+    use_speaker_boost?: boolean;
   };
 }
 

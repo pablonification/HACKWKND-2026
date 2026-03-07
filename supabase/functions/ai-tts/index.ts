@@ -16,6 +16,23 @@ Deno.serve(async (req) => {
     const body = await req.json();
     const text = body.text;
 
+    // Accept caller-supplied voice_settings; fall back to sensible defaults.
+    // Field names mirror the ElevenLabs API exactly (stability, similarity_boost,
+    // style, use_speaker_boost) — NOT the old speed/pitch contract.
+    const callerSettings =
+      body.voice_settings && typeof body.voice_settings === 'object' ? body.voice_settings : {};
+    const voiceSettings = {
+      stability: typeof callerSettings.stability === 'number' ? callerSettings.stability : 0.5,
+      similarity_boost:
+        typeof callerSettings.similarity_boost === 'number'
+          ? callerSettings.similarity_boost
+          : 0.75,
+      ...(typeof callerSettings.style === 'number' && { style: callerSettings.style }),
+      ...(typeof callerSettings.use_speaker_boost === 'boolean' && {
+        use_speaker_boost: callerSettings.use_speaker_boost,
+      }),
+    };
+
     if (!text) {
       return new Response(JSON.stringify({ error: 'text is required' }), {
         status: 400,
@@ -54,10 +71,7 @@ Deno.serve(async (req) => {
           text: text,
           model_id: 'eleven_turbo_v2_5',
           language_code: 'ms',
-          voice_settings: {
-            stability: 0.5,
-            similarity_boost: 0.75,
-          },
+          voice_settings: voiceSettings,
         }),
       },
     );
@@ -71,7 +85,7 @@ Deno.serve(async (req) => {
     }
 
     const audioBuffer = await ttsResponse.arrayBuffer();
-    const fileName = 'tts_' + Date.now() + '.mp3';
+    const fileName = 'tts_' + crypto.randomUUID() + '.mp3';
     const uploadUrl = supabaseUrl + '/storage/v1/object/pronunciations/tts/' + fileName;
 
     // Upload to Supabase Storage
