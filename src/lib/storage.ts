@@ -10,6 +10,10 @@ export const STORAGE_KEYS = {
   SETTINGS: 'settings',
   STREAK: 'streak',
   AUTH_TRANSIENT_SESSION: 'auth-transient-session',
+  // AI Helper
+  AI_CHAT_HISTORY: 'ai-chat-history',
+  AI_PENDING_REQUESTS: 'ai-pending-requests',
+  AI_CACHED_TRANSLATIONS: 'ai-cached-translations',
 } as const;
 
 export const setJSON = async (key: string, value: unknown): Promise<void> => {

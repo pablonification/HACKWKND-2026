@@ -7,6 +7,8 @@ import { AiHelperPage } from './AiHelperPage';
 
 vi.mock('../../assets/tavi.png', () => ({ default: 'tavi.png' }));
 vi.mock('../../assets/camera.png', () => ({ default: 'camera.png' }));
+vi.mock('../../assets/mic.png', () => ({ default: 'mic.png' }));
+vi.mock('../../assets/spark.png', () => ({ default: 'spark.png' }));
 
 vi.mock('../lib/feedback', () => ({
   triggerHapticFeedback: vi.fn(),
@@ -21,6 +23,21 @@ vi.mock('../utils/authErrors', () => ({
   toAuthErrorMessage: (err: unknown) => (err instanceof Error ? err.message : 'An error occurred'),
 }));
 
+vi.mock('../lib/supabase', () => ({
+  supabase: {
+    auth: {
+      getUser: vi.fn().mockResolvedValue({
+        data: {
+          user: {
+            email: 'tuyang@example.com',
+            user_metadata: { full_name: 'Tuyang' },
+          },
+        },
+      }),
+    },
+  },
+}));
+
 // Ionic components — minimal stubs so jsdom doesn't choke
 vi.mock('@ionic/react', () => ({
   IonSpinner: () => <span data-testid="ion-spinner" />,
@@ -30,15 +47,18 @@ vi.mock('@ionic/react', () => ({
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
-/** Render the page and skip past the intro screen. */
+/** Render the page and skip past the intro screen by clicking the input bar. */
 async function renderChat() {
   render(<AiHelperPage />);
 
-  // The intro is shown first — click "Get Started"
-  const cta = await screen.findByRole('button', { name: /get started/i });
+  // The intro shows an input bar — clicking it transitions to chat
+  const input = await screen.findByPlaceholderText(/write your message here/i);
   await act(async () => {
-    fireEvent.click(cta);
+    fireEvent.click(input);
   });
+
+  // Wait for chat shell to appear
+  await screen.findByRole('button', { name: /send message/i });
 }
 
 // ─── Tests ───────────────────────────────────────────────────────────────────
@@ -58,10 +78,8 @@ describe('AiHelperPage', () => {
   describe('Intro screen', () => {
     it('renders the intro screen on first visit', async () => {
       render(<AiHelperPage />);
-
       expect(await screen.findByText(/meet/i)).toBeInTheDocument();
       expect(screen.getByText('Tavi')).toBeInTheDocument();
-      expect(screen.getByRole('button', { name: /get started/i })).toBeInTheDocument();
     });
 
     it('shows the "Personal AI Buddy" pill on the intro', async () => {
@@ -69,28 +87,87 @@ describe('AiHelperPage', () => {
       expect(await screen.findByText(/personal ai buddy/i)).toBeInTheDocument();
     });
 
-    it('transitions to the chat view after clicking Get Started', async () => {
+    it('shows the message input placeholder on the intro', async () => {
       render(<AiHelperPage />);
-
-      const cta = await screen.findByRole('button', { name: /get started/i });
-      await act(async () => {
-        fireEvent.click(cta);
-      });
-
-      // Chat header pill should now be visible
-      expect(await screen.findByPlaceholderText(/write your message/i)).toBeInTheDocument();
+      expect(await screen.findByPlaceholderText(/write your message here/i)).toBeInTheDocument();
     });
 
-    it('calls setBoolean to persist intro-seen when Get Started is clicked', async () => {
+    it('transitions to chat when the input bar is clicked', async () => {
+      render(<AiHelperPage />);
+      const input = await screen.findByPlaceholderText(/write your message here/i);
+      await act(async () => {
+        fireEvent.click(input);
+      });
+      expect(await screen.findByRole('button', { name: /send message/i })).toBeInTheDocument();
+    });
+
+    it('calls setBoolean to persist intro-seen when input bar is clicked', async () => {
       const { setBoolean } = await import('../lib/storage');
       render(<AiHelperPage />);
-
-      const cta = await screen.findByRole('button', { name: /get started/i });
+      const input = await screen.findByPlaceholderText(/write your message here/i);
       await act(async () => {
-        fireEvent.click(cta);
+        fireEvent.click(input);
       });
-
       expect(setBoolean).toHaveBeenCalledWith('tavi-intro-seen', true);
+    });
+  });
+
+  // ── Listening screen ────────────────────────────────────────────────────
+
+  describe('Listening screen', () => {
+    it('shows the listening screen when the mic button on the intro is tapped', async () => {
+      render(<AiHelperPage />);
+      const micBtn = await screen.findByRole('button', { name: /start listening/i });
+      await act(async () => {
+        fireEvent.click(micBtn);
+      });
+      expect(await screen.findByText(/listening\.\.\./i)).toBeInTheDocument();
+    });
+
+    it('shows "Tell Tavi" text on the listening screen', async () => {
+      render(<AiHelperPage />);
+      const micBtn = await screen.findByRole('button', { name: /start listening/i });
+      await act(async () => {
+        fireEvent.click(micBtn);
+      });
+      expect(await screen.findByText(/tell/i)).toBeInTheDocument();
+    });
+
+    it('back button on listening screen returns to intro', async () => {
+      render(<AiHelperPage />);
+      const micBtn = await screen.findByRole('button', { name: /start listening/i });
+      await act(async () => {
+        fireEvent.click(micBtn);
+      });
+      await screen.findByText(/listening\.\.\./i);
+      const backBtn = screen.getByRole('button', { name: /go back/i });
+      await act(async () => {
+        fireEvent.click(backBtn);
+      });
+      expect(await screen.findByText(/meet/i)).toBeInTheDocument();
+    });
+
+    it('tapping the mic button on the listening screen goes to chat', async () => {
+      render(<AiHelperPage />);
+      const micBtn = await screen.findByRole('button', { name: /start listening/i });
+      await act(async () => {
+        fireEvent.click(micBtn);
+      });
+      const sendBtn = await screen.findByRole('button', { name: /done listening/i });
+      await act(async () => {
+        fireEvent.click(sendBtn);
+      });
+      expect(await screen.findByRole('button', { name: /send message/i })).toBeInTheDocument();
+    });
+
+    it('triggers medium haptic when mic is tapped on the intro', async () => {
+      const { triggerHapticFeedback } = await import('../lib/feedback');
+      render(<AiHelperPage />);
+      const micBtn = await screen.findByRole('button', { name: /start listening/i });
+      await act(async () => {
+        fireEvent.click(micBtn);
+      });
+      expect(triggerHapticFeedback).toHaveBeenCalledWith('medium');
     });
   });
 
@@ -123,6 +200,12 @@ describe('AiHelperPage', () => {
     it('shows greeting when no messages exist', async () => {
       await renderChat();
       expect(screen.getByText(/hello/i)).toBeInTheDocument();
+    });
+
+    it('shows the user name in the greeting', async () => {
+      await renderChat();
+      // The mock returns full_name: 'Tuyang'
+      expect(await screen.findByText(/tuyang/i)).toBeInTheDocument();
     });
 
     it('hides greeting after first message is sent', async () => {
@@ -165,14 +248,13 @@ describe('AiHelperPage', () => {
       expect(textarea).toHaveValue('');
     });
 
-    it('shows a loading bubble while awaiting Tavi reply', async () => {
+    it('shows a spinner in the send button while a message is in flight', async () => {
       await renderChat();
       const textarea = screen.getByPlaceholderText(/write your message here/i);
 
       await userEvent.type(textarea, 'Bobolian');
       fireEvent.click(screen.getByRole('button', { name: /send message/i }));
 
-      // Loading dots render inside the bubble before the 600ms resolves
       expect(screen.getByTestId('ion-spinner')).toBeInTheDocument();
     });
 
@@ -187,9 +269,7 @@ describe('AiHelperPage', () => {
         vi.advanceTimersByTime(700);
       });
 
-      // The reply text echoes the input
       const matches = await screen.findAllByText('Bobolian');
-      // user bubble + Tavi reply bubble = at least 2 occurrences
       expect(matches.length).toBeGreaterThanOrEqual(2);
     });
 
@@ -214,7 +294,6 @@ describe('AiHelperPage', () => {
       await userEvent.type(textarea, 'Bobolian');
       fireEvent.click(screen.getByRole('button', { name: /send message/i }));
 
-      // Still within the 600ms fake delay
       expect(screen.getByRole('button', { name: /send message/i })).toBeDisabled();
     });
 
@@ -227,11 +306,6 @@ describe('AiHelperPage', () => {
 
       await act(async () => {
         vi.advanceTimersByTime(700);
-      });
-
-      await waitFor(() => {
-        // No text in box → still disabled, but isSending is false.
-        // Type something to confirm it's reactive again.
       });
 
       await userEvent.type(textarea, 'X');
@@ -260,9 +334,7 @@ describe('AiHelperPage', () => {
       await userEvent.type(textarea, 'Hello');
       fireEvent.keyDown(textarea, { key: 'Enter', shiftKey: true });
 
-      // Value should still be in the textarea, not cleared by a send
       expect(textarea).toHaveValue('Hello');
-      // isSending should be false, send button still enabled (has value)
       expect(screen.getByRole('button', { name: /send message/i })).toBeEnabled();
     });
   });
@@ -276,7 +348,7 @@ describe('AiHelperPage', () => {
       const backBtn = screen.getByRole('button', { name: /go back/i });
       fireEvent.click(backBtn);
 
-      expect(await screen.findByRole('button', { name: /get started/i })).toBeInTheDocument();
+      expect(await screen.findByText(/meet/i)).toBeInTheDocument();
     });
   });
 
@@ -311,16 +383,29 @@ describe('AiHelperPage', () => {
       });
     });
 
-    it('triggers medium haptic when Get Started is clicked', async () => {
+    it('triggers medium haptic when input bar is clicked on intro', async () => {
       const { triggerHapticFeedback } = await import('../lib/feedback');
       render(<AiHelperPage />);
 
-      const cta = await screen.findByRole('button', { name: /get started/i });
+      const input = await screen.findByPlaceholderText(/write your message here/i);
       await act(async () => {
-        fireEvent.click(cta);
+        fireEvent.click(input);
       });
 
       expect(triggerHapticFeedback).toHaveBeenCalledWith('medium');
     });
   });
 });
+
+vi.mock('../lib/feedback', () => ({
+  triggerHapticFeedback: vi.fn(),
+}));
+
+vi.mock('../lib/storage', () => ({
+  setBoolean: vi.fn().mockResolvedValue(undefined),
+  getBoolean: vi.fn().mockResolvedValue(false),
+}));
+
+vi.mock('../utils/authErrors', () => ({
+  toAuthErrorMessage: (err: unknown) => (err instanceof Error ? err.message : 'An error occurred'),
+}));

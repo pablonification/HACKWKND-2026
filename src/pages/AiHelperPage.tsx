@@ -3,8 +3,11 @@ import { useEffect, useRef, useState } from 'react';
 
 import taviImg from '../../assets/tavi.png';
 import cameraImg from '../../assets/camera.png';
+import micImg from '../../assets/mic.png';
+import sparkImg from '../../assets/spark.png';
 import { triggerHapticFeedback } from '../lib/feedback';
-import { setBoolean } from '../lib/storage';
+import { supabase } from '../lib/supabase';
+import { getBoolean, setBoolean } from '../lib/storage';
 import { toAuthErrorMessage } from '../utils/authErrors';
 
 import './AiHelperPage.css';
@@ -22,6 +25,70 @@ interface Message {
 }
 
 function TaviIntro({ onStart }: { onStart: () => void }) {
+  const [listening, setListening] = useState(false);
+
+  const handleMicClick = () => {
+    triggerHapticFeedback('medium');
+    setListening(true);
+  };
+
+  const handleListeningBack = () => {
+    setListening(false);
+  };
+
+  if (listening) {
+    /*
+     * TODO: Listening screen — UI only (mic button does nothing yet).
+     *
+     * Full voice-input implementation depends on the native audio-recording
+     * capability being merged from main (speech-to-text pipeline, permission
+     * handling, Whisper/STT integration).  Once that lands, wire up:
+     *   1. Start recording when this screen mounts (or on mic-button press).
+     *   2. Stop recording + send transcript to Tavi on mic-button tap.
+     *   3. Replace `onStart()` stub with the real record→transcribe→chat flow.
+     *   4. Add animated waveform / level meter inside tavi-listen-mascot-wrap.
+     */
+    return (
+      <div className="tavi-listen">
+        {/* Header */}
+        <header className="tavi-listen-header">
+          <button className="tavi-back-button" aria-label="Go back" onClick={handleListeningBack}>
+            <span className="tavi-back-chevron" aria-hidden="true" />
+          </button>
+          <span className="tavi-listen-pill">Personal AI Buddy</span>
+          <div style={{ width: 36 }} />
+        </header>
+
+        {/* Spark + Tell Tavi */}
+        <div className="tavi-listen-label">
+          <img src={sparkImg} alt="" width={32} height={32} />
+          <p className="tavi-listen-tell">
+            Tell <strong>Tavi</strong>
+          </p>
+        </div>
+
+        {/* Mascot + aura */}
+        <div className="tavi-listen-mascot-wrap">
+          <div className="tavi-listen-aura" />
+          <img src={taviImg} alt="Tavi the monkey mascot" className="tavi-listen-mascot" />
+          <p className="tavi-listen-status">Listening...</p>
+        </div>
+
+        {/* Mic button */}
+        <div className="tavi-listen-footer">
+          <div className="tavi-listen-mic-aura" />
+          <button
+            className="tavi-listen-mic-btn"
+            onClick={() => void onStart()}
+            aria-label="Done listening, send"
+          >
+            <img src={micImg} alt="" width={26} height={26} />
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="tavi-intro">
       {/* Header */}
@@ -38,6 +105,9 @@ function TaviIntro({ onStart }: { onStart: () => void }) {
         <span className="tavi-intro-header-pill">Personal AI Buddy</span>
         <div style={{ width: 36 }} />
       </header>
+
+      {/* Spacer — same height as .tavi-listen-label so mascot sits at the same position as the listening screen */}
+      <div className="tavi-intro-label-spacer" aria-hidden="true" />
 
       {/* Mascot with aura */}
       <div className="tavi-intro-mascot-wrap">
@@ -58,10 +128,30 @@ function TaviIntro({ onStart }: { onStart: () => void }) {
         </p>
       </div>
 
-      <div className="tavi-intro-footer">
-        <button className="tavi-intro-cta" onClick={onStart}>
-          Get Started
+      <div className="tavi-chat-inputbar">
+        <button className="tavi-chat-inputbar-icon" aria-label="Attach media" disabled>
+          <img src={cameraImg} alt="" width={28} height={28} />
         </button>
+
+        <div className="tavi-chat-inputbar-right">
+          <textarea
+            className="tavi-chat-input"
+            placeholder="Write your message here"
+            rows={1}
+            value=""
+            onChange={() => {}}
+            onFocus={() => void onStart()}
+            onClick={() => void onStart()}
+            readOnly
+          />
+          <button
+            className="tavi-chat-inputbar-send"
+            onClick={handleMicClick}
+            aria-label="Start listening"
+          >
+            <img src={micImg} alt="" width={20} height={20} />
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -118,16 +208,28 @@ export function AiHelperPage() {
   const [inputText, setInputText] = useState('');
   const [isSending, setIsSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [userName, setUserName] = useState<string>('');
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
+
+  // Fetch user display name
+  useEffect(() => {
+    void supabase.auth.getUser().then(({ data }) => {
+      const meta = data.user?.user_metadata as Record<string, unknown> | undefined;
+      const full = typeof meta?.full_name === 'string' ? meta.full_name.trim() : '';
+      const email = data.user?.email ?? '';
+      const fallback = email.split('@')[0] ?? '';
+      setUserName(full || fallback);
+    });
+  }, []);
 
   // Check if intro has been seen
   useEffect(() => {
     // TODO: restore persistence — always show for UI development
-    setShowIntro(true);
-    // void getBoolean(TAVI_INTRO_SEEN_KEY, false).then((seen) => {
-    //   setShowIntro(!seen);
-    // });
+    // setShowIntro(true);
+    void getBoolean(TAVI_INTRO_SEEN_KEY, false).then((seen) => {
+      setShowIntro(!seen);
+    });
   }, []);
 
   // Auto-scroll to bottom on new messages
@@ -150,9 +252,9 @@ export function AiHelperPage() {
     triggerHapticFeedback('light');
 
     // Add user message
-    const userMsg: Message = { id: Date.now().toString(), role: 'user', text };
+    const userMsg: Message = { id: crypto.randomUUID(), role: 'user', text };
     // Add Tavi loading bubble
-    const taviId = (Date.now() + 1).toString();
+    const taviId = crypto.randomUUID();
     const taviLoadingMsg: Message = { id: taviId, role: 'tavi', text: '', loading: true };
 
     setMessages((prev) => [...prev, userMsg, taviLoadingMsg]);
@@ -215,7 +317,7 @@ export function AiHelperPage() {
           <div className="tavi-chat-greeting">
             <h2 className="tavi-chat-greeting-title">
               Hello, <br />
-              <span>Tuyang!</span>
+              <span>{userName || 'there'}!</span>
             </h2>
             <p className="tavi-chat-greeting-sub">
               Let's grow your language journey. Every word you learn keeps a voice alive.
@@ -233,7 +335,7 @@ export function AiHelperPage() {
 
         {/* Input bar */}
         <div className="tavi-chat-inputbar">
-          <button className="tavi-chat-inputbar-icon" aria-label="Attach media">
+          <button className="tavi-chat-inputbar-icon" aria-label="Attach media" disabled>
             <img src={cameraImg} alt="" width={28} height={28} />
           </button>
 

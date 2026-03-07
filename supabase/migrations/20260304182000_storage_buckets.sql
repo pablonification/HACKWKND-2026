@@ -85,6 +85,11 @@ create policy "Authenticated users can upload pronunciations"
     and (storage.foldername(name))[1] = auth.uid()::text
   );
 
+create policy "Service role can upload pronunciations"
+  on storage.objects for insert
+  to service_role
+  with check (bucket_id = 'pronunciations');
+
 create policy "Authenticated users can delete pronunciations"
   on storage.objects for delete
   to authenticated

@@ -317,7 +317,28 @@ export type Database = {
       };
     };
     Views: Record<string, never>;
-    Functions: Record<string, never>;
+    Functions: {
+      'ai-transcribe': {
+        Args: { audio_url: string };
+        Returns: { transcription: string };
+      };
+      'ai-translate': {
+        Args: { text: string; from: 'semai' | 'ms' | 'en'; to: 'semai' | 'ms' | 'en' };
+        Returns: { translated_text: string };
+      };
+      'ai-tts': {
+        Args: { text: string; voice_settings?: { speed?: number; pitch?: number } };
+        Returns: { audio_url: string };
+      };
+      'ai-generate-sentence': {
+        Args: { word: string; meaning: string };
+        Returns: { sentences: string[] };
+      };
+      'ai-generate-image': {
+        Args: { prompt: string; style: 'traditional' | 'watercolor' | 'children' };
+        Returns: { image_url: string };
+      };
+    };
     Enums: Record<string, never>;
     CompositeTypes: Record<string, never>;
   };
