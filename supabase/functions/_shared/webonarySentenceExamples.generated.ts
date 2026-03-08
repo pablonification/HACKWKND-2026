@@ -5,6 +5,15 @@ import type { SentenceExampleEntry } from './translationGlossary.ts';
 
 export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
   {
+    id: 'henghong-bah-sam-pek-kisedar-kihenghong-mase-teng',
+    semai:
+      '.Bah Sam pek kisedar kihenghong mase tengah kibeh ikerjak. Kibeh begei ajeh medei ha senang isengik gamak.',
+    ms: 'Bah Sam tidak menyedari dia bersiul semasa sedang bekerja. Dia berbuat sedemikian mungkin kerana merasa senang hati.',
+    en: "Bah Sam didn't realize he was whistling while working. He did so, maybe because he was happy.",
+    headword: 'henghong',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'iyeu-iyeu-iyeu-kuceg-eng-kijap-kisemanj-cakna',
     semai: '"\'Iyeu, iyeu,\' kuceg eng kijap kisemanj caknak," Bah Man kiurok.',
     ms: '"\'Miau, miau,\' kucing saya menangis meminta makanan," Bah Man berkata.',
@@ -53,6 +62,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: '"Hati-hati, di semak tersebut selalunya terdapat ular lidi hijau," nenek berkata kepada adik saya yang mencari pinang yang jatuh dari pohonnya.',
     en: '"Be careful, there is often an asian vine snake on that bush," my grandmother said to my sister when she was looking for a betel nut that had fallen from the tree.',
     headword: 'rekop',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'abor-abor-kenah-bah-saha-kiurok-nu-ilei-mase-',
+    semai: '"Abor," kenah Bah Saha kiurok nu ilei mase kaha-et nu ikerjak.',
+    ms: '"Semoga selamat," isteri Bah Saha berkata kepadanya semasa dia hendak ke tempat kerja.',
+    en: '"Be (extra) safe," Bah Saha\'s wife told him when he wanted to go to work.',
+    headword: 'abor',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -148,6 +165,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'gengram-agok-dek-gengram-ajeh-ku-kateh-nus-jerke',
+    semai:
+      '"Agok dek gengram ajeh ku kateh nus jerkek, doh jerkek gaktek," Wak Ngah kiurok nu rimnar ikenon litau.',
+    ms: '"Jangan simpan kegeraman itu di dalam hati kamu, nanti kamu berdua saling membenci," Wak Ngah berkata kepada kedua-dua anak lelakinya.',
+    en: '"Do not keep anger in your heart, later you will hate each other," Wak Ngah said to both of her sons.',
+    headword: 'gengram',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'bubok-agok-guna-cengroi-ajeh-medei-ya-bubok-wa',
     semai: '"Agok guna cengroi ajeh medei ya bubok," Wak Pika kiurok nu imemang.',
     ms: '"Jangan guna beras tersebut kerana sudah menjadi bubuk," Wak Pika berkata kepada adiknya.',
@@ -223,6 +249,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'berahej-agok-main-ku-beg-keneng-gag-ajeh-doh-ber',
+    semai:
+      '"Agok main ku beg keneng gag ajeh, doh berahej berog engkek," Wak Ngah kiurok nu icecenok.',
+    ms: '"Jangan bermain dekat dengan pokok keladi itu, nanti badan kamu akan gatal-gatal," Wak Ngah berkata kepada cucu-cucunya.',
+    en: '"Do not play near the taro plant, your body will be itchy (because of the sap)," Wak Ngah said to her grandchildren.',
+    headword: 'berahej',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'lumpat-agok-main-lumpat-lumpat-doh-tesilap-engk',
     semai: '"Agok main lumpat-lumpat, doh tesilap engkejer," atok kipasal nu jik.',
     ms: '"Jangan bermain lompat-lompat, nanti tersilap kalian boleh terjatuh," datuk berkata kepada kami.',
@@ -253,6 +288,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: '"Jangan minum teh itu dengan tergesa-gesa kerana ianya masih lagi panas," Wak Salma memberitahu kepada anaknya.',
     en: '"Don\'t drink the tea too fast, because it is still hot," Wak Salma told her son.',
     headword: 'pan',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'neklenon-agok-pecaya-bengwal-bah-asmi-ajeh-menang',
+    semai:
+      '"Agok pecaya bengwal Bah Asmi ajeh, menang eng ajeh neklenon," Bah Hassan kipasal nu ikekawat.',
+    ms: '"Jangan percaya kata-kata Bah Asmi, adik saya tersebut adalah penipu," Bah Hassan memberitahu rakan-rakannya.',
+    en: '"Do not believe the words of Bah Asmi, my brother is a liar," Bah Hassan told his friends.',
+    headword: 'neklenon',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -287,6 +331,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: '"Jangan membiasakan anak-anak kamu dengan benda-benda yang mewah, supaya mereka nanti menjadi orang yang sederhana," ibu berkata kepada abang saya.',
     en: '"Don\'t let your children get used to luxury items. If you don\'t, they will later be unpretentious," the mother said to my brother.',
     headword: 'perlej',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'bahbeh-agok-risau-ajeh-apeka-betol-betol-kijap-',
+    semai:
+      '"Agok risau, ajeh apeka betol-betol kijap, kibahbeh taleh medei kisengoh doh birok," Bah Jali kipasal nu Bah Man ha ikenon sanget de kigemar perenjap ha ilei, lagi-lagi amen kisengoh birok.',
+    ms: '"Jangan risau, dia bukan betul-betul menangis, itu dia berpura-pura sahaja kerana takut akan dimarahi," Bah Jali memberitahu kepada Bah Man mengenai anak kecilnya yang sudak berpura-pura menangis, terutama jika takut akan dimarahi.',
+    en: '"Do not worry, he is not crying for real, he is just pretending because he was afraid of being scolded," Bah Jali told Bah Man regarding his child who liked to pretend to cry especially when he was afriad of being scolded.',
+    headword: 'bahbeh',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -407,6 +460,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'cekcet-amek-kijoi-ajok-nu-selai-ubai-ha-cekcet-',
+    semai:
+      '"Amek kijoi ajok nu selai, ubai ha cekcet lada," kenon litau Bah Aman kiberlag bile bitanya ya iapaq.',
+    ms: '"Ibu mengikuti nenek ke kebun, mereka mahu menanam lada," anak lelaki Bah Aman menjawab apabila ditanya oleh bapanya.',
+    en: '"Mother went with grandmother to the farm, they wanted to plant peppers," Bah Aman\'s son replied when asked by his father.',
+    headword: 'cekcet',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'belok-amek-apak-kiet-nu-belok-kenon-wak-gina-k',
     semai: '"Amek, apak kiet nu belok?" kenon Wak Gina kitanya bile kineng iapak kicip kihuj mutu.',
     ms: '"Ibu, bapa pergi ke mana?" anak Wak Gina bertanya apabila melihat bapanya pergi dengan menaiki motosikal.',
@@ -430,6 +492,22 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: '"Ibu, dimana ibu meletakkan antan bagi lesung batu ini? Saya mahu menumbuk lada kerana bapa mahu makan," Wak Yati bertanya kepada ibunya.',
     en: '"Mother, where did you put the pestle for this stone mortar?" Wak Yati asked her mother. I want to pound the chili because father wants to eat it,',
     headword: 'keneh',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'menman-amek-eng-ngha-menman-ku-deg-kawat-eng-no',
+    semai: '"Amek, eng ngha-menman ku deg kawat eng nok," menang eng kipasal nu amek.',
+    ms: '"Ibu, saya mahu pergi bermain ke rumah kawan," adik saya memberitahu kepada ibu.',
+    en: '"Mum, I want to go and play at a friend\'s house," my young sister told mother.',
+    headword: 'menman',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'perikyos-amek-mong-kuceg-kiperikyos-ku-kerop-kate',
+    semai: '"Amek, mong kuceg kiperikyos ku kerop katel eng!" Bah Jali kicereg iamek.',
+    ms: '"Ibu, terdapat kucing melahirkan di bawah katil saya!" Bah Jali memanggil ibunya.',
+    en: '"Mom, there\'s a cat giving birth under my bed!" Bah Jali called his mother.',
+    headword: 'perikyos',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -472,6 +550,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: '"Jika kamu mahu ke kedai, beritahu kepada saya. Saya mahu ikut," Wak Sali berkata kepada abangnya.',
     en: '"If you want to go to the store, please inform me. I want to go with you," Wak Sali said to her older brother.',
     headword: 'pasal',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'bercat-amen-haet-nu-deg-bah-amin-hod-habercat-c',
+    semai:
+      '"Amen haet nu deg Bah Amin, hod habercat cenan ajeh nok, medei ideg ku kemil cenan," Wak Nira kiurok nu sengoi de betanya nong nu deg Bah Amin.',
+    ms: '"Kalau kamu hendak pergi ke rumah Bah Amin, kamu harus mendaki bukit itu dulu, sebab rumahnya terletak di atas bukit," Wak Nira berkata kepada orang yang bertanya arah ke rumah Bah Amin.',
+    en: '"If you want to go to Bah Amin\'s house you must climb the hill first, because his house is on top of the hill," Wak Nira said to the person who asked the direction to Bah Amin\'s house.',
+    headword: 'bercat',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -721,6 +808,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'penakei-ayat-bor-bor-ipenakei-tah-ku-belok-kibel',
+    semai:
+      '"Ayat bor-bor ipenakei, tah ku belok kibeli?" Wak Nani kiurok nu Wak Rima mase ubai neng ha penakei Wak Ramlah.',
+    ms: '"Pakaiannya elok-elok belaka, entah dimana dia membelinya?" Wak Nani berkata kepada Wak Rima semasa mereka berdua melihat pakaian yang dipakai oleh Wak Ramlah.',
+    en: '"All her clothes are beautiful, I wonder where she bought them?" Wak Nani said to Wak Rima as they both looked at the clothes worn by Wak Ramlah.',
+    headword: 'penakei',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'ayot-ayot-buei-menang-ajeh-dea-pek-kikos-wak-',
     semai: '"Ayot buei menang ajeh dea pek kikos," Wak Mina kiurok nu ikenon menaleh.',
     ms: '"Hayunkan buaian adik kamu itu supaya dia tidak terbangun," Wak Mina berkata kepada anak gadisnya.',
@@ -910,6 +1006,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'madeh-bei-madeh-nok-apak-kiurok-nu-menang-eng',
+    semai: '"Bei madeh nok," apak kiurok nu menang eng.',
+    ms: '"Mari ke sini sebentar," bapa berkata kepada adik saya.',
+    en: '"Come here for a moment," father said to my sister.',
+    headword: 'madeh',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'ham-bei-tulog-amek-ham-teu-amek-kiurok-nu-ji',
     semai: '"Bei tulog amek ham teu," amek kiurok nu jik.',
     ms: '"Mari tolong ibu mengambil air," ibu berkata kepada kami.',
@@ -959,6 +1063,23 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'bahneh-bernor-bahneh-lukisan-wak-maria-adeh-ile',
+    semai:
+      '"Bernor bahneh lukisan Wak Maria adeh, ilei mimang mong bakat belukes," Cikgu Jamilah kipateh ianak muret ajeh nu Cikgu Ramlah.',
+    ms: '"Cantik hasil lukisan Wak Maria ini, dia memang mempunyai bakat melukis," Cikgu Jamilah memuji anak muridnya itu kepada Cikgu Ramlah.',
+    en: '"The end product of Wak Maria\'s drawing is beautiful, she indeed has a talent for drawing," Teacher Jamilah said, praising her pupil to Teacher Ramlah.',
+    headword: 'bahneh',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'bernor-bernor-bunga-ros-ilei-bicet-ku-beng-deg-',
+    semai: '"Bernor bunga ros ilei bicet ku beng deg ajeh," Wak Manja kipasal nu iamek.',
+    ms: '"Bunga ros yang ditanam di tepi rumah tersebut sangat cantik," Wak Manja memberitahu kepada ibunya.',
+    en: '"The roses planted at the side of the house are very beautiful," Wak Manja said to her mother.',
+    headword: 'bernor',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'mat-moh-bernor-hineng-imat-moh-engrok-amek-eng-d',
     semai: '"Bernor hineng imat-moh," engrok amek eng de kipateh ha Wak Nina.',
     ms: '"Sangat cantik rupa parasnya," kata ibu saya yang memuji Wak Nina.',
@@ -981,6 +1102,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: '"Badan kanak-kanak tersebut sangat kecil, sakit apa agaknya yang dia alami?" Wak Pira berkata kepada ibunya semasa mereka berdua berada di hospital bagi melawat kakaknya yang baharu bersalin.',
     en: '"That child\'s body is very small, I wonder what kind of illness she has?" Wak Pira said to her mother when the two of them were at the hospital to visit her sister who had just given birth.',
     headword: 'bacet',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'besengngoh-besengngoh-ngneng-luri-ajeh-kidriba-laju',
+    semai:
+      '"Besengngoh ngneng luri ajeh kidriba laju," Wak Anis kiurok nu igensir ha luri ku ngar kerite enai.',
+    ms: '"Saya lihat cara lori itu dipandu dengan laju sangat menakutkan," Wak Anis berkata kepada suaminya tentang lori yang terdapat di hadapan kereta mereka.',
+    en: '"The speed and way the lorry is being driven is very scary," Wak Anis told her husband about the lorry in front of them.',
+    headword: 'besengngoh',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -1016,6 +1146,22 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: '"Apabila saya dewasa nanti, saya mahu membuat rumah seperti itu," Wak Nina memberitahu kepada ibunya sambil menuding jarinya kepada rumah mewah yang dimiliki oleh orang kaya.',
     en: '"When I grow up, I want to build a house like that house," Wak Nina told her mother while pointing to a big house which belonged to a rich person.',
     headword: 'bagei ajeh',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'nyiknyok-bob-adeh-nyiknyok-pek-ha-eng-tapi-bidek-',
+    semai: '"Bob adeh nyiknyok pek ha eng, tapi bidek ku kemil mije eng," Wak Bedah kiurok.',
+    ms: '"Buku ini bukan saya punya, tetapi diletakkan di atas meja saya," Wak Bedah berkata.',
+    en: '"This book is not mine, but it was placed on my desk," Wak Bedah said.',
+    headword: 'nyiknyok',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'bahneh-bok-bahneh-koi-gelag-adeh-sedap-wak-lila',
+    semai: '"Bok bahneh koi gelag adeh? Sedap!" Wak Lila kitanya.',
+    ms: '"Siapa pembuat kuih gelang ini? Sedap!" Wak Lila bertanya.',
+    en: '"Who made this doughnut? It is delicious!" Wak Lila asked.',
+    headword: 'bahneh',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -1066,6 +1212,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: '"Sesiapa sahaja yang melalui jalan tersebut pasti akan ternampak pocong, kerana di situ terdapat perkuburan Islam," Bah Kurat menakut-nakutkan cucu-cucunya kerana mereka sering keluar dan berjalan-jalan di waktu malam.',
     en: '"Anyone who passes by the road will definitely see a pocong, because there is an Islamic cemetery there," Bah Kurat frightened his grandchildren because they often going out at night.',
     headword: 'pocong',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'ngeknut-bok-ingenot-adeh-tededah-pek-betutop-doh',
+    semai: '"Bok ingenot adeh tededah pek betutop? Doh roi!" amek kitanya.',
+    ms: '"Minuman siapakah ini terdedah dan tak ditutup? Lalat akan menghinggapinya!" ibu bertanya.',
+    en: '"Whose drink is this open (to the air) and not covered? Flies will land on it!" mother asked.',
+    headword: 'ngeknut',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -1194,6 +1348,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'jenamu-caknak-ilei-bimasak-aseg-ajeh-ha-jenamu-',
+    semai: '"Caknak ilei bimasak aseg ajeh ha jenamu mai dat," ajok kiurok.',
+    ms: '"Makanan yang dimasak berasingan tersebut adalah untuk dipersembahkan kepada orang mati," nenek berkata.',
+    en: '"The food that is cooked separately is for offering to the dead," grandmother said.',
+    headword: 'jenamu',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'pelit-canak-ajeh-lekat-pelit-medei-pai-kinam-p',
     semai:
       '"Canak ajeh lekat pelit, medei pai kinam. Poj sekejap dea ya kurang gek kibeket, baruleh hicakcak," amek kiurok nu jik.',
@@ -1237,11 +1399,28 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'cennom-cennom-ajok-eng-bibeh-pegelap-huper-tela',
+    semai:
+      '"Cennom ajok eng bibeh pegelap huper, telaaas rimdij ikekenon-cenok nailei. Amen engkeha-sueg, holle sebelom ajeh," Wak Salwa kipasal nu ikekawat kampug.',
+    ms: '"Pengkebumian nenek saya akan dijalankan pada pagi esok, setelah semua anak-anak dan cucu-cucunya sampai ke kampung. Jika kalian hendak menziarahi, datanglah sebelum masa tersebut," Wak Salwa memberitahu kawan-kawan sekampungnya.',
+    en: '"My grandmother\'s burial will take place tomorrow morning, after all her children and grandchildren have reached the village. If you want to visit, come before that time," Wak Salwa told her friends in the village.',
+    headword: 'cennom',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'lai-ceruk-de-ya-siap-bitaj-ajeh-lai-ku-pelan',
     semai: '"Ceruk de ya siap bitaj ajeh, lai ku pelanto," ajok kior nu tenek eng.',
     ms: '"Tikar yang dah siap dianyam itu, dibentangkan di beranda," nenek menyuruh kepada kakak saya.',
     en: 'The finished woven mat is laid out on the veranda," my grandmother told my sister.',
     headword: 'lai',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'jekjel-chip-neng-tah-ma-ajeh-cok-naijekjel-kele',
+    semai: '"Chip neng, tah ma ajeh cok naijekjel kelem-kelem begei adeh," amek kiurok nu apak.',
+    ms: '"Pergi lihat, kenapa anjing menyalak sudah malam sebegini," ibu berkata kepada bapa.',
+    en: '"Go and see why the dogs are barking so late at night," mother told father.',
+    headword: 'jekjel',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -1293,6 +1472,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: '"Cuba baca tulisan ini dengan suara yang kuat," kata Cikgu Megat kepada kami.',
     en: '"Try to read this writing out loud," said Teacher Megat to us.',
     headword: 'baca',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'cenggeh-deg-adeh-ya-mong-sebelom-eng-ngyos-lieng',
+    semai:
+      '"Deg adeh ya mong sebelom eng ngyos. Lieng hunen ya mong cenok 9 urag, tapi deg adeh lekat tahan. Hamapen ya betahut-tahut kikena pengrag ru manik, ijehuk lekat icenggeh," Bah Ngah kiurok nu itengloh de kitanya ha ideg.',
+    ms: '"Rumah ini sudah ada sebelum saya lahir lagi. Saya sudah mempunyai 9 orang cucu, tetapi rumah ini masih teguh. Walaupun sudah bertahun-tahun ianya terkena panas dan hujan, tetapi kayu dan papan pada rumah ini masih sangat keras," Bah Ngah berkata kepada tetamunya yang bertanya mengenai rumahnya.',
+    en: '"This house existed before I was born. Now I have 9 grandchildren but this house is still strong. Although it has been exposed to the sun and rain for years, the wood is still very hard," Bah Ngah told his guests who asked about his house.',
+    headword: 'cenggeh',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -1369,6 +1557,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: '"Semua orang berkata durian adalah sedap, tetapi saya rasa tidak sedap!" Bah Tan berkata.',
     en: '"Everyone says durian is delicious, but I don\'t think so!" Bah Tan said.',
     headword: 'nej',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'keknap-dil-keknap-cok-idui-nek-tik-lagi-mong-ku',
+    semai: '"Dil keknap cok idui nek tik lagi mong ku jog eng," Bah Hasan kiperneng nu jik.',
+    ms: '"Kesan gigitan anjing semalam masih ada lagi pada kaki saya," Bah Hasan menunjukkan kepada kami.',
+    en: '"The mark of yesterday\'s dog bite is still on my leg," Bah Hasan showed us.',
+    headword: 'keknap',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -1536,6 +1732,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'berakpok-eng-ngberakpok-ngyog-ju-lemuk-jehuk-ihat',
+    semai: '"Eng ngberakpok ngyog ju lemuk jehuk. Ihat ngkejet!" Bah Rami kipasal nu iamek.',
+    ms: '"Saya bermimpi terjatuh dari dahan pokok. Ia membuat saya sangat terkejut!" Bah Rami memberitahu ibunya.',
+    en: '"I dreamed of falling from the branch of a tree. It startled me so much!" Bah Rami told his mother.',
+    headword: 'berakpok',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'niat-eng-ngbual-begei-ajeh-pek-ngbeniat-ngha-',
     semai:
       '"Eng ngbual begei ajeh pek ngbeniat ngha-pernyik ha sengik hek. Jadi hunen, ngsemanj maap amen haterasam," Wak Timah kiurok nu Wak Tipah.',
@@ -1567,6 +1771,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: '"Saya merasa mabuk setelah memakan pucuk salang, kerana ianya tidak dimasak dengan cara yang betul," Wak Anis memberitahu ibunya.',
     en: '"I felt drunk after eating the salang shoots, because they had not been cooked the right way," Wak Anis told her mother.',
     headword: 'ber pag',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'bengwal-eng-ngcerengai-bengwal-mai-ju-kampug-eng',
+    semai:
+      '"Eng ngcerengai bengwal mai ju kampug englag, huper mong canak nikah Bah Uda ku pajeh," Wak Saini kipasal nu iamek.',
+    ms: 'S"aya dengar perbualan dari penduduk kampung sebelah, esok ada kenduri perkahwinan Bah Uda di sana," Wak Saini membertahu ibunya.',
+    en: '"I heard a conversation of the people from the next village; tomorrow Bah Uda will have his wedding feast there," Wak Saini told her mother.',
+    headword: 'bengwal',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -1693,6 +1906,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: '"Saya menguap kerana saya mahu tidur," Bah Ian memberitahu pada Bah Ram.',
     en: '"I yawned because I wanted to sleep," Bah Ian told Bah Ram.',
     headword: 'kehoi',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'canoh-eng-ngnyek-dakdek-kuceg-ku-padeg-medei-i',
+    semai:
+      '"Eng ngnyek dakdek kuceg ku padeg, medei icanoh ratah!," Wak Amah kiberlag ha sengmanj ikenon de kaha-bela kuceg ku deg enai.',
+    ms: '"Saya tidak mahu membela kucing di rumah kerana ianya berak di merata-rata tempat!" Wak Amah menjawab permintaan anaknya yang mahu membela kucing di rumah mereka.',
+    en: '"I don\'t want to keep a cats in our home because they will defecate all over the place!" Wak Amah was responding to the request of her son who wanted to raise a cat in their house.',
+    headword: 'canoh',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -1945,6 +2167,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'genaleh-genaleh-sanget-adeh-ya-hiurok-pek-buleh-',
+    semai:
+      '"Genaleh sanget adeh, ya hiurok pek buleh, tapi lekat juga kihod!" Bah Man kiles ha ikenon.',
+    ms: '"Budak ini sangat degil, saya sudah kata tidak boleh, tetapi masih juga kamu mahu!" Bah Man memarahi anaknya.',
+    en: '"You are very stubborn, I already said no, but you keep insisting!" Bah Man scolded his son.',
+    headword: 'genaleh',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'kinenj-gengsir-ru-kineng-eng-ubai-et-nu-serag-w',
     semai: '"Gengsir ru kineng eng ubai et nu serag," Wak Maya kipasal nu ajok Uda.',
     ms: '"Suami dan abang ipar saya pergi ke hutan," Wak Maya memberitahu kepada nenek Uda.',
@@ -1953,11 +2184,28 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'genlap-genlap-ku-luar-lampu-nong-pek-menyala-ke',
+    semai: '"Genlap ku luar! Lampu nong pek menyala kelem adeh," Bah Jiji kiurok nu itenek.',
+    ms: '"Di luar sangat gelap! Lampu jalanraya tidak menyala pada malam ini," Bah Jiji berkata kepada abangnya.',
+    en: '"It is very dark outside! The street lights have not been switched on tonight," Bah Jiji said to his older brother.',
+    headword: 'genlap',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'gerhag-gerhag-sih-ajeh-get-lip-wak-zana-kiles-i',
     semai: '"Gerhag sih ajeh get lip!" Wak Zana kiles ikenon mase kipermuh ikenon ajeh.',
     ms: '"Keluarkan hingus itu, jangan telan!" Wak Zana memarahi anaknya semasa dia memandikan anaknya tersebut.',
     en: '"Clear out that phlem from your throat, do not swallow it!" Wak Zana scolded her son as she bathed him.',
     headword: 'gerhag',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'abik-gerteg-abik-engrok-mai-ajeh-bah-rilan-ki',
+    semai:
+      '"Gerteg abik engrok mai ajeh," Bah Rilan kiurok nu ikekawat kerjak de naibelwal mase tengah naibemesyuarat.',
+    ms: '"Dengar dengan jelas perkara yang di katakan oleh orang tersebut," Bah Rilan berkata kepada rakan-rakan sekerjanya yang bersembang sesama sendiri semasa mereka sedang bermesyuarat.',
+    en: '"Listen clearly to what the person is saying," Bah Rilan told his colleagues who were chatting with each other while they were in the meeting.',
+    headword: 'abik',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -2007,6 +2255,23 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: '"Gulung tikar itu nanti selepas kamus makan," Wak Ngah berpesan kepada cucu-cucunya.',
     en: '"Roll back the mat after you have finished eating," Wak Ngah reminded her grandchildren.',
     headword: 'gulong',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'kenukor-guna-kenukor-ajeh-hakukor-jeer-amek-kipa',
+    semai: '"Guna kenukor ajeh hakukor jeer," amek kipasal nu tenek eng.',
+    ms: '"Guna pengukur kelapa itu untuk mengukur kelapa," ibu memberitahu kepada kakak saya.',
+    en: '"Use the coconut grater to grate the coconut," mother told to my sister.',
+    headword: 'kenukor',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'senental-guna-senetal-lik-ajeh-baruleh-doh-deras-',
+    semai:
+      '"Guna senetal lik ajeh, baruleh doh deras kilaj ijengkah," Wak Gina kiurok nu ikenon menaleh.',
+    ms: '"Guna penyental kuali tersebut, baharulah nanti kesan jelaganya akan hilang," Wak Gina berkata kepada anak gadisnya.',
+    en: '"Use the pan scrubber, only then the traces of soot will disappear," Wak Gina said to her daughter.',
+    headword: 'senental',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -2064,6 +2329,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: '"Kenapa kamu menangis?" abang saya bertanya.',
     en: '"Why are you crying?" my older brother asked.',
     headword: 'hama',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'neksiknij-hamapen-haneng-ilei-ajeh-comel-tapi-kuce',
+    semai:
+      '"Hamapen haneng ilei ajeh comel, tapi kuceg jik ajeh neksiknij. Agokleh dedah caknak ku luar, doh mesti kisij," Wak Ramlah kipasal nu Wak Mia.',
+    ms: '"Walaupan ianya kelihatan comel, tetapi kucing kami tersebut suka mencuri. Jika terdapat makanan yang didedahkan di luar, dia mesti akan mencurinya," Wak Ramlah memberitahu kepada Wak Mia.',
+    en: '"Although it looks cute, but our cat likes to steal. If there is food exposed outside, it must steal it," Wak Ramlah told Wak Mia.',
+    headword: 'neksiknij',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -2157,6 +2431,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: '"Kamu ni tidak ikut cakap, lain yang disuruh lain yang kamu buat," kata bapa kepada saya.',
     en: '"You are not following what was said; you did something different from what you were instructed," father said to me.',
     headword: 'laen',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'abor-hek-doh-cip-abor-inong-nu-majeh-niknej-b',
+    semai:
+      '"Hek doh cip abor, inong nu majeh niknej," Bah Duan kiurok nu ikenon de kaha-jog nu kampug enai.',
+    ms: '"Nanti jalan dengan berhati-hati, laluan untuk ke sana sangat teruk," Bah Duan berkata kepada anaknya yang mahu pulang ke kampung mereka.',
+    en: '"Drive carefully, the route to get there is very bad," Bah Duan said to his son who wanted to return to their village.',
+    headword: 'abor',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -2402,6 +2685,23 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'jenghat-ijenghat-cok-mai-ajeh-bah-gan-kipasal-nu',
+    semai: '"Ijenghat cok mai ajeh," Bah Gan kipasal nu jik.',
+    ms: '"Sangat jahat anjing orang itu," Bah Gan memberitahu kepada kami.',
+    en: '"That man\'s dog is so nasty," Bah Gan told us.',
+    headword: 'jenghat',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'jengrek-ijengrek-teu-adeh-amen-hiyog-adeh-pek-no',
+    semai:
+      '"Ijengrek teu adeh, amen hiyog adeh pek nong sinui," Wak Sani kiurok ha teu talag de jilalu ajeh.',
+    ms: '"Sangat dalam air ini, jika kita terjatuh pasti kita tidak akan hidup," Wak Sani berkata mengenai air terjun yang kami lalui.',
+    en: '"This water is very deep. If we fall in, we will not survive," Wak Sani said of the waterfall that we passed.',
+    headword: 'jengrek',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'gelap-ijis-gelap-begei-kaha-manik-wak-gina-kiu',
     semai: '"Ijis gelap, begei kaha-manik," Wak Gina kiurok nu igensir.',
     ms: '"Cuaca menjadi gelap, sepertinya mahu hujan," Wak Gina berkata kepada suaminya.',
@@ -2415,6 +2715,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: '"Cuaca sudah gelap kerana mahu hujan," ibu memberitahu kepada nenek semasa mereka berdua sedang mencabut rumput di kebun.',
     en: '"The sky is dark because it is about to rain," mother told grandmother as they were both clearing the grass in the garden.',
     headword: 'kelap',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'belenon-ilei-ajeh-nekbelenon-ma-taleh-de-kibual-',
+    semai:
+      '"Ilei ajeh nekbelenon, ma taleh de kibual biasajeh kitukok-tambah. Haha-cerengai taleh pek ma, tapi agok pecaya 100%," Wak Salia kipasal nu Wak Maria ha kawat enai.',
+    ms: '"Dia itu seorang yang pembohong, segala yang beliau ucapkan selalunya akan beliau tokok-tambah. Tidak salah jika kamu mendengar sahaja, tetapi jangan mempercayainya 100%," Wak Salia memberitahu kepada Wak Maria berkenaan rakan mereka.',
+    en: '',
+    headword: 'belenon',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -2543,6 +2852,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'majeh-jeg-mutu-hek-adeh-nu-majeh-eng-ngha-pes-',
+    semai: '"Jeg mutu hek adeh nu majeh, eng ngha-pes sampah ku padeh," amek kiurok nu tenek eng.',
+    ms: '"Pindahkan motosikal kamu ke situ, saya mahu menyapu sampah (yang ada) di sini," ibu berkata kepada abang saya.',
+    en: '"Move your motorcycle over there, I want to sweep up the rabbish (which is) here," my mother said to my brother.',
+    headword: 'majeh',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'jehanam-jehanam-kigasak-arap-eng-gunaleh-abor-bo',
     semai:
       '"Jehanam kigasak arap eng. Gunaleh abor-bor amen hiha-pinjam hak mai," Wak Nani kirok ha imenang.',
@@ -2560,12 +2877,36 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'jenam-jenam-bokmei-arok-amek-eng-kitanya-ku-te',
+    semai: '"Jenam bokmei arok?" amek eng kitanya ku tenek eng.',
+    ms: '"Bunyi tangisan siapakah itu?" ibu saya bertanya kepada kakak saya.',
+    en: '"Whose is that crying sound?" my mother asked my sister.',
+    headword: 'jenam',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'jengbat-jengbat-mutu-eng-ya-begel-adeh-ngha-hol-',
     semai:
       '"Jengbat mutu eng ya begel. Adeh ngha-hol ngha-terbor ku kedei," Bah Long kipasal nu ikenah.',
     ms: '"Tempat pemijak pada motosikal saya telah patah. Sekarang saya mahu keluar bagi memperbaikinya di kedai," Bah Long memberitahu isterinya.',
     en: '"The footpeg on my motorcycle has been broken. Now I want to go out to fix it at the shop," Bah Long told his wife.',
     headword: 'jengbat',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'jengoi-jengoi-mai-ku-deg-hek-mong-ma-bah-rasul-',
+    semai: '"Jengoi mai ku deg hek, mong ma?" Bah Rasul kitanya nu Wak Tina.',
+    ms: '"Ramai orang di rumah kamu, ada apa?" Bah Rasul bertanya kepada Wak Tina.',
+    en: '"There are many people in your house, what is happening?" Bah Rasul asked Wak Tina.',
+    headword: 'jengoi',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'jeninjeg-jeninjeg-enai-ajeh-liheg-ru-bejuheg-naib',
+    semai: '"Jeninjeg enai ajeh liheg ru bejuheg, naibel gamak," Wak Hani kipasal nu igensir.',
+    ms: '"Mereka berdiri tidak tegak dan tidak teratur, mungkin mereka mabuk," Wak Hani memberitahu suaminya.',
+    en: '"They way they are standing is neither erect nor regular, they may be drunk," Wak Hani told her husband.',
+    headword: 'jeninjeg',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -2633,6 +2974,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: '"Tadi kami memakan kari ayam," anak Bah Ali berkata kepadanya.',
     en: '"Earlier we were eating chicken curry," Bah Ali\'s son said to him.',
     headword: 'cak',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'kanek-jik-had-jikep-5-ikor-kak-ru-nar-ikor-uda',
+    semai:
+      '"Jik had jikep 5 ikor kak ru nar ikor udang taleh ha kaknek caknak jik pegelap nek, ajehleh entek jik tengah arik adeh," Wak Selah kipasal nu iwak.',
+    ms: '"Kami hanya mendapat 5 ekor ikan dan 2 ekor udang sahaja sebagai pendapatan kami pagi tadi, itulah sebagai lauk tengah hari kami sekarang," Wak Selah memberitahu makciknya.',
+    en: '',
+    headword: 'kanek',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -2847,6 +3197,22 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'belehem-kak-ajeh-lekat-sui-medei-lekat-kibelehem',
+    semai: '"Kak ajeh lekat sui medei lekat kibelehem," Wak Arti kipasal nu igensir.',
+    ms: '"Ikan itu masih hidup kerana ianya masih bernafas," Wak Arti memberitahu kepada suaminya.',
+    en: '"The fish is still alive because it is still breathing," Wak Arti told her husband.',
+    headword: 'belehem',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'niknej-kak-kayu-ajeh-ya-niknej-wak-sali-kipasal',
+    semai: '"Kak kayu ajeh ya niknej," Wak Sali kipasal nu iamek.',
+    ms: '"Ikan kayu ini sudah busuk," Wak Sali memberitahu ibunya.',
+    en: '"This skipjack tuna is already rotten," Wak Sali told his mother.',
+    headword: 'niknej',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'kapal-kali-petame-eng-ngtebot-kapal-mase-jik-j',
     semai:
       '"Kali petame eng ngtebot kapal mase jik jiet nu sulawesi Utara, Indonesia," Wak Jura kipasal nu Bah Adip.',
@@ -2934,6 +3300,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'becahya-kelem-adeh-sengur-medei-gecek-pek-kibeca',
+    semai: '"Kelem adeh sengur medei gecek pek kibecahya," Bah Kudi kiurok nu Bah Ram.',
+    ms: '"Malam ini gelap-gelita kerana bulan tidak bercahaya," Bah Kudi berkata kepada Bah Ram.',
+    en: '"Tonight is pitch dark because the moon is not shining," Bah Kudi told Bah Ram.',
+    headword: 'becahya',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'semet-kelem-ajehnek-semet-kuat-kibeengrok-susa',
     semai:
       '"Kelem ajehnek semet kuat kibeengrok, susah eng ngha-bukbet," Wak Jaja kipasal nu iamek.',
@@ -2966,6 +3340,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: '"Semalam hujan dengan sangat lebat sehingga sungai yang terdapat di tepi rumah kami melimpah sehingga paras tangga di rumah kami. Kami sangat takut banjir akan terjadi," Bah Kamil memberitahu kepada kawan-kawan sekerjanya.',
     en: '"Yesterday it rained so hard that the river to the side of our house overflowed to the level of the stairs at the enterance. We are very afraid of floods happening," Bah Kamil told his colleagues.',
     headword: 'sangkat',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'perendat-kelemnek-mong-kes-mai-perendat-ku-kampug',
+    semai:
+      '"Kelemnek mong kes mai perendat ku kampug englag jik, ngcerengai naibegadoh kerana naibel," Wak Mila kipasal nu ikekawat tempat kerjak.',
+    ms: '"Semalam terdapat kes pembunuhan terjadi di kampung sebelah kami, saya mendengar cerita bahwa mereka bergaduh akibat mabuk," Wak Mila memberitahu rakan-rakan di tempat kerjanya.',
+    en: '"Yesterday there was a murder case in our next village, I heard that they were fighting due to drunkenness," Wak Mila told friends at her workplace.',
+    headword: 'perendat',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -3045,6 +3428,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'kengrat-kengrat-sej-pog-ku-kedei-mamak-ajeh-baci',
+    semai:
+      '"Kengrat sej pog ku kedei mamak ajeh bacit-bacit, tapi had mahal iregak caknak," Wak Salmah kipasal nu jik.',
+    ms: '"Potongan daging ayam di kedai mamak tersebut kecil-kecil belaka, tapi harga makan di situ sangat mahal," Wak Salmah memberitahu pada kami.',
+    en: '"The chicken pieces at the mamak shop are small, but the price for eating there is very expensive," Wak Salmah told us.',
+    headword: 'kengrat',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'kengrit-kengrit-eng-nyik-medei-ngangket-jehuk-ny',
     semai: '"Kengrit eng nyik medei ngangket jehuk nyeh," Bah Ram kipasal nu ikenah.',
     ms: '"Lengan saya sakit kerana saya mengangkat kayu yang berat," Bah Ram memberitahu isterinya.',
@@ -3074,6 +3466,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: '"Anak saya sebaya dengan anak kamu," Wak Imah berkata kepada kawannya.',
     en: '"My son is the same age as yours," Wak Imah said to her friend.',
     headword: 'baye',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'jinjap-kenon-hek-kijinjap-wak-melah-kipasal-nu-',
+    semai: '"Kenon hek kijinjap," Wak Melah kipasal nu Bah Rima.',
+    ms: '"Anak kamu sedang menangis," Wak Melah memberitahu Bah Rima.',
+    en: '"Your kid is crying," Wak Melah told Bah Rima.',
+    headword: 'jinjap',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -3195,6 +3595,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'kos-kos-ya-yayah-doh-lingah-nu-sekulah-iamek',
+    semai: '"Kos! Ya yayah, doh lingah nu sekulah," iamek kipasal nu ikenon ju idaknak.',
+    ms: '"Bangun! Sekarang sudah siang, nanti terlewat ke sekolah," ibu mengejutkan anaknya dari tidur.',
+    en: '"Get up! It\'s daytime already. You\'ll be late for school," mother wakened her child from sleep.',
+    headword: 'kos',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'cidok-kot-cidok-teu-ha-eng-wak-rika-kiurok-nu-',
     semai: '"Kot cidok teu ha eng," Wak Rika kiurok nu ikenon.',
     ms: '"Ambilkan saya pencedok air," Wak Rika berkata kepada anaknya.',
@@ -3261,6 +3669,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'sentat-ku-belok-sentat-mutu-adeh-wak-nani-kitan',
+    semai: '"Ku belok sentat mutu adeh?" Wak Nani kitanya nu imenang keral.',
+    ms: '"Dimanakah suis penghidup motosikal ini?" Wak Nani bertanya kepada adik lelakinya.',
+    en: '"Where is the starter switch for this motorcycle?" Wak Nani asked his younger brother.',
+    headword: 'sentat',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'kelog-ku-dunia-adeh-jeoi-kelog-de-niknej-apak-',
     semai:
       '"Ku dunia adeh jeoi kelog de niknej," apak jop jik pernah kipasal nu jik mase jisanget.',
@@ -3275,6 +3691,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: '"Pada kamulah kami bergantung harapan," Wak Teh berkata pada kawannya.',
     en: '"We are placing our hopes in you," Wak Teh said to her friend.',
     headword: 'dahas',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'kanek-ku-kaknek-jik-padehjeh-mase-jiha-kek-ha-',
+    semai:
+      '"Ku kaknek jik padehjeh, mase jiha-kek ha geran tin, jik jibakek dabal kemoj apak adeh," Bah Ping kipasal nu jik.',
+    ms: '"Di dalam pencarian kami tempoh hari, semasa kami mahu mencari geran tanah, kami menjumpai dompet ini, milik mendiang bapa," Bah Ping memberitahu kami.',
+    en: '"Among the findings the other day when we were looking for the land grant document, we found this wallet that belonged to our late father," Bah Ping told us.',
+    headword: 'kanek',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -3336,6 +3761,23 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: '"Di rumah, saya dipanggil dengan nama Bah Rilan, tetapi pada kad pengenalan, nama saya adalah Razlan," Bah Rilan memberitahu orang-orang di tempat kerjanya yang baharu.',
     en: '"At home, I\'m called Bah Rilan, but on my identitiy card, my name is Razlan," Bah Rilan told the people at his new workplace.',
     headword: 'bah',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'padeh-ku-padeh-mong-bijual-top-up-handphoneka-',
+    semai:
+      '"Ku padeh mong bijual top-up handphoneka?" Wak Lila kitanya ku penjual kedei runcit ajeh.',
+    ms: '"Di sini ada dijual top-up telefon bimbitkah?" Wak Lila bertanya kepada penjual di kedai runcit itu.',
+    en: '"Do you sell top-up for a mobile phone here?" Wak Lila asked the salesman at the grocery store.',
+    headword: 'padeh',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'pajeh-ku-pajeh-bah-long-kiternyol-alak-nu-deg-',
+    semai: '"Ku pajeh," Bah Long kiternyol alak nu deg tok penghulu nu mai de betanya.',
+    ms: '"Di situ," Bah Long menuding jari ke arah rumah tok penghulu kepada orang yang bertanya.',
+    en: '"There," Bah Long pointed a finger at the chief\'s house to the person who asked.',
+    headword: 'pajeh',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -3495,6 +3937,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'peninai-lekat-ipeninai-lagi-ikerite-ajeh-pek-lei',
+    semai:
+      '"Lekat ipeninai lagi ikerite ajeh pek lei nugencek, tapi ya kieksiden kelemnek," Bah Nan kipasal ha kerite iapak nu ikekawat.',
+    ms: '"Keretanya itu masih baharu lagi, belum sampai sebulan tapi sudah mengalami kemalangan semalam," Bah Nan memberitahu kawan-kawannya mengenai kereta bapanya.',
+    en: '"His car is still new, less than a month old but had an accident yesterday," Bah Nan told his friends about his father\'s car.',
+    headword: 'peninai',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'pengus-lekat-ngoi-pengus-abat-adeh-padehal-pai-',
     semai: '"Lekat ngoi pengus abat adeh padehal pai ngsah," Wak Manik kiurok nu kateh isengik.',
     ms: '"Kain ini masih berbau hapak walaupun saya baharu mencucinya," Wak Manik berkata di dalam hatinya.',
@@ -3593,6 +4044,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'heknod-ma-taleh-heknod-engkek-mai-kampug-doh-bu',
+    semai:
+      '"Ma taleh heknod engkek mai kampug doh buleh ngbeh," ajehleh jenanji calon pilihan raye padehjeh.',
+    ms: '"Apa sahaja kehendak kalian sebagai orang kampung boleh saya tunaikan," itulah janji calon pilihan raya tempoh hari.',
+    en: '"Whatever your wishes are as villagers, I can fulfill them," that was a promise of one of the candidates during the election.',
+    headword: 'heknod',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'hal-ma-ma-hal-doh-pasalle-nu-eng-tuan-deg-aj',
     semai: '"Ma-ma hal doh pasalle nu eng," tuan deg ajeh kiurok nu eng.',
     ms: '"Apa-apa hal nanti bagitahu saya," tuan rumah itu berkata kepada saya.',
@@ -3634,6 +4094,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: '"Orang Bangladesh tersebut suka merenung kepada perempuan, terutama pada perempuan-perempuan yang berpakaian seksi," Han Kia memberitahu kepada ibunya.',
     en: '"Bangladeshi people like to stare at women, especially women who dress sexily," Han Kia told her mother.',
     headword: 'setor',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'os-nyeng-mai-bedusa-doh-bipermuj-nu-kateh-os-nyen',
+    semai:
+      '"Mai bedusa doh bipermuj nu kateh os nyeng," atok kiserngoh ha jik mase jisanget amen jicengor.',
+    ms: '"Orang berdosa akan dimasukkan ke dalam api neraka," datuk menakut-nakutkan kami semasa kami kecil jika kami nakal.',
+    en: '"Sinners will be cast into the fire of hell," our grandfather said to frightened us when we were little if we were naughty.',
+    headword: 'os nyeng',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -3728,6 +4197,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: '"Semasa saya bertandang ke rumah Wak Nia, kucingnya kencing pada kasut saya." Wak Sali memberitahu ibunya.',
     en: '"When I went to Wak Nia\'s house, the cat peed on my shoes." Wak Sali told her mother.',
     headword: 'jerai',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'nyengnyam-mase-ngnyengnyam-entem-eng-pernah-ngkera',
+    semai:
+      '"Mase ngnyengnyam entem, eng pernah ngkerakjak sebegei tukang gaji ku deg mai biyeg mase ku jaman British entem," ajok kipasal nu jik.',
+    ms: '"Semasa saya muda dahulu, saya pernah bekerja sebagai orang gaji di rumah Orang Putih pada zaman British dahulu," nenek memberitahu kepada kami.',
+    en: '"When I was young, I used to work as a maid at a white man\'s house during colonial times," my grandmother told us.',
+    headword: 'nyengnyam',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -3830,6 +4308,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'cakcoh-mila-kenon-hek-kicakcoh-wak-lila-kipasal',
+    semai: '"Mila, kenon hek kicakcoh," Wak Lila kipasal nu Wak Mila.',
+    ms: '"Mila, anak kamu sedang berak," Wak Lila memberitahu kepada Wak Mila.',
+    en: '"Mila, your child is defecating," Wak Lila told Wak Mila.',
+    headword: 'cakcoh',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'ming-ming-eng-ceher-sah-ha-behip-medei-terok-',
     semai:
       '"Ming eng ceher sah ha behip, medei terok ya pengrag mat arik," Wak Manja kipasal nu ikekawat mase naibesimbang.',
@@ -3927,6 +4413,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: '"Kamu mempunyai pemadam pensil? Saya mahu pinjam," Bah Piul meminta kepada Bah Jani.',
     en: '"Do you have a pencil eraser?" Bah Piul asked Bah Jani. "I want to borrow it."',
     headword: 'rabe',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'sernor-mongka-sernor-pinsel-hek-ngha-pinjam-sek',
+    semai: '"Mongka sernor pinsel hek? Ngha-pinjam sekejap," Wak Bibi kisemanj nu Wak Mimi.',
+    ms: '"Kamu ada pengasah pensilkah? Saya mahu meminjamnya sebentar," Wak Bibi meminta kepada Wak Mimi.',
+    en: '"Do you have a pencil sharpener? I want to borrow it for a while," Wak Bibi asked Wak Mimi.',
+    headword: 'sernor',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -4073,6 +4567,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'reknag-ngoi-reknag-kak-ju-deg-englag-lei-nu-mad',
+    semai:
+      '"Ngoi reknag kak ju deg englag lei nu madeh, kibeh ngcuag be lek," Bah Wan kipasal nu itenek mase tengah baineng TV.',
+    ms: '"Bau panggangan ikan dari rumah sebelah telah sampai kepada kita, membuatkan saya merasa lapar pula," Bah Wan memberitahu kakaknya semasa mereka berdua sedang menonton TV.',
+    en: '"The smell of roasting fish from the house next door has reached us, making me feel hungry," Bah Wan told his sister while they were both watching TV.',
+    headword: 'reknag',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'mekap-ngpinjam-mekap-hek-ye-wak-nani-kisemanj-',
     semai: '"Ngpinjam mekap hek ye," Wak Nani kisemanj nu itenek.',
     ms: '"Saya pinjam alatan solekan kamu ya," Wak Nani meminta kepada kakaknya.',
@@ -4081,11 +4584,37 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'padeg-ngsip-yoj-ku-padeg-bah-jali-kipasal-nu-i',
+    semai: '"Ngsip yoj ku padeg," Bah Jali kipasal nu ikenah mase ya ubai lei nu selai.',
+    ms: '"Saya terlupa pisau di rumah," Bah Jali memberitahu kepada isterinya setelah mereka berdua sampai di kebun.',
+    en: '"I left the knife at home," Bah Jali told his wife after they both arrived at the orchard.',
+    headword: 'padeg',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'jaben-ngtumpang-isi-butol-teu-eng-adeh-ku-kate',
     semai: '"Ngtumpang isi butol teu eng adeh ku kateh jaben hek," Wak Mila kiurok nu Wak Nia.',
     ms: '"Saya tumpang isi botol air saya di dalam bag kamu," Wak Mila memberitahu kepada Wak Nia.',
     en: '"I put my water bottle in your bag," Wak Mila told Wak Nia.',
     headword: 'jaben',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'niknej-niknej-bernor-eng-ngneng-wak-sara-bimika',
+    semai:
+      '"Niknej bernor eng ngneng Wak Sara bimikap ku mase ijekneg padehjeh, rugi taleh kibayar mahal," iamek kiurok nu jik.',
+    ms: '"Saya lihat solekkan Wak Sara sangat hodoh pada waktu perkahwinannya tempoh hari, merugikan sahaja dia membayar dengan mahal," ibunya berkata kepada kami.',
+    en: '"I saw that Wak Sara\'s make-up on her wedding day was very ugly, it such a waste for her to pay a lot of money for that," her mother told us.',
+    headword: 'niknej',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'niknej-niknej-ngcerengai-isuara-tapi-nghiran-be',
+    semai:
+      '"Niknej ngcerengai isuara, tapi nghiran begei harok buleh kikep numbor 1 ku pertandingan bedindang padehjeh," Bah Buli kikomen ha imenang nu iamek.',
+    ms: '"Saya mendengar suaranya sumbang, tetapi saya hairan bagaimana dia boleh mendapat gelaran juara pada pertandingan menyanyi pada tempoh hari," Bah Buli mengkritik adiknya kepada ibunya.',
+    en: '"I heard her voice was not good at all, but I am surprised how she could have been the champion in a singing competition the other day," Bah Buli criticized his younger sister to his mother.',
+    headword: 'niknej',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -4297,6 +4826,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'penateh-pek-layak-ngrasa-ngkep-penateh-ju-hek-me',
+    semai:
+      '"Pek layak ngrasa ngkep penateh ju hek medei eng pai ngkerakjak," Bah Mirul kiurok nu ibos telas bipateh ya ibos ajeh ha ilei ihad rajet kerakjak.',
+    ms: '"Saya merasa tidak layak mendapat pujian dari tuan kerana saya baharu sahaja mulai bekerja," Bah Mirul berkata demikian kepada bosnya setelah dipuji oleh bosnya tersebut bahawa dia sangat rajin bekerja.',
+    en: '"I feel unworthy of praise from you because I have only just started working," Bah Mirul said after being praised by his boss that he is very hard-working.',
+    headword: 'penateh',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'kerwat-pek-mong-iguna-hikerwat-ya-hik-amen-itua',
     semai:
       '"Pek mong iguna hikerwat ya hik amen ituan punya langsong pek kipeduli," amek kiurok ha itenek de pek kipeduli ha ikenon-kenah.',
@@ -4433,6 +4971,22 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'perjeg-perjeg-mije-mije-adeh-nu-kateh-stor-cikg',
+    semai: '"Perjeg mije-mije adeh nu kateh stor," Cikgu Maria kior nu memerip urag ianak muret.',
+    ms: '"Pindahkan meja-meja ini ke dalam stor," Cikgu Maria menyuruh kepada berberapa orang anak muridnya.',
+    en: '"Move these tables into the store," Ms. Maria told some of her students.',
+    headword: 'perjeg',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'perlog-perlog-baju-cereg-iteg-nu-bah-zack-doh-k',
+    semai: '"Perlog baju cereg iteg nu Bah Zack, doh kisengij," Wak Lila kipasal nu igensir.',
+    ms: '"Pakaikan baju yang berlengan panjang kepada Bah Zack, jika tidak nanti dia akan sejuk," Wak Lila berkata kepada suaminya.',
+    en: '"Put a long-sleeved shirt on Bah Zack, otherwise he will be cold," Wak Lila said to her husband.',
+    headword: 'perlog',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'petame-petame-hik-kena-higaul-gula-ru-planta-ca',
     semai:
       '"Petame, hik kena higaul gula ru planta canuk," kiurok ya amek mase kiajar jik beh koi.',
@@ -4467,6 +5021,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'jerled-poj-padeh-nok-eng-ngha-jerled-kerite-can',
+    semai: '"Poj padeh nok, eng ngha-jerled kerite canuk," Bah Wan kiurok nu ikenah ru ikekenon.',
+    ms: '"Tunggu di sini dahulu, saya mahu mengundurkan kereta dulu," Bah Wan berkata kepada isteri dan anak-anaknya.',
+    en: '"Wait here, I want to back the car first," Bah Wan told his wife and children.',
+    headword: 'jerled',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'pukal-pukal-lagu-adeh-taleh-de-bipasag-titokka',
     semai:
       '"Pukal lagu adeh taleh de bipasag, titokka lagu kilek de bor gek?" Wak Han kiurok nu ikenon menaleh.',
@@ -4482,6 +5044,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: '"Punggah kesemua kotak tersebut ke luar kerana saya hendak membersihkan habuk," Wak Pia berkata kepada adik-adiknya semasa mereka mengemas stor rumah mereka.',
     en: '"Unload all the boxes outside because I want to get rid of the dust," Wak Pia said to her sisters as they tidied up the storage room in their house.',
     headword: 'punggah',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'lieng-rak-bob-adeh-ngbeh-ya-lieng-bah-leman-ki',
+    semai: '"Rak bob adeh ngbeh ya lieng," Bah Leman kipasal nu Bah Rani.',
+    ms: '"Rak buku ini saya sendiri yang membuatnya," Bah Leman memberitahu kepada Bah Rani.',
+    en: '"I made this bookshelf myself," Bah Leman told Bah Rani.',
+    headword: 'lieng',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -4588,6 +5158,24 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'bakcok-sej-lembu-ajeh-jeoi-ibakcok-tah-merip-ir',
+    semai:
+      '"Sej lembu ajeh jeoi ibakcok, tah merip iregak?" Wak Salmah kiurok nu igensir mase ubai ku pasa.',
+    ms: '"Daging lembu tersebut mempunyai banyak lemak, entah berapa harganya?" Wak Salmah berkata kepada suaminya semasa berdua berada di pasar.',
+    en: '"That beef has a lot of fat on it, I wonder how much is the price?" Wak Samlam said to her husband when they were at the market.',
+    headword: 'bakcok',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'jenang-rak-sejak-ju-jenang-rak-hik-manah-lagi-adat-',
+    semai:
+      '"Sejak ju jenang rak hik manah lagi adat adeh hipakei," Bah Selan kiurok ha adat nikah.',
+    ms: '"Dari zaman nenek moyang kita lagi kita mengamalkan adat ini," Bah Selah berkata mengenai adat perkahwinan.',
+    en: '"Since the time of our ancestors we have been practising these customs," Bah Selah said of their marriage customs.',
+    headword: 'jenang rak',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'kem-sejak-ju-senanget-jik-jigei-ku-kem-medei',
     semai:
       '"Sejak ju senanget jik jigei ku kem, medei apak eng kikerakjak ku pajeh," Bah Wan kipasal nu jik.',
@@ -4612,6 +5200,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: '"Semasa saya masih kecil saya pernah terluka, dan parutnya masih ada sehingga saya dewasa sekarang," Bah Sam menunjukkan kepada Bah Caca.',
     en: '"When I was little, I was injured and the scar of that still exists now that I am an adult," Bah Sam said, showing it to Bah Caca.',
     headword: 'bakat',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'senanyet-senanyet-jik-manah-entem-lekat-pek-mong-',
+    semai:
+      '"Senanyet jik manah entem lekat pek mong letreg lagi ku kampug, pek begei hunen," Bah Wan kiurok nu ikekenon.',
+    ms: '"Semasa kami masih kecil dahulu masih belum terdapat bekalan elektrik di kampung, tidak seperti sekarang," Bah Wan berkata kepada anak-anaknya.',
+    en: '"During my childhood, there was still no electricity in the village, unlike now," Bah Wan said to his children.',
+    headword: 'senanyet',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -4741,6 +5338,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'henong-tah-henong-bok-eng-cergai-ku-englag-dara',
+    semai:
+      '"Tah henong bok eng cergai ku englag darat cinek," kej jik kipasal telas kijog ju serag',
+    ms: '"Siulan siapa agaknya yang saya dengar di hutan tadi," pakcik kami memberitahu setelah pulang dari hutan.',
+    en: '"Whose whistling sound do you suppose I heard in the forest," our uncle wondered after returning from the jungle.',
+    headword: 'henong',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'kemoh-tah-kemoh-sanget-ajeh-kidat-cengwag-mede',
     semai:
       '"Tah kemoh sanget ajeh kidat cengwag, medei ju dui nek tok kicakcak," Bah Lan kibesimbang ru Bah Pam.',
@@ -4772,6 +5378,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: '"Tangan saya menjadi lenguh kerana memotong kayu api sejak dari tadi," Bah Aris memberitahu isterinya.',
     en: '"My hand is becoming worn out as I keep chopping the firewoods nonstop," Bah Aris told his wife.',
     headword: 'gehel',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'madeg-telas-dij-mesyuarat-adeh-bei-hol-nu-made',
+    semai:
+      '"Telas dij mesyuarat adeh, bei hol nu madeg jik canuk sebelom hajog," Bah Ramli kiurok nu Bah Jali.',
+    ms: '"Setelah mesyuarat ini habis, mari datang ke rumah kami sebelum kamu pulang," Bah Ramli berkata kepada Bah Jali.',
+    en: '',
+    headword: 'madeg',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -4936,6 +5551,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'penes-tulog-og-penes-ajeh-eng-ngha-pes-deg-wal',
+    semai: '"Tulog og penes ajeh, eng ngha-pes deg wal," Wak Rina kiseman nu ikenon.',
+    ms: '"Tolong ambil penyapu tersebut, saya mahu menyapu dapur," Wak Rina meminta pada anaknya.',
+    en: '"Please take the broom, I want to sweep the kitchen," Wak Rina asked her son.',
+    headword: 'penes',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'peder-tulog-peder-nu-apak-dea-kinyong-eng-ku-s',
     semai:
       '"Tulog peder nu apak dea kinyong eng ku sekulah," Wak Lia kipasal nu iamek ku kateh talipon.',
@@ -4950,6 +5573,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: '"Tolong buang sampah tersebut, baunya sudah busuk," ibu berkata kepada abang saya.',
     en: '"Please throw away the rubbish, it smells bad," my mother said to my older brother.',
     headword: 'ngoi',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'perlei-tulog-perlei-salam-eng-nu-wah-tijah-wak-',
+    semai: '"Tulog perlei salam eng nu Wah Tijah," Wak Timah kibesat nu Wak Mila.',
+    ms: '"Tolong sampaikan salam saya kepada Wak Tijah," Wak Timah berpesan kepada Wak Mila.',
+    en: '"Please send my greetings to Wak Tijah," Wak Timah instructed Wak Mila.',
+    headword: 'perlei',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -5062,6 +5693,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'bicereg-wak-sarah-hek-bicereg-ya-amek-kior-jog-n',
+    semai: '"Wak Sarah, hek bicereg ya amek. Kior jog nu madeg," engrok Wak Rita nu imenang.',
+    ms: '"Wak Sarah, kamu dipanggil ibu. Dia disuruh kamu pulang ke rumah," kata Wak Rita kepada adiknya.',
+    en: '"Wak Sarah, mother called you. She asked you to come home," Wak Rita said to her sister.',
+    headword: 'bicereg',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'perat-waktu-senanget-jik-jik-selalo-jiperat-kr',
     semai:
       '"Waktu senanget jik, jik selalo jiperat krekbag ya abat warne oren," ajok jik kibecerite nu jik ha mase isenanget.',
@@ -5109,6 +5748,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: '"Janganlah memetik buah mangga tersebut, ianya masih muda. Tunggulah sehingga ianya masak dahulu," nenek berkata kepada kami.',
     en: '"Do not pick the mangoes, they are still unripe. Wait until they are fully ripe," grandmother told us.',
     headword: 'nyam',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'pergah-ya-bok-pergah-nu-engkek-wak-santi-ya-kid',
+    semai:
+      '"Ya bok pergah nu engkek Wak Santi ya kidek hik? Betolka?" ajok jik kitanya, kaha-panei betolka tok gah de bipasal ajeh.',
+    ms: '"Siapa yang memberitahu kepada kamu yang Wak Santi sudah meninggal dunia? Betulkah?" nenek kami bertanya kerana mahu mengetahui berita tersebut betul atau tidak.',
+    en: '"Who told you that Wak Santi is dead? Is is right?" our grandmother asked because she wanted to know if the news was true or not.',
+    headword: 'pergah',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -5160,6 +5808,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: '"Hari ini panas disirami cahaya matahari kerana (langit) tidak mempunyai awan," nenek kami berkata kepada ibu semasa mereka mencabut rumput di kebun.',
     en: '"Today it is hot and sunny because there are no clouds," our grandmother said to my mother as they were weeding the garden.',
     headword: 'mat jis',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'bergel-yama-habergel-pensel-eng-bah-along-kitan',
+    semai: '"Yama habergel pensel eng?" Bah Along kitanya nu imenang.',
+    ms: '"Kenapa awak patahkan pensel saya?" Bah Along bertanya kepada adiknya.',
+    en: '"Why did you break my pencil?" Bah Along asked his younger sibling.',
+    headword: 'bergel',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -5357,6 +6013,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'wal-ges-ajok-jik-kikedei-beguna-wal-ges-ajehleh-',
+    semai: 'Ajok jik kikedei beguna wal ges, ajehleh isebab kek lekat kiguna wal ceos.',
+    ms: 'Nenek kami tidak tahu menggunakan dapur gas, itulah sebabnya dia masih menggunakan dapur kayu api.',
+    en: 'Our grandmother does not know how to use a gas stove, that is why she is still using a wood-burning stove.',
+    headword: 'wal ges',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'hirau-ajok-jik-langsong-pek-kihirau-ha-jik-bil',
     semai: 'Ajok jik langsong pek kihirau ha jik bile jihol nu imadeg.',
     ms: 'Nenek kami langsung tidak menghiraukan kami yang ke rumahnya.',
@@ -5446,6 +6110,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Ibu Bah Aris menjadi seorang balu kerana suaminya telah meninggal dunia.',
     en: "Bah Aris' mother is a widow because her husband has already passed away.",
     headword: 'balu',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'cincog-amek-bah-din-kijinjij-kibuwong-dij-cinco',
+    semai: 'Amek Bah Din kijinjij, kibuwong dij cincog de kicuai ku kawasan de kicet ibunga.',
+    ms: 'Ibu Bah Din mencabut rumput, dia membuang semua tumbuhan menjalar yang tumbuh di kawasan dia menanam bunga-bunganya.',
+    en: "Bah Din's mother uprooted the grass, then she removed all the creepers that were growing in the area where she had planted her flowers.",
+    headword: 'cincog',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -5692,6 +6364,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'terloh-amek-eng-kiterloh-butol-mineral-manah-ki',
+    semai: 'Amek eng kiterloh butol mineral manah, kibeh ipasu bunga.',
+    ms: 'Ibu saya membuat lubang pada botol mineral lama, dia buat (sebagai) pasu bunganya.',
+    en: 'My mother punched holes in an old mineral water bottle to create her flower vase.',
+    headword: 'terloh',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'kaciu-amek-eng-kitingroc-ru-kikep-memerip-ikor',
     semai: 'Amek eng kitingroc ru kikep memerip ikor kak kaciu.',
     ms: 'Ibu saya memancing dan mendapat berberapa ekor ikan dari jenis ikan haruan.',
@@ -5755,6 +6435,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Ibu kamu mempunyai goiter di lehernya.',
     en: 'My mother has a goitre on her neck.',
     headword: 'kor',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'tenadok-amek-jik-kior-jimuh-gek-gek-teu-tenadok-',
+    semai:
+      'Amek jik kior jimuh gek-gek teu tenadok ajeh ru dek ha mai keknit medei teu pili ya sot.',
+    ms: 'Ibu kami menyuruh kami mandi sedikit-sedikit air tadahan tersebut dan simpan bagi oran yang kemudian kerana tiada air (yang keluar) dari air paip.',
+    en: 'Our mom asked us to use the stored water carefully and keep some for the next person because there was no water coming from the tap.',
+    headword: 'tenadok',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -5859,6 +6548,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Ibu ternampak ular menjulur di bawah rumah.',
     en: 'Mother saw a snake sticking out its tongue under the house.',
     headword: 'leliwai',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'telot-amek-kipan-telot-ha-jik-sebegei-tanda-ki',
+    semai:
+      'Amek kipan telot ha jik, sebegei tanda kibelal medei jik jirenyah mase tengah kineng TV.',
+    ms: 'Ibu merenung tajam pada kami, sebagai tanda dia marah kerana kami bising semasa dia menonton TV.',
+    en: 'Mother stared intensely at us, as a sign that she was angry because we were making a noise when she was watching TV.',
+    headword: 'telot',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -5976,6 +6674,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'cengles-amek-wak-lili-kiguna-yoj-cengles-kaha-be',
+    semai: 'Amek Wak Lili kiguna yoj cengles kaha-belah sekik.',
+    ms: 'Ibu Wak Lili menggunakan sejenis pisau kecil untuk membelah daun mengkuang.',
+    en: "Wak Lili's mother used a small knife to cut the mengkuang leaves.",
+    headword: 'cengles',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'sireh-amek-wak-mila-kigemar-cak-beleg-ru-sireh',
     semai: 'Amek Wak Mila kigemar cak beleg ru sireh. Telas taleh kicakcak, kek mesti kicak sireh.',
     ms: 'Ibu Wak Mila suka memakan pinang dengan sirih. Selepas beliau makan nasi, beliau mesti memakan sirih.',
@@ -6087,6 +6793,22 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Kita haruslah mempunyai lesen jika mahu membeli peluru dan tidak boleh dengan sebarangan membelinya kerana akan ditangkap oleh polis.',
     en: 'We must have a license if we want to buy ammunition and can not just buy it without because we will be arrested by the police.',
     headword: 'peluru',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'cerwog-amen-hiha-gap-isi-bejehuk-hik-hod-hicerw',
+    semai: 'Amen hiha-gap isi bejehuk, hik hod hicerwog canuk ihok.',
+    ms: 'Apabila hendak memasak ubi kayu, kulitnya harus dikupas terlebih dahulu.',
+    en: 'When you want to cook tapioca, the skin must be peeled off first.',
+    headword: 'cerwog',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'senusah-amen-hiha-kep-senusah-senang-taleh',
+    semai: 'Amen hiha-kep senusah, senang taleh.',
+    ms: 'Kalau nak dapat kesusahan, senang sahaja.',
+    en: "If you want to get in trouble, it's easy.",
+    headword: 'senusah',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -6421,6 +7143,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'tenirok-apak-eng-kiet-nu-tenirok-peas-tapi-kijog',
+    semai:
+      'Apak eng kiet nu tenirok peas, tapi kijog pek kien ma-ma medei langsong pek naiberkep nuikor pen.',
+    ms: 'Bapa saya pergi menikam labi-labi, tapi dia pulang tangan kosong kerana mereka tidak mendapat apa-apa walaupun seekor.',
+    en: "My father went spearing turtles, but he returned home empty-handed because they didn't get any, not even one.",
+    headword: 'tenirok',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'dudau-apak-eng-kiguna-jehuk-dudau-kibeh-gertak',
     semai: 'Apak eng kiguna jehuk dudau kibeh gertak.',
     ms: 'Ayah saya menggunakan pokok yang telah tumbang bagi membuat titi.',
@@ -6684,6 +7415,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'tenungkat-apak-kiguna-awat-kibeh-tenungkat-ha-ceno',
+    semai: 'Apak kiguna awat kibeh tenungkat ha cenol telnil abat de cerner.',
+    ms: 'Ayah menggunakan buluh sebagai penongkat bagi penyidai kain yang condong.',
+    en: 'Father used a piece of bamboo as a prop for the leaning clothes line.',
+    headword: 'tenungkat',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'kah-apak-kikah-jehuk-de-ya-dat-kaha-beh-rang',
     semai: 'Apak kikah jehuk de ya dat kaha-beh rangas.',
     ms: 'Bapa memotong kayu yang sudah mati bagi membuat kayu api.',
@@ -6817,11 +7556,27 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'betader-asa-ijam-pukol-enam-pegelap-taleh-pog-me',
+    semai: 'Asa ijam pukol enam pegelap taleh, pog mesti kibetader.',
+    ms: 'Tepat pada setiap jam enam pagi, ayam mesti berkokok.',
+    en: 'Roosters crow at exactly six every morning.',
+    headword: 'betader',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'beengrek-asa-mong-mai-dat-deg-mai-englag-ajeh-bee',
     semai: 'Asa mong mai dat deg mai englag ajeh beengrek.',
     ms: 'Bila ada orang mati, rumah orang sebelah itu kedengaran berbunyi.',
     en: '',
     headword: 'beengrek',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'asap-sempak-asap-sempak-adeh-bigemar-beh-sambal',
+    semai: 'Asap sempak adeh bigemar beh sambal.',
+    ms: 'Asam tempoyak ini selalunya dibuat sambal.',
+    en: 'Usually, the fermented durian will be made into sambal.',
+    headword: 'asap sempak',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -6919,6 +7674,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Datuk memikul tong susu getah di bahunya.',
     en: 'Grandfather carried the rubber latex barrel on his shoulder.',
     headword: 'gandar',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'wes-hik-atuk-ya-kiwes-hik',
+    semai: 'Atuk ya kiwes hik.',
+    ms: 'Atok sudah meninggal dunia.',
+    en: 'Grandfather has passed away.',
+    headword: 'wes hik',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -7316,6 +8079,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'yisnos-bah-amat-bisamut-iyisnos-ku-teluk-batik-',
+    semai: 'Bah Amat bisamut iyisnos ku Teluk Batik, bibeh caknak ku beg pentei ya iperingak.',
+    ms: 'Hari kelahiran Bah Amat disambut di Teluk Batik, keluarganya membuat jamuan makan di tepi pantai.',
+    en: "Bah Amat's birthday was celebrated at the Teluk Batik, and his family had a feast near the beach there.",
+    headword: 'yisnos',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'zup-bah-amat-ki-en-imutu-had-inelaju-zup-tok',
     semai: 'Bah Amat ki en imutu had inelaju, zup…, tok dan eng ngterhan ilei.',
     ms: 'Bah Amat membawa motosikalnya terlalu laju, zup..., tidak sempat saya mahu menahannya.',
@@ -7461,6 +8232,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'peserop-bah-amran-kipeserop-bula-de-bitendang-ya',
+    semai: 'Bah Amran kipeserop bula de bitendang ya mambek sanget, de kicereh itingkap deg.',
+    ms: 'Bah Amran mengempiskan bola yang ditendang oleh kanak-kanak yang memecahkan tingkap rumahnya.',
+    en: 'Bah Amran deflated the ball that was kicked by kids who broke the window of his house.',
+    headword: 'peserop',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'guna-bah-amran-kitanya-nu-icekgu-cekgu-bulehk',
     semai:
       'Bah Amran kitanya nu icekgu, "Cekgu, bulehka ngguna bob rujukan amen eng kedei bahbeh kerjak sekulah?"',
@@ -7499,6 +8278,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Bah Andi itu ramah orangnya.',
     en: 'Bah Andi is a friendly person.',
     headword: 'ramah',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'cengreg-bah-ani-ajeh-ihad-cereg-ilei-icengreg-ka',
+    semai: 'Bah Ani ajeh ihad cereg, ilei icengreg kaha-merek 2 mite.',
+    ms: 'Bah Ani seorang yang tinggi, ketinggiannya hampir 2 meter.',
+    en: 'Bah Ani is a tall man, almost 2 meters in height.',
+    headword: 'cengreg',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -7566,6 +8353,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'bernos-bah-arip-ajeh-sengoi-de-bernos-amen-sila',
+    semai: 'Bah Arip ajeh sengoi de bernos, amen silap gek taleh mesti kiberiknos ha dikdij mai.',
+    ms: 'Bah Arip adalah seorang yang panas baran, jika silap sedikit sahaja dia sudah merasa marah terhadap semua orang.',
+    en: 'Bah Arip is a hot tempered person, a small mistake causes him to feel angry with everybody.',
+    headword: 'bernos',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'cuci-bah-aris-kicuci-ikerite-ya-teu-manik',
     semai: 'Bah Aris kicuci ikerite ya teu manik.',
     ms: 'Bah Aris mencuci keretanya menggunkan air hujan.',
@@ -7579,6 +8374,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Bah Aris memasak air panas menggunakan cerek.',
     en: 'Bah Aris is boiling water using a kettle.',
     headword: 'cirek',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'manyek-bah-aris-kimanyek-pek-kaha-og-pinyap-ike',
+    semai:
+      'Bah Aris kimanyek pek kaha-og pinyap ikerite nu Bah Long medei Bah Long ajeh selalo kien kerite laju-laju.',
+    ms: 'Bah Aris tidak mahu memberi pinjam keretanya kepada Bah Long kerana Bah Long sering memandu kereta dengan laju.',
+    en: 'Bah Aris did not want to lend his car to Bah Long because Bah Long often drove the car fast.',
+    headword: 'manyek',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -7671,6 +8475,31 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'bakcok-bah-ayen-selalo-biles-ya-icekgu-medei-pe',
+    semai:
+      'Bah Ayen selalo biles ya icekgu medei pek lalu kijerjar mase kelas Pendididkan Jasmani ha bakcok iberog.',
+    ms: 'Bah Ayen sering dimarahi oleh gurunya semasa di dalam kelas Pendidikan Jasmani kerana tidak larat berlari akibat badannya yang gemuk.',
+    en: 'Bah Ayen always being scolded by his teacher because he is unable to run during his PE class due to his big body.',
+    headword: 'bakcok',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'besengik-bah-ayin-ajeh-isengoi-de-pek-sabar-bile-',
+    semai: 'Bah Ayin ajeh isengoi de pek sabar, bile kien kerite, ilei jadi pek besengik.',
+    ms: 'Bah Ayin adalah seorang yang kurang sabar, apabila dia memandu kereta, dia menjadi orang yang tidak berhati-hati.',
+    en: 'Bah Ayin is an impatient person and when he is driving a car, he is not careful.',
+    headword: 'besengik',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'genalaj-bah-azi-ajeh-ihad-igenalaj-bengwal-numom',
+    semai: 'Bah Azi ajeh ihad igenalaj, bengwal numom pen pek kaha-cerengai.',
+    ms: 'Bah Azi orang yang sangat degil, dia tidak mahu mendengar kata-kata dari sesiapa pun.',
+    en: 'Bah Azi is very stubborn, he will not listen to anyone.',
+    headword: 'genalaj',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'sengur-bah-badak-kihol-ju-ikendeg-ku-iperpegela',
     semai: 'Bah Badak kihol ju ikendeg ku iperpegelap, bile iarik lekat sengur, kiet kimutong.',
     ms: 'Bah Badak keluar dari rumah awal-awal pagi, semase keadaan masih gelap-gelita, untuk menoreh getah.',
@@ -7708,6 +8537,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Bah Bedoi suka menyumpit lotong kerana dagingnya.',
     en: 'Bah Bedoi likes to hunt the silver lutung (with a blow gun) for its meat.',
     headword: 'perut',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'gercat-bah-berahim-kigercat-icog-kedek-de-kisok',
+    semai: 'Bah Berahim kigercat icog kedek de kisok ku kateh teu.',
+    ms: 'Bah Berahim memutuskan tali pancingnya yang tersangkut di dalam air.',
+    en: 'Bah Berahim cut off the fishing line because the hook got stuck in the water.',
+    headword: 'gercat',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -7848,6 +8685,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'persui-bah-daren-kipersui-jenerite-medei-ku-kam',
+    semai: 'Bah Daren kipersui jenerite medei ku kampug enai pek beletreg.',
+    ms: 'Bah Daren menghidupkan set penjana elektrik kerana di kampung mereka tidak terdapat bekalan eletrik.',
+    en: 'Bah Daren turned on the electric generator because in their village there was no electricity supply.',
+    headword: 'persui',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'tebot-bah-daus-kitebot-mutu-bah-is-mase-kaha-e',
     semai: 'Bah Daus kitebot mutu Bah Is mase kaha-et nu isekulah.',
     ms: 'Bah Daus menaiki motosikal Bah Is semasa mahu ke sekolahnya.',
@@ -7861,6 +8706,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Bah Dedi menyambung atap zink pada tepi rumahnya untuk membuat tempat meletakkan keretanya.',
     en: 'Bah Dedi added the zinc roof on the side of his house to make a parking place for his car.',
     headword: 'cerot',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'persog-bah-deli-ajeh-sanget-de-nakal-kelemnq-ki',
+    semai: 'Bah Deli ajeh sanget de nakal, kelemnèèq kipersog taya meskar ikawat nu kateh lubang.',
+    ms: 'Bah Deli adalah kanak-kanak yang nakal, semalam dia sengaja membuat tayar basikal rakannya tersangkut di dalam lubang.',
+    en: "Bah Deli is a naughty kid, yesterday he intentionally got his friend's bicycle tyre stuck in a hole.",
+    headword: 'persog',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -8019,6 +8872,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'tengroj-bah-eng-imuh-bah-meran-ru-bah-dendog-ame',
+    semai: 'Bah eng imuh Bah Meran ru Bah Dendog. Amen mong mase teluang, ubai gemar tengroj.',
+    ms: 'Nama pakcik saya Bah Meran dan Bah Dendog. Jika ada masa terluang, mereka berdua suka memancing.',
+    en: 'Bah Meran and Bah Dendog are my uncles. If they have free time, they like to go fishing.',
+    headword: 'tengroj',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'lemunj-bah-eng-kiet-nu-hospital-medei-nyik-ilem',
     semai: 'Bah eng kiet nu hospital medei nyik ilemunj.',
     ms: 'Pakcik saya pergi ke hospital kerana giginya sakit.',
@@ -8032,6 +8893,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Pakcik saya bertaanya, "orang India itu buat apa ke sini?"',
     en: 'My uncle asked, "What is that Indian person doing here?"',
     headword: 'yakyap',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'terhan-bah-eng-kiterhan-ijehuk-mangga-de-cerner',
+    semai: 'Bah eng kiterhan ijehuk mangga de cerner ajeh ru memerip batag awat.',
+    ms: 'Pakcik saya menahan pokok mangga yang condong itu dengan beberapa batang buluh.',
+    en: 'My uncle supported his leaning manggo tree with several bamboo poles.',
+    headword: 'terhan',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -8168,6 +9037,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'jerkop-bah-gusi-kijer-jerkop-ku-nong-timbok',
+    semai: 'Bah Gusi kijer jerkop ku nong timbok.',
+    ms: 'Bah Gusi terjatuh tertiarap di atas jalan raya.',
+    en: 'Bah Gusi fell face down on the road.',
+    headword: 'jerkop',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'gelpal-bah-halei-kigulap-ceos-ku-igelpal',
     semai: 'Bah Halei kigulap ceos ku igelpal.',
     ms: 'Bah Halei memikul kayu api di bahunya.',
@@ -8181,6 +9058,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Bah Hali ada membela anjing hitam. Anjingnya tersebut sangat jinak.',
     en: 'Bah Hali has a black dog and that dog is friendly.',
     headword: 'bakah',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'perendat-bah-han-kiperendat-ilei-mase-bicereg-ya-',
+    semai: 'Bah Han kiperendat ilei mase bicereg ya iapak dea kikos et nu sekulah.',
+    ms: 'Bah Han berpura-pura tertidur semasa dipanggil oleh bapanya supaya bangun dari tidur untuk ke sekolah.',
+    en: 'Bah Han pretended to fall asleep when his father called him so that he would get up to go to school.',
+    headword: 'perendat',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -8206,6 +9091,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Bah Hasan dimasukkan ke dalam penjara kerana melanggar orang semasa mabuk.',
     en: 'Bah Hasan was sent to prison for hitting someone when drunk.',
     headword: 'jel',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'belbal-bah-hashim-kilog-speg-mat-belag-medei-im',
+    semai: 'Bah Hashim kilog speg mat belag medei imat kibelbal ya cahya mat arik.',
+    ms: 'Bah Hashim memakai cermain mata gelap kerana matanya silau oleh cahaya matahari.',
+    en: 'Bah Hashim wore sunglasses because his eyes were blinded by the sunlight.',
+    headword: 'belbal',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -8300,6 +9193,22 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'becenung-bah-imal-ajeh-nekbecenung-isengoi-kek-ki',
+    semai: 'Bah Imal ajeh nekbecenung isengoi, kek kigemar tambah cerite.',
+    ms: 'Bah Imal adalah pembohong, dia suka menambah-nambahkan cerita.',
+    en: 'Bah Imal is a liar, he likes to exaggerate when he talks.',
+    headword: 'becenung',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'caceh-bah-imran-pek-kisedar-ibaju-mong-caceh-k',
+    semai: 'Bah Imran pek kisedar ibaju mong caceh ku bahgian ikenog.',
+    ms: 'Bah Imran tidak menyedari bahawa pada belakang bajunya terdapat bahagian yang koyak.',
+    en: 'Bah Imran did not realize that on the back of his shirt there was a torn part.',
+    headword: 'caceh',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'ampar-salah-bah-inal-kiampar-salah-nu-penghulu',
     semai: 'Bah Inal kiampar salah nu penghulu.',
     ms: 'Bah Inal mengaku salah kepada penghulu.',
@@ -8339,6 +9248,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Semakin hari bahan Bah Iwan semakin menggemuk.',
     en: 'Day by day, Bah Iwan was getting fatter.',
     headword: 'hit',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'cerleh-bah-iwat-kikerjak-cerleh-kotak-sayo-ju-l',
+    semai: 'Bah Iwat kikerjak cerleh kotak sayo ju luri mase tengah kipoj ikputusan SPM.',
+    ms: 'Bah Iwat bekerja sebagai buruh yang menurunkan kotak-kotak sayur dari lori semasa berada dalam tempoh menunggu keputusan perperiksaan SPM.',
+    en: 'While he was waiting for his SPM examination results, Bah Iwat worked as a labourer unloading vegetable boxes from trucks.',
+    headword: 'cerleh',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -8440,6 +9357,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'perdat-bah-jali-kiperdat-pelep-de-kikap-ha-ijog',
+    semai: 'Bah Jali kiperdat pelep de kikap ha ijog ru yoj.',
+    ms: 'Bah Jali membunuh pacat yang menggigit kakinya dengan pisau.',
+    en: 'Bah Jali killed the leach that bit his leg with a knife.',
+    headword: 'perdat',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'weg-bah-jali-kiweg-dawei-kaha-beh-senangkot-',
     semai: 'Bah Jali kiweg dawei kaha-beh senangkot baju.',
     ms: 'Bah Jali membengkokkan dawai bagi membuat penyangkut baju.',
@@ -8473,11 +9398,28 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'pencebak-bah-jali-ru-bah-kana-baien-pencebak-ru-c',
+    semai:
+      'Bah Jali ru Bah Kana baien pencebak ru cangkol nu tik penep medei ubaiha-sermin penep apak liubai.',
+    ms: 'Bah Jali dan Bah Kana membawa pencedok pasir dan cangkul ke tanah perkuburan kerana mahu menyimen kubur bapa mereka.',
+    en: "Bah Jali and Bah Kana brought sand scoops and hoes to the cemetery because they wanted to cement their father's grave.",
+    headword: 'pencebak',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'perahu-bah-jali-ru-bah-nana-ubai-huj-perahu-uba',
     semai: 'Bah Jali ru Bah Nana ubai huj perahu ubai res teu dem.',
     ms: 'Bah Jali dan Bah Nana menaiki perahu menyeberangi empangan.',
     en: 'Bah Jali and Bah Nana used a boat to cross the dam.',
     headword: 'perahu',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'pekput-bah-jali-ru-ikekawat-naiet-naipekput-nu-',
+    semai: 'Bah Jali ru ikekawat naiet naipekput nu darat.',
+    ms: 'Bah Jali dan rakan-rakannya pergi menyumpit ke hutan.',
+    en: 'Bah Jali and his friends went hunting to the forest using a blowpipe.',
+    headword: 'pekput',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -8511,6 +9453,23 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Bah Jamal menunggu di dalam kereta sahaja bersama dengan anaknya semasa isterinya membeli barang-barang di dalam kedai, kerana tidak tahan dengan tingkah laku anaknya yang tidak reti untuk duduk diam jika mereka keluar membeli di kedai.',
     en: "Bah Jamal waited in the car with his son while his wife is shopping at the grocery shop, because he could not stand his son's behaviour. He did not know to sit quiet if they went out shopping.",
     headword: 'ragam',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'nekseknip-bah-jaman-kinyek-amen-mong-mai-naiha-bes',
+    semai:
+      'Bah Jaman kinyek amen mong mai naiha-besat beli ma-ma pen barang ku ilei, medei kipanei ilei ajeh nekseknip.',
+    ms: 'Bah Jaman tidak mahu menerima jika terdapat orang yang mahu memesan beliau membeli apa-apa pun barang, kerana dia tahu bahawa dia adalah seorang pelupa.',
+    en: 'Bah Jaman did not want to accept if there were people who wanted him to buy any goods, because he knew that he was a forgetful person.',
+    headword: 'nekseknip',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'berintei-bah-jaman-ru-ikekawat-naiet-nu-serag-nai',
+    semai: 'Bah Jaman ru ikekawat naiet nu serag naiha-berintei.',
+    ms: 'Bah Jaman dan rakan-rakannya pergi ke hutan untuk memburu.',
+    en: 'Bah Jaman and his friends went to the forest to hunt by stalking.',
+    headword: 'berintei',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -8551,6 +9510,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Bah Jetep menyukat kepanjangan papan yang dia akan gergaji menggunakan pita pengukur.',
     en: 'Bah Jetep measured the length of the board that he was going to saw, using a tape measure.',
     headword: 'tali tep',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'seksog-bah-jinal-kiseksog-tabeg-kelem-ajeh-nek',
+    semai: 'Bah Jinal kiseksog tabeg kelem ajeh nek.',
+    ms: 'Bah Jinal pergi menyuluh katak pada malam tadi.',
+    en: 'Bah Jinal went to search for frogs with a light last night.',
+    headword: 'seksog',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -8624,6 +9591,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Bah Kadi memukul isterinya kerana dia syak isterinya mempunyai hubungan sulit dengan lelaki lain.',
     en: 'Bah Kadi beat his wife because he suspected she was having an affair with another man.',
     headword: 'sabek',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'pelubog-bah-kaha-kipelubok-tik-ajeh-medei-kaha-p',
+    semai: 'Bah Kaha kipelubok tik ajeh medei kaha-permuj cenol semin.',
+    ms: 'Bah Kaha membuat lubang pada tanah kerana dia mahu memasukkan tiang simen.',
+    en: 'Bah Kaha made a hole in the ground because he wanted to insert a cement pole.',
+    headword: 'pelubog',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -8790,6 +9765,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'dakdak-bah-kana-kiterjag-kenon-kuceg-de-tengah-',
+    semai: 'Bah Kana kiterjag kenon kuceg de tengah kidakdak ku rangkal.',
+    ms: 'Bah Kana terpijak anak kucing yang sedang berbaring di tangga.',
+    en: 'Bah Kana accidentally stepped on a kitten that was lying on the stairs.',
+    headword: 'dakdak',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'layak-bah-kana-pek-layak-kimuj-nu-tingkatan-6-',
     semai: 'Bah Kana pek layak kimuj nu tingkatan 6 medei ikeputusan SPM pek merip bor.',
     ms: 'Bah Kana tidak layak memasuki ke tingkatan 6 kerana keputusan SPMnya tidak seberapa elok.',
@@ -8939,6 +9922,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'bergot-bah-kris-biles-ya-iamek-medei-kibergot-i',
+    semai: 'Bah Kris biles ya iamek medei kibergot ipensel sekulah.',
+    ms: 'Bah Kris dimarahi oleh ibunya kerana telah mematahkan pensel sekolahnya.',
+    en: 'Bah Kris was scolded by his mother for breaking his school pencil.',
+    headword: 'bergot',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'semendang-bah-kuan-birok-ya-ibos-medei-semedang-ki',
     semai: 'Bah Kuan birok ya ibos medei semedang kibeh salah ikerjak.',
     ms: 'Bah Kuan dimarahi oleh majikannya kerana semedang salah melakukan kerjanya.',
@@ -8968,6 +9959,22 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Bah Kudi mengecat pagar rumahnya kerana sudah menjadi usang kerana selalu terdedah kepada panas matahari dan ditimpa hujan.',
     en: 'Bah Kudi painted the fence of his house as it was dilapidated because it is always exposed to the heat of the sun and affected by the rain.',
     headword: 'cat',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'cereh-bah-kudi-kicereh-jehuk-medei-kaha-beh-ta',
+    semai: 'Bah Kudi kicereh jehuk medei kaha-beh tabak setet.',
+    ms: 'Bah Kudi memotong kayu bagi membuat lastik.',
+    en: 'Bah Kudi is cutting the wood to make a catapult.',
+    headword: 'cereh',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'cerlog-bah-kudi-kicerlog-bubu-ku-kateh-teu-pela',
+    semai: 'Bah Kudi kicerlog bubu ku kateh teu Pelawat sebelom kiet tengroj.',
+    ms: 'Bah Kudi memasukkan bubu ke dalam sungai Palawan sebelum pergi memancing.',
+    en: 'Bah Kudi put a fish trap into the Palawan river before going fishing.',
+    headword: 'cerlog',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -9026,6 +10033,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Tangan Bah Kurak sangat tepat jika dia melastik burung.',
     en: 'Bah Kurak is very accurate when he catapults a bird.',
     headword: 'dekar',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'perlau-bah-kurek-kiperlau-nong-nu-mateu-dea-sen',
+    semai: 'Bah Kurek kiperlau nong nu mateu dea senang bicip ru pek semak.',
+    ms: 'Bah Kurek menerangkan jalan ke sungai supaya mudah untuk dilalui dan tidak semak.',
+    en: 'Bah Kurek cleared the pathway to the river so that it would be easy to walk on and not overgrown.',
+    headword: 'perlau',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -9125,6 +10140,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'rakrok-bah-lan-pek-jadi-kimuj-telas-kilei-madeg',
+    semai:
+      'Bah Lan pek jadi kimuj telas kilei madeg ju ikerjak medei ha kicerengai ikenah tengah kirakrok ha kenon-kenon ubai ku kateh deg.',
+    ms: 'Bah Lan tidak jadi memasuki rumah setelah sampai dari tempat kerja kerana mendengar isterinya sedang memarahi anak-anak mereka di dalam rumah.',
+    en: 'Bah Lan did not enter the house after arriving from work because he heard his wife scolding their children in the house.',
+    headword: 'rakrok',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'ben-bah-lee-kiguna-ben-kiangkot-isayo-de-kic',
     semai: 'Bah Lee kiguna ben kiangkot isayo de kicet nu pasa.',
     ms: 'Bah Lee menggunakan van bagi menghantar sayur-sayur yang ditanamnya ke pasar.',
@@ -9158,6 +10182,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'jenanji-bah-litau-kibeh-jenanji-ru-apak-eng-tapi',
+    semai:
+      'Bah Litau kibeh jenanji ru apak eng tapi ya enam tahut hunen, ilei kihilag bujeh taleh.',
+    ms: 'Bah Litaw membuat perjanjian dengan bapa saya tapi sekarang sudah enam tahun, dia hilang begitu sahaja.',
+    en: 'Bah Litaw made a deal with my father but now after 6 years, he has just disappeared.',
+    headword: 'jenanji',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'buog-bah-lius-bibuog-ikerjak-ha-pek-kihol-mem',
     semai: 'Bah Lius bibuog ikerjak ha pek kihol memerip arik.',
     ms: 'Bah Lius dibuang kerja kerana tidak hadir bekerja selama beberapa hari.',
@@ -9188,6 +10221,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Bah Long seorang yang gelojoh, dia memakan dengan sangat pantas.',
     en: 'Bah Long is a greedy person and he eats very quickly.',
     headword: 'senggej',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'berintei-bah-long-kiet-berintei-ru-bah-bom',
+    semai: 'Bah Long kiet berintei ru Bah Bom.',
+    ms: 'Bah Long pergi memburu dengan Bah Bom.',
+    en: 'Bah Long went hunting with Bah Bom.',
+    headword: 'berintei',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -9372,6 +10413,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'pergei-bah-mali-ru-wak-salmah-ya-bipergei-kelem',
+    semai: 'Bah Mali ru Wak Salmah ya bipergei kelem jihnek.',
+    ms: 'Bah Mali ru Wak Salmah sudah dikahwinkan malam tadi.',
+    en: 'Bah Mali ru Wak Salmah got married last night.',
+    headword: 'pergei',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'cis-bah-mami-kicis-iyoj-sebelom-kiet-nu-sera',
     semai: 'Bah Mami kicis iyoj sebelom kiet nu serag.',
     ms: 'Bah Mami mengasah parangnya sebelum pergi ke hutan.',
@@ -9409,6 +10458,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Bah Man menterbalikkan baju yang sedang dipakainya, dia tidak menyedari dia memakainya dengan terbalik.',
     en: 'Bah Man reversed the shirt he was wearing, he had not realised that he was wearing it inside-out.',
     headword: 'balek',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'becadok-bah-man-kibecadok-taleh-mase-ku-kateh-de',
+    semai:
+      'Bah Man kibecadok taleh mase ku kateh dewan mase mesyuarat kampug kelemnek, medei kerusi dij ya bigei ya mai.',
+    ms: 'Bah Man bercangkung sahaja di dalam dewan semalam, semasa mesyuarat kampung dijalankan semalam kerana semua kerusi telah terdapat orang yang duduk.',
+    en: 'Bah Man just squatted down (on the floor) in the hall yesterday during the village meeting because all the seats were occupied.',
+    headword: 'becadok',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -9507,6 +10565,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Bah Man berkata (bahawa) dia tidak pernah ke Kuala Lumpur.',
     en: 'Bah Man says that he has never visited Kuala Lumpur.',
     headword: 'urok',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'cehcis-bah-man-luka-iteg-mase-tengah-kicehcis-i',
+    semai: 'Bah Man luka iteg mase tengah kicehcis iyoj.',
+    ms: 'Tangan Bah Man menjadi luka semasa dia sedang mengasah parangnya.',
+    en: "Bah Man's hand was injured while he was sharpening his machete.",
+    headword: 'cehcis',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -9674,6 +10740,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'cengang-bah-melan-bilog-ya-ikekawat-medei-kibet-',
+    semai: 'Bah Melan bilog ya ikekawat medei kibet cengang iempag.',
+    ms: 'Bah Melan ditertawakan oleh rakan-rakannya kerana tertidur dengan mulutnya ternganga.',
+    en: 'Bah Melan was laughed at by his friends for falling asleep with his mouth wide open.',
+    headword: 'cengang',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'pog-bah-melan-bipog-ikaming-ya-iamek-medei-k',
     semai: 'Bah Melan bipog ikaming ya iamek medei kilase nu iajok.',
     ms: 'Bah Melan ditampar pipinya oleh ibunya kerana berperangai kurang ajar terhadap neneknya.',
@@ -9729,6 +10803,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Bah Meran mempunyai tiga orang anak. Anaknya yang sulung, namanya Wak Sali. Anaknya yang kedua, namanya Bah Gan. Anaknya yang bongsu, namanya Wak Manja.',
     en: 'Bah Meran has three children. The oldest is Wak Sali. The second is Bah Gan. The youngest is Wak Manja.',
     headword: 'i-',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'perbet-bah-midan-kiperbet-imat-pure-pure-kibukb',
+    semai:
+      'Bah Midan kiperbet imat, pure-pure kibukbet mase bicereg ya iamek medei bior et cah kebon ceber.',
+    ms: 'Bah Midan memejamkan matanya, berpura-pura sedang tidur semasa dipanggil oleh ibunya yang menyuruh dia pergi menebas semak dan lalang di kebun getah.',
+    en: 'Bah Midan closed his eyes, pretending to be asleep when he was being called by his mother who told him to go and cut down the bushes and weeds at the rubber plantation.',
+    headword: 'perbet',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -9796,6 +10879,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Bah Milo meletakkan botol sos cili secara terbalik supaya sosnya jatuh ke bibir botol tersebut supaya senang untuk beliau mengeluarkannya.',
     en: 'Bah Milo placed the bottle of chili sauce upside down so that the sauce will fall to the mouth of the bottle so that it would be easier for him to extract it.',
     headword: 'sahreh',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'siksij-bah-minda-bicap-ya-pules-medei-kiseksij-',
+    semai: 'Bah Minda bicap ya pules medei kiseksij ku pasaraya.',
+    ms: 'Bah Minda ditangkap oleh polis kerana mencuri di pasar raya.',
+    en: 'Bah Minda was arrested by the police for stealing from a supermarket.',
+    headword: 'siksij',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -9937,6 +11028,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'gigei-bah-ngah-kigigei-ku-kerop-keneg-legos-me',
+    semai: 'Bah Ngah kigigei ku kerop keneg legos medei beket ku kateh deg.',
+    ms: 'Bah Ngah duduk di bawak pokok rambutan kerana di dalam rumah adalah panas.',
+    en: 'Bah Ngah is sitting under the rambutan tree because it is hot inside the house.',
+    headword: 'gigei',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'coi-bah-ngah-kiperes-coi-ku-ideg',
     semai: 'Bah Ngah kiperes coi ku ideg.',
     ms: 'Bah Ngah memelihara tupai tanah di rumahnya.',
@@ -9982,6 +11081,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Bah Nua memakai seluar yang lama untuk pergi memotong getah.',
     en: 'Bah Nua wore old trousers to go rubber tapping.',
     headword: 'serwal',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'serlej-bah-nua-kiserlej-ipapat-ilei-de-pai-kige',
+    semai: 'Bah Nua kiserlej ipapat ilei de pai kigeraji nek.',
+    ms: 'Bah Nua melicinkan papan yang dia baharu beliau gergaji sebentar tadi.',
+    en: 'Bah Nua smoothed the board he had just sawn.',
+    headword: 'serlej',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -10204,6 +11311,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'seknop-bah-puat-had-lalu-kicacak-nek-nik-seknop',
+    semai: 'Bah Puat had lalu kicacak nek nik seknop cak taleh medei ha kinyaknyik.',
+    ms: 'Bah Puat cuma hanya mampu memakan tiga suapan nasi sahaja kerana beliau sedang sakit.',
+    en: 'Bah Puat was only able to eat three mouthfuls of rice because he was sick.',
+    headword: 'seknop',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'batag-arik-bah-radi-ru-ikekawat-naikek-kak-nu-batag',
     semai: 'Bah Radi ru ikekawat naikek kak nu batag arik, naicip ju pegelap, ya dui baru naijog.',
     ms: 'Bah Radi dan kawan-kawannya mencari ikan di sungai besar, mereka pergi pada waktu pagi dan pulang pada waktu petang.',
@@ -10343,6 +11458,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'serngoh-bah-rani-kiserngoh-ha-ianak-buah-lei-nai',
+    semai:
+      'Bah Rani kiserngoh ha ianak buah lei naijap serayog. Kek kipakei topeng nyanik ru kigerdak enai mase tengah naimuman ku kateh bilek buknet.',
+    ms: 'Bah Rani menakutkan anak-anak buahnya sehingga mereka menangis dengan kuat. Dia memakai topeng hantu dan menyergah mereka semasa mereka sedang bermain di dalam bilik tidur.',
+    en: 'Bah Rani scared his nieces and nephews until they cried loudly. He wore ghost masks and scaring them while they were playing in the bedroom.',
+    headword: 'serngoh',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'pan-bah-rani-pek-kisedar-ilei-kipan-besimban',
     semai:
       'Bah Rani pek kisedar ilei kipan besimbang medei ha kiteruja kaha-pasal ikeputusan periksa de cemerlang ajeh nu iamek-apak.',
@@ -10384,6 +11508,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'sernang-bah-ridan-kiles-ha-ikenah-medei-kisernan',
+    semai:
+      'Bah Ridan kiles ha ikenah medei kisernang ha ikekenon ru sahnah kasot sekulah bimbei. Kek kihod dea ikekenon naibelajar bedikari.',
+    ms: 'Bah Ridan memarahi isterinya kerana menyenangkan anak-anaknya dengan membasuh kasut sekolah mereka. Dia mahu anak-anaknya tersebut belajar berdikari.',
+    en: 'Bah Ridan scolded his wife for making it easy for their children by washing their school shoes. He wants their children to learn to be independent.',
+    headword: 'sernang',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'salet-bah-rika-biles-ya-iamek-medei-kisalet-ib',
     semai: 'Bah Rika biles ya iamek medei kisalet ibaju telas kimain bula tapi pek kimamuh canuk.',
     ms: 'Bah Rika dimarahi oleh ibunya kerana menyalin bajunya setelah bermain bola sepak tetapi tidak mandi terlebih dahulu.',
@@ -10422,6 +11555,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Bah Rilan gemar menggunakan pinggan zink kerana merasakan minyak susah untuk tanggal dari pinggan plastik.',
     en: 'Bah Rilan likes to use zinc plates because he feels that the oil is difficult to remove from the plastic plates.',
     headword: 'ayan',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'perneng-bah-rilan-kiperneng-nu-ikekawat-dil-kekn',
+    semai: 'Bah Rilan kiperneng nu ikekawat dil keknap cok ku lempak.',
+    ms: 'Bah Rilan menunjukkan kepada kawan-kawannya bekas gigitan anjing yang terdapat pada peha.',
+    en: 'Bah Rilan showed his friends the marks of the dog bite that were on his thigh.',
+    headword: 'perneng',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -10591,11 +11732,28 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'senalah-bah-sali-bisaman-ya-pules-ha-isenalah-de',
+    semai:
+      'Bah Sali bisaman ya pules ha isenalah de kibeh. Kek kien kerite pek kipakei tali pinggang keleda.',
+    ms: 'Bah Sali disaman oleh polis terhadap kesalahan yang dilakukannya iaitu memandu kereta tanpa memakai tali pinggang keledar.',
+    en: 'Bah Sali was summoned by the police for his offence of driving a car without wearing a seat belt.',
+    headword: 'senalah',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'kaaj-bah-sali-kaaj-biceh-ya-manik',
     semai: 'Bah Sali kaaj biceh ya manik.',
     ms: 'Bah Sali basah kerana dibasahi oleh hujan.',
     en: 'Bah Sali was wet because he was drenched by the rain.',
     headword: 'kaaj',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'akukoh-bah-sali-kibeg-cenol-ideg-pog-nu-keneng-',
+    semai: 'Bah Sali kibeg cenol ideg pog nu keneng legos dea ideg pog ajeh akukoh.',
+    ms: 'Bah Sali mengikat tiang reban ayamnya ke pokok rambutan supaya reban tersebut menjadi teguh.',
+    en: 'Bah Sali tied the pole of his chicken coop to the rambutan tree so that the coop would be sturdier.',
+    headword: 'akukoh',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -10671,6 +11829,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'tenulog-bah-sam-ru-wak-salma-ubai-og-tenulog-due',
+    semai:
+      'Bah Sam ru Wak Salma ubai og tenulog duet nu peringak Bah Sali de pai dat ikenon keral medei kieksiden mutu.',
+    ms: 'Bah Sam dan Wak Salma memberi pertolongan kewangan kepada keluarga Bah Sali yang baru kehilangan anak lelakinya kerana kemalangan motosikal.',
+    en: "Bah Sam and Wak Salma gave monetary help to Bah Sali's family which just lost their son in a motorcycle accident.",
+    headword: 'tenulog',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'tong-bah-sam-silap-kiterpej-kertas-resit-nu-k',
     semai: 'Bah Sam silap kiterpej kertas resit nu kateh tong sampah.',
     ms: 'Bah Sam tersilap membuang kertas resit ke dalam tong sampah.',
@@ -10703,6 +11870,23 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'berencet-bah-sami-kigemar-cak-berencet-cina-kek-s',
+    semai: 'Bah Sami kigemar cak berencet Cina, kek selalo kien iperingak nu restoren Cina.',
+    ms: 'Bah Sami suka memakan masakan Cina dan dia selalu membawa keluarga makan ke restoran Cina.',
+    en: 'Bah Sami likes Chinese food and he always bring his family to eat to the Chinese restaurant.',
+    headword: 'berencet',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'perendat-bah-samil-kiperendat-ilei-mase-bitanya-y',
+    semai:
+      'Bah Samil kiperendat ilei mase bitanya ya iapak begei harok mutu de kien ajeh buleh eksiden ru hancor bekecei. Medei kipanei ajeh mimang salah ilei.',
+    ms: 'Bah Samil mendiamkan diri semasa ditanya oleh bapanya, bagaimana motosikal yang dia bawa boleh terlibat dalam kemalangan dan hancur berkecai. Dia mendiamkan diri kerana dia tahu bahawa ianya memang salahnya sendiri.',
+    en: 'Bah Samil remained silent when asked by his father how the motorcycle he brought could have been involved in an accident and be smashed. He kept quiet because he knew that it was his own fault.',
+    headword: 'perendat',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'luak-bah-samil-kitanya-nu-ikenah-cengroi-mong',
     semai: 'Bah Samil kitanya nu ikenah, cengroi mongka tok? Ikenah kibalas, "Ya luak."',
     ms: 'Bah Samil bertanya kepada isterinya, beras masih ada atau tidak? Isterinya membalas, "Sudah berkurangan."',
@@ -10724,6 +11908,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Bah Samsul tidak sesuai memakai topi, kelihatan tidak elok jika pada dia.',
     en: "It is not suitable for Bah Samsul to put on a hat, it doesn't look good on him.",
     headword: 'judu',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'terbor-bah-sang-kiajak-ikenon-litau-ubai-terbor',
+    semai:
+      'Bah Sang kiajak ikenon litau ubai terbor pelog deg enai de teloh bitimpak ya pelek jeer mase manik anoh neh.',
+    ms: 'Bah Sang mengajak anak bujangnya memperbaiki atap rumah mereka yang bocor ditimpa buah kelapa semasa hujan sebentar tadi.',
+    en: 'Bah Sang asked his unmarried son to help him repair the roof of their house because it was leaking, having been hit by coconuts during the rain that had just stopped.',
+    headword: 'terbor',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -10918,6 +12111,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'neklenglod-bah-sedi-ajeh-neklenglod',
+    semai: 'Bah Sedi ajeh neklenglod.',
+    ms: 'Bah Sedi itu adalah pembohong.',
+    en: 'Bah Sedi is a liar.',
+    headword: 'neklenglod',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'beumal-bah-sedi-ru-ikawat-naibeumal-ku-jeres',
     semai: 'Bah Sedi ru ikawat naibeumal ku jeres.',
     ms: 'Bah Sedi dan kawan-kawannya memburu di hutan.',
@@ -10947,6 +12148,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Bah Selah berkahwin dengan penghuni Gopeng.',
     en: 'Bah Selah ia married to a woman from Gopeng.',
     headword: 'sengoi',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'bercek-bah-selah-kibercek-cok-de-mong-ku-deg-en',
+    semai:
+      'Bah Selah kibercek cok de mong ku deg enai medei kinyek doh naikap tengloh de naiha-hol nu imadeg.',
+    ms: 'Bah Selah menghalau anjing-anjing yang terdapat di rumahnya kerana tidak mahu mereka menggigit tetamunya yang mahu datang ke rumahnya.',
+    en: 'Bah Selah chased away the dogs that were in his house because he did not want them to bite the guests that wanted to come to his house.',
+    headword: 'bercek',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -11064,6 +12274,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'dengras-bah-sempelah-dengras-kicip-kimagij-ha-ia',
+    semai: 'Bah Sempelah dengras kicip kimagij ha iarik kaha-manik.',
+    ms: 'Bah Sempelah berjalan sangat pantas kerana cuaca mahu hujan.',
+    en: 'Bah Sempelah is walking very fast because it is about to rain.',
+    headword: 'dengras',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'berwog-bah-sep-kiburu-berwog-tengah-kikek-icakn',
     semai: 'Bah Sep kiburu berwog tengah kikek icaknak mase kipekput ku serag.',
     ms: 'Bah Sep ternampak beruang sedang mencari makanan semasa dia menyumpit di hutan.',
@@ -11098,6 +12316,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'henghong-bah-sopi-kihenghong-medei-ha-senang-isen',
+    semai: 'Bah Sopi kihenghong medei ha senang isengik pek mong jeoi ikerjak arik adeh.',
+    ms: 'Bah Sopi bersiul kerana hatinya senang tidak mempunyai banyak tugas hari ini.',
+    en: "Bah Sopi whistled because he was happy he didn't have much work that day.",
+    headword: 'henghong',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'rilan-bah-suan-imat-rilan-sebab-ajeh-iapak-kic',
     semai: 'Bah Suan imat rilan. Sebab ajeh iapak kicereg kek Bah Rilan.',
     ms: 'Bah Suan memiliki mata yang besar. Itulah sebabnya bapanya memanggil dia dengan nama Bah Rilan.',
@@ -11119,6 +12345,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Bah Suan menjolok lubang sinki dengan kayu kerana ianya tersumbat oleh minyak dan sisa makanan.',
     en: 'Bah Suan poked the plug hole in the sink with a piece of wood because it was clogged with oil and food waste.',
     headword: 'rog',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'serakngek-bah-suan-kiserangek-mase-birok-ya-iamek-',
+    semai: 'Bah Suan kiserangek mase birok ya iamek, medei kijog ku semakdek kelem.',
+    ms: 'Bah Suan berdiam tidak bersuara semasa dimarahi oleh ibunya kerana dia pulang pada lewat malam.',
+    en: 'Bah Suan remained silent when scolded by his mother because he came home late at night.',
+    headword: 'serakngek',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -11146,6 +12380,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'perjeg-bah-suan-kitulog-iapak-perjeg-cenol-ha-c',
+    semai: 'Bah Suan kitulog iapak perjeg cenol ha cenglei abat.',
+    ms: 'Bah Suan menolong bapanya mendirikan tiang-tiang untuk dibuat penyidai kain.',
+    en: 'Bah Suan helped his father erect poles to make a cloth line.',
+    headword: 'perjeg',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'ciret-bah-suan-ru-ikenah-ubai-en-kenon-sanget-',
     semai:
       'Bah Suan ru ikenah ubai en kenon sanget ubai nu klinik medei kinyik ciret ya memerip arik.',
@@ -11160,6 +12402,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Bah Sudi dipukul oleh bapanya kerana melastik pecah cermin tingkap rumah mereka.',
     en: 'Bah Sudi was beaten by his father for breaking the glass window of their house.',
     headword: 'cermin',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'engrok-bah-sudin-ajeh-degel-isengoi-ilei-pek-pe',
+    semai: 'Bah Sudin ajeh degel isengoi, ilei pek pernah kicerengai engrok ikeneng-menek.',
+    ms: 'Bah Sudin adalah seorang yang degil, dia tidak pernah mendengar kata-kata ibubapanya.',
+    en: "Bah Sudin is a stubborn person, he never listens to his parents' words.",
+    headword: 'engrok',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -11211,6 +12461,22 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'meknat-bah-suli-kibelah-cempedak-tapi-ku-ikateh',
+    semai: 'Bah Suli kibelah cempedak, tapi ku ikateh had mong merip meknat taleh.',
+    ms: 'Bah Suli membelah cempedak, tetapi didalamnya terdapat hanya berberapa biji sahaja.',
+    en: 'Bah Suli split the cempedak, but there were only a few fruits inside.',
+    headword: 'meknat',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'cereh-bah-sumi-bipet-ya-iamek-medei-kicereh-ca',
+    semai: 'Bah Sumi bipet ya iamek medei kicereh cawan de ihad bihok ya iajok.',
+    ms: 'Bah Sumi dipukul oleh ibunya kerana memecahkan cawan kesayangan neneknya.',
+    en: "Bah Sumi was beaten by his mother for breaking his grandmother's favourite cup.",
+    headword: 'cereh',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'gar-bah-suni-tik-kinyik-jadi-kiet-gegar-nu-p',
     semai: 'Bah Suni tik kinyik, jadi kiet gegar nu Pahang.',
     ms: 'Bah Suni masih sakit, jadi dia pergi berubat dengan bomoh ke Pahang.',
@@ -11219,11 +12485,53 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'benakat-bah-suri-ru-bah-sani-ajeh-tenek-menang-u',
+    semai: 'Bah Suri ru Bah Sani ajeh tenek menang, ubai baipekpet batan ha benakat meskar.',
+    ms: 'Bah Suri dan Bah Sani adalah adik beradik dan mereka bergaduh gara-gara berebutkan basikal.',
+    en: 'Bah Suru and Bah Sani are brothers and they are arguing with each other because of fighting over a bicycle.',
+    headword: 'benakat',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'bahbeh-bah-surin-kigemar-bahbeh-lawak-nu-ikekaw',
+    semai: 'Bah Surin kigemar bahbeh lawak nu ikekawat.',
+    ms: 'Bah Surin suka membuat lawak pada kawan-kawannya.',
+    en: 'Bah Surin likes to make jokes on his friends.',
+    headword: 'bahbeh',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'bebakat-bah-surin-ru-imenang-ubai-bebakat-man-ke',
+    semai:
+      'Bah Surin ru imenang ubai bebakat man kerite de nek nanek ajeh lei imenang ajeh kijinjap.',
+    ms: 'Bah Surin dan adiknya berebut kereta mainan yang cuma satu tersebut sehingga adiknya tersebut menangis.',
+    en: 'Bah Surin and his younger brother fought over the one toy car until his brother cried.',
+    headword: 'bebakat',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'perahmuh-bah-tala-kiperahmuh-ikenon-de-pai-yos-me',
+    semai:
+      'Bah Tala kiperahmuh ikenon de pai yos medei ikenah lekat lemah ru pek lalu kaha-kos ju idaknak.',
+    ms: 'Bah Tala memandikan anaknya yang baharu lahir kerana isterinya masih lemah dan tidak larat untuk bangun dari tempat tidurnya.',
+    en: 'Bah Tala bathed his newborn son because his wife was still weak and could not get up from her bed.',
+    headword: 'perahmuh',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'pai-bah-tam-kibeli-deg-pai-tapi-pek-lei-lima',
     semai: 'Bah Tam kibeli deg pai, tapi pek lei lima gencek naigei ya mong jeoi inerusak.',
     ms: 'Bah Tam membeli rumah baharu, tetapi tidak sampai sehingga lima bulan mereka meduduki rumah tersebut, telah terdapat banyak kerosakannya.',
     en: 'Bah Tam bought a new house, but in less than five months occupying the house, there was a lot of damage.',
     headword: 'pai',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'rahroh-bah-tam-kien-ikekenon-kenah-nairaroh-nu-',
+    semai: "Bah Tam kien ikekenon-kenah nairaroh nu Lotus's Kampar.",
+    ms: 'Bah Tam membawa anak-anak dan isterinya pergi berjalan-jalan ke',
+    en: 'Bah Tam took his wife and children for a window shopping to the',
+    headword: 'rahroh',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -11258,6 +12566,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Bah Tam berbalah dengan orang tua dan bukannya hendak mendengar dulu perkara yang ingin disampaikan oleh orang tua.',
     en: 'Bah Tam argued with the older person instead of hearing what he had to say first.',
     headword: 'tareh',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'kelkol-bah-tam-kitas-icog-kasot-medei-ya-kelkol',
+    semai: 'Bah Tam kitas icog kasot medei ya kelkol, susah kaha-buka.',
+    ms: 'Bah Tam memotong tali kasutnya kerana ianya sudah tersimpul, sudah bagi beliau untuk membukanya.',
+    en: 'Bah Tam cut off his shoelace because it was knotted, it was already hard for him to untangle it.',
+    headword: 'kelkol',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -11411,6 +12727,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Bah Ude dan Bah Long bermalam di dalam hutan selama beberapa hari.',
     en: 'Bah Ude and Bah Long are camping in the jungle for several nights.',
     headword: 'dendep',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'perenggei-bah-ude-ru-ikenon-kenah-naiet-nu-perengg',
+    semai: 'Bah Ude ru ikenon-kenah naiet nu perenggei ubai Bah Long ru Wak Teh.',
+    ms: 'Bah Uda beserta dengan anak-anak dan isterinya pergi ke perkahwinan Bah Long dan Wak Teh.',
+    en: "Bah Uda along with his wife and children went to Bah Long and Wak Teh's wedding.",
+    headword: 'perenggei',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -11593,12 +12917,37 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'deg-rak-bah-wan-ru-bah-ali-ubai-betedeh-ku-deg-r',
+    semai: 'Bah Wan Ru Bah Ali ubai betedeh ku deg rak mase jis manik.',
+    ms: 'Bah Wan dan Bah Ali berteduh di rumah lama yang tidak berpenghuni semasa hari hujan.',
+    en: 'Bah Wan and Bah Ali took shelter at the old abandoned house when it rained.',
+    headword: 'deg rak',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'sama-bah-wan-ru-bah-ian-ajeh-kerbar-ru-renes-',
     semai:
       'Bah Wan ru Bah Ian ajeh kerbar ru renes ubai ayat sama, susah hiha-beza ilei belok itek, ilei belok imenang.',
     ms: 'Bah Wan dan Bah Ian adalah kembar dan paras mereka adalah sama dan susah untuk membezakan yang mana satu abang, yang mana satu adik.',
     en: 'Bah Wan and Bah Ian are twins and their outlook is the same. It is difficult to distinguish which is the older and which the younger.',
     headword: 'sama',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'leklug-bah-wan-ru-bah-sani-ajeh-kawat-bor-amen-',
+    semai:
+      'Bah Wan ru Bah Sani ajeh kawat bor, amen ubai bebakek mesti mong taleh cerite de hol ru selalo hineng ubai leklug besama.',
+    ms: 'Bah Wan dan Bah Sani adalah kawan karib. Jika mereka berdua berjumpa mesti terdapat sahaja cerita yang dikongsikan dan kelihatan mereka sering ketawa bersama.',
+    en: 'Bah Wan and Bah Sani are best friends. If they meet, they just share stories and it seems that they always laugh together.',
+    headword: 'leklug',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'sektet-bah-wan-ru-ikekawat-naihol-naisektet-cep',
+    semai: 'Bah Wan ru ikekawat naihol naisektet cep nu serag.',
+    ms: 'Bah Wan dan kawan-kawannya pergi melasting burung ke hutan.',
+    en: 'Bah Wan and his friends went to the forest to catch birds with a catapult.',
+    headword: 'sektet',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -11667,6 +13016,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'senenggat-bah-zuan-ajeh-ihad-isenenggat-ma-hentok-',
+    semai: 'Bah Zuan ajeh ihad isenenggat, ma hentok de kibeh sepanjang arik, had kineng tv taleh.',
+    ms: 'Bah Zuan adalah seorang yang pemalas, beliau tidak melakukan sebarang pekerjaan sepanjang hari, cuma menonton tv sahaja.',
+    en: 'Bah Zuan is a lazybones, he does not do any work all day, just watches tv.',
+    headword: 'senenggat',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'terloh-bah-zul-numom-neterloh-terutame-ikerjak-',
     semai: 'Bah Zul numom neterloh, terutame ikerjak kek pek memerip ajeh.',
     ms: 'Bah Zul seorang yang suka menunjuk-nunjuk, terutamanya jawatannya yang tidak seberapa itu.',
@@ -11680,6 +13037,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Bah Long merasa puas setelah meminum air sejuk.',
     en: 'Bah Long was satisfied after drinking some cold water.',
     headword: 'bejeh',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'caceg-baju-bah-ami-kicaceg-tekena-ya-paku-ku-d',
+    semai: 'Baju Bah Ami kicaceg tekena ya paku ku dinig.',
+    ms: 'Baju Bah Ami terkoyak kerana terkena pada paku di dinding.',
+    en: "Bah Ami's shirt was torn because it was caught on a nail on the wall.",
+    headword: 'caceg',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -11877,6 +13242,23 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'tik-log-beng-perigik-ajih-jeoi-tik-lok-jadi-hod-',
+    semai:
+      'Beng perigik ajih jeoi tik lok, jadi hod cip abor. Amen tok, doh melekat jog hik ku kateh tik log ajeh.',
+    ms: 'Berhampiran dengan kawasan perigi itu ada banyak tanah liat, jadi harus jalan dengan berhati-hati. Jika tidak, kaki akan melekat di dalam tanah liat tersebut.',
+    en: 'Near the well there is a lot of clay, therefore we need to step carefully. If not, our feet would stick in the clay.',
+    headword: 'tik log',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'tenajap-bengual-bah-ali-tenajap-lei-bah-luj-kiko',
+    semai: 'Bengual Bah Ali tenajap lei Bah Luj kikot sengik.',
+    ms: 'Kata-kata Bah Ali sangat tajam sehingga (membuatkan) Bah Luj terasa hati dengannya.',
+    en: "Bah Ali's words were so sharp causing Bah Luj to be offended with her.",
+    headword: 'tenajap',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'bekuk-bengyeg-renes-kerdor-ajeh-lei-hineng-bek',
     semai: 'Bengyeg renes kerdor ajeh lei hineng bekuk.',
     ms: 'Muka perempuan sangat putih sehingga kelihatan putih melepak.',
@@ -11890,6 +13272,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Benih yang disemai hari tu sudah tumbuh.',
     en: 'The seeds that were planted the other day are already growing.',
     headword: 'cuai',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'benisa-benisa-ju-gesok-pek-merip-amen-hibandeng',
+    semai: 'Benisa ju gesok pek merip amen hibandeng ru benisa las tep.',
+    ms: 'Bisa dari kerengga tidak seberapa jika dibanding dengan bisa dari semut api.',
+    en: "The pain from the weaver ant's poison is not much compared to the pain from the poison of the fire ant.",
+    headword: 'benisa',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -11954,6 +13344,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Berat badan saya semakin menaik, sehingga tidak muat untuk memakai baju lama.',
     en: 'I have gained weight to the point where I no longer fit into my old clothes.',
     headword: 'dan',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'seselej-berog-kebog-ajeh-seselej-taleh',
+    semai: 'Berog kebog ajeh seselej taleh.',
+    ms: 'Badan memerang tersebut kelihatan licin sahaja.',
+    en: "The beaver's body just looks smooth.",
+    headword: 'seselej',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -12103,6 +13501,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'leklap-bile-hikos-pegelap-hotleh-hileklap-nok',
+    semai: 'Bile hikos pegelap, hotleh hileklap nok.',
+    ms: 'Apabila bangun tidur pada waktu pagi, kita haruslah mencuci muka terlebih dahulu.',
+    en: 'When waking up in the morning, we must wash our face first.',
+    headword: 'leklap',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'lecah-bile-jis-manik-ku-englag-deg-ajeh-lecah-',
     semai: 'Bile jis manik, ku englag deg ajeh lecah medei itik kitakong teu.',
     ms: 'Bila hari hujan, di sebelah rumah itu becak kerana tanahnya menakung air.',
@@ -12197,6 +13603,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Tiada siapa yang bebas dari tanggungjawabnya terhadap agama, bangsa dan negara.',
     en: 'No one is free from the responsibilities of his/her religion, race and nation.',
     headword: 'telas',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'teu-ngeknut-bok-iteu-ngeknut-adeh-ha-gu-ngut-ya-eng',
+    semai: 'Bok iteu ngeknut adeh? Ha gu ngut ya eng.',
+    ms: 'Air minum siapa ini? Saya rasa macam nak minum.',
+    en: 'Whose drinking water is this? I feel like I want to drink it.',
+    headword: 'teu ngeknut',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -12304,6 +13718,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'caknak-caknak-ku-kenduri-jekneg-kawat-eng-ihad-',
+    semai: 'Caknak ku kenduri jekneg kawat eng ihad besendap hicak',
+    ms: 'Makanan di kenduri perkahwinan kawan saya sangat sedap dinikmati.',
+    en: "The food at my friend's wedding feast was very tasty.",
+    headword: 'caknak',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'selej-canak-de-hek-masak-jenek-selej-ngcak-ha-',
     semai: 'Canak de hek masak jenek selej ngcak ha eng.',
     ms: 'Makanan yang kamu masak tadi habis saya makan.',
@@ -12402,6 +13824,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'ceknet-ceknet-wak-melati-de-ku-iselai-ajeh-dij-',
+    semai: 'Ceknet Wak Melati de ku iselai ajeh dij bicak ya gau.',
+    ms: 'Tanaman yang ditanam oleh Wak Melati di kebunnya habis dimakan oleh babi.',
+    en: 'All of the crops that were planted by Wak Melati in her garden were eaten by the pigs.',
+    headword: 'ceknet',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'cekop-langsat-cekop-langsat-ajeh-ceraket-ya-iceber',
     semai: 'Cekop langsat ajeh ceraket ya iceber.',
     ms: 'Kulit langsat itu melekit kerana terdapat getahnya.',
@@ -12415,6 +13845,22 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Duri yang pada kulit durian adalah tajam.',
     en: 'The thorns on the durian skin are sharp.',
     headword: 'cekop',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'cenagoh-cenagoh-adeh-selalo-ha-mai-belemuk-taleh',
+    semai: 'Cenagoh adeh selalo ha mai belemuk taleh.',
+    ms: 'Perjampian selalunya diamalkan oleh bomoh-bomoh sahaja.',
+    en: 'Incantations are usually only said by shamans.',
+    headword: 'cenagoh',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'cengleh-cengleh-nu-mateu-ajeh-ihad-selej',
+    semai: 'Cengleh nu mateu ajeh ihad selej.',
+    ms: 'Jalan untuk turun ke sungai itu sangat licin.',
+    en: 'The path down to the river is very slippery.',
+    headword: 'cengleh',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -12773,6 +14219,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'berpah-cok-bah-ali-kigemar-berpah-iberog-ku-kem',
+    semai: 'Cok Bah Ali kigemar berpah iberog ku kemil tik.',
+    ms: 'Anjing Bah Ali suka menelentangkan badannya di atas tanah.',
+    en: "Bah Ali's dog likes to lie on his back on the ground.",
+    headword: 'berpah',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'bej-cok-kibej-itemak-loi-hon',
     semai: 'Cok kibej itemak loi hon.',
     ms: 'Anjing menjilat kudisnya sehingga menjadi sembuh.',
@@ -12797,6 +14251,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'manyek-cok-naikekkap-naibemanyek-caknak-de-yog-',
+    semai: 'Cok naikekkap naibemanyek caknak de yog nu kerom deg.',
+    ms: 'Anjing saling berkelahi (kerana) merebut makanan yang jatuh ke bawah rumah.',
+    en: 'The dogs are fighting with each other because they want to grab the food that has fallen under the house.',
+    headword: 'manyek',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'curi-darah-curi-darah-adeh-pehod-amen-kikap-ku-bero',
     semai: 'Curi darah adeh pehod amen kikap ku berog hik.',
     ms: 'Kita akan merasa sakit setelah serangga penghisap darah menggigit badan kita.',
@@ -12818,6 +14280,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Damar selalunya dibakar sesudah orang yang meninggal dunia dikebumikan.',
     en: 'Resin is usually burned after a dead person is buried.',
     headword: 'damar',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'danan-danan-mai-ngrak-ajeh-bicop-pukol-due-dui',
+    semai: 'Danan mai ngrak ajeh bicop pukol due dui.',
+    ms: 'Mayat orang tua itu dikebumikan pada pukul dua petang.',
+    en: 'The corpse of the old person was buried at two in the afternoon.',
+    headword: 'danan',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -12966,6 +14436,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'pajeh-dek-pasu-plasteg-ajeh-pajeh-dek-pasu-tan',
+    semai:
+      'Dek pasu plasteg ajeh pajeh, dek pasu tanah liat ajeh padeh, Wak Ramlah kipasal nu igensir mase kisemanj tulog nu igensir jeg ipasu bunga.',
+    ms: '"Letakkan pasu bunga plastik itu di sana, letakkan pasu tanah liat itu di sini," Wak Ramlah memberitahu suaminya semasa tolong kepada suaminya untuk memindahkan pasu bunganya.',
+    en: '"Put the plastic flower vase there, put the clay vase here," Wak Ramlah told her husband when she was helping him to to move the flower vases.',
+    headword: 'pajeh',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'dekok-dekok-adeh-kigemar-gigei-ku-awat-ru-ilem',
     semai: 'Dekok adeh kigemar gigei ku awat ru ilemunj ajeh ihad tajap sekali.',
     ms: 'Tikus buluh suka tinggal di buluh dan mempunyai gigi yang sangat tajam.',
@@ -12982,6 +14461,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'deknat-denat-de-kiui-ya-tukang-sog-ajeh-bor',
+    semai: 'Denat de kiui ya tukang sog ajeh bor.',
+    ms: 'Dandanan yang dibuat oleh pekerja salon itu cantik.',
+    en: 'The braiding done by the salon employee was beautiful.',
+    headword: 'deknat',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'dediol-dendog-ajeh-kigel-dediyol-ku-teu',
     semai: 'Dendog ajeh kigel dediyol ku teu.',
     ms: 'Batang kayu yang besar itu terapung-apung dibawa aliran sungai.',
@@ -12995,6 +14482,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Pokok yang tumbang itu telah ditumbuhi dengan cendawan.',
     en: 'The fallen tree has mushrooms growing on it.',
     headword: 'dendog',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'leknog-derme-ha-mangse-banjer-apeka-had-caknak-',
+    semai:
+      'Derme ha mangse banjer apeka had caknak taleh, tapi buleh hiderme leknog ru barang-barang buknet juga.',
+    ms: 'Derma bagi mangsa banjir tidak terhad kepada makanan sahaja, tetapi pakaian dan kelengkapan tempat tidur juga boleh didermakan.',
+    en: 'Donations for flood victims are not limited to food only, but clothing and bedding can also be donated.',
+    headword: 'leknog',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -13113,11 +14609,27 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'daknek-duet-daknek-bah-nyam-de-kidek-ku-kateh-i',
+    semai: 'Duet daknek Bah Nyam de kidek ku kateh ialmari baju ya bisij. Kek ihad kisedeh.',
+    ms: 'Duit simpanan Bah Nyam yang beliau simpan di dalam almari bajunya telah dicuri. Dia merasa sangat sedih.',
+    en: "Bah Nyam's savings that he kept in his wardrobe have been stolen. He feels very sad.",
+    headword: 'daknek',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'kep-duet-de-yog-ku-pateu-ajeh-ya-jenuh-bikek',
     semai: 'Duet de yog ku pateu ajeh ya jenuh bikek tapi pek kep lagi.',
     ms: 'Duit yang jatuh di sungai itu, masih tak didapatkan lagi walaupun dah puas dicari.',
     en: 'The money that fell in the river still can not be found even though a though search has already been conducted.',
     headword: 'kep',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'jenam-ebj-ngcergai-jenam-kek-ajeh',
+    semai: 'Ebj ngcergai jenam kek ajeh.',
+    ms: 'Saya mendengar tangisan orang itu.',
+    en: 'I heard his crying.',
+    headword: 'jenam',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -13134,6 +14646,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Atok saya mengadakan upacara sewang di rumah pemujaan.',
     en: 'My grandfather will conduct a healing ritual at the ceremonial building.',
     headword: 'deg balai',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'cengkot-enai-tenek-eng-nai-kek-ceoos-loi-nik-cen',
+    semai: 'Enai tenek eng nai kek ceoos loi nik cengkot.',
+    ms: 'Kakak saya mencari kayu api sehingga mendapat tiga berkas.',
+    en: 'My sister looked for firewood until she got three bundles of it.',
+    headword: 'cengkot',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -13215,6 +14735,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Saya nak pinjam buku kamu, bolehkah?',
     en: 'I want to borrow your book, can I?',
     headword: 'pinjam',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'danij-eng-had-ngneng-cerite-titanic-ya-idanij',
+    semai: 'Eng had ngneng cerite Titanic ya idanij.',
+    ms: 'Saya cuma menonton cerita Titanic pada bahagian pengakhirannya sahaja.',
+    en: 'I only watched the last part of the Titanic movie.',
+    headword: 'danij',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -13550,6 +15078,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'dendat-enjop-eng-kidendat-ku-nong-mase-kibakek-',
+    semai: 'Enjop eng kidendat ku nong mase kibakek jeoi behip ku nong timbok.',
+    ms: 'Nenek saya pengsan di jalan semasa dia nampak banyak darah di atas jalan raya.',
+    en: 'My grandmother fainted on the road when she saw a lot of blood on the road.',
+    headword: 'dendat',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'tengas-enjop-eng-kirendang-kak-tengas-de-kiberk',
     semai:
       'Enjop eng kirendang kak tengas de kiberkep mase kitengroj pegelap cinek sebegei icaknak tengah ariik.',
@@ -13688,11 +15224,27 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'keknej-gecek-ku-inar-doh-tiba-musim-keknij-bak',
+    semai: 'Gecek ku inar doh tiba musim keknij bak.',
+    ms: 'Bulan dua nanti tiba musim menuai padi.',
+    en: 'The harvest season will come in February.',
+    headword: 'keknej',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'sepihaj-gelas-ajeh-sepihaj-kiceeh-jer-ju-teg-wak',
     semai: 'Gelas ajeh sepihaj kiceeh jer ju teg Wak Laili mase tengah kisiksuj.',
     ms: 'Gelas minuman tersebut pecah berkecai kerana jatuh dari tangan Wak Laili semasa dia sedang mencuci pinggan-mangkuk.',
     en: "The drinking glass was shattered because it fell from Wak Laili's hand while she was washing the dishes.",
     headword: 'sepihaj',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'gelnel-gelnel-teu-lungkang-ku-deg-bah-amin-ya-s',
+    semai: 'Gelnel teu lungkang ku deg Bah Amin ya sumbat medei manik lebat kelemnek.',
+    ms: 'Pengaliran air longkang di rumah Bah Amin sudah sumbat kerana hujan lebat pada malam semalam.',
+    en: "The flow of the water in the drain at Bah Amin's house was blocked due to the heavy rain last night.",
+    headword: 'gelnel',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -13786,6 +15338,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'ennog-gulei-adeh-ennog-bok',
+    semai: 'Gulei adeh ennog bok?',
+    ms: 'Gulai ini pemberian siapa?',
+    en: 'Whose gift is this dish?',
+    headword: 'ennog',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'huj-ha-bilir-sedap-bah-malu-kipan-huj-kuah-s',
     semai: 'Ha bilir sedap, Bah Malu kipan huj kuah sop lei dij.',
     ms: 'Oleh kerana terlampau sedap, Bah Malu menghirup kuah sup sampai habis.',
@@ -13847,6 +15407,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Sekarang susah nak berjumpa dengan landak, kalau ada pun di Zoo sahaja.',
     en: 'Now it is difficult to see a procupine in the wild, if we do, it will only be at the Zoo.',
     headword: 'pacor',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'haknok-haknok-keneng-menek-lebeh-jerek-ju-kawat',
+    semai: 'Haknok keneng menek lebeh jerek ju kawat-kawat.',
+    ms: 'Kasih ibu bapa lebih dari dari kawan-kawan.',
+    en: "Parents' love is deeper than that of riends.",
+    headword: 'haknok',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -14170,6 +15738,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'jenam-hei-jeninjap-mai-ajeh-had-irenyah',
+    semai: 'Hei, jeninjap mai ajeh had irenyah.',
+    ms: 'Adoh, tangisan orang itu menjengkelkan.',
+    en: "Ugh, that person's crying is so annoying.",
+    headword: 'jenam',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'gerlau-hek-hagerlau-eng',
     semai: 'Hek hagerlau eng.',
     ms: 'Awak menipu saya.',
@@ -14264,6 +15840,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Kita hendaklah selalu menutup makanan, jika tidak akan dihurungi oleh lalat.',
     en: 'We should always cover food, if not it will be surrounded by flies.',
     headword: 'top',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'bengsat-hik-hunen-buleh-hiog-bengsat-melalui-han',
+    semai: 'Hik hunen buleh hiog bengsat melalui hanpon.',
+    ms: 'Kita sekarang boleh menghantar pesanan hanya melalui telefon bimbit.',
+    en: 'Now we can send a message via a mobile phone.',
+    headword: 'bengsat',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -14371,6 +15955,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Sekarang sudah semakin susah untuk mendapatkan buah salak kerana sudah banyak tanah yang diterokai bagi kebun getah dan kebun sawit. Mungkin kita dapat menjumpainya jika ke hutan.',
     en: 'Now it is getting harder and harder to get the thorny palm fruit because most of the land has been cleared for rubber plantations and oil palm plantations. We can maybe find it if we go to the forest.',
     headword: 'salak',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'berkep-hunen-ya-susah-hiha-berkep-pingat-ayan-d',
+    semai:
+      'Hunen ya susah hiha-berkep pingat ayan, de selalo bijual ku kedei mong pingat plasteg ru pingat kaca.',
+    ms: 'Sekarang sudah susah untuk mendapatkan pinggan ayan, yang selalu ada dijual di kedai adalah pinggan plastik dan pinggan kaca.',
+    en: 'Now, it is getting harder to obtain tin plates, the ones that are always available in stores are plastic plates and glass plates.',
+    headword: 'berkep',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -14543,6 +16136,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'bukbet-ijam-ya-pukol-12-padek-arik-kelem-tapi-m',
+    semai:
+      'Ijam ya pukol 12 padek arik kelem, tapi mat Bah Aram kinyek bukbet medei ha jeoi de kipiker.',
+    ms: 'Jam sudah pukul 12 tengah malam, tetapi mata Bah Aram masih tidak mahu tidur kerana banyak perkara yang dia fikirkan.',
+    en: 'It was already 12 midnight, but Bah Aram still did not want to sleep because of the many things that he was thinking.',
+    headword: 'bukbet',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'lut-ikui-lut-medei-kiyog-ku-kemil-batu',
     semai: 'Ikui lut medei kiyog ku kemil batu.',
     ms: 'Kepalanya membengkak kerana terjatuh di atas batu.',
@@ -14575,6 +16177,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'tateg-iseluar-tateg-kena-paku-mase-kigei-ku-ke',
+    semai: 'Iseluar tateg kena paku mase kigei ku kerusi nek.',
+    ms: 'Seluarnya terkoyak terkena paku masa dia duduk di kerusi tadi.',
+    en: 'Her trousers were torn by nails when she sat down on the chair.',
+    headword: 'tateg',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'jop-isi-bejehuk-bijop-ku-bara-os',
     semai: 'Isi bejehuk bijop ku bara os.',
     ms: 'Ubi kayu dibakar di atas bara api.',
@@ -14599,6 +16209,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'tenareh-itenareh-bak-leg-mimang-pek-buleh-hien-b',
+    semai:
+      'Itenareh Bak Leg mimang pek buleh hien bebincang. Langsong kinyek bealah gek dea buleh kicerengai bengwal mai kilek.',
+    ms: 'Kekerasan hati Bah Leg memang tidak dapat dibawa berbincang. Walaupun sedikit (dia) langsung tidak mahu mengalah bagi (berpeluang) mendengar pendapat orang lain.',
+    en: "Bah Leg is very stubborn-hearted, so naturally he can't discuss. He does not want to concede by even listening to the opinion of others.",
+    headword: 'tenareh',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'tap-jak-eng-kitap-sawit-ku-kebon-de-pai-jitu',
     semai: 'Jak eng kitap sawit ku kebon de pai jitulak.',
     ms: 'Mak mertua saya menanam sawit di kebun yang baharu kami bersihkan.',
@@ -14620,6 +16239,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Mak mertua saya merebus ubi kayu bagi minum petang.',
     en: 'My mother-in-law boiled cassava for afternoon tea.',
     headword: 'teop',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'ennog-jam-adeh-ennog-ju-amek-eng',
+    semai: 'Jam adeh ennog ju amek eng.',
+    ms: 'Jam ini pemberian dari ibu saya.',
+    en: 'This watch is a gift from my mother.',
+    headword: 'ennog',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -14867,6 +16494,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'jekneg-jeneg-ubai-bah-radie-ju-han-lili-mong-je',
+    semai: 'Jeneg ubai Bah Radie ju Han Lili, mong jeoi sengoi bihol ju bicakcak pajeh.',
+    ms: 'Ramai orang yang datang dan makan semasa kenduri perkahwinan Bah Radie dan Han Lili.',
+    en: 'Many people came and ate during the wedding feast of Bah Radie and Han Lili.',
+    headword: 'jekneg',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'jengkak-jengkak-kek-ajeh-behip-mase-bilaga',
     semai: 'Jengkak kek ajeh behip mase bilaga.',
     ms: 'Dagu dia berdarah semasa kemalangan.',
@@ -14915,6 +16550,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'liloi-jeoi-kak-naililoi-ku-kateh-teu',
+    semai: 'Jeoi kak naililoi ku kateh teu.',
+    ms: 'Terdapat banyak ikan yang berenang di dalam sungai.',
+    en: 'There are many fish swimming in the river.',
+    headword: 'liloi',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'jai-jeoi-keneng-jai-ku-kebun-amek-eng',
     semai: 'Jeoi keneng jai ku kebun amek eng.',
     ms: 'Terdapat banyak pokok pisang hutan di kebun ibu saya.',
@@ -14928,6 +16571,22 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Terdapat ramai ibubapa yang menunjukkan contoh yang tidak baik kepada anak-anak mereka.',
     en: 'There are many parents who set a bad example to their children.',
     headword: 'cuntol',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'bibeselai-jeoi-mai-bibeselai-naicekcet-ku-darat',
+    semai: 'Jeoi mai bibeselai naicekcet ku darat.',
+    ms: 'Terdapat ramai peladang yang bercucuk-tanam di hutan.',
+    en: 'There are many farmers that are planting their crops in the jungle.',
+    headword: 'bibeselai',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'bibet-jeoi-mai-bibet-ku-deg-sempak-medei-naiha',
+    semai: 'Jeoi mai bibet ku deg sempak medei naiha-jaga sempak.',
+    ms: 'Ramai orang yang tidur di pondok durian kerana mahu menjaga durian mereka.',
+    en: 'Many people sleep in the huts at the durian orchard because they want to watch over their durians.',
+    headword: 'bibet',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -15019,6 +16678,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Kami bertepuk tangan apabila mendengar lagu itu.',
     en: 'We clapped our hands when we heard the songs.',
     headword: 'pog',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'terhan-jik-jiterhan-bas-ku-beg-nung',
+    semai: 'Jik jiterhan bas ku beg nung.',
+    ms: 'Kami memberhentikan bas di tepi jalan.',
+    en: 'We waved down the bus at the side of the road.',
+    headword: 'terhan',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -15185,11 +16852,27 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'jengwal-ju-ihasel-ijengwal-besi-nek-bah-awai-kik',
+    semai: 'Ju ihasel ijengwal besi nek, Bah Awai kikot kak kaha-or ikenah masak kari.',
+    ms: 'Dari hasil penjualan besinya tadi, Bah Awai membeli ikan bagi menyuruh isterinya masak kari.',
+    en: 'From the proceeds of the sale of his metal earlier, Bah Awai bought fish to ask his wife to cook curry.',
+    headword: 'jengwal',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'kacoh-ju-kacoh-teu-gol-ajeh-mabek-kek-kak',
     semai: 'Ju kacoh teu Gol ajeh mabek kek kak.',
     ms: 'Dari hulu sungai itu, mereka yang mencari ikan.',
     en: 'From the headwaters of the river, they are looking for fish.',
     headword: 'kacoh',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'keknej-ju-kenej-ajeh-kek-kiui-deg-pai',
+    semai: 'Ju kenej ajeh, kek kiui deg pai.',
+    ms: '(Dengan duit) dari hasil tuaian tersebut, dia membina rumah baru.',
+    en: '(With money) from the harvest, he built a new house.',
+    headword: 'keknej',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -15207,6 +16890,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Ikan itu sudah mati.',
     en: 'The fish is already dead.',
     headword: 'la',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'cengim-kak-de-birag-ya-bah-anis-ajeh-ingoi-ceng',
+    semai: 'Kak de birag ya Bah Anis ajeh ingoi cengim.',
+    ms: 'Ikan yang dibakar oleh Bah Anis itu berbau asap.',
+    en: 'The fish which had been grilled by Bah Anis smelled of smoke.',
+    headword: 'cengim',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -15428,6 +17119,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'mamuh-kawep-kigemar-mamuh-ku-teu-kulam',
+    semai: 'Kawep kigemar mamuh ku teu kulam.',
+    ms: 'Beruang suka mandi air kolam.',
+    en: 'Bears love to bathe in the pool water.',
+    headword: 'mamuh',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'kekbag-kebag-de-ya-bipekeras-ajeh-iregak-mahal',
     semai: 'Kebag de ya bipekeras ajeh iregak mahal.',
     ms: 'Rama-rama yang telah diawet itu harganya mahal.',
@@ -15494,6 +17193,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'cekcis-kek-kicekcis-iyoj',
+    semai: 'Kek kicekcis iyoj.',
+    ms: 'Dia sedang menajamkan parangnya.',
+    en: 'He is sharpening his knife.',
+    headword: 'cekcis',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'tog-kek-kitog-batu-entoi',
     semai: 'Kek kitog batu entoi.',
     ms: 'Dia sedang mengetuk batu besar.',
@@ -15523,6 +17230,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Anak-anak Bah Amat berguling-guling di atas tilam.',
     en: "Bah Amat's children are rolling on the mattress.",
     headword: 'guleng',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'belengkek-kekenon-wak-datin-ajeh-belengkek-bernor-',
+    semai:
+      'Kekenon Wak Datin ajeh belengkek bernor. Naijog nu kampug nanek kerjak naikedei bahbeh ru bior gek pen pek dapat nayha-beh.',
+    ms: 'Anak-anak Wak Datin tersebut sangat manja. Ketika mereka pulang ke kampung, mereka langsung tidak tahu membuat sebarang kerja dan diminta untuk melakukan perkara yang kecil pun mereka tidak dapat melaksanakannya.',
+    en: "The children of Wak Datin are very spoiled. When they return to the village, they don't know how to do any chores; they cannot even do simple things.",
+    headword: 'belengkek',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -15608,12 +17324,28 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'senej-kelem-jihnek-bah-mino-kicip-ku-belak-ken',
+    semai: 'Kelem jihnek, Bah Mino kicip ku belak kenglap ru pek eng bakek kijebat ha senej.',
+    ms: 'Malam tadi Bah Mino berjalan di dalam gelap dan tidak nampak bahawa dia terpijak penyengat.',
+    en: 'Last night Bah Mino walked in the dark and did not see that he had accidentally stepped on a stinging insect.',
+    headword: 'senej',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'jenang-kelem-nek-mong-nuikor-lembu-kibubet-ku-d',
     semai:
       'Kelem nek, mong nuikor lembu kibubet ku depan deg jik. Nggamak ijenang kisip en jug nu ideg.',
     ms: 'Malam tadi, terdapat seekor lembu yang tidur di hadapan rumah kami. Mungkin tuannya lupa membawanya pulang ke kandang.',
     en: 'Last night, there was a cow sleeping in front of our house. Perhaps its master forgot to bring it home to the stable.',
     headword: 'jenang',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'berpes-kelemnek-kiberpes-kuat-lei-kol-keneng-ka',
+    semai: 'Kelemnek kiberpes kuat lei kol keneng kabuk ru keneng sempak ku laman deg Bah Apis.',
+    ms: 'Semalam angin bertiup sangat kuat sehingga menumbangkan pokok kekabu dan pokok durian yang terdapat di halaman rumah Bah Apis.',
+    en: "Yesterday the wind blew so strongly that it knocked down the kapok trees and the durian trees that are in the courtyard of Bah Apis' house.",
+    headword: 'berpes',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -15810,6 +17542,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'cengreg-kenon-cok-ajeh-biog-imuh-cengreg-sebegei',
+    semai: 'Kenon cok ajeh biog imuh cengreg sebegei Bah Luc.',
+    ms: 'Anak anjing tersebut diberi nama panggilan sebagai Bah Luc.',
+    en: 'The puppy was given the nickname Bah Luc.',
+    headword: 'cengreg',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'bakat-kenon-cok-ajeh-kibakat-caknak-ju-cok-kil',
     semai: 'Kenon cok ajeh kibakat caknak ju cok kilek.',
     ms: 'Anak anjing tersebut tidak mahu berkongsi makan dengan anjing-anjing yang lain.',
@@ -15880,6 +17620,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Anak kucing yang baru lahir itu kecil dan comel.',
     en: 'The newly born kitten is small and cute.',
     headword: 'macot',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'kekkop-kenon-litau-bah-halim-de-iumor-9-tahut-k',
+    semai: "Kenon litau Bah Halim de i'umor 9 tahut kigemar beh ikerjak sekulah sambel kikekkop.",
+    ms: 'Anak lelaki Bah Halim yang berumur 9 tahun suka membuat kerja sekolah sambil menairap.',
+    en: "Bah Halim's 9-year-old son likes to do school work while lying on his stomach",
+    headword: 'kekkop',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -15971,11 +17719,27 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'wekwet-kenon-wak-lini-ya-tujoh-genchek-ilei-aje',
+    semai: 'Kenon Wak Lini ya tujoh genchek, ilei ajeh ya kiwekwet.',
+    ms: 'Anak Wak Lini sudah tujuh bulan, dia sudah merangkak.',
+    en: "Wak Lini's son is seven months old and he already knows how to crawl.",
+    headword: 'wekwet',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'cerdeg-kenon-wak-mia-ajeh-iumur-barukan-3-tahut',
     semai: 'Kenon Wak Mia ajeh iumur barukan 3 tahut, tapi ya cerdeg bebaca bop.',
     ms: 'Anak Wak Mia baharu bermumur 3 tahun tetapi sudah pandai membaca buku.',
     en: "Wak Mia's son is only 3 years old but he is already good at reading books.",
     headword: 'cerdeg',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'berencep-kenon-wak-mila-kiberencep-ku-englag-pint',
+    semai: 'Kenon Wak Mila kiberencep ku englag pintu mase bicereg ya iapak medei baha-permuh.',
+    ms: 'Anak Wak Mila bersembunyi di sebalik pintu semasa dipanggil oleh bapanya kerana mahu memandikannya.',
+    en: "Wak Mila's son was hiding behind the door, while he was being called by his father because he wanted to bathe him.",
+    headword: 'berencep',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -16084,6 +17848,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'tenaat-kerana-itenaat-nu-itukeh-wak-salma-bihok',
+    semai: 'Kerana itenaat nu itukeh, Wak Salma bihok ru pek pernah birok.',
+    ms: 'Kerana ketaatannya kepada bosnya, Wak Salma disayangi dan tak pernah dimarahi.',
+    en: 'Because of her obedience to her boss, Wak Salma was loved and never scolded.',
+    headword: 'tenaat',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'kerandog-kerandog-bah-jali-kias-medei-bikap-ya-ge',
     semai: 'Kerandog Bah Jali kias medei bikap ya gertek.',
     ms: 'Ketiak Bah Jali membengkak kerana digigit oleh sengkenit.',
@@ -16187,6 +17959,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Halia yang ditanam oleh Wak Rengyeg sudah tumbuh.',
     en: 'The ginger planted by Wak Rengyeg have grown.',
     headword: 'kerjak',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'keknep-kerjak-mutong-lebih-jeoi-ikeknep-ju-kerj',
+    semai: 'Kerjak mutong lebih jeoi ikeknep ju kerjak kilang.',
+    ms: 'Pendapatan dari kerja menoreh getah lebih banyak dari bekerja di kilang.',
+    en: 'Income from tapping rubber is more than that from working in the factory.',
+    headword: 'keknep',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -16456,6 +18236,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'caknoh-ku-ceknet-hubik-wak-ina-mong-caknoh-cok',
+    semai: 'Ku ceknet hubik Wak Ina mong caknoh cok.',
+    ms: 'Terdapat najis anjing di tempat Wak Ina menanam ubi kayu.',
+    en: 'There are dog faeces at the place where Wak Ina is planting cassava.',
+    headword: 'caknoh',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'ceres-ku-ceres-bah-sani-ajeh-mong-bakat-luka',
     semai: 'Ku ceres Bah Sani ajeh mong bakat luka.',
     ms: 'Di bahagian rusuk Bah Sani terdapat kesan parut luka.',
@@ -16477,6 +18265,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Di rumah kami, cengkerik berbunyi setiap malam kerana kami tinggal di kampung.',
     en: 'At our house, crickets chirp every night because we live in the village.',
     headword: 'jaret',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'deg-mai-hala-ku-deg-mai-hala-ajeh-jeoi-bidek-arap-jen',
+    semai: 'Ku deg mai hala ajeh jeoi bidek arap jenampi.',
+    ms: 'Di rumah bomoh itu banyak barang-barang jampi.',
+    en: "At the shaman's house, there are a lot of ceremonial tools.",
+    headword: 'deg mai hala',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -16542,6 +18338,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Di tepi rumah Bah Liko terdapat pokok rambutan.',
     en: "By Bah Liko's house there is a rambutan tree.",
     headword: 'kening',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'danui-ku-idanui-jik-jiet-nong-tengroj-ku-menda',
+    semai: 'Ku idanui jik jiet nong tengroj ku mendang.',
+    ms: 'Pada petang hari kami pergi memancing di sawah padi.',
+    en: 'We went fishing in the paddy field in the afternoon.',
+    headword: 'danui',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -16630,6 +18434,22 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'selsol-ku-jap-pegelap-bas-mesti-tebeg-ru-ipenum',
+    semai: 'Ku jap pegelap, bas mesti tebeg ru ipenumpang naiselsol ku ikateh.',
+    ms: 'Pada setiap pagi, bas pasti penuh dan para penumpangnya berhimpit-himpit di dalamnya.',
+    en: 'The bus is full every morning and its passengers huddle together in it.',
+    headword: 'selsol',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'canak-ku-jap-pegelap-wak-bina-mesti-kibeh-cana',
+    semai: 'Ku jap pegelap, Wak Bina mesti kibeh canak gureng sebegei sarapan ha iperingak.',
+    ms: 'Pada setiap pagi, Wak Bina pasti membuat nasi goreng sebagai sarapan bagi keluarganya.',
+    en: 'Every morning, Wak Bina is sure to make fried rice for breakfast for her family.',
+    headword: 'canak',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'lemang-ku-jap-raya-mesti-mong-lemang',
     semai: 'Ku jap raya mesti mong lemang.',
     ms: 'Setiap kali waktu perayaan, mesti terdapat lemang.',
@@ -16668,6 +18488,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Di hutan terdapat banyak binatang liar.',
     en: 'In the forest there are many wild animals.',
     headword: 'jeres',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'caknak-ku-jis-krismas-canak-bijamu-ha-tengloh-d',
+    semai: 'Ku jis Krismas, canak bijamu ha tengloh de naihol nu madeg.',
+    ms: 'Semasa sambutan Hari Krismas, kenduri akan dihidangkan untuk tetamu yang datang ke rumah.',
+    en: 'During the Christmas Day celebration, a feast will be served to guests who come to the house.',
+    headword: 'caknak',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -16896,6 +18724,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'belwal-ku-mai-hik-bikira-ajeh-biadap-amen-mambe',
+    semai:
+      'Ku mai hik, bikira ajeh biadap amen mambek sanget naicampong amen mai raknak tengah naibelwal.',
+    ms: 'Pada orang Semai, adalah biadap sekiranya orang yang lebih muda turut serta apabila orang tua sedang bercakap.',
+    en: 'For the Semai, it is rude if younger people join in the conversation of elders.',
+    headword: 'belwal',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'agame-ku-malaysia-adeh-isengoi-biog-kebebasan-',
     semai:
       'Ku Malaysia adeh, isengoi biog kebebasan ha muj ma taleh iagame de naiminat, asal pek salah ju undang-undang.',
@@ -16975,6 +18812,23 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Terdapat tiga perkara ini pada seseorang, iaitu badannya, rohnya, dan jiwanya.',
     en: 'There are these three things in a person: his body, his spirit, and his soul.',
     headword: 'sengrog',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'padek-ku-nong-kampug-lembu-biasajeh-naidakdak-',
+    semai:
+      'Ku nong kampug, lembu biasajeh naidakdak ku padek nong. Hik hotleh hibehati-hati amen himemandu ku arik kelem.',
+    ms: 'Lembu biasanya akan tidur di tengah-tengah jalanraya di kampung. Kita hendaklah berhati-hati memandu pada waktu malam.',
+    en: 'Cows will usually sleep in the middle of the road in the village. We must be careful driving at night.',
+    headword: 'padek',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'bebegei-ku-pasa-malam-mong-bijual-bebegei-jenis-',
+    semai: 'Ku pasa malam mong bijual bebegei jenis koi.',
+    ms: 'Di pasar malam terdapat pelbagai jenis kuih yang dijual.',
+    en: 'There are various types of sweetmeats being sold at the night market.',
+    headword: 'bebegei',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -17190,6 +19044,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'berenggol-kucig-ajeh-iberengol-kiberkep-kenik',
+    semai: 'Kucig ajeh iberengol kiberkep kenik.',
+    ms: 'Kucing itu sangat mahir memburu tikus.',
+    en: 'That cat is very competent at hunting rats.',
+    headword: 'berenggol',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'habu-kucig-ajeh-kicooh-ku-habuk-wal',
     semai: 'Kucig ajeh kicooh ku habuk wal.',
     ms: 'Kucing itu berak di abu dapur.',
@@ -17203,6 +19065,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Kucing itu masih hidup walaupun jatuh dari pokok kelapa yang sangat tinggi.',
     en: 'That cat is still alive even though it fell from a very high coconut tree.',
     headword: 'tik',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'pabeg-kucing-ajeh-bipergei-ku-pabeg-mase-tengl',
+    semai: 'Kucing ajeh bipergei ku pabeg mase tengloh mong ku padeek.',
+    ms: 'Kucing tersebut diletakkan di luar semasa tetamu ada di dalam rumah.',
+    en: 'The cat is put outside while the guests are in the house.',
+    headword: 'pabeg',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -17460,6 +19330,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Longkang itu busuk dan hancing baunya kerana air dari tandas keluar ke situ.',
     en: 'The drain stank and smelled like urine because water from the toilet came out there.',
     headword: 'seeg',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'bencot-lungkang-ku-kedei-mamak-ajeh-ihad-bencot',
+    semai:
+      'Lungkang ku kedei mamak ajeh ihad bencot medei tebeg ya minyak ru sesak caknak, telas ajeh bitop ya jeoi roi.',
+    ms: 'Longkang di kedai mamak tersebut sangat menjijikkan kerana dipenuhi dengan minyak dan sisa makanan, selepas itu diurung oleh banyak lalat.',
+    en: 'The drain in the mamak shop is very disgusting because it is filled with oil and food waste, then it is swarmed over by many flies.',
+    headword: 'bencot',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -17996,6 +19875,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'belamur-mai-manah-entem-naibelamur-amen-naiha-pe',
+    semai:
+      'Mai manah entem naibelamur amen naiha-perilai, tapi hunen lamur ajeh ya biguna juga mase persembahan sewang ha mai luar.',
+    ms: 'Orang dulu-dulu menyanyikan lagu sewang bagi tujuan mengubati penyakit, tetapi sekarang, lagu sewang tersebut telah digunakan semasa persembahan bagi orang luar.',
+    en: 'Long ago, people used to sing ritual songs to cure diseases, but now the ritual songs are used during performances for outsiders.',
+    headword: 'belamur',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'cibok-mai-manah-entem-naicibok-teu-naiguna-upe',
     semai: 'Mai manah entem naicibok teu naiguna upeh ju keneng jeer atao upeh ju keneng beleg.',
     ms: 'Orang zaman dahulu mencedok air menggunakan upih kelapa atau upih pinang.',
@@ -18042,6 +19930,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Orang berkata bahawa Bah Litaw ada membela roh harimau.',
     en: 'People said that Bah Litaw defended a tiger spirit.',
     headword: 'gunig',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'cerendeg-mai-pelajar-mong-cerendeg-naibeh-kerjak-',
+    semai: 'Mai pelajar mong cerendeg naibeh kerjak de biog ya cikgu nai.',
+    ms: 'Para pelajar mempunyai kemahiran dalam membuat latihan yang diberi oleh guru mereka.',
+    en: 'Students have the skills for doing the exercises given by their teachers.',
+    headword: 'cerendeg',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -18182,6 +20078,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'teltil-mai-sesanget-naigemar-teltil-ku-kerop-ma',
+    semai: 'Mai sesanget naigemar teltil ku kerop mat jis.',
+    ms: 'Kanak-kanak suka berjemur di bawah matahari.',
+    en: 'The kids love to sunbathe.',
+    headword: 'teltil',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'tarog-mai-temir-naiguna-tarog-amen-naidendep',
     semai: 'Mai Temir naiguna tarog amen naidendep.',
     ms: 'Orang Temiar menggunakan lembing jika memburu.',
@@ -18220,6 +20124,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Kakak ipar saya bekerja di kebun tembikai.',
     en: 'My sister-in-law works at the watermelon farm.',
     headword: 'temikei',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'bendel-mambek-askar-nai-latehan-nai-ku-darat-bu',
+    semai: 'Mambek askar nai latehan nai ku darat, buleh kicerengai ngrok bendel ju kenyak.',
+    ms: 'Anggota askar sedang membuat latihan di dalam hutan, dari jauh kita boleh mendengar bunyi tembakan yang mereka lakukan.',
+    en: 'The soldiers are doing exercises in the jungle and from afar we can hear the sound of gunfire as they are doing them.',
+    headword: 'bendel',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -18279,6 +20191,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'gengwer-mambek-sanget-naicip-nu-sekulah-ku-kateh',
+    semai: 'Mambek sanget naicip nu sekulah ku kateh gengwer medei tiktok lampu nong.',
+    ms: 'Kanak-kanak sekolah berjalan ke sekolah dalam keadaan yang gelap kerana tiada lampu jalanraya.',
+    en: 'The school children are walking in darkness to the school because there are no street lights.',
+    headword: 'gengwer',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'para-mambek-sanget-naigemar-bekutep-mat-para-',
     semai: 'Mambek sanget naigemar bekutep mat para, naiha-beh mat ha man congkak.',
     ms: 'Kanak-kanak suka mengutip biji getah bagi dijadikan biji-biji bagi permainan congkak.',
@@ -18292,6 +20212,22 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Kanak-kanak suka bermain sorok-sorok.',
     en: 'Kids love to play hide-and-seek.',
     headword: 'man',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'muman-mambek-sanget-naigemar-muman-meskar-ku-p',
+    semai: 'Mambek sanget naigemar muman meskar ku padag permainan.',
+    ms: 'Kanak-kanak suka bermain basikal di padang permainan.',
+    en: 'Kids love to play with bikes on the playground.',
+    headword: 'muman',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'cenuba-mambek-sanget-sekulah-selalo-biog-kertas',
+    semai: 'Mambek sanget sekulah selalo biog kertas cenuba sebelum periksa ibentul.',
+    ms: 'Pelajar sekolah akan diberi kertas percubaan sebelum peperiksaan sebenar dijalankan.',
+    en: 'The school students will be given a trial examination before the actual examination is conducted.',
+    headword: 'cenuba',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -18684,6 +20620,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'serakngek-mase-wak-nina-kilei-nu-dewan-ikateh-ajeh',
+    semai: 'Mase Wak Nina kilei nu dewan, ikateh ajeh serakngek pek besengoi.',
+    ms: 'Semasa Wak Nina sampai di dewan, di dalamnya tiada sesiapa dan sunyi sepi.',
+    en: 'When Wak Nina arrived at the hall, there was no one inside and it was desolate.',
+    headword: 'serakngek',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'masjid-masjid-adeh-tempat-ha-mai-islam-naisemba',
     semai: 'Masjid adeh tempat ha mai Islam naisembahyang.',
     ms: 'Masjid adalah tempat bagi orang Islam bersembahyang.',
@@ -18828,6 +20772,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'tenajap-matak-yoj-adeh-tenajap-biarpen-ya-leu-pq',
+    semai: 'Matak yoj adeh tenajap biarpen ya leu pèq biguna.',
+    ms: 'Mata pisau ini sangat tajam biarpun sudah lama tidak digunakan.',
+    en: 'The knife blade is very sharp even though it has not been used for a long time.',
+    headword: 'tenajap',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'kerog-medei-ha-icuace-de-had-isengij-ajeh-wak-',
     semai: 'Medei ha icuace de had isengij ajeh, Wak Maria kikerog.',
     ms: 'Wak Maria menggigil kerana cuaca yang sangat sejuk.',
@@ -18940,6 +20892,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'keknot-menang-eng-mong-jeoi-imennan-medei-kekno',
+    semai: 'Menang eng mong jeoi imennan medei keknot ju apak eng.',
+    ms: 'Adik saya ada banyak permainan kerana pembelian dari bapa.',
+    en: 'My sister has a lot of toys because of the purchases made by dad.',
+    headword: 'keknot',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'kangkag-menang-eng-payah-kaha-kangkag-medei-iber',
     semai: 'Menang eng payah kaha-kangkag medei iberog entoi.',
     ms: 'Adik saya sukar mahu mengangkang kerana badannya yang besar.',
@@ -18985,6 +20945,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Malam tadi bunyi bising orang mengetuk tong.',
     en: 'Last night was noisy with the sound of a person knocking on a barrel.',
     headword: 'gadok',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'beempok-mengot-neh-wak-nina-kibeempok-bikap-ya-t',
+    semai: 'Mengot neh Wak Nina kibeempok bikap ya tijik.',
+    ms: 'Malam tadi Wak Nina bermimpi digigit oleh ular.',
+    en: 'Last night Wak Nina dreamed she was bitten by a snake.',
+    headword: 'beempok',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -19058,6 +21026,22 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Tahi lalat Wak Lela tumbuh pada pipinya.',
     en: 'Wak Lela has a mole on her cheek.',
     headword: 'mol',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'bepengleg-mong-cep-merpati-kibepengleg-ku-kemil-je',
+    semai: 'Mong cep merpati kibepengleg ku kemil jehuk beleg.',
+    ms: 'Terdapat burung merpati bertelur di atas pokok pinang.',
+    en: 'There are pigeons laying their eggs on the betel nut trees.',
+    headword: 'bepengleg',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'danil-mong-danil-tapar-jog-kuceg-ku-simen-de-l',
+    semai: 'Mong danil tapar jog kuceg ku simen de lekat keaj ku deg Bah Wan de pai bibeh ajeh.',
+    ms: 'Terdapat kesan tapak kaki kucing pada simen yang masih basah, di rumah Bah Wan yang baharu dibina.',
+    en: "There are traces of cat footprints on cement that is still wet, in Bah Wan's newly built house.",
+    headword: 'danil',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -19304,6 +21288,22 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'cenaret-mutu-ajeh-neh-kiyog-ku-cenaret-englag-de',
+    semai: 'Mutu ajeh neh kiyog ku cenaret englag dek Bah Min.',
+    ms: 'Motosikal itu jatuh di tempat curam di sebelah rumah Bah Min.',
+    en: "The motorbike fell at the steep place beside Bah Min's house.",
+    headword: 'cenaret',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'pinai-mutu-de-kigu-pakei-ya-bah-lali-ajeh-kiko',
+    semai: 'Mutu de kigu-pakei ya Bah Lali ajeh kikot ipinai.',
+    ms: 'Motosikal yang sering digunakan oleh Bah Lali tersebut adalah motosikal baharu.',
+    en: 'The motorcycle that Bah Lali regularly uses is one in a new condition.',
+    headword: 'pinai',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'aku-nar-tahut-canukjeh-bah-kukag-kiakuk-ha-k',
     semai:
       'Nar tahut canukjeh, Bah Kukag kiakuk ha kerjak bahneh gertak kampug ajeh. Tapi lei hunen pekseg siap igertak ajeh.',
@@ -19398,6 +21398,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Jalan ke Rumpaian Laut berlumpur.',
     en: 'The road to Rumpaian Laut is muddy.',
     headword: 'nong',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'bernor-nong-nu-bernor-hajap-mai-naiha-joi-tapi-',
+    semai: 'Nong nu bernor, hajap mai naiha-joi. Tapi, amen nong nu jenghat, jeoi mai naiha-joi.',
+    ms: 'Jalan ke arah kebaikan, orang susah nak ikut. Tapi, kalau jalan ke arah kejahatan ramai orang nak ikut.',
+    en: 'The road to goodness is difficult for people to follow. But, the road to evil many people want to follow.',
+    headword: 'bernor',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -19524,6 +21532,22 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'nyinui-nyinui-wak-alang-nu-ikenon-ihad-ikengwat',
+    semai: 'Nyinui Wak Alang nu ikenon ihad ikengwat lei renganj ming ikenon ajeh.',
+    ms: 'Ciuman Wak Alang kepada anaknya sangat kuat sehingga merah pipi anaknya tersebut.',
+    en: "When Wak Alang kissed his son, it was so strong that his son's cheeks turned red.",
+    headword: 'nyinui',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'nyinyui-nyinyuuy-bah-lan-as-bisej-ya-senej',
+    semai: 'Nyinyuuy Bah Lan as bisej ya senej.',
+    ms: 'Bibir Bah Lan bengkak disengat oleh penyengat.',
+    en: "Bah Lan's lips were swollen having been stung by a stinger.",
+    headword: 'nyinyui',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'nyok-nyok-ku-belakang-deg-ajok-sila-ya-cerek-',
     semai: 'Nyok ku belakang deg ajok Sila ya cerek medei bok hentok ha misen.',
     ms: 'Lalang merah di belakang nenek Sila sudah panjang kerana tiada siapa yang memotongnya.',
@@ -19595,6 +21619,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Pejabat Pos ditutup pada hari Sabtu dan Ahad.',
     en: 'The Post Office is closed on Saturdays and Sundays.',
     headword: 'pejabat',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'gigei-pek-liu-nij-ubai-akej-baigigei',
+    semai: 'Pek liu nij ubai akej baigigei.',
+    ms: 'Tak lama lagi mereka akan berkahwin.',
+    en: 'Soon, they will get married.',
+    headword: 'gigei',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -19833,6 +21865,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'bikarep-pengleg-pog-bikarep-dea-pek-tembelang',
+    semai: 'Pengleg pog bikarep dea pek tembelang.',
+    ms: 'Telur ayam dieram supaya tidak tembelang.',
+    en: 'The chicken eggs are being incubated so that they will not go rotten.',
+    headword: 'bikarep',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'coh-pengleg-pog-de-ku-kateh-pak-ajeh-pek-gu-',
     semai: 'Pengleg pog de ku kateh pak ajeh pek gu-coh-coh, hamapen ya liu ikeneng pog kibekarep.',
     ms: 'Telur-telur ayam yang terdapat di dalam kotak tersebut tidak menetas walaupun ibu ayam tersebut sudah lama mengeram telur-telur tersebut.',
@@ -19846,6 +21886,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Telur katak tersebut berlendir.',
     en: "The frog's eggs are slimy.",
     headword: 'leher',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'papeh-pensel-kenon-wak-timah-kipapeh-medei-ha-',
+    semai: 'Pensel kenon Wak Timah kipapeh medei ha kipan tekan mase kibetules.',
+    ms: 'Pensil milik anak Wak Timan telah patah kerana dia menekan dengan sangat kuat semasa menulis.',
+    en: "The pencil belonging to Wak Timan's son was broken because he pressed very hard while writing.",
+    headword: 'papeh',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -19879,6 +21927,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Awal-awal pagi lagi Bah Tam sudah bangun dari tidur untuk pergi menoreh.',
     en: 'Bah Tam already woke up at dawn to go rubber tapping.',
     headword: 'pepegelap',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'pekpap-pepegelap-kipekpap-ku-os',
+    semai: 'Pepegelap kipekpap ku os.',
+    ms: 'Pagi-pagi dia memanaskan badan dekat api.',
+    en: 'At dawn he warmed himself near the fire.',
+    headword: 'pekpap',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -19960,6 +22016,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Ayam itu mencari makanannya di kawasan kelapa sawit.',
     en: 'The chicken is looking for food in the oil palm plantation area.',
     headword: 'ceriak',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'seksot-pog-ajeh-nai-seksot-ratak-liknai-medei-n',
+    semai: 'Pog ajeh nai seksot ratak liknai medei naiberebot ha caknak.',
+    ms: 'Ayam-ayam tersebut mematuk sesama sendiri kerana berebut makanan.',
+    en: 'The chickens pecked at each other as they fought for food.',
+    headword: 'seksot',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -20105,6 +22169,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Harga basikal itu tiga ratus lebih.',
     en: 'The price of the bike is more than three hundred ringit.',
     headword: 'ratos',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'cengreg-relai-de-bicap-ku-deg-pog-ajeh-ihad-cere',
+    semai: 'Relai de bicap ku deg pog ajeh ihad cereg, icengreg kaha-merek 3 mite.',
+    ms: 'Ular sawa yang ditangkap di reban ayam tersebut sangat panjang, panjangnya hampir 3 meter.',
+    en: 'The python caught in the chicken coop was very long, almost 3 meters long.',
+    headword: 'cengreg',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -20273,6 +22345,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'denggel-sanget-ajeh-denggel-lekat-juga-kimain-ta',
+    semai:
+      'Sanget ajeh denggel, lekat juga kimain tang luar deg ku arik manik hamapen ya biles ya iamek.',
+    ms: 'Kanak-kanak tersebut sangat degil, dia masih bermain di luar rumah semasa hujan walaupun sudah dimarahi oleh ibunya.',
+    en: 'The child was very stubborn, he was still playing outside while it was raining even though he had been scolded by his mother.',
+    headword: 'denggel',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'lal-sanget-ajeh-deras-kilal-canak-ku-kateh-i',
     semai: 'Sanget ajeh deras kilal canak ku kateh iempag bile kineng itenek kibeli aes krem.',
     ms: 'Kanak-kanak itu segera meluahkan nasi dari mulutnya apabila ternampak abangnya membeli ais krim.',
@@ -20385,6 +22466,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'mennem-sanget-ajeh-kinyek-mennem-mai-kilek-kek-',
+    semai: 'Sanget ajeh kinyek mennem mai kilek, kek kihod mennem keneng ilei.',
+    ms: 'Bayi tersebut tidak mahu susu dari orang lain, dia tetap mahu susu dari ibunya sendiri.',
+    en: 'The baby does not want the breast milk from others, he still wants the breast milk from his own mother.',
+    headword: 'mennem',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'takdadek-sanget-ajeh-kinyek-takdadek-ru-iamek-lei',
     semai: 'Sanget ajeh kinyek takdadek ru iamek lei susah iamek kaha-beh kerjak deg.',
     ms: 'Kanak-kanak itu tidak mahu berenggang dengan ibunya sehingga susah bagi ibunya membuat kerja rumah.',
@@ -20438,6 +22527,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Kanak-kanak tersebut sudah tiga hari tidak ke sekolah, kerana dia demam.',
     en: 'The child has not been to school for three days, because he has a fever.',
     headword: 'kereg',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'kekkop-sanget-beumor-enam-gecek-lekat-kikekkop-',
+    semai: 'Sanget beumor enam gecek lekat kikekkop, telas ajeh baruleh kiwekwet sebelom kicekcip.',
+    ms: 'Kanak-kanak yang berumur enam bulan masih meniarap, selepas situ barulah ianya merangkak sebelum berjalan.',
+    en: 'A six-month-old child still lies on his stomach, only after that he will start crawling before finally walking.',
+    headword: 'kekkop',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -20759,6 +22856,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'sembot-sembot-kenon-bah-jali-ajeh-lekat-pek-cog',
+    semai:
+      'Sembot kenon Bah Jali ajeh lekat pek cog medei lekat kisanget. Iumur pai kaha-muj nar tahut.',
+    ms: 'Sebutan perkataan dari anak Bah Jali masih tidak tepat kerana ianya masih bayi. Umumnya baharu sahaja mahu mencecah dua tahun.',
+    en: "Bah Jali son's pronunciation is still inaccurate because he is still a baby. He will be two years old soon.",
+    headword: 'sembot',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'koi-seminggu-nij-ya-kaha-merek-jis-raya-jadi',
     semai: 'Seminggu nij ya kaha-merek jis raya, jadi ajak ya mula kiui koi.',
     ms: 'Seminggu lagi sudah hampir hari raya, jadi nenek sudah mulai membuat kuih.',
@@ -20772,6 +22878,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Sempadan kawasan orang Asli dan kawasan orang Melayu dipisahkan oleh sebatang sungai yang kecil.',
     en: "The boundary between the aboriginal people's area and the Malay area is a small river.",
     headword: 'tik',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'piknoj-sempak-adeh-biteh-ku-mase-piknoj-bah-lal',
+    semai: 'Sempak adeh biteh ku mase piknoj Bah Lali.',
+    ms: 'Durian ini digugurkan semasa giliran Bah Lali menjadi orang yang menunggu kebun ini.',
+    en: "All these durians were dropped to the ground during Bah Lali's shift as watchman of this orchard.",
+    headword: 'piknoj',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -20836,6 +22950,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Sedapnya kari ikan yang dimasak oleh Wak Nanten.',
     en: 'The fish curry cooked by Wak Nanten is delicious.',
     headword: 'sendap',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'bahbeh-sengoi-de-bahbeh-deg-pek-kihol-arik-adeh',
+    semai: 'Sengoi de bahbeh deg pek kihol arik adeh kerana kinyaknyik.',
+    ms: 'Orang yang membuat rumah tidak datang pada hari ini kerana dia sakit.',
+    en: 'The person who made the house did not come today because he was sick.',
+    headword: 'bahbeh',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -20938,6 +23060,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'cengwag-serayog-engrok-kekenon-pog-ku-kateh-deg-',
+    semai: 'Serayog engrok kekenon pog ku kateh deg pog medei bidek naicengwag ya keneng enai.',
+    ms: 'Anak-anak ayam di dalam reban berbunyi dengan riuh sekali kerana kelaparan akibat ditinggalkan oleh ibu mereka.',
+    en: 'The chicks in the coop made a loud noise because of hunger, because they were left alone by their mother.',
+    headword: 'cengwag',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'serdor-serdor-ajeh-begei-ha-mangai-tapi-ilei-le',
     semai: 'Serdor ajeh begei ha mangai, tapi ilei lebeh macot.',
     ms: 'Kala jengking kecil kelihatan seperti kala jengking biasa, tetapi saiznya yang lebih kecil.',
@@ -20959,6 +23089,22 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Katak hijau terdapat di tepi sungai dan kita boleh mendengar suara mereka ketika waktu hujan.',
     en: 'Common green frogs can be found by the river and we can hear their sound when it is raining.',
     headword: 'set',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'jenampi-setengah-mai-naipecaya-ha-jenampi-adeh-s',
+    semai: 'Setengah mai naipecaya ha jenampi adeh, setengah mai nij tok.',
+    ms: 'Sesetengah orang mempercayai perjampian, sesetengah orang lagi tidak.',
+    en: "Some people believe in incantation, others don't.",
+    headword: 'jenampi',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'henghong-setengah-mai-senang-naihenghong-tapi-set',
+    semai: 'Setengah mai senang naihenghong, tapi setengah mai nij ngkedei.',
+    ms: 'Sesetengah orang pandai bersiul, tetapi sesetengah yang lain tidak pandai berbuat demikian.',
+    en: 'Some people are good at whistling, but others are not.',
+    headword: 'henghong',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -20999,6 +23145,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Singa itu sedang menghendap untuk menerkam kancil.',
     en: 'The lion was lying in wait ready to pounce on the mousedeer.',
     headword: 'leklep',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'sinui-sinui-sengoi-ku-malyasia-adeh-semiyak',
+    semai: 'Sinui sengoi ku Malyasia adeh semiyak.',
+    ms: 'Kehidupan rakyat di Malaysia ini aman dan tenteram.',
+    en: 'The life of the people in Malaysia is peaceful.',
+    headword: 'sinui',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -21098,6 +23252,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'bicereg-suhaidi-imat-rilan-sebab-ajeh-ilei-bicer',
+    semai: 'Suhaidi imat rilan. Sebab ajeh ilei bicereg Bah Rilan ya iperingak.',
+    ms: 'Suhaidi memiliki mata yang besar. Itulah sebabnya dia dipanggil dengan nama Bah Rilan oleh keluarganya.',
+    en: 'Suhaidi has big eyes. That is why he is called by the name, Bah Rilan by his family members.',
+    headword: 'bicereg',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'jot-susu-ceber-ajeh-kijekjot-ku-ikeneng',
     semai: 'Susu ceber ajeh kijekjot ku ikeneng.',
     ms: 'Susu getah itu sedang meleleh pada pokoknya.',
@@ -21111,6 +23273,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Entah elok entah buruk isi durian itu.',
     en: "Maybe the flesh of this durian is good, or maybe it's bad.",
     headword: 'tah',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'jekjeg-tahut-depan-bah-man-ru-wak-mila-ubai-jek',
+    semai: 'Tahut depan Bah Man ru Wak Mila ubai jekjeg ku kampug amek ibakal kenah.',
+    ms: 'Pada tahun depan Bah Man dan Wak Mila akan berkahwin di kampung ibu bakal isterinya.',
+    en: "Next year Bah Man and Wak Mila are getting married in the village of the future wife's mother.",
+    headword: 'jekjeg',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -21204,6 +23374,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'cengeh-tapar-jog-wak-tina-luka-medei-kijag-ceng',
+    semai: 'Tapar jog Wak Tina luka medei kijag cengeh kaca pingat de jer ju iteg mase kisiksuj.',
+    ms: 'Tapak kaki Wak Tina menjadi luka kerana terpijak serpihan kaca dari pinggan yang jatuh dari tangannya semasa dia membasuh pinggan.',
+    en: "Wak Tina's foot was injured because she stepped on a piece of glass from the plate that had slipped from her hand and broken when she was washing the dishes.",
+    headword: 'cengeh',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'tapar-tapar-teg-eng-kilukak-mase-ngkutep-capeh',
     semai:
       'Tapar teg eng kilukak mase ngkutep capeh kaca tingkap kek de ceeh terok ya batu sentet.',
@@ -21284,6 +23462,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Tangan Bah Mali kudung sejak dari lahir.',
     en: "Bah Mali's hand has been crippled since birth.",
     headword: 'kuntus',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'seksog-teg-bah-pian-kiseksog-ku-engkap-lemari-m',
+    semai:
+      'Teg Bah Pian kiseksog ku engkap lemari mase kaha-kot ibaju de yog nu belakang lemari ajeh.',
+    ms: 'Tangan Bah Pian tersangkut di celah-celah almari semasa dia mahu mengambil bajunya yang terjatuh di belakang almari tersebut.',
+    en: "Bah Pian's hand got stuck between the cupboards as he wanted to pick up his shirt that had fallen on the back of the closet.",
+    headword: 'seksog',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -21375,6 +23562,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'teknod-teknod-sampah-de-bitod-ya-bah-net-pek-be',
+    semai: 'Teknod sampah de bitod ya Bah Net pek betol-betol ngej, lekat mong de pek bicak ya os.',
+    ms: 'Pembakaran sampah yang dibakar oleh Bah Net tidak terbakar dengan sempurna, masih ada yang tidak dimakan oleh api.',
+    en: 'The garbage that is being burned by Bah Net is not completely burned, there are still some pieces that have not been caught by the fire.',
+    headword: 'teknod',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'cernak-telas-amek-bah-bila-kipakei-kaca-mat-bar',
     semai: 'Telas amek Bah Bila kipakei kaca mat, baruleh imat ajeh cernak kineng lubog jarop.',
     ms: 'Setelah ibu Bah Bila memakai kaca mata, barulah matanya boleh melihat lubang jarum dengan jelas.',
@@ -21388,6 +23583,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Setelah biji benih diisi ke dalam tanah, tanah yang dicampur baja ditimbus ke lubang tersebut.',
     en: 'Once the seeds are put into the soil, the soil is mixed with fertilizer to fill up the hole.',
     headword: 'kup',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'danan-telas-danan-keneng-menek-ubai-ubai-ajeh-',
+    semai: 'Telas danan keneng-menek ubai, ubai ajeh ubai reknig.',
+    ms: 'Selepas kematian ibubapa, mereka itu menjadi yatim piatu.',
+    en: 'After the death of their parents, they became orphans.',
+    headword: 'danan',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -21456,6 +23659,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'becerei-telas-ya-9-tahut-ubai-bekenah-gensir-bah',
+    semai:
+      'Telas ya 9 tahut ubai bekenah-gensir, Bah Ramli ru Wak Timah ubai becerei ku minggu canukjeh.',
+    ms: 'Setelah mendirikan rumah tangga selama 9 tahun, Bah Ramli dan Wak Timah telah bercerai pada minggu lepas.',
+    en: 'After being married for 9 years, Bah Ramli and Wak Timah were divorced last week.',
+    headword: 'becerei',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'pempom-telas-ya-sudah-naibepanah-kak-bah-kudil-',
     semai:
       'Telas ya sudah naibepanah kak, Bah Kudil ru ikekawat naipempom os canuk naiha-berket berog enai sebelom naijog nu madeg.',
@@ -21486,6 +23698,23 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Tempat kerja Bah Meran hampir dengan Hospital Teluk Intan.',
     en: "Bah Meran's place of work is near the Teluk Intan Hospital.",
     headword: 'tempat',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'tenada-tenanda-ku-bek-nong-ajeh-ajeh-kibual-non',
+    semai:
+      'Tenanda ku bek nong ajeh ajeh kibual nong ajeh pek buleh bimuj, tapi lekat juga mong sengoi de naiha-muj nu majeh.',
+    ms: 'Penanda di tepi jalan itu menyatakan jalan tersebut tak boleh masuki, tapi masih juga terdapat orang yang mahu masuki ke jalan tersebut.',
+    en: 'The markers at the side of the road mean that the road cannot be used, but there are still people who want to use it.',
+    headword: 'tenada',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'tenanyak-tenanyak-bah-man-nu-tok-pengulu-ajeh-bul',
+    semai: 'Tenanyak Bah Man nu Tok Pengulu ajeh buleh hipanei isengik kibelal.',
+    ms: 'Pertanyaan Bah Man ke Tok Penghulu itu boleh kita ketahui bahawa hatinya sedang marah.',
+    en: "We could tell from Bah Man's question to the village chief that he was angry.",
+    headword: 'tenanyak',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -21656,6 +23885,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Abang saya dan isterinya telah kembali bersama semula.',
     en: 'My brother and his wife have got back together again.',
     headword: 'leklos',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'jekjeg-tenek-eng-ya-naijekjeg-nu-kampar',
+    semai: 'Tenek eng ya naijekjeg nu Kampar.',
+    ms: 'Kakak saya sudah berpindah ke Kampar.',
+    en: 'My sister has already moved to Kampar.',
+    headword: 'jekjeg',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -21845,6 +24082,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'perek-tiap-kali-wak-nani-kilei-nu-imadeg-ju-ik',
+    semai:
+      'Tiap kali Wak Nani kilei nu imadeg ju ikerjak, ikuceg mesti kiperek nu ilei ru kisempur iberog nu jog Wak Nani.',
+    ms: 'Setiap kali Wak Nani sampai ke rumah dari tempat kerjanya, kucingnya pasti mendekatinya dan menggesel badannya ke kaki Wak Nani.',
+    en: "Every time Wak Nani got home from work, her cat would approach her and rub its body against Wak Nani's leg.",
+    headword: 'perek',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'tiap-tiap-pegelap-bah-yus-kikus-awal-madei-ki',
     semai: 'Tiap pegelap Bah Yus kikus awal madei kinyek lingah et nu kerjak.',
     ms: 'Setiap pagi Bah Yus bangun awal kerana dia tak mahu lewat pergi kerja.',
@@ -21991,6 +24237,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'besenger-tong-sampah-ku-englag-deg-kedei-ajeh-ya-',
+    semai: 'Tong sampah ku englag deg kedei ajeh ya liu pek bisuj, besenger hineng.',
+    ms: 'Tong sampah yang terdapat di sebelah kedai tersebut sudah lama tak dicuci, ianya kelihatan menjijikkan.',
+    en: 'The rubbish bin at the side of the shop has not been washed for a long time, it looks disgusting.',
+    headword: 'besenger',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'utame-tujuan-utame-teniba-tok-long-nu-deg-jik-',
     semai:
       'Tujuan utame teniba Tok Long nu deg jik kelemnek, madey kiha-pasal gah danan atok jik ku Hospital Tanah Rata.',
@@ -22089,6 +24343,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'nyinyui-ubai-kenah-gensir-ajeh-bior-nyinyuui-ya-',
+    semai: 'Ubai kenah-gensir ajeh bior nyinyuui ya pastor mase ku arik jekneg ubai.',
+    ms: 'Pasangan suami isteri itu disuruh bercium oleh pastor semasa hari pernikahan mereka.',
+    en: 'The couple was told to kiss by the pastor on their wedding day.',
+    headword: 'nyinyui',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'bai-ubai-wak-sirah-ru-igensir-baiet-nu-ipoh',
     semai: 'Ubai Wak Sirah ru igensir baiet nu Ipoh.',
     ms: 'Wah Sirah dan suaminya pergi ke Ipoh.',
@@ -22159,6 +24421,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Wa Nadia luruskan rambut di kedai rambut.',
     en: 'Wa Nadia had her hair straightened at the hair salon.',
     headword: 'jelos',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'permem-wah-ani-kipermem-ikenon-ru-imem-medei-ik',
+    semai: 'Wah Ani kipermem ikenon ru imem medei ikenon ajeh pai yos.',
+    ms: 'Wak Ani menyusui anaknya dengan susunya sendiri kerana anaknya tersebut baharu lahir.',
+    en: 'Wak Ani breastfeeds her child with her own milk because her child is newly born.',
+    headword: 'permem',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -22251,6 +24521,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'daknek-wak-alang-mong-jeoi-ibinatag-daknek-bege',
+    semai: 'Wak Alang mong jeoi ibinatag daknek begei ha kuceg, cok, pog, ru angsa.',
+    ms: 'Wak Alang mempunyai banyak binatang peliharaan seperti kucing, anjing, ayam dan angsa.',
+    en: 'Wak Alang has many pets such as cats, dogs, chickens and geese.',
+    headword: 'daknek',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'wak-anu-wak-alel-kisemanj-tulog-nu-numom-menaleh',
     semai:
       'Wak Alel kisemanj tulog nu numom menaleh de pek kikenal, kiurok begei adeh, "Wak anu, bulehka hatulog kot arap de yog eng ajeh?"',
@@ -22326,6 +24604,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'beselai-wak-amah-kigemar-beselai-ru-kek-mong-kic',
+    semai: 'Wak Amah kigemar beselai ru kek mong kicet bemacam jenis sayo ru ceknet.',
+    ms: 'Wak Amah suka berkebun dan dia ada menanam pelbagai jenis sayur dan tanaman.',
+    en: 'Wak Aman loves gardening and she is growing various types of vegetables and plants..',
+    headword: 'beselai',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'gul-batu-wak-amah-kiguna-gul-batu-kiseh-ha-lada',
     semai: 'Wak Amah kiguna gul batu kiseh ha lada.',
     ms: 'Wak Amah menggunakan lesung batu untuk menumbuk cili.',
@@ -22374,6 +24660,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'berpah-wak-ana-kiberpah-ceruk-de-bitil-ya-iamek',
+    semai: 'Wak Ana kiberpah ceruk de bitil ya iamek, dea sot ienglag nij.',
+    ms: 'Wak Ana menterbalikkan tikar yang dijemur oleh ibunya supaya sisi yang lagi satu pun kering juga.',
+    en: 'Wak Ana turned over the mat that her mother had allowed to dry under the sun, so that the other side would dry as well.',
+    headword: 'berpah',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'geba-wak-ana-kikot-abat-gebar-ha-ikenon-ku-pa',
     semai: 'Wak Ana kikot abat gebar ha ikenon ku pasa malam.',
     ms: 'Wak Ana membeli kain gebar buat anaknya di pasar malam.',
@@ -22412,6 +24706,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Wak Andak dimarahi oleh bapanya kerana berlengah-lengah membuat kerja sekolah.',
     en: 'Wak Andak was scolded by her father because she procrastinated about doing her homework.',
     headword: 'dadek',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'bercet-wak-andak-tengah-kibercet-bubor-hu-ikeno',
+    semai: 'Wak Andak tengah kibercet bubor hu ikenon de nyik.',
+    ms: 'Wak Andak sedang memasak bubur untuk anaknya yang sakit.',
+    en: 'Wak Andak is cooking porridge for her sick child.',
+    headword: 'bercet',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -22627,6 +24929,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'cenibok-wak-betty-kiguna-cenibok-kaha-boh-teu-nu',
+    semai: 'Wak Betty kiguna cenibok kaha-boh teu nu kateh takar.',
+    ms: 'Wak Betty menggunakan penceduk air untuk mengisi air ke dalam tempayan.',
+    en: 'Wak Betty uses a scoop to fill the barrel with water.',
+    headword: 'cenibok',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'bekalen-wak-bibah-kilog-iabat-kembong-ajeh-bekal',
     semai: 'Wak Bibah kilog iabat kembong ajeh bekalen.',
     ms: 'Wak Bibah memakai kain sarungnya terbalik.',
@@ -22684,6 +24994,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'cakcak-wak-caca-kigemar-cakcak-sej-pog-de-bigur',
+    semai: 'Wak Caca kigemar cakcak sej pog de bigureng ya iamek.',
+    ms: 'Wak Caca suka memakan ayam yang digoreng oleh ibunya.',
+    en: "Wak Caca likes to eat her mother's fried chicken.",
+    headword: 'cakcak',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'gusok-wak-cici-kigusok-minyak-angin-ku-ikui-me',
     semai: 'Wak Cici kigusok minyak angin ku ikui medei ha kiluig.',
     ms: 'Wak Cici menggosok minyak angin di kepalanya kerana merasa pening kepala.',
@@ -22734,6 +25052,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'siksuj-wak-dia-ru-iamek-ubai-seksuj-pingat-ku-t',
+    semai: 'Wak Dia ru iamek ubai seksuj pingat ku teu entoi.',
+    ms: 'Wak Dia dan ibunya mencuci pinggan-mangkuk di sungai.',
+    en: 'Wak Dia and her mother wash the dishes in the river.',
+    headword: 'siksuj',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'batan-wak-dia-ru-wak-mia-ubai-begalaj-batan-ha',
     semai: 'Wak Dia ru Wak Mia ubai begalaj batan ha benahgi kerjak ku kateg deg.',
     ms: 'Wak Dia dan Wak Mia bertengkar gara-gara pembahagian kerja-kerja rumah.',
@@ -22774,6 +25100,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'rengang-wak-dilah-kihayal-nengneng-tv-lei-pek-ki',
+    semai: 'Wak Dilah kihayal nengneng tv lei pek kisedar rengang iempag.',
+    ms: 'Wak Dilah sedang asyik menonton tv sehingga tidak menyedari mulutnya ternganga.',
+    en: 'Wak Dilah was so busy watching TV that she did not realize her mouth was wide open.',
+    headword: 'rengang',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'sental-wak-dugei-kipan-sental-kit-periyok-medei',
     semai: 'Wak Dugei kipan-sental kit periyok medei rengeh ya jengkah.',
     ms: 'Wak Dugei menyental buntut periuk dengan sekuat-kuatnya kerana ianya hitam akibat daki arang.',
@@ -22806,11 +25140,28 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'bersij-wak-elis-kibersij-ju-iamek-ilei-kiet-nu-',
+    semai: 'Wak Elis kibersij ju iamek ilei kiet nu runggen kelemnek.',
+    ms: 'Wak Elis merahsiakan dari ibunya bahawa beliau ke joget malam tadi.',
+    en: 'Wak Elis kept it a secret from her mother that she had gone to a dance party the previous night.',
+    headword: 'bersij',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'cucok-wak-elis-kicucok-jarop-ku-dekok-imenang',
     semai: 'Wak Elis kicucok jarop ku dekok imenang.',
     ms: 'Wak Elis mencucuk jarum pada bisul adiknya.',
     en: "Wak Elis poked a needle in his brother's boil.",
     headword: 'cucok',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'pikpes-wak-embong-kipispes-ideg-medei-ya-nik-ar',
+    semai:
+      'Wak Embong kipispes ideg medei ya nik arik pek kipes ideg ajeh medei kisibok kerakjak. Ku arik ajeh kek kicuti ikerjak, jadi kikot mase kikemas ideg.',
+    ms: 'Wak Embong menyapu rumahnya kerana sudah tiga hari dia tidak menyapu rumahnya tersebut kerana sibuk bekerja. Pada hari tersebut dia cuti dari pekerjaannya, jadi dia mengambil masa tersebut untuk mengemas rumahnya.',
+    en: 'Wak Embong swept her house because he had not swept her house for three days, as she was busy with work. On that day she was on leave from work, so she took the time to tidy up her house.',
+    headword: 'pikpes',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -22852,6 +25203,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Wak Gayah suka mengungkit kisah lama, dia asyik menyatakan hal pertolongan yang pernah dia menolong saya dahulu.',
     en: 'Wak Gayah likes to bring up the past, she keeps mentioning the help that she gave to me in the past.',
     headword: 'ungkit',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'pog-entag-wak-gina-kicog-ipog-entag-ya-sunteg',
+    semai: 'Wak Gina kicog ipog entag ya sunteg.',
+    ms: 'Wak Gina menindik cuping telinganya dengan subang.',
+    en: 'Gina pierced her earlobes with earrings.',
+    headword: 'pog entag',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -22914,6 +25273,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'persot-wak-hani-kipersot-abat-de-kena-ya-manik-',
+    semai: 'Wak Hani kipersot abat de kena ya manik ku kateh misen basoh.',
+    ms: 'Wak Hani mengeringkan kain-kain yang terkena hujan ke dalam mesin basuh.',
+    en: 'Wak Hani dried the clothes that were wet because of the rain in the washing machine.',
+    headword: 'persot',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'sop-wak-hani-kisop-bubor-ku-imenang-de-iumor',
     semai: 'Wak Hani kisop bubor ku imenang de iumor nar tahut ajeh.',
     ms: 'Wak Hani menyuap bubur kepada adiknya yang berumur dua tahun tersebut.',
@@ -22943,6 +25310,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Wak Hani selalu membawa anak-anakknya ke taman permainan kerana mereka suka bermain buaian di situ.',
     en: 'Wak Hani always takes her children to the playground because they like to play on the swings there.',
     headword: 'buei',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'daknak-wak-hanny-kiles-ha-imemenang-medei-naipe',
+    semai: 'Wak Hanny kiles ha imemenang medei naipesipah itempat daknak.',
+    ms: 'Wak Hani memarahi adik-adiknya kerana membuat tempat tidurnya menjadi bersepah.',
+    en: 'Wak Hani scolded her young siblings for messing up her sleeping place.',
+    headword: 'daknak',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -23133,6 +25508,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Wak Jangkor membeli gula-gula untuk adik.',
     en: 'Wak Jangkor bought sweets for his sister.',
     headword: 'cekelat',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'perder-wak-jangkor-kiperder-os-medei-kaha-rag-k',
+    semai: 'Wak Jangkor kiperder os medei kaha-rag kak.',
+    ms: 'Wah Jangkor menyalakan api kerana mahu membakar ikan.',
+    en: 'Wah Jangkor lit a fire because she wanted to grill some fish.',
+    headword: 'perder',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -23516,6 +25899,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'bekenah-gensir-wak-lisa-ru-bah-anam-ya-nik-tahut-ubai-b',
+    semai: 'Wak Lisa ru Bah Anam ya nik tahut ubai bekenah-gensir, tapi lekat pek ubai kep kenon.',
+    ms: 'Wak Lisa dan Bah Aman sudah tiga tahun berkahwin tetapi masih belum mempunyai anak.',
+    en: "Wak Lisa and Bah Aman have been married for three years but still don't have any children.",
+    headword: 'bekenah-gensir',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'cuos-wak-long-kicuos-jerlak-ku-jog-ikenon',
     semai: 'Wak Long kicuos jerlak ku jog ikenon.',
     ms: 'Wak Long mencungkil duri yang terdapat pada kaki anaknya.',
@@ -23556,6 +25947,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'berked-wak-mala-kiberked-kihalei',
+    semai: 'Wak Mala kiberked kihalei.',
+    ms: 'Wak Mala mengandung anak luar nikah.',
+    en: 'Wak Mala is pregnant out of wedlock.',
+    headword: 'berked',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'gerinel-wak-mala-kiet-nu-kedei-sog-kibeh-isog-ge',
     semai: 'Wak Mala kiet nu kedei sog, kibeh isog gerinel.',
     ms: 'Wak Mala pergi ke salon rambut dan membuat rambutnya menjadi kerinting.',
@@ -23569,6 +25968,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Wak Mila membeli cuma sejemput sahaja ikan bilis kerana harganya yang mahal.',
     en: 'Wak Mila bought just a small amount of anchovies because of the high price.',
     headword: 'cebot',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'cengip-wak-mala-ru-ikekenon-naigei-ku-luar-deg-',
+    semai:
+      'Wak Mala ru ikekenon naigei ku luar deg medei nairasa cengip mase mai ju Kementerian Kesihatan naipam cas penglai kemet ku kawasan deg enai.',
+    ms: 'Wak Mala dan anak-anaknya duduk diluar rumah kerana merasa lemas akibat asap semasa orang-orang dari Kementerian Kesihatan mengepam asap semburan ubat nyamuk di kawasan rumah mereka.',
+    en: 'Wak Mala and her children sat outside the house because they felt suffocated by the smoke when the worker from the Ministry of Health was spraying mosquito repellent in their housing area.',
+    headword: 'cengip',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -23593,6 +26001,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Wak Mamah suka memasak pucuk ubi dengan santan.',
     en: 'Wak Mamah likes to cook the tapioca shoots with coconut milk.',
     headword: 'ber gale',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'ceruk-ceber-wak-mamah-kitulog-iapak-lai-ceruk-ceber-',
+    semai: 'Wak Mamah kitulog iapak lai ceruk ceber ku ruang tamu deg enai.',
+    ms: 'Wak Mamah menolong bapanya membentangkan tikar getah ke ruang tamu rumah mereka.',
+    en: 'Wak Mamah helped her father to spread the PVC mat in their living room.',
+    headword: 'ceruk ceber',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -23668,6 +26084,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'tergak-wak-manje-kitergak-isog-de-geril-ajeh-ku',
+    semai: 'Wak Manje kitergak isog de geril ajeh ku kedei sog.',
+    ms: 'Wak Manje meluruskan rambutnya yang kerinting itu di kedai rambut.',
+    en: 'Wak Manje had her curly hair straightened at the hair saloon.',
+    headword: 'tergak',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'tilop-wak-mar-kitilop-abat-mase-kineng-tv-made',
     semai: 'Wak Mar kitilop abat mase kineng TV madei ha kisengij.',
     ms: 'Wak Mar meyelimuti badannya dengan kain semasa menonton TV kerana merasa sejuk.',
@@ -23681,6 +26105,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Wak Maria memasak sup ayam bagi makanan tengah harinya.',
     en: 'Wak Maria is making chicken soup for her lunch.',
     headword: 'sop',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'berkop-wak-maria-kiberkop-lik-ku-kemil-mije-tel',
+    semai: 'Wak Maria kiberkop lik ku kemil mije telas kisuj lik ajeh medei kihod iteu jot.',
+    ms: 'Wak Maria menterbalikkan kuali di atas meja setelah selesai mencuci kuali tersebut kerana mahu air menitis dari kuali tersebut.',
+    en: 'Wak Maria turned the pan over on the table after she had finished washing it because she wanted the water to drip from the pan.',
+    headword: 'berkop',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -23741,6 +26173,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'cenggeh-wak-maria-kiog-butol-sos-nu-igensir-mede',
+    semai: 'Wak Maria kiog butol sos nu igensir medei ihad icenggeh, pek lalu kibuka.',
+    ms: 'Wak Maria memberikan botol sos kepada suaminya kerana sangat susah untuk dibuka dan dia tidak mampu membukanya.',
+    en: 'Wak Maria gave a bottle of sauce to her husband because it was very difficult to open and she unable to open it.',
+    headword: 'cenggeh',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'seh-wak-maria-kiseh-lada-cep-ku-guul-batuuq-',
     semai: 'Wak Maria kiseh lada cep ku guul batuuq medei kaha-masak ru kak masak lemak.',
     ms: 'Wak Maria menumbuk cili burung di dalam lesung batu kerana dimasak bersama ikan masak lemak.',
@@ -23796,6 +26236,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Wak Masnah memotong ayam pada papan pemotong, (ayam tersebut) dia mahu masak kari.',
     en: 'Wak Masnah is cutting the chicken on the chopping board. She wants to cook curry.',
     headword: 'tatal',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'telnil-wak-mawar-kijerjar-kilawat-kaha-jet-abat',
+    semai: 'Wak Mawar kijerjar kilawat kaha-jet abat ku telnil medei iarik ya kaha-manik.',
+    ms: 'Wak Mawar berlari tergesa-gesa dia mahu mengangkat kain di penyidai kerana cuacanya sudah mahu hujan.',
+    en: 'Wak Mawar ran hurriedly to take all the clothes off the clothes lines because it was about to rain.',
+    headword: 'telnil',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -23929,6 +26377,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'cengkor-wak-mia-kipet-ikenon-sanget-medei-ikenon',
+    semai:
+      'Wak Mia kipet ikenon sanget medei ikenon ajeh kiguna sudu sebegei cengkor, kicekor tik ku laman deg enai.',
+    ms: 'Wak Mia memukul anaknya yang masih kecil tersebut kerana menggunakan sudu sebagai pengorek dan mengorek tanah di halaman rumah mereka.',
+    en: 'Wak Mia hit her young son for using a spoon as a digger and digging the soil in their front yard.',
+    headword: 'cengkor',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'rempet-wak-mia-kirempet-ikenon-medei-ha-kidegil',
     semai:
       'Wak Mia kirempet ikenon medei ha kidegil, kinyek jekjug hamapen iarik ya pukol dua belas kelem.',
@@ -23987,6 +26444,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'rarok-wak-mila-kirarok-medei-kineng-ha-semak-i',
+    semai: 'Wak Mila kirarok medei kineng ha semak ideg ya ikekenon.',
+    ms: 'Wak Mila merungut kerana melihat rumahnya bersepah oleh anak-anaknya.',
+    en: 'Wak Mila gumbled after she saw her house messed up by her children.',
+    headword: 'rarok',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'menghar-wak-mila-kisalei-menghar-becog-de-biberk',
     semai: 'Wak Mila kisalei menghar becog de biberkep ya igensir cinek ku wal ceos.',
     ms: 'Wak Mila menyalai daging kancil yang diburu oleh suaminya sebentar tadi di dapur kayu api.',
@@ -24001,6 +26466,23 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Wak Mila menterbalikkan botos sos cili tersebut kerana mahu membuatkan sosnya jatuh ke bibir botol supaya mudah bagi beliau mengeluarkan sos tersebut nanti.',
     en: 'Wak Mila inverted the bottle of chili sauce because she wanted to make the sauce fall to the mouth of the bottle so that it would be easier for her to get the sauce out.',
     headword: 'sereh',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'serlog-wak-mila-kiserlog-sarong-bantal-ru-saron',
+    semai:
+      'Wak Mila kiserlog sarong bantal ru sarong tilam pai ha ikawat de kitumpang bet ku deg kek ku kelem ajeh.',
+    ms: 'Wak Mila menyarungkan sarung bantal dan sarung tilam baharu buat rakannya yang menumpang tidur di rumahnya pada malam tersebut.',
+    en: 'Wak Mila put on a new pillowcase and mattress cover for her friend who was sleeping at her house that night.',
+    headword: 'serlog',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'baju-deknak-wak-mila-pai-kikot-baju-deknak-de-kaha-g',
+    semai: 'Wak Mila pai kikot baju deknak de kaha-guna ku waktu mengot.',
+    ms: 'Wak Mila baharu membeli baju tidur yang akan digunakan pada waktu malam.',
+    en: 'Wak Mila just bought a pair of pyjamas that she will use at night time.',
+    headword: 'baju deknak',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -24140,6 +26622,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Wak Mira suka memakai alat solek, tidak mengira samada duduk di rumah atau keluar dari rumah, dia selalu memakai alat solek.',
     en: 'Wak Mira likes to wear makeup, no matter whether sitting at home or out of the house, she always wears makeup.',
     headword: 'log',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'ceknip-wak-mira-lekat-buleh-kibayang-lei-hunen-',
+    semai:
+      'Wak Mira lekat buleh kibayang lei hunen ha kemalangan kerite ru lori de kibakek mase ku kateh iceknip nu Cameron Highlands.',
+    ms: 'Sehingga sekarang, Wak Mira masih boleh membayangkan kejadian kemalangan antara kereta dan lori yang beliau saksikan semasa di dalam perjalanannya ke Cameron Highland.',
+    en: 'Until now, Wak Mira can still recall in her mind the accident between a car and a truck that she witnessed on her trip to Cameron Highlands.',
+    headword: 'ceknip',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -24327,6 +26818,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Wak Ngah mengcungkil bisul yang terdapat pada lutut anaknya.',
     en: "Wak Ngah gouged out the boil on his son's knee.",
     headword: 'cewos',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'gekgep-wak-ngah-kigekgep-cengroi-sambel-rimnar-',
+    semai: 'Wak Ngah kigekgep cengroi sambel rimnar ikenon menaleh ubai seh bak.',
+    ms: 'Wak Ngah menampi beras sambil kedua-dua anaknya menumbuk padi.',
+    en: 'Wak Ngah winnowed the rice while her two daughters pounded the paddy.',
+    headword: 'gekgep',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -24706,6 +27205,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'permuj-wak-ramlah-kipermuj-abat-de-ya-kilipat-n',
+    semai: 'Wak Ramlah kipermuj abat de ya kilipat nu kateh almari.',
+    ms: 'Wak Ramlah memasukkan kain yang sudah dilipatnya ke dalam almari.',
+    en: 'Wak Ramlah put the cloth she had folded into the closet.',
+    headword: 'permuj',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'puntog-wak-ramlah-kipes-puntog-rukok-de-besipah',
     semai: 'Wak Ramlah kipes puntog rukok de besipah bipej diteh-madeh ku depan ikedei.',
     ms: 'Wak Ramlah menyapu puntung-puntung rokok yang bersepah dibuang merata-rata di depan kedainya.',
@@ -24744,6 +27251,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Wah Ria memerah kain-kain yang baharu dibasuhnya sebelum menjemurnya kerana dia mahu kain-kain tersebut cepat mengering.',
     en: 'Wah Ria wrung the clothes she had just washed before drying them because she wanted them to dry quickly.',
     headword: 'rit',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'cacoh-wak-rima-kiberyol-imemang-dea-kiperop-ke',
+    semai:
+      'Wak Rima kiberyol imemang dea kiperop kek cacoh nu tandas ku luar deg medei iarik ya kelem.',
+    ms: 'Wak Rima mengejutkan adiknya dari tidur supaya menemaninya pergi membuang air besar pada tandas yang terletak di luar rumah kerana waktu sudah malam.',
+    en: 'Wak Rima woke her younger sister from sleep to accompany her to defecate on the toilet which was located outside the house, because it was already night.',
+    headword: 'cacoh',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -24811,6 +27327,22 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Wak Rina memilih dengan betul-betul bawang yang ingin dia beli di kedai runcit tersebut kerana terdapat bawang yang sudah rosak.',
     en: 'Wak Rina is carefully choosing the onion that she wants to buy at the grocery store because there are onions that are already rotten.',
     headword: 'pileh',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'tenampal-wak-ris-kibeli-tenampal-kasot-medei-ikas',
+    semai: 'Wak Ris kibeli tenampal kasot medei ikasot sekulah ya betej.',
+    ms: 'Wak Ris membeli penampal kasut kerana kasut sekolahnya sudah koyak.',
+    en: 'Wak Ris bought shoe patches because her school shoes were torn.',
+    headword: 'tenampal',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'cot-sengik-wak-risa-deras-kikot-sengik-bile-bitegor',
+    semai: 'Wak Risa deras kikot sengik bile bitegor ya ikawat.',
+    ms: 'Wak Risa cepat mengambil hati bila ditegur oleh kawannya.',
+    en: 'Wak Risa easily felt offended when reprimanded by her friend.',
+    headword: 'cot sengik',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -24902,6 +27434,22 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Wak Sali lulus temuduga tadi.',
     en: 'Wak Sali passed the interview earlier.',
     headword: 'lulos',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'permuh-wak-sali-kipermuh-imenang-sanget-telas-d',
+    semai: 'Wak Sali kipermuh imenang sanget telas dij isahnah abat.',
+    ms: 'Wak Sali memandikan adiknya yang masih kecil setelah dia siap mencuci pakaian.',
+    en: 'Wak Sali bathed her younger brother after she had finished doing the laundry.',
+    headword: 'permuh',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'peryos-wak-sali-kiperyos-kenon-kerbar-rimar-ike',
+    semai: 'Wak Sali kiperyos kenon kerbar, rimar ikenon ajeh kerdor.',
+    ms: 'Wak Sali melahirkan anak kembar dimana kedua-dua anaknya tersebut adalah perempuan.',
+    en: 'Wak Sali gave birth to twins girls.',
+    headword: 'peryos',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -25133,6 +27681,23 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'pinoi-wak-senah-ru-ikekenon-naigei-ku-luar-deg',
+    semai:
+      'Wak Senah ru ikekenon naigei ku luar deg, ku kerop jehuk ku dui ajeh medei beket ku kateh deg, pek bepinoi.',
+    ms: 'Wak Senah dan anak-anaknya duduk di luar rumah, di bawah pokok pada waktu petang kerana merasa panas di dalam rumah akibat tiada angin.',
+    en: 'Wak Senah and her children sat outside the house, under a tree during the evening because they felt hot inside the house without any air current.',
+    headword: 'pinoi',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'senidei-wak-senah-ru-wak-zaza-ubai-et-nu-serag-b',
+    semai: 'Wak Senah ru Wak Zaza ubai et nu serag baiha-kek awat, baiha-beh senidei abat.',
+    ms: 'Wak Senah dan Wak Zasa pergi ke hutan untuk mencari buluh kerana mahu membuat penyidai kain.',
+    en: 'Wak Senah and Wak Zasa went to the forest to look for bamboo because they wanted to make a clothes line.',
+    headword: 'senidei',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'tarek-wak-seni-kitarek-kerusi-de-bisusot-ku-te',
     semai:
       'Wak Seni kitarek kerusi de bisusot ku tepi dinig, kaha-og ginei nu tengloh de tiba nu imadeg.',
@@ -25148,6 +27713,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Wak Shima ditinggalkan oleh bapanya kerana dia berlengah-lengah, bapanya mahu segera ke pekan kerana risau kedai-kedai di pekan tersebut akan ditutup.',
     en: 'Wak Shima was left by her father because she was taking too much time (to get ready), her father wanted to go to town immediately because he was worried that the shops in the town would be closed.',
     headword: 'arag',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'cerlog-wak-shima-kicerlog-nij-empoj-nu-menasak-',
+    semai: 'Wak Shima kicerlog nij empoj nu menasak ikenon menaleh medei kirasa lekat beloj.',
+    ms: 'Wak Shima memasukan lagi garam ke dalam masakan anak gadisnya kerana merasa masakan tersebut masih tawar.',
+    en: "Wak Shima added more salt to her daughter's cooking because she felt the food was still tasteless.",
+    headword: 'cerlog',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -25284,6 +27857,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Wak Siti tergesa-gesa melakukan kerjanya kerana mahu pulang awal.',
     en: 'Wak Siti was in a hurry to do her work because she wanted to go home early.',
     headword: 'karah',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'sentat-wak-siti-kineng-cerite-korea-ajeh-sentat',
+    semai:
+      'Wak Siti kineng cerite Korea ajeh sentat ju episod petame lagi, langsong pek penah kisip neng jap episod.',
+    ms: 'Wak Siti menonton drama Korea tersebut bermula dari episod pertama lagi, dia langsung tidak pernah lupa untuk menonton setiap episod.',
+    en: 'Wak Siti watched the Korean drama beginning from the first episode and she never forgot to watch any episode thereafter.',
+    headword: 'sentat',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -25499,6 +28081,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'engrok-wak-tina-kipanei-belwal-engrok-hik-engro',
+    semai: 'Wak Tina kipanei belwal engrok hik, engrok gop, engrok cina, ru engrok mai biyeg.',
+    ms: 'Wak Tian tahu bertutur dalam Bahasa Semai, Bahasa Melayu, Bahasa Mandrin, dan Bahasa Inggeris.',
+    en: 'Wak Tina knows how to speak in Semai, Malay, Mandarin, and English languages.',
+    headword: 'engrok',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'ruah-wak-tina-kiruah-ten-saden-kiguna-yoj',
     semai: 'Wak Tina kiruah ten saden kiguna yoj.',
     ms: 'Wak Tina membuka tin sardin menggunakan pisau.',
@@ -25529,6 +28119,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Wak Uli membahagi dua limau yang diberikan oleh gurunya dan memberi sebelah kepada Bah Suan.',
     en: 'Wak Uli divided into two the orange that was given by her teacher and gave the other half to Bah Suan.',
     headword: 'bagi due',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'perngut-wak-usi-kiperngut-susu-nu-ikuceg',
+    semai: 'Wak Usi kiperngut susu nu ikuceg.',
+    ms: 'Wak Usi meminumkan susu kepada kucingnya.',
+    en: 'Wak Usi gave milk to his cat.',
+    headword: 'perngut',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -25596,6 +28194,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Wak Yani tidak membeli sayur-sayur yang dijual di pasaraya tersebut kerana semuanya tidak segar belaka.',
     en: 'Wak Yani did not buy the vegetables that were being in the supermarket because none of it was fresh.',
     headword: 'segar',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'cekcip-wak-yani-ru-ikekawat-naigemar-cekcip-nu-',
+    semai: 'Wak Yani ru ikekawat naigemar cekcip nu pasa malam.',
+    ms: 'Wak Yani dan kawan-kawannya suka berjalan-jalan ke pasar malam.',
+    en: 'Wak Yani and her friends like to go window shopping at the night market.',
+    headword: 'cekcip',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -25680,6 +28286,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'ya-eng-ya-eng-tulok-mai-ajeh',
+    semai: 'Ya eng tulok mai ajeh.',
+    ms: 'Saya sendiri tolong mereka',
+    en: 'I myself helped them.',
+    headword: 'ya eng',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'ya-hik-ya-hik-le-ui-ajeh',
     semai: 'Ya hik le ui ajeh.',
     ms: 'Kita orang sendiri la yang buat itu.',
@@ -25721,6 +28335,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     source: 'Webonary Cloud API sentence example',
   },
   {
+    id: 'serakngik-ya-memerip-minit-bah-rilan-kitemenung-me',
+    semai:
+      'Ya memerip minit Bah Rilan kitemenung medei kiserakngik kaha-jog nu kampugka tok. Ilei ihad kiriag ha iperingak ku kampug tapi pek cukop ibelanja ha iceknip kaha-jog nu kampug. Jadi, tengah kiserakngik ma de patot kibeh.',
+    ms: 'Sudah berberapa minit Bah Rilan termenung kerana sedang berfikir sama ada mahu pulang atau tidak ke kampung. Beliau sangat merindui keluarganya di kampung tetapi tidak mempunyai belanja yang cukup bagi perjalanan untuk pulang ke kampung. Jadi, beliau sedang berfikir perkara yang patut beliau lakukan.',
+    en: 'Bah Rilan has been pensive for several minutes now because he is thinking about whether or not he should go back to the village. He really misses his family but does not have enough money for the trip. So, he is thinking what to do.',
+    headword: 'serakngik',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
     id: 'minggu-ya-nar-minggu-wak-kila-kikehol-tapi-leka',
     semai: 'Ya nar minggu Wak Kila kikehol, tapi lekat kinyek pek kaha-et bakek dokte.',
     ms: 'Sudah dua minggu Wak Kila batuk, tetapi dia masih tidak mahu berjumpa dengan doktor.',
@@ -25734,6 +28357,15 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Sudah tiga malam Bah Rani tidak dapat tidur dengan lena kerana kesakitan yang dia alami akibat jatuh dari motosikal.',
     en: 'For three nights Bah Rani could not sleep well because of the pain he had experienced as a result of falling from a motorcycle.',
     headword: 'kenglem',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'dakdek-ya-nik-tahut-wak-nani-kidakdek-iduet-med',
+    semai:
+      'Ya nik tahut Wak Nani kidakdek iduet medei kibeserngik kaha-becuti nu Korea telas iduet ajeh ya cukop.',
+    ms: 'Sudah tiga tahun Wak Nani menyimpan duitnya kerana berkeinginan untuk bercuti ke Korea setelah duitnya tersebut sudah cukup.',
+    en: 'Wak Nani has been saving her money for three years already because she wants to go on holiday to Korea after she has enough money.',
+    headword: 'dakdek',
     source: 'Webonary Cloud API sentence example',
   },
   {
@@ -25790,6 +28422,14 @@ export const WEBONARY_SENTENCE_EXAMPLES: SentenceExampleEntry[] = [
     ms: 'Siang tadi hujan dengan ribut petir.',
     en: 'There was rain with a thunderstorm this afternoon.',
     headword: 'jear',
+    source: 'Webonary Cloud API sentence example',
+  },
+  {
+    id: 'yahyoh-yahyoh-keneng-jehuk-ajeh-bipoi-ya-pinui',
+    semai: 'Yahyoh keneng jehuk ajeh bipoi ya pinui.',
+    ms: 'Pokok itu dihayun oleh angin.',
+    en: 'The tree was swayed by the wind.',
+    headword: 'yahyoh',
     source: 'Webonary Cloud API sentence example',
   },
   {

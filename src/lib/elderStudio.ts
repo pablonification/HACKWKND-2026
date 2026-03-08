@@ -849,6 +849,60 @@ const parseAiDraft = (payload: Record<string, unknown> | null): StudioAiDraft | 
   };
 };
 
+const SESSION_EXPIRY_SAFETY_WINDOW_MS = 60_000;
+
+const getAiHelperAccessToken = async (forceRefresh = false): Promise<string> => {
+  if (forceRefresh) {
+    const { data, error } = await supabase.auth.refreshSession();
+    if (error) {
+      return '';
+    }
+    return data.session?.access_token?.trim() ?? '';
+  }
+
+  const {
+    data: { session },
+    error,
+  } = await supabase.auth.getSession();
+  if (error) {
+    return '';
+  }
+
+  const existingToken = session?.access_token?.trim() ?? '';
+  const expiresAtMs =
+    typeof session?.expires_at === 'number' ? session.expires_at * 1000 : Number.POSITIVE_INFINITY;
+  const shouldRefresh =
+    !existingToken || expiresAtMs <= Date.now() + SESSION_EXPIRY_SAFETY_WINDOW_MS;
+
+  if (!shouldRefresh) {
+    return existingToken;
+  }
+
+  const { data, error: refreshError } = await supabase.auth.refreshSession();
+  if (refreshError) {
+    return existingToken;
+  }
+
+  return data.session?.access_token?.trim() ?? existingToken;
+};
+
+const requestAiTranscribe = async (
+  audioUrl: string,
+  recordingType: StudioRecordingType,
+  accessToken: string,
+): Promise<Response> =>
+  fetch(`${AI_BASE_URL}/ai/transcribe`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+    },
+    body: JSON.stringify({
+      audio_url: audioUrl,
+      recording_type: recordingType,
+    }),
+  });
+
 const requestAiTranscription = async (
   audioUrl: string,
   options?: { strict?: boolean; recordingType?: StudioRecordingType },
@@ -863,19 +917,16 @@ const requestAiTranscription = async (
 
   let response: Response;
   try {
-    const { data: sessionData } = await supabase.auth.getSession();
-    const accessToken = sessionData?.session?.access_token ?? '';
-    response = await fetch(`${AI_BASE_URL}/ai/transcribe`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
-      },
-      body: JSON.stringify({
-        audio_url: audioUrl,
-        recording_type: options?.recordingType ?? 'story',
-      }),
-    });
+    const recordingType = options?.recordingType ?? 'story';
+    const accessToken = await getAiHelperAccessToken();
+    response = await requestAiTranscribe(audioUrl, recordingType, accessToken);
+
+    if (response.status === 401) {
+      const refreshedAccessToken = await getAiHelperAccessToken(true);
+      if (refreshedAccessToken) {
+        response = await requestAiTranscribe(audioUrl, recordingType, refreshedAccessToken);
+      }
+    }
   } catch (error) {
     if (strict) {
       const reason = error instanceof Error ? error.message : 'connection failed';

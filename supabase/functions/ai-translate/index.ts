@@ -55,6 +55,8 @@ const CEREBRAS_API_KEY = Deno.env.get('CEREBRAS_API_KEY') ?? '';
 const CEREBRAS_MODEL = Deno.env.get('CEREBRAS_MODEL') ?? 'zai-glm-4.7';
 const CEREBRAS_FALLBACK_MODEL = Deno.env.get('CEREBRAS_FALLBACK_MODEL') ?? 'gpt-oss-120b';
 const NO_GUESS_SEMAI_MODE = (Deno.env.get('NO_GUESS_SEMAI_MODE') ?? 'true') !== 'false';
+const ENABLE_SECOND_PROVIDER =
+  (Deno.env.get('TRANSLATION_ENABLE_SECOND_PROVIDER') ?? 'false') === 'true';
 
 const parseMaxTokens = (value: string | undefined): number => {
   const parsed = Number.parseInt(value ?? '', 10);
@@ -92,6 +94,22 @@ const parseProviderTimeoutMs = (value: string | undefined): number => {
 
 const MAX_TOKENS = parseMaxTokens(Deno.env.get('TRANSLATION_MAX_TOKENS'));
 const PROVIDER_TIMEOUT_MS = parseProviderTimeoutMs(Deno.env.get('TRANSLATION_PROVIDER_TIMEOUT_MS'));
+const CACHE_TTL_MS = Number.parseInt(Deno.env.get('TRANSLATION_CACHE_TTL_MS') ?? '180000', 10);
+const CACHE_MAX_ENTRIES = Number.parseInt(
+  Deno.env.get('TRANSLATION_CACHE_MAX_ENTRIES') ?? '300',
+  10,
+);
+
+type CachedTranslationEntry = {
+  translatedText: string;
+  provider: string;
+  model: string;
+  warning?: string;
+  meta?: Record<string, unknown>;
+  expiresAt: number;
+};
+
+const translationResponseCache = new Map<string, CachedTranslationEntry>();
 
 const fetchWithTimeout = async (
   input: RequestInfo | URL,
@@ -122,6 +140,23 @@ const KNOWN_SEMAI_TERMS = new Set(
   ),
 );
 
+const MALAY_INDONESIAN_HINT_TOKENS = new Set([
+  'aku',
+  'saya',
+  'ingin',
+  'mau',
+  'mahu',
+  'dalam',
+  'dengan',
+  'kita',
+  'hari',
+  'ini',
+  'yang',
+  'untuk',
+  'dan',
+  'adalah',
+]);
+
 const isTranslationLanguage = (value: unknown): value is TranslationLanguage =>
   typeof value === 'string' &&
   SUPPORTED_TRANSLATION_LANGUAGES.includes(
@@ -150,6 +185,46 @@ const cleanModelOutput = (value: string): string =>
 
 const normalizeComparable = (value: string): string =>
   normalizeTranslationText(value).toLowerCase();
+
+const buildCacheKey = (request: TranslationRequest): string =>
+  `${request.from}->${request.to}:${normalizeComparable(request.text)}`;
+
+const getCachedTranslation = (request: TranslationRequest): CachedTranslationEntry | null => {
+  const key = buildCacheKey(request);
+  const cached = translationResponseCache.get(key);
+  if (!cached) {
+    return null;
+  }
+
+  if (cached.expiresAt <= Date.now()) {
+    translationResponseCache.delete(key);
+    return null;
+  }
+
+  return cached;
+};
+
+const setCachedTranslation = (
+  request: TranslationRequest,
+  value: Omit<CachedTranslationEntry, 'expiresAt'>,
+): void => {
+  if (CACHE_TTL_MS <= 0 || CACHE_MAX_ENTRIES <= 0) {
+    return;
+  }
+
+  const key = buildCacheKey(request);
+  if (translationResponseCache.size >= CACHE_MAX_ENTRIES) {
+    const oldestKey = translationResponseCache.keys().next().value as string | undefined;
+    if (oldestKey) {
+      translationResponseCache.delete(oldestKey);
+    }
+  }
+
+  translationResponseCache.set(key, {
+    ...value,
+    expiresAt: Date.now() + CACHE_TTL_MS,
+  });
+};
 
 const containsTerm = (text: string, term: string): boolean => {
   const normalizedText = normalizeComparable(text);
@@ -427,12 +502,19 @@ const assessSemaiConfidenceWarning = (
     .filter(Boolean);
 
   const knownCount = tokens.filter((token) => KNOWN_SEMAI_TERMS.has(token)).length;
+  const malayIndoHintCount = tokens.filter((token) =>
+    MALAY_INDONESIAN_HINT_TOKENS.has(token),
+  ).length;
   const hasKnownPhrase = Array.from(KNOWN_SEMAI_TERMS).some(
     (term) => term.includes(' ') && normalizedOutput.includes(term),
   );
   const hasGlossaryAnchor = glossaryMatches.some((entry) =>
     containsTerm(translatedText, entry.semai),
   );
+
+  if (malayIndoHintCount >= 3 && knownCount <= 1 && !hasKnownPhrase && !hasGlossaryAnchor) {
+    return 'Low confidence: output appears Malay/Indonesian-heavy instead of grounded Semai.';
+  }
 
   if (knownCount === 0 && !hasKnownPhrase && !hasGlossaryAnchor) {
     return 'Low confidence: Semai output may be uncertain. Please validate with a language reviewer.';
@@ -500,12 +582,34 @@ Deno.serve(async (request) => {
     });
   }
 
+  const cachedResult = getCachedTranslation(payload);
+  if (cachedResult) {
+    return jsonResponse(200, {
+      translated_text: cachedResult.translatedText,
+      provider: cachedResult.provider,
+      model: cachedResult.model,
+      warning: cachedResult.warning,
+      meta: {
+        ...(cachedResult.meta ?? {}),
+        cache_hit: true,
+      },
+    });
+  }
+
   const exactGlossaryTranslation = findExactGlossaryTranslation(
     payload.text,
     payload.from,
     payload.to,
   );
   if (exactGlossaryTranslation) {
+    setCachedTranslation(payload, {
+      translatedText: exactGlossaryTranslation,
+      provider: 'glossary',
+      model: 'glossary-exact',
+      meta: {
+        latency_ms: 0,
+      },
+    });
     return jsonResponse(200, {
       translated_text: exactGlossaryTranslation,
       provider: 'glossary',
@@ -522,6 +626,14 @@ Deno.serve(async (request) => {
     payload.to,
   );
   if (exactSentenceExampleTranslation) {
+    setCachedTranslation(payload, {
+      translatedText: exactSentenceExampleTranslation,
+      provider: 'sentence-memory',
+      model: 'webonary-example-exact',
+      meta: {
+        latency_ms: 0,
+      },
+    });
     return jsonResponse(200, {
       translated_text: exactSentenceExampleTranslation,
       provider: 'sentence-memory',
@@ -550,27 +662,45 @@ Deno.serve(async (request) => {
     payload.to,
   );
 
-  let modelResult: ModelResult | null = null;
-
-  try {
-    modelResult = await translateWithCerebras({
-      ...payload,
-      glossaryPrompt,
-      sentenceExamplesPrompt,
-    });
-  } catch (cerebrasError) {
-    console.error('Cerebras translation failed:', cerebrasError);
+  const requestWithGrounding = {
+    ...payload,
+    glossaryPrompt,
+    sentenceExamplesPrompt,
+  };
+  const providers: Array<'cerebras' | 'sealion'> = [];
+  if (CEREBRAS_API_KEY) {
+    providers.push('cerebras');
+  }
+  if (HF_API_TOKEN) {
+    providers.push('sealion');
   }
 
-  if (!modelResult?.translatedText) {
+  let modelResult: ModelResult | null = null;
+  let primaryProviderError: unknown = null;
+
+  const runProvider = async (provider: 'cerebras' | 'sealion'): Promise<ModelResult | null> => {
+    if (provider === 'cerebras') {
+      return translateWithCerebras(requestWithGrounding);
+    }
+    return translateWithSeaLion(requestWithGrounding);
+  };
+
+  if (providers.length > 0) {
+    const primaryProvider = providers[0];
     try {
-      modelResult = await translateWithSeaLion({
-        ...payload,
-        glossaryPrompt,
-        sentenceExamplesPrompt,
-      });
-    } catch (seaLionError) {
-      console.error('SEA-LION translation failed:', seaLionError);
+      modelResult = await runProvider(primaryProvider);
+    } catch (primaryError) {
+      primaryProviderError = primaryError;
+      console.error(`${primaryProvider} translation failed:`, primaryError);
+    }
+
+    if (!modelResult?.translatedText && ENABLE_SECOND_PROVIDER && providers.length > 1) {
+      const secondaryProvider = providers[1];
+      try {
+        modelResult = await runProvider(secondaryProvider);
+      } catch (secondaryError) {
+        console.error(`${secondaryProvider} translation failed:`, secondaryError);
+      }
     }
   }
 
@@ -584,8 +714,13 @@ Deno.serve(async (request) => {
         payload.to,
       )
     ) {
-      return jsonResponse(200, {
-        translated_text: translateWordByWordWithGlossary(payload.text, payload.from, payload.to),
+      const glossaryFallbackTranslation = translateWordByWordWithGlossary(
+        payload.text,
+        payload.from,
+        payload.to,
+      );
+      setCachedTranslation(payload, {
+        translatedText: glossaryFallbackTranslation,
         provider: 'glossary-fallback',
         model: 'glossary-word-by-word',
         warning:
@@ -593,6 +728,19 @@ Deno.serve(async (request) => {
         meta: {
           latency_ms: modelResult.latencyMs,
           usage: modelResult.usage,
+          second_provider_enabled: ENABLE_SECOND_PROVIDER,
+        },
+      });
+      return jsonResponse(200, {
+        translated_text: glossaryFallbackTranslation,
+        provider: 'glossary-fallback',
+        model: 'glossary-word-by-word',
+        warning:
+          'Model output did not preserve required glossary terms. Returned glossary-enforced fallback translation.',
+        meta: {
+          latency_ms: modelResult.latencyMs,
+          usage: modelResult.usage,
+          second_provider_enabled: ENABLE_SECOND_PROVIDER,
         },
       });
     }
@@ -604,8 +752,13 @@ Deno.serve(async (request) => {
     );
 
     if (NO_GUESS_SEMAI_MODE && semaiWarning) {
-      return jsonResponse(200, {
-        translated_text: translateWordByWordWithGlossary(payload.text, payload.from, payload.to),
+      const safetyFallbackTranslation = translateWordByWordWithGlossary(
+        payload.text,
+        payload.from,
+        payload.to,
+      );
+      setCachedTranslation(payload, {
+        translatedText: safetyFallbackTranslation,
         provider: 'safety-fallback',
         model: 'glossary-word-by-word',
         warning: `${semaiWarning} Returned grounded glossary fallback instead of uncertain model output.`,
@@ -614,11 +767,25 @@ Deno.serve(async (request) => {
           usage: modelResult.usage,
           attempted_provider: modelResult.provider,
           attempted_model: modelResult.model,
+          second_provider_enabled: ENABLE_SECOND_PROVIDER,
+        },
+      });
+      return jsonResponse(200, {
+        translated_text: safetyFallbackTranslation,
+        provider: 'safety-fallback',
+        model: 'glossary-word-by-word',
+        warning: `${semaiWarning} Returned grounded glossary fallback instead of uncertain model output.`,
+        meta: {
+          latency_ms: modelResult.latencyMs,
+          usage: modelResult.usage,
+          attempted_provider: modelResult.provider,
+          attempted_model: modelResult.model,
+          second_provider_enabled: ENABLE_SECOND_PROVIDER,
         },
       });
     }
 
-    return jsonResponse(200, {
+    const successPayload = {
       translated_text: modelResult.translatedText,
       provider: modelResult.provider,
       model: modelResult.model,
@@ -626,8 +793,17 @@ Deno.serve(async (request) => {
       meta: {
         latency_ms: modelResult.latencyMs,
         usage: modelResult.usage,
+        second_provider_enabled: ENABLE_SECOND_PROVIDER,
       },
+    };
+    setCachedTranslation(payload, {
+      translatedText: successPayload.translated_text,
+      provider: successPayload.provider,
+      model: successPayload.model,
+      warning: successPayload.warning,
+      meta: successPayload.meta as Record<string, unknown>,
     });
+    return jsonResponse(200, successPayload);
   }
 
   const fallback = translateWordByWordWithGlossary(payload.text, payload.from, payload.to);
@@ -635,14 +811,29 @@ Deno.serve(async (request) => {
     payload.to === 'semai' && normalizeComparable(fallback) === normalizeComparable(payload.text)
       ? 'Using fallback dictionary and confidence is low for Semai output. Review with a language keeper.'
       : 'Using offline fallback dictionary because model providers are unavailable.';
+  setCachedTranslation(payload, {
+    translatedText: fallback,
+    provider: 'fallback',
+    model: 'glossary-word-by-word',
+    warning: primaryProviderError
+      ? `${fallbackWarning} Primary model request failed; returned grounded fallback.`
+      : fallbackWarning,
+    meta: {
+      latency_ms: 0,
+      second_provider_enabled: ENABLE_SECOND_PROVIDER,
+    },
+  });
 
   return jsonResponse(200, {
     translated_text: fallback,
     provider: 'fallback',
     model: 'glossary-word-by-word',
-    warning: fallbackWarning,
+    warning: primaryProviderError
+      ? `${fallbackWarning} Primary model request failed; returned grounded fallback.`
+      : fallbackWarning,
     meta: {
       latency_ms: 0,
+      second_provider_enabled: ENABLE_SECOND_PROVIDER,
     },
   });
 });

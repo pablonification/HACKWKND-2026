@@ -2,6 +2,7 @@ import { IonIcon, IonToast } from '@ionic/react';
 import {
   arrowBackOutline,
   chevronDownOutline,
+  globeOutline,
   swapHorizontal,
   volumeMediumOutline,
 } from 'ionicons/icons';
@@ -44,7 +45,7 @@ const toErrorMessage = (error: unknown): string => {
   return 'Something went wrong while translating.';
 };
 
-export function TranslatePage() {
+export function TranslatePage({ showBackButton = true }: { showBackButton?: boolean }) {
   const navigate = useNavigate();
 
   const [sourceText, setSourceText] = useState('');
@@ -192,9 +193,15 @@ export function TranslatePage() {
   return (
     <section className="translate-page">
       <header className="translate-header">
-        <button type="button" className="translate-back" onClick={handleBack} aria-label="Back">
-          <IonIcon icon={arrowBackOutline} />
-        </button>
+        {showBackButton ? (
+          <button type="button" className="translate-back" onClick={handleBack} aria-label="Back">
+            <IonIcon icon={arrowBackOutline} />
+          </button>
+        ) : (
+          <span className="translate-back translate-back--static" aria-hidden="true">
+            <IonIcon icon={globeOutline} />
+          </span>
+        )}
         <h1>Translation</h1>
       </header>
 
