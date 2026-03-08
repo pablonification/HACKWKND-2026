@@ -107,11 +107,82 @@ function normalizeEntry(raw) {
   };
 }
 
+/**
+ * Extract a subentry (complex/derived form) from a parent entry.
+ * Subentries use numbered field variants: headword-4, senses-2,
+ * definitionorgloss-2, examplescontents-2, example-2, translation-2, etc.
+ */
+function normalizeSubentry(sub, parentRaw) {
+  const headwords = (sub['headword-4'] ?? [])
+    .filter((h) => h.lang === 'sea')
+    .map((h) => h.value)
+    .filter(Boolean);
+
+  if (headwords.length === 0) return null;
+
+  const morph2 = sub['morphosyntaxanalysis-2'] ?? {};
+  const graminfoname2 = morph2['graminfoname-2'] ?? [];
+
+  const senses = (sub['senses-2'] ?? []).map((s) => {
+    const defs = s['definitionorgloss-2'] ?? [];
+    const examples = (s['examplescontents-2'] ?? []).map((ec) => {
+      const ex = ec['example-2'] ?? [];
+      const trContents = ec['translationcontents-2'] ?? [];
+      const translations = trContents.flatMap((tc) => tc['translation-2'] ?? []);
+      return {
+        semai: byLang(ex, 'sea'),
+        en: byLang(translations, 'en'),
+        ms: byLang(translations, 'ms'),
+      };
+    });
+    return {
+      definition_en: byLang(defs, 'en'),
+      definition_ms: byLang(defs, 'ms'),
+      examples,
+    };
+  });
+
+  // Derive a stable ID from parent GUID + subentry headword
+  const parentId = parentRaw.guid ?? parentRaw._id ?? 'unknown';
+  const subId = `${parentId}__sub__${headwords[0]}`;
+
+  return {
+    id: subId,
+    word: headwords[0],
+    words: headwords,
+    letter: parentRaw.letterHead,
+    pos_ms: byLang(graminfoname2, 'ms'),
+    pos_en: byLang(graminfoname2, 'en'),
+    morph: '',
+    senses,
+  };
+}
+
 // ── Load & parse ──────────────────────────────────────────────────────────────
 
 async function load() {
   const raw = JSON.parse(await readFile(SOURCE, 'utf8'));
-  return raw.map(normalizeEntry);
+  const entries = [];
+
+  for (const item of raw) {
+    // Skip minorentrycomplex and minorentryvariant — they are cross-reference
+    // stubs with no definitions. The real data lives in parent subentries.
+    if (item.xhtmlTemplate === 'minorentrycomplex' || item.xhtmlTemplate === 'minorentryvariant') {
+      continue;
+    }
+
+    entries.push(normalizeEntry(item));
+
+    // Extract subentries (complex/derived forms like caknak, canak from cak)
+    for (const sub of item.subentries ?? []) {
+      const parsed = normalizeSubentry(sub, item);
+      if (parsed && parsed.senses.length > 0) {
+        entries.push(parsed);
+      }
+    }
+  }
+
+  return entries;
 }
 
 // ── Commands ──────────────────────────────────────────────────────────────────
