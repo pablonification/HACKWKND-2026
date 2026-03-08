@@ -2,13 +2,13 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { translateText } from './translate';
 import { supabase } from './supabase';
-import { useAuthStore } from '../stores/authStore';
 
 vi.mock('./supabase', () => ({
   supabasePublicAnonKey: 'test-anon-key',
   supabase: {
     auth: {
       getSession: vi.fn(),
+      getUser: vi.fn(),
       refreshSession: vi.fn(),
     },
     functions: {
@@ -17,15 +17,10 @@ vi.mock('./supabase', () => ({
   },
 }));
 
-vi.mock('../stores/authStore', () => ({
-  useAuthStore: {
-    getState: vi.fn(),
-  },
-}));
-
 type MockedSupabase = {
   auth: {
     getSession: ReturnType<typeof vi.fn>;
+    getUser: ReturnType<typeof vi.fn>;
     refreshSession: ReturnType<typeof vi.fn>;
   };
   functions: {
@@ -35,17 +30,15 @@ type MockedSupabase = {
 
 describe('translateText', () => {
   const mockedSupabase = supabase as unknown as MockedSupabase;
-  const mockedAuthStore = useAuthStore as unknown as {
-    getState: ReturnType<typeof vi.fn>;
-  };
 
   beforeEach(() => {
     vi.clearAllMocks();
-    mockedAuthStore.getState.mockReturnValue({
-      session: null,
-    });
     mockedSupabase.auth.getSession.mockResolvedValue({
-      data: { session: { access_token: 'test-access-token' } },
+      data: { session: { access_token: 'session-token' } },
+      error: null,
+    });
+    mockedSupabase.auth.getUser.mockResolvedValue({
+      data: { user: { id: 'user-1' } },
       error: null,
     });
     mockedSupabase.auth.refreshSession.mockResolvedValue({
@@ -76,7 +69,7 @@ describe('translateText', () => {
     expect(mockedSupabase.functions.invoke).toHaveBeenCalledWith('ai-translate', {
       headers: {
         apikey: 'test-anon-key',
-        Authorization: 'Bearer test-access-token',
+        Authorization: 'Bearer session-token',
       },
       body: {
         text: 'rumah',
@@ -103,10 +96,7 @@ describe('translateText', () => {
     expect(mockedSupabase.functions.invoke).not.toHaveBeenCalled();
   });
 
-  it('uses the auth store session token before sdk session lookup', async () => {
-    mockedAuthStore.getState.mockReturnValue({
-      session: { access_token: 'store-access-token' },
-    });
+  it('invokes translate with the resolved bearer token', async () => {
     mockedSupabase.functions.invoke.mockResolvedValue({
       data: { translated_text: 'rumah', provider: 'sealion' },
       error: null,
@@ -118,11 +108,10 @@ describe('translateText', () => {
       to: 'ms',
     });
 
-    expect(mockedSupabase.auth.getSession).not.toHaveBeenCalled();
     expect(mockedSupabase.functions.invoke).toHaveBeenCalledWith('ai-translate', {
       headers: {
         apikey: 'test-anon-key',
-        Authorization: 'Bearer store-access-token',
+        Authorization: 'Bearer session-token',
       },
       body: {
         text: 'rumah',
@@ -156,26 +145,6 @@ describe('translateText', () => {
         to: 'ms',
       }),
     ).rejects.toThrow('Function returned 500');
-  });
-
-  it('throws when session is missing before invoke', async () => {
-    mockedSupabase.auth.getSession.mockResolvedValue({
-      data: { session: null },
-      error: null,
-    });
-    mockedSupabase.auth.refreshSession.mockResolvedValue({
-      data: { session: null },
-      error: null,
-    });
-
-    await expect(
-      translateText({
-        text: 'rumah',
-        from: 'semai',
-        to: 'ms',
-      }),
-    ).rejects.toThrow('Translation requires an active session. Sign in again and retry.');
-    expect(mockedSupabase.functions.invoke).not.toHaveBeenCalled();
   });
 
   it('parses edge function http error responses', async () => {
@@ -218,8 +187,8 @@ describe('translateText', () => {
         data: { translated_text: 'rumah', provider: 'sealion' },
         error: null,
       });
-    mockedSupabase.auth.refreshSession.mockResolvedValue({
-      data: { session: { access_token: 'refreshed-access-token' } },
+    mockedSupabase.auth.refreshSession.mockResolvedValueOnce({
+      data: { session: { access_token: 'refreshed-token' } },
       error: null,
     });
 
@@ -230,10 +199,82 @@ describe('translateText', () => {
     });
 
     expect(result.translatedText).toBe('rumah');
+    expect(mockedSupabase.auth.refreshSession.mock.calls.length).toBeGreaterThanOrEqual(1);
     expect(mockedSupabase.functions.invoke).toHaveBeenNthCalledWith(2, 'ai-translate', {
       headers: {
         apikey: 'test-anon-key',
-        Authorization: 'Bearer refreshed-access-token',
+        Authorization: 'Bearer refreshed-token',
+      },
+      body: {
+        text: 'rumah',
+        from: 'semai',
+        to: 'ms',
+      },
+    });
+  });
+
+  it('throws auth error after an unrecoverable user-token 401', async () => {
+    mockedSupabase.functions.invoke
+      .mockResolvedValueOnce({
+        data: null,
+        error: new Error('Edge Function returned a non-2xx status code'),
+        response: new Response(JSON.stringify({ error: 'Invalid JWT' }), {
+          status: 401,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }),
+      })
+      .mockResolvedValueOnce({
+        data: null,
+        error: new Error('Edge Function returned a non-2xx status code'),
+        response: new Response(JSON.stringify({ error: 'Invalid JWT' }), {
+          status: 401,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }),
+      });
+    mockedSupabase.auth.refreshSession.mockResolvedValue({
+      data: { session: null },
+      error: new Error('refresh failed'),
+    });
+
+    await expect(
+      translateText({
+        text: 'rumah',
+        from: 'semai',
+        to: 'ms',
+      }),
+    ).rejects.toThrow('Translation requires an active session. Sign in again and retry.');
+    expect(mockedSupabase.functions.invoke).toHaveBeenCalledTimes(1);
+  });
+
+  it('refreshes before invoke when existing token is near expiry', async () => {
+    mockedSupabase.auth.getSession.mockResolvedValue({
+      data: { session: { access_token: 'expiring-token', expires_at: 1 } },
+      error: null,
+    });
+    mockedSupabase.auth.refreshSession.mockResolvedValue({
+      data: { session: { access_token: 'fresh-token' } },
+      error: null,
+    });
+    mockedSupabase.functions.invoke.mockResolvedValue({
+      data: { translated_text: 'rumah', provider: 'sealion' },
+      error: null,
+    });
+
+    await translateText({
+      text: 'rumah',
+      from: 'semai',
+      to: 'ms',
+    });
+
+    expect(mockedSupabase.auth.refreshSession.mock.calls.length).toBeGreaterThanOrEqual(1);
+    expect(mockedSupabase.functions.invoke).toHaveBeenCalledWith('ai-translate', {
+      headers: {
+        apikey: 'test-anon-key',
+        Authorization: 'Bearer fresh-token',
       },
       body: {
         text: 'rumah',

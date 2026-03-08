@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 
 import { AppRouter } from './navigation/AppRouter';
 import { supabase } from './lib/supabase';
-import { getBoolean, removeKey, STORAGE_KEYS } from './lib/storage';
+import { removeKey, STORAGE_KEYS } from './lib/storage';
 import { useAuthStore } from './stores/authStore';
 
 export default function App() {
@@ -12,22 +12,23 @@ export default function App() {
 
   useEffect(() => {
     const initialiseSession = async () => {
+      let session = null;
+
       try {
         const {
-          data: { session },
+          data: { session: nextSession },
+          error,
         } = await supabase.auth.getSession();
 
-        const hasTransientSession = await getBoolean(STORAGE_KEYS.AUTH_TRANSIENT_SESSION, false);
-        if (session && hasTransientSession) {
-          await supabase.auth.signOut();
-          // SIGNED_OUT listener handles removeKey and setSession(null)
-        } else {
-          setSession(session);
+        if (error) {
+          throw error;
         }
+
+        session = nextSession;
       } catch (error) {
         console.error('Failed to initialise session:', error);
-        setSession(null);
       } finally {
+        setSession(session);
         setLoading(false);
       }
     };

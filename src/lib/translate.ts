@@ -1,5 +1,4 @@
 import { supabase, supabasePublicAnonKey } from './supabase';
-import { useAuthStore } from '../stores/authStore';
 
 export const TRANSLATION_LANGUAGES = ['semai', 'ms', 'en'] as const;
 
@@ -57,11 +56,30 @@ const GENERIC_EDGE_HTTP_ERROR = 'Edge Function returned a non-2xx status code';
 
 type SessionLike = {
   access_token?: string | null;
+  expires_at?: number | null;
 };
 
-const getSessionAccessToken = (session: SessionLike | null | undefined): string | null => {
-  const value = session?.access_token;
-  return typeof value === 'string' && value.trim() ? value.trim() : null;
+const SESSION_EXPIRY_SAFETY_WINDOW_MS = 60_000;
+
+const getSessionAccessToken = (session: SessionLike | null | undefined): string => {
+  const token = session?.access_token;
+  return typeof token === 'string' ? token.trim() : '';
+};
+
+const isTokenExpiringSoon = (session: SessionLike | null | undefined): boolean => {
+  if (typeof session?.expires_at !== 'number' || !Number.isFinite(session.expires_at)) {
+    return false;
+  }
+
+  return session.expires_at * 1000 <= Date.now() + SESSION_EXPIRY_SAFETY_WINDOW_MS;
+};
+
+const isTokenExpired = (session: SessionLike | null | undefined): boolean => {
+  if (typeof session?.expires_at !== 'number' || !Number.isFinite(session.expires_at)) {
+    return false;
+  }
+
+  return session.expires_at * 1000 <= Date.now();
 };
 
 const extractEdgeResponseMessage = async (response?: Response): Promise<string | null> => {
@@ -113,12 +131,32 @@ const toFunctionErrorMessage = async (error: unknown, response?: Response): Prom
   return toErrorMessage(error);
 };
 
-const resolveTranslationAccessToken = async (): Promise<string> => {
-  const storeToken = getSessionAccessToken(useAuthStore.getState().session);
-  if (storeToken) {
-    return storeToken;
+const isLikelyInvalidJwtError = (error: unknown): boolean => {
+  if (!(error instanceof Error)) {
+    return false;
   }
 
+  return /invalid jwt|jwt|token|expired/i.test(error.message);
+};
+
+const validateToken = async (token: string): Promise<boolean> => {
+  if (!token) {
+    return false;
+  }
+
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser(token);
+
+  if (!error && user) {
+    return true;
+  }
+
+  return false;
+};
+
+const resolveTranslationAccessToken = async (): Promise<string> => {
   const {
     data: { session },
     error: sessionError,
@@ -129,18 +167,31 @@ const resolveTranslationAccessToken = async (): Promise<string> => {
   }
 
   const sessionToken = getSessionAccessToken(session);
-  if (sessionToken) {
+  if (sessionToken && !isTokenExpiringSoon(session) && (await validateToken(sessionToken))) {
     return sessionToken;
   }
 
   const { data, error: refreshError } = await supabase.auth.refreshSession();
   if (refreshError) {
-    throw new Error(toErrorMessage(refreshError));
+    // Keep a still-valid current token only when refresh failed for non-JWT reasons.
+    if (
+      sessionToken &&
+      !isTokenExpired(session) &&
+      !isLikelyInvalidJwtError(refreshError) &&
+      (await validateToken(sessionToken))
+    ) {
+      return sessionToken;
+    }
+    throw new Error('Translation requires an active session. Sign in again and retry.');
   }
 
   const refreshedToken = getSessionAccessToken(data.session);
-  if (refreshedToken) {
+  if (refreshedToken && (await validateToken(refreshedToken))) {
     return refreshedToken;
+  }
+
+  if (sessionToken && !isTokenExpired(session) && (await validateToken(sessionToken))) {
+    return sessionToken;
   }
 
   throw new Error('Translation requires an active session. Sign in again and retry.');
@@ -184,10 +235,10 @@ export const translateText = async ({
   });
 
   if (error && response?.status === 401) {
-    const { data: refreshedData, error: refreshError } = await supabase.auth.refreshSession();
+    const { data: refreshData, error: refreshError } = await supabase.auth.refreshSession();
     if (!refreshError) {
-      const refreshedToken = getSessionAccessToken(refreshedData.session);
-      if (refreshedToken && refreshedToken !== accessToken) {
+      const refreshedToken = getSessionAccessToken(refreshData.session);
+      if (refreshedToken && (await validateToken(refreshedToken))) {
         accessToken = refreshedToken;
         ({ data, error, response } = await invokeTranslateFunction(accessToken, {
           text: normalizedText,

@@ -67,7 +67,7 @@ export function AuthPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState<AuthRole | null>(null);
-  const [rememberMe, setRememberMe] = useState(false);
+  const [rememberMe, setRememberMe] = useState(true);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [roleMenuOpen, setRoleMenuOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
