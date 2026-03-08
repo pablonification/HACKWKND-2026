@@ -383,6 +383,48 @@ export const findExactGlossaryTranslation = (
   return bestMatch?.[to] ?? null;
 };
 
+/** Returns true if the glossary contains ANY entry for the given source text, even if multiple translations exist (polysemous words). */
+export const hasGlossaryEntry = (
+  text: string,
+  from: TranslationLanguage,
+  glossary: GlossaryEntry[] = SEMAI_GLOSSARY,
+): boolean => {
+  const normalizedText = normalizeComparable(text);
+  return glossary.some((entry) => normalizeComparable(entry[from]) === normalizedText);
+};
+
+/** For polysemous words with multiple translations: returns the first matching translation instead of null. */
+export const findFirstGlossaryTranslation = (
+  text: string,
+  from: TranslationLanguage,
+  to: TranslationLanguage,
+  glossary: GlossaryEntry[] = SEMAI_GLOSSARY,
+): string | null => {
+  const normalizedText = normalizeComparable(text);
+  const match = glossary.find(
+    (entry) =>
+      normalizeComparable(entry[from]) === normalizedText &&
+      normalizeComparable(entry[to]).length > 0,
+  );
+  return match?.[to] ?? null;
+};
+
+/** Returns all unique translations for a polysemous source word. */
+export const findAllGlossaryTranslations = (
+  text: string,
+  from: TranslationLanguage,
+  to: TranslationLanguage,
+  glossary: GlossaryEntry[] = SEMAI_GLOSSARY,
+): string[] => {
+  const normalizedText = normalizeComparable(text);
+  const matches = glossary.filter(
+    (entry) =>
+      normalizeComparable(entry[from]) === normalizedText &&
+      normalizeComparable(entry[to]).length > 0,
+  );
+  return Array.from(new Set(matches.map((entry) => entry[to])));
+};
+
 export const findGlossaryMatches = (
   text: string,
   from: TranslationLanguage,
