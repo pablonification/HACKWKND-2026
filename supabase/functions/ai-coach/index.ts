@@ -209,11 +209,15 @@ const LEARNING_END_PATTERNS = [
 const LEARNING_START_CONFIRM_PATTERNS = [
   /\b(let'?s go|start now|i'?m ready|ready now|begin now)\b/i,
   /\b(jom|mula sekarang|saya sedia)\b/i,
+  /^(ok|okay|sure|yes|yeah|yep|yup|aight|alright|sounds good|let'?s do it|let'?s start|go ahead|sure thing)$/i,
 ];
 
 const LEARNING_GOAL_PATTERNS = [
   /\b(i want to learn|learn semai|help me learn|teach me semai)\b/i,
   /\b(saya mahu belajar|belajar semai|ajar saya)\b/i,
+  /\b(vocab|vocabulary|words|kosa kata)\b.*\b(semai|in semai)\b/i,
+  /\b(semai)\b.*\b(vocab|vocabulary|words|practice|drill)\b/i,
+  /\b(practice|drill|latihan)\b.*\b(semai)\b/i,
 ];
 
 const VERIFIED_SEMAI_PROVIDERS = new Set([
@@ -1271,6 +1275,34 @@ const resolveIntentWithPlanner = async (
     };
   }
 
+  // Deterministic: short frustrated/clarification signals during active session.
+  // "what?", "WTF", "huh?", "seriously?" etc. should never reset the session.
+  if (
+    currentPhase === 'learning_active' &&
+    /^(what[?!]*|huh[?!]*|wtf[?!]*|hm+[?!]*|seriously[?!]*|bruh[?!]*|lol[?!]*|omg[?!]*)$/i.test(
+      request.message.trim(),
+    )
+  ) {
+    return {
+      intent: {
+        ...baseIntent,
+        mode: 'learning',
+        turnType: 'conversation_continue',
+        responseMode: 'conversation',
+        answerLanguage,
+        extractedText: request.message,
+        needsClarification: false,
+        confidence: 'high',
+        reason: 'Short frustrated/reaction signal during active session; continuing conversation.',
+      },
+      sessionPhase: 'learning_active',
+      track,
+      nextActions: defaultNextActions('learning_active'),
+      provider,
+      model,
+    };
+  }
+
   if (remainingBudgetMs(requestStartedAtMs) <= CPU_GUARD_PLANNER_MIN_MS) {
     setDegraded(runtime, 'cpu_guard_planner_skip', { cpuGuard: true });
     return {
@@ -1377,6 +1409,29 @@ const resolveIntentWithPlanner = async (
     }
 
     if (resolvedMode === 'direct_help' || resolvedTurnType === 'direct_answer') {
+      // During an active session, keep the user in the session rather than
+      // dropping to generic direct_help — treats vague/frustrated messages
+      // ("what?", "WTF", "huh?") as conversation continuations.
+      if (currentPhase === 'learning_active') {
+        return {
+          intent: {
+            ...baseIntent,
+            mode: 'learning',
+            turnType: 'conversation_continue',
+            responseMode: 'conversation',
+            answerLanguage: plannedLanguage,
+            extractedText: request.message,
+            needsClarification: false,
+            confidence: 'medium',
+            reason: `Kept session alive: direct_help overridden to conversation_continue during learning_active. Original reason: ${reason}`,
+          },
+          sessionPhase: 'learning_active',
+          track,
+          nextActions: defaultNextActions('learning_active'),
+          provider: plannerProvider,
+          model: plannerModel,
+        };
+      }
       return {
         intent: {
           ...baseIntent,
@@ -1817,8 +1872,8 @@ const buildDirectHelpPayload = async (
     `Answer in ${answerLanguage === 'ms' ? 'Malay' : 'English'}.`,
     'Use warm and concise coaching tone.',
     'Do not auto-translate user input unless explicit translation intent exists.',
-    'Do not write, quote, validate, or invent any Semai words or Semai sentences in this reply.',
-    'If the user wants Semai content, ask them to use Translate Phrase or request a grounded practice item explicitly.',
+    'Be warm and engaging. If the user shows interest in learning Semai vocabulary or practice, invite them to start a session.',
+    'You may briefly describe what you can do, but always end with a clear invite to start or continue learning.',
     'For out-of-scope prompts, give one short helpful answer and redirect to coach capabilities naturally.',
     answerLanguage === 'ms' ? 'Use Malay Malaysia register. Avoid Indonesian wording.' : '',
     context ? `Recent context:\n${context}` : '',
