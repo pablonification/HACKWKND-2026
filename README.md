@@ -86,6 +86,25 @@ Then set frontend env:
 VITE_AI_BASE_URL=http://localhost:8787
 ```
 
+## AI Coach (Supabase Edge Function)
+
+The personal AI coach uses the `ai-coach` edge function and reuses the project glossary and
+sentence-memory assets for grounded Semai responses.
+
+Set these edge-function secrets for coach generation:
+
+```bash
+GOOGLE_AI_STUDIO_API_KEY=your_google_ai_studio_key
+AI_COACH_GEMINI_MODEL=gemini-3.1-flash-lite-preview
+```
+
+Optional overrides:
+
+```bash
+GOOGLE_AI_STUDIO_BASE_URL=https://generativelanguage.googleapis.com/v1beta
+AI_COACH_TIMEOUT_MS=12000
+```
+
 ## License
 
 MIT License — see [LICENSE](LICENSE) for details.

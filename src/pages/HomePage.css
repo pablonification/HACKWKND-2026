@@ -33,6 +33,7 @@
 }
 
 .home-content > section,
+.home-content > .tavi-chat-outer,
 .home-content > .profile-screen,
 .home-content > .profile-loading {
   min-height: 100%;
@@ -1236,7 +1237,7 @@
   border-top: 1px solid rgba(17, 24, 40, 0.08);
   bottom: 0;
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   left: 0;
   padding: 6px 0 calc(env(safe-area-inset-bottom, 0px) + 4px);
   position: fixed;
@@ -1266,7 +1267,7 @@
 }
 
 .home-menu-item ion-label {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 500;
   line-height: 1;
 }

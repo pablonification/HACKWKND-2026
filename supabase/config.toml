@@ -39,3 +39,9 @@ double_confirm_changes = true
 enable_confirmations = false
 
 [functions]
+
+[functions.ai-translate]
+verify_jwt = false
+
+[functions.ai-coach]
+verify_jwt = false

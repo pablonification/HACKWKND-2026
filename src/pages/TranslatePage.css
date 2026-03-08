@@ -50,6 +50,15 @@
   background: rgba(255, 255, 255, 0.12);
 }
 
+.translate-back--static {
+  cursor: default;
+  margin-left: -6px;
+}
+
+.translate-back--static:hover {
+  background: transparent;
+}
+
 .translate-back:active {
   transform: scale(0.94);
 }

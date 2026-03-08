@@ -2,6 +2,7 @@ import { IonContent, IonIcon, IonLabel, IonPage, IonToast } from '@ionic/react';
 import { useEffect, useState } from 'react';
 import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import {
+  globeOutline,
   leafOutline,
   libraryOutline,
   micOutline,
@@ -11,6 +12,7 @@ import {
 
 import { triggerHapticFeedback } from '../lib/feedback';
 import { ArchiveReviewPage } from './ArchiveReviewPage';
+import { AiHelperPage } from './AiHelperPage';
 import { ElderStudioTab } from './ElderStudioTab';
 import { ProfilePage } from './ProfilePage';
 import { SoundArchiveTab } from './SoundArchiveTab';
@@ -42,7 +44,7 @@ export function HomePage() {
   const profileWarningFromState =
     (location.state as { profileWarning?: string } | null)?.profileWarning ?? null;
   const [profileWarning, setProfileWarning] = useState<string | null>(profileWarningFromState);
-  const isTranslateRoute = location.pathname.startsWith('/home/ai');
+  const isTranslateRoute = location.pathname.startsWith('/home/translation');
 
   useEffect(() => {
     if (profileWarningFromState) {
@@ -55,6 +57,7 @@ export function HomePage() {
     { id: 'archive', label: 'Archive', icon: libraryOutline, href: '/home/archive' },
     { id: 'garden', label: 'Garden', icon: leafOutline, href: '/home/garden' },
     { id: 'ai', label: 'AI', icon: sparklesOutline, href: '/home/ai' },
+    { id: 'translation', label: 'Translation', icon: globeOutline, href: '/home/translation' },
     { id: 'profile', label: 'Profile', icon: personOutline, href: '/home/profile' },
   ] as const;
 
@@ -72,7 +75,7 @@ export function HomePage() {
     }
   };
 
-  const shouldShowTabMenu = !isTranslateRoute && !location.pathname.startsWith('/home/profile/');
+  const shouldShowTabMenu = !location.pathname.startsWith('/home/profile/');
   const isProfileRoute = location.pathname.startsWith('/home/profile');
 
   const ionContentClassName =
@@ -101,7 +104,8 @@ export function HomePage() {
               <Route path="studio" element={<ElderStudioTab />} />
               <Route path="archive/review" element={<ArchiveReviewPage />} />
               <Route path="archive" element={<SoundArchiveTab />} />
-              <Route path="ai" element={<TranslatePage />} />
+              <Route path="ai" element={<AiHelperPage />} />
+              <Route path="translation" element={<TranslatePage showBackButton={false} />} />
               <Route path="garden" element={<LanguageGardenTab />} />
               <Route path="profile/*" element={<ProfilePage />} />
               <Route index element={<Navigate to="garden" replace />} />
