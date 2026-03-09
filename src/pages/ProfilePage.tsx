@@ -8,7 +8,7 @@ import {
   type ChangeEvent,
   type FormEvent,
 } from 'react';
-import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
+import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 
 import { updatePassword } from '../lib/auth';
 import { triggerHapticFeedback } from '../lib/feedback';
@@ -24,6 +24,29 @@ import { supabase } from '../lib/supabase';
 import { useAuthStore } from '../stores/authStore';
 import { toAuthErrorMessage } from '../utils/authErrors';
 import { validateEmail, validateFullName, validatePassword } from '../utils/authValidation';
+
+import avatarLearnerImg from '../../assets/profile/avatar-learner.png';
+import avatarElderImg from '../../assets/profile/avatar-elder.png';
+import levelIconImg from '../../assets/profile/icon-level.png';
+import wordsIconImg from '../../assets/profile/icon-words.png';
+import storiesIconImg from '../../assets/profile/icon-stories.png';
+import elderStatsIconImg from '../../assets/profile/icon-elder-stats.png';
+import avatarEditBadgeImg from '../../assets/profile/ui/icon-avatar-edit-badge.svg';
+import backBlackImg from '../../assets/profile/ui/icon-back-black.png';
+import backWhiteImg from '../../assets/profile/ui/icon-back-white.png';
+import chevronImg from '../../assets/profile/ui/icon-chevron-right.png';
+import dropdownImg from '../../assets/profile/ui/icon-dropdown.svg';
+import editMenuImg from '../../assets/profile/ui/icon-edit-menu.png';
+import eyeImg from '../../assets/profile/ui/icon-eye.png';
+import logoutMenuImg from '../../assets/profile/ui/icon-logout-menu.png';
+import settingsAboutImg from '../../assets/profile/ui/icon-settings-about.svg';
+import settingsBellImg from '../../assets/profile/ui/icon-settings-bell.svg';
+import settingsChevronImg from '../../assets/profile/ui/icon-settings-chevron.svg';
+import settingsGlobeImg from '../../assets/profile/ui/icon-settings-globe.svg';
+import settingsLockImg from '../../assets/profile/ui/icon-settings-lock.svg';
+import settingsMenuImg from '../../assets/profile/ui/icon-settings-menu.png';
+import settingsPrivacyImg from '../../assets/profile/ui/icon-settings-privacy.svg';
+import supportMenuImg from '../../assets/profile/ui/icon-support-menu.png';
 
 import './ProfilePage.css';
 
@@ -45,31 +68,31 @@ const PRIVACY_COPY = [
 ] as const;
 
 const PROFILE_ASSETS = {
-  avatarLearner: '/assets/profile/avatar-learner.png',
-  avatarElder: '/assets/profile/avatar-elder.png',
-  levelIcon: '/assets/profile/icon-level.png',
-  wordsIcon: '/assets/profile/icon-words.png',
-  storiesIcon: '/assets/profile/icon-stories.png',
-  elderStatsIcon: '/assets/profile/icon-elder-stats.png',
+  avatarLearner: avatarLearnerImg,
+  avatarElder: avatarElderImg,
+  levelIcon: levelIconImg,
+  wordsIcon: wordsIconImg,
+  storiesIcon: storiesIconImg,
+  elderStatsIcon: elderStatsIconImg,
 } as const;
 
 const PROFILE_UI_ASSETS = {
-  avatarEditBadge: '/assets/profile/ui/icon-avatar-edit-badge.svg',
-  backBlack: '/assets/profile/ui/icon-back-black.png',
-  backWhite: '/assets/profile/ui/icon-back-white.png',
-  chevron: '/assets/profile/ui/icon-chevron-right.png',
-  dropdown: '/assets/profile/ui/icon-dropdown.svg',
-  editMenu: '/assets/profile/ui/icon-edit-menu.png',
-  eye: '/assets/profile/ui/icon-eye.png',
-  logoutMenu: '/assets/profile/ui/icon-logout-menu.png',
-  settingsAbout: '/assets/profile/ui/icon-settings-about.svg',
-  settingsBell: '/assets/profile/ui/icon-settings-bell.svg',
-  settingsChevron: '/assets/profile/ui/icon-settings-chevron.svg',
-  settingsGlobe: '/assets/profile/ui/icon-settings-globe.svg',
-  settingsLock: '/assets/profile/ui/icon-settings-lock.svg',
-  settingsMenu: '/assets/profile/ui/icon-settings-menu.png',
-  settingsPrivacy: '/assets/profile/ui/icon-settings-privacy.svg',
-  supportMenu: '/assets/profile/ui/icon-support-menu.png',
+  avatarEditBadge: avatarEditBadgeImg,
+  backBlack: backBlackImg,
+  backWhite: backWhiteImg,
+  chevron: chevronImg,
+  dropdown: dropdownImg,
+  editMenu: editMenuImg,
+  eye: eyeImg,
+  logoutMenu: logoutMenuImg,
+  settingsAbout: settingsAboutImg,
+  settingsBell: settingsBellImg,
+  settingsChevron: settingsChevronImg,
+  settingsGlobe: settingsGlobeImg,
+  settingsLock: settingsLockImg,
+  settingsMenu: settingsMenuImg,
+  settingsPrivacy: settingsPrivacyImg,
+  supportMenu: supportMenuImg,
 } as const;
 
 type ToastState = {
@@ -994,6 +1017,7 @@ const parseMetadataRole = (value: unknown): ProfileRole | undefined => {
 
 export function ProfilePage() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { user } = useAuthStore();
   const [dashboard, setDashboard] = useState<ProfileDashboard | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -1028,9 +1052,21 @@ export function ProfilePage() {
     }
   }, [fallbackRole, user]);
 
+  // Initial load
   useEffect(() => {
     void refreshProfile();
   }, [refreshProfile]);
+
+  // Re-fetch whenever the user returns to the profile overview tab from
+  // another tab (e.g. after a VocabMaster session). Sub-routes like /edit
+  // or /settings are intentionally excluded — they use onSaved callbacks.
+  const isProfileOverview = location.pathname === '/home/profile';
+  useEffect(() => {
+    if (isProfileOverview && dashboard !== null) {
+      void refreshProfile();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isProfileOverview]);
 
   const handleSignOut = async () => {
     if (isSigningOut) {

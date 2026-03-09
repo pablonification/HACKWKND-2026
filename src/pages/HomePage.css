@@ -17,6 +17,30 @@
   background: #fff9e9;
 }
 
+.home-content-garden-mode {
+  --background: #F3CCAB;
+}
+
+.home-content-garden-mode::part(background) {
+  background: #F3CCAB;
+}
+
+.home-shell.is-garden {
+  background: transparent;
+}
+
+.home-content-quiz-mode {
+  --background: #fff9e9;
+}
+
+.home-content-quiz-mode::part(background) {
+  background: #fff9e9;
+}
+
+.home-shell.is-quiz {
+  background: #fff9e9;
+}
+
 .home-shell.is-studio-surface,
 .home-content.is-studio-surface {
   background: #fff9e9;

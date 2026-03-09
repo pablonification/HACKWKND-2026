@@ -1,0 +1,110 @@
+/* ─── Garden Shell ─────────────────────────────────────────────────────────── */
+
+.garden-shell {
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Satoshi', 'Poppins', ui-sans-serif, system-ui, sans-serif;
+  min-height: 100dvh;
+  overflow: visible;
+  padding: calc(env(safe-area-inset-top, 0px) + 18px) 24px 0;
+  position: relative;
+}
+
+/* ─── Header ────────────────────────────────────────────────────────────────── */
+
+.garden-header {
+  margin-bottom: 28px;
+}
+
+.garden-title {
+  color: #000000;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  line-height: 14px;
+  margin-top: px;
+  text-align: center;
+  font-style: normal;
+}
+
+.garden-subtitle {
+  color: #604828;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 16px;
+  margin: 0;
+  text-align: center;
+  margin-top: 29px;
+  letter-spacing: 1.1px;
+}
+
+/* ─── Game Cards ─────────────────────────────────────────────────────────────── */
+
+.garden-cards {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 31px;
+  justify-content: flex-start;
+  list-style: none;
+  margin: 0;
+  padding: 0 0 calc(env(safe-area-inset-bottom, 0px) + 0px);
+  position: relative;
+  z-index: 1;
+}
+
+.garden-card {
+  background: transparent;
+  border: none;
+  border-radius: 18px;
+  cursor: pointer;
+  display: block;
+  overflow: hidden;
+  padding: 0;
+  transition: transform 120ms ease, box-shadow 120ms ease;
+  width: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.garden-card:active {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
+  transform: scale(0.97);
+}
+
+.garden-card-image {
+  border-radius: 20px;
+  display: flex;
+  height: auto;
+  object-fit: cover;
+  pointer-events: none;
+  user-select: none;
+  width: 100%;      
+}
+
+/* ─── Background Illustration ───────────────────────────────────────────────── */
+/* Matches Figma node 418:1701 exactly:
+   container: absolute, left:0, top:330px, w:393px, h:522px, opacity:0.5
+   image:     109.92% wide, 124.14% tall, offset left:-1.53%, top:-0.1%        */
+
+.garden-bg-illustration {
+  height: 522px;
+  left: 0;
+  opacity: 0.5;
+  overflow: hidden;
+  pointer-events: none;
+  position: absolute;
+  top: 330px;
+  width: 100%;
+  z-index: 0;
+}
+
+.garden-bg-illustration img {
+  height: 124.14%;
+  left: -1.53%;
+  max-width: none;
+  position: absolute;
+  top: -0.1%;
+  user-select: none;
+  width: 109.92%;
+}

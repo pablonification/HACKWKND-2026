@@ -131,53 +131,46 @@ export const fetchProfileDashboard = async ({
 
   const role = resolveRole(profile.role, fallbackRole);
 
-  const [
-    wordsLearned,
-    totalWords,
-    authoredStories,
-    uploadedRecordings,
-    followerCount,
-    followingCount,
-  ] = await Promise.all([
-    safeCount(
-      'words learned',
-      supabase
-        .from('progress')
-        .select('*', { count: 'exact', head: true })
-        .eq('user_id', userId)
-        .gt('mastery_level', 0),
-    ),
-    safeCount('total words', supabase.from('words').select('*', { count: 'exact', head: true })),
-    safeCount(
-      'stories',
-      supabase
-        .from('stories')
-        .select('*', { count: 'exact', head: true })
-        .eq('author_id', userId)
-        .eq('is_published', true),
-    ),
-    safeCount(
-      'recordings',
-      supabase
-        .from('recordings')
-        .select('*', { count: 'exact', head: true })
-        .eq('uploader_id', userId),
-    ),
-    safeCount(
-      'followers',
-      supabase
-        .from('follows')
-        .select('*', { count: 'exact', head: true })
-        .eq('following_id', userId),
-    ),
-    safeCount(
-      'following',
-      supabase
-        .from('follows')
-        .select('*', { count: 'exact', head: true })
-        .eq('follower_id', userId),
-    ),
-  ]);
+  const [wordsLearned, authoredStories, uploadedRecordings, followerCount, followingCount] =
+    await Promise.all([
+      safeCount(
+        'words learned',
+        supabase
+          .from('progress')
+          .select('*', { count: 'exact', head: true })
+          .eq('user_id', userId)
+          .gt('mastery_level', 0),
+      ),
+      safeCount(
+        'stories',
+        supabase
+          .from('stories')
+          .select('*', { count: 'exact', head: true })
+          .eq('author_id', userId)
+          .eq('is_published', true),
+      ),
+      safeCount(
+        'recordings',
+        supabase
+          .from('recordings')
+          .select('*', { count: 'exact', head: true })
+          .eq('uploader_id', userId),
+      ),
+      safeCount(
+        'followers',
+        supabase
+          .from('follows')
+          .select('*', { count: 'exact', head: true })
+          .eq('following_id', userId),
+      ),
+      safeCount(
+        'following',
+        supabase
+          .from('follows')
+          .select('*', { count: 'exact', head: true })
+          .eq('follower_id', userId),
+      ),
+    ]);
 
   const storiesShared = authoredStories + uploadedRecordings;
   // Story completion is not modeled yet in MVP schema; derive from learning depth for learner profiles.
@@ -191,9 +184,6 @@ export const fetchProfileDashboard = async ({
     storiesShared,
     followerCount,
   });
-
-  const learnerCompletionPercent =
-    totalWords > 0 ? Math.round((Math.min(wordsLearned, totalWords) / totalWords) * 100) : null;
 
   return {
     profile: {
@@ -212,10 +202,7 @@ export const fetchProfileDashboard = async ({
     },
     level: {
       label: level.label,
-      progressPercent:
-        role === 'learner' && learnerCompletionPercent !== null
-          ? learnerCompletionPercent
-          : level.percentToNextLevel,
+      progressPercent: level.percentToNextLevel,
     },
     stats: {
       wordsLearned,

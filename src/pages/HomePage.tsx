@@ -12,29 +12,15 @@ import {
 import { triggerHapticFeedback } from '../lib/feedback';
 import { ArchiveReviewPage } from './ArchiveReviewPage';
 import { ElderStudioTab } from './ElderStudioTab';
+import { LanguageGardenTab } from './LanguageGardenTab';
+import { VocabMaster } from './VocabMaster';
+import { WordleGame } from './WordleGame';
 import { ProfilePage } from './ProfilePage';
+import { QuizGame } from './QuizGame';
 import { SoundArchiveTab } from './SoundArchiveTab';
 import { TranslatePage } from './TranslatePage';
 
 import './HomePage.css';
-
-function TabPlaceholder({ title, description }: { title: string; description: string }) {
-  return (
-    <section className="home-tab-content ion-padding">
-      <h2>{title}</h2>
-      <p className="text-gray-500">{description}</p>
-    </section>
-  );
-}
-
-function LanguageGardenTab() {
-  return (
-    <TabPlaceholder
-      title="Language Garden"
-      description="Learn Semai through lessons and practice."
-    />
-  );
-}
 
 export function HomePage() {
   const navigate = useNavigate();
@@ -72,13 +58,21 @@ export function HomePage() {
     }
   };
 
-  const shouldShowTabMenu = !isTranslateRoute && !location.pathname.startsWith('/home/profile/');
   const isProfileRoute = location.pathname.startsWith('/home/profile');
+  const isQuizRoute =
+    location.pathname.startsWith('/home/garden/quiz') ||
+    location.pathname.startsWith('/home/garden/vocab') ||
+    location.pathname.startsWith('/home/garden/wordle');
+  const isGardenRoute = location.pathname.startsWith('/home/garden') && !isQuizRoute;
+  const shouldShowTabMenu =
+    !isTranslateRoute && !location.pathname.startsWith('/home/profile/') && !isQuizRoute;
 
   const ionContentClassName =
     [
       isProfileRoute ? 'home-ion-content-profile' : '',
       isTranslateRoute ? 'home-content-translate-mode' : '',
+      isGardenRoute ? 'home-content-garden-mode' : '',
+      isQuizRoute ? 'home-content-quiz-mode' : '',
     ]
       .filter(Boolean)
       .join(' ') || undefined;
@@ -87,6 +81,8 @@ export function HomePage() {
     'home-shell',
     isProfileRoute ? 'profile-route' : '',
     isTranslateRoute ? 'is-translate' : '',
+    isGardenRoute ? 'is-garden' : '',
+    isQuizRoute ? 'is-quiz' : '',
     usesStudioSurface ? 'is-studio-surface' : '',
   ]
     .filter(Boolean)
@@ -102,6 +98,9 @@ export function HomePage() {
               <Route path="archive/review" element={<ArchiveReviewPage />} />
               <Route path="archive" element={<SoundArchiveTab />} />
               <Route path="ai" element={<TranslatePage />} />
+              <Route path="garden/quiz" element={<QuizGame />} />
+              <Route path="garden/vocab" element={<VocabMaster />} />
+              <Route path="garden/wordle" element={<WordleGame />} />
               <Route path="garden" element={<LanguageGardenTab />} />
               <Route path="profile/*" element={<ProfilePage />} />
               <Route index element={<Navigate to="garden" replace />} />
