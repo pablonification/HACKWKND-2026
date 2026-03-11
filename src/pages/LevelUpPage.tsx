@@ -50,7 +50,7 @@ export function LevelUpPage({ level: propLevel }: LevelUpPageProps) {
   const level: LevelName =
     propLevel ?? (location.state as { level?: LevelName } | null)?.level ?? 'sprout';
 
-  const config = LEVELS[level];
+  const config = LEVELS[level] ?? LEVELS['sprout'];
 
   const [remaining, setRemaining] = useState(AUTO_DISMISS_SECS);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);

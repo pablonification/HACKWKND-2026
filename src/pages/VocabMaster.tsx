@@ -376,7 +376,9 @@ export function VocabMaster() {
             </span>
             <span
               className={`vocab-swipe-hint vocab-swipe-hint--review ${dragX < -30 ? 'is-visible' : ''}`}
-            ></span>
+            >
+              Review ✗
+            </span>
           </>
         )}
       </div>

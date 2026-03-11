@@ -26,7 +26,7 @@ export function useUserLevel() {
     prevLevelRef.current = next.levelName;
     setInfo(next);
     // Return the newly reached level only if it changed upward
-    if (next.levelName && next.levelName !== prev) {
+    if (next.levelName && prev !== null && next.levelName !== prev) {
       return next.levelName;
     }
     return null;
