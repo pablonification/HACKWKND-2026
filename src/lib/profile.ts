@@ -150,7 +150,9 @@ export const fetchProfileDashboard = async ({
       ? autoEmail
           .split('@')[0]
           .replace(/[^a-z0-9_]/gi, '')
-          .toLowerCase()
+          .toLowerCase() +
+        '_' +
+        Math.random().toString(36).slice(2, 8)
       : null;
 
     const { error: upsertError } = await supabase.from('profiles').upsert(
