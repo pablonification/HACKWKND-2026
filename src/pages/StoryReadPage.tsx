@@ -65,15 +65,16 @@ function StoryText({ text, highlightWord }: { text: string; highlightWord?: stri
   return (
     <p className="story-read-text">
       {text.split('\n').map((line, lineIdx, lines) => {
-        const idx = line.indexOf(highlightWord);
+        const idx = line.toLowerCase().indexOf(highlightWord.toLowerCase());
         let content: React.ReactNode;
         if (idx !== -1) {
+          const matched = line.slice(idx, idx + highlightWord.length);
           content = (
             <>
               {line.slice(0, idx)}
               <span className="story-read-highlight">
                 <span className="story-read-highlight-bg" />
-                <span className="story-read-highlight-word">{highlightWord}</span>
+                <span className="story-read-highlight-word">{matched}</span>
               </span>
               {line.slice(idx + highlightWord.length)}
             </>

@@ -332,6 +332,7 @@ export function VocabMaster() {
           onMouseDown={onMouseDown}
           onMouseMove={onMouseMove}
           onMouseUp={onMouseUp}
+          onMouseLeave={onMouseUp}
           onClick={handleFlip}
           role="button"
           tabIndex={0}
