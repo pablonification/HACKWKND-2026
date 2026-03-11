@@ -72,6 +72,9 @@ Deno.serve(async (request: Request) => {
     return jsonResponse(500, { error: 'Missing SUPABASE_SERVICE_ROLE_KEY or SUPABASE_URL' });
   }
 
+  const authHeader = request.headers.get('Authorization') ?? '';
+  const bearerToken = authHeader.replace(/^Bearer\s+/i, '').trim();
+
   // Confirm caller used the service-role key directly (it IS the bearer token in Supabase).
   // Decoding and checking JWT payload claims without verifying the signature is insecure.
   if (bearerToken !== serviceRoleKey) {

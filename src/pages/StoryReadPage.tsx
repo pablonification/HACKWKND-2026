@@ -160,6 +160,8 @@ export function StoryReadPage() {
     touchStartY.current = null;
     // Only trigger if horizontal swipe > 40px and dominant axis is horizontal
     if (Math.abs(dx) < 40 || Math.abs(dy) > Math.abs(dx) * 0.8) return;
+    // Prevent the browser-synthesised click that follows touchend from double-firing goNext
+    e.preventDefault();
     if (dx < 0) goNext();
     else goPrev();
   }
