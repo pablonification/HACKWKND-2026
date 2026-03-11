@@ -60,6 +60,7 @@ function BookRow({ label }: { label: string }) {
 
 // ── Learner Landing ─────────────────────────────────────────────────────────
 
+// TODO: Replace with real leaderboard data fetched from Supabase.
 const RANKING = [
   { name: 'Bayu', wl: 300, rank: 2, color: '#af7ea7', avatar: imgAvatar2 },
   { name: 'Tuyang', wl: 527, rank: 1, color: '#cb403c', avatar: imgAvatar1 },
@@ -100,7 +101,7 @@ function LearnerLanding({
 
       {/* Card */}
       <div className="landing-card">
-        {/* Last read */}
+        {/* Last read — TODO: fetch real last-read story and progress from Supabase */}
         <div className="landing-section">
           <h2 className="landing-section-title">Last Read</h2>
           <button
@@ -256,7 +257,7 @@ export function LandingPage() {
 
   const meta = user?.user_metadata as Record<string, unknown> | undefined;
   const fullName = meta?.full_name as string | undefined;
-  const firstName = fullName?.split(' ')[0] ?? 'there';
+  const firstName = fullName?.split(' ')[0] || 'there';
   const role = meta?.role as string | undefined;
   const isElder = role === 'elder' || role === 'admin';
 
