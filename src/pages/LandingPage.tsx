@@ -99,26 +99,9 @@ function LearnerLanding({
         {/* Last read — TODO: fetch real last-read story and progress from Supabase */}
         <div className="landing-section">
           <h2 className="landing-section-title">Last Read</h2>
-          <button
-            type="button"
-            className="landing-last-read"
-            onClick={() => onNavigate('/home/archive')}
-          >
-            <div className="landing-last-read-cover">
-              <img src={imgNafiri} alt="Nafiri" />
-            </div>
-            <div className="landing-last-read-info">
-              <span className="landing-last-read-title">Nafiri : A myth of the Sea and Origin</span>
-              <div className="flex justify-between items-center">
-                <span className="landing-last-read-author">Eyang Putra</span>
-                <span className="landing-last-read-pct">75%</span>
-              </div>
-              <div className="landing-last-read-bar">
-                <div className="landing-last-read-bar-fill" style={{ width: '75%' }} />
-              </div>
-              <span className="landing-last-read-cta">Continue Reading</span>
-            </div>
-          </button>
+          <div className="landing-last-read-empty">
+            <span>Start reading a story to see your progress here!</span>
+          </div>
         </div>
 
         {/* Top Tale */}
