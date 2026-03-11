@@ -390,15 +390,17 @@ export function VocabMaster() {
           <div className="vocab-word-in-use">
             <p className="vocab-word-in-use__label">Word in use</p>
             <p className="vocab-word-in-use__sentence">
-              {card.example_semai.split(new RegExp(`(${card.word})`, 'i')).map((part, i) =>
-                part.toLowerCase() === card.word.toLowerCase() ? (
-                  <strong key={i} className="vocab-word-in-use__highlight">
-                    {part}
-                  </strong>
-                ) : (
-                  part
-                ),
-              )}
+              {card.example_semai
+                .split(new RegExp(`(${card.word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'i'))
+                .map((part, i) =>
+                  part.toLowerCase() === card.word.toLowerCase() ? (
+                    <strong key={i} className="vocab-word-in-use__highlight">
+                      {part}
+                    </strong>
+                  ) : (
+                    part
+                  ),
+                )}
             </p>
           </div>
         )}

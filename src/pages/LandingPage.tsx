@@ -13,8 +13,6 @@ import imgGardenCard from '../../assets/landing/garden-card.png';
 import imgTaviCard from '../../assets/landing/tavi-card.png';
 import imgRecordCard from '../../assets/landing/record-card.png';
 import imgTranslateCard from '../../assets/landing/translate-card.png';
-import imgAvatar1 from '../../assets/landing/avatar-1.png';
-import imgAvatar2 from '../../assets/landing/avatar-2.png';
 
 import './LandingPage.css';
 
@@ -61,11 +59,8 @@ function BookRow({ label }: { label: string }) {
 // ── Learner Landing ─────────────────────────────────────────────────────────
 
 // TODO: Replace with real leaderboard data fetched from Supabase.
-const RANKING = [
-  { name: 'Bayu', wl: 300, rank: 2, color: '#af7ea7', avatar: imgAvatar2 },
-  { name: 'Tuyang', wl: 527, rank: 1, color: '#cb403c', avatar: imgAvatar1 },
-  { name: 'Ajeng', wl: 200, rank: 3, color: '#3788c6', avatar: imgAvatar2 },
-] as const;
+// Showing empty state until real data is available.
+const RANKING: { name: string; wl: number; rank: number; color: string; avatar: string }[] = [];
 
 const BAR_HEIGHTS: Record<number, number> = { 1: 154, 2: 116, 3: 85 };
 
@@ -133,28 +128,36 @@ function LearnerLanding({
         <div className="landing-section">
           <h2 className="landing-section-title">Weekly Taleka Ranking</h2>
           <div className="landing-ranking">
-            <div className="landing-ranking-bars">
-              {RANKING.map((r) => (
-                <div key={r.rank} className="landing-ranking-col">
-                  <div className="landing-ranking-avatar-wrap">
-                    <img src={r.avatar} alt={r.name} className="landing-ranking-avatar" />
-                  </div>
-                  <div
-                    className="landing-ranking-bar"
-                    style={{ height: BAR_HEIGHTS[r.rank], background: r.color }}
-                  >
-                    <div className="landing-ranking-bar-info">
-                      <span className="landing-ranking-name">{r.name}</span>
-                      <span className="landing-ranking-wl">{r.wl} WL</span>
+            {RANKING.length === 0 ? (
+              <div className="landing-ranking-empty">
+                <span>Rankings coming soon. Keep reading to earn WL!</span>
+              </div>
+            ) : (
+              <>
+                <div className="landing-ranking-bars">
+                  {RANKING.map((r) => (
+                    <div key={r.rank} className="landing-ranking-col">
+                      <div className="landing-ranking-avatar-wrap">
+                        <img src={r.avatar} alt={r.name} className="landing-ranking-avatar" />
+                      </div>
+                      <div
+                        className="landing-ranking-bar"
+                        style={{ height: BAR_HEIGHTS[r.rank], background: r.color }}
+                      >
+                        <div className="landing-ranking-bar-info">
+                          <span className="landing-ranking-name">{r.name}</span>
+                          <span className="landing-ranking-wl">{r.wl} WL</span>
+                        </div>
+                        <span className="landing-ranking-num">{r.rank}</span>
+                      </div>
                     </div>
-                    <span className="landing-ranking-num">{r.rank}</span>
-                  </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-            <div className="landing-ranking-note">
-              🏆 Congratulations, Tuyang! You achieved 1st place!
-            </div>
+                <div className="landing-ranking-note">
+                  🏆 {RANKING[0]?.name} is leading this week!
+                </div>
+              </>
+            )}
           </div>
         </div>
 

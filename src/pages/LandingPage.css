@@ -421,6 +421,15 @@
   text-align: center;
 }
 
+.landing-ranking-empty {
+  padding: 24px 16px;
+  text-align: center;
+  color: #604828;
+  font-size: 13px;
+  font-weight: 600;
+  opacity: 0.6;
+}
+
 /* ─── Action cards ("Whats up") ─────────────────────────────────────────────── */
 
 .landing-action-cards {

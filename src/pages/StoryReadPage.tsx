@@ -107,6 +107,7 @@ export function StoryReadPage() {
 
   // Keyboard / swipe navigation for desktop testing
   useEffect(() => {
+    if (!story || !story.scenes || story.scenes.length === 0) return;
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === 'ArrowRight') goNext();
       if (e.key === 'ArrowLeft') goPrev();
