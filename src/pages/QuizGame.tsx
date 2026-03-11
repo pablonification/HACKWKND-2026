@@ -74,6 +74,18 @@ export function QuizGame() {
     [],
   );
 
+  // ── Finish quiz (streak + level-up navigation) ──────────────────────────────
+  const finishQuiz = useCallback(() => {
+    void updateStreak();
+    void refreshLevel().then((newLevel) => {
+      if (newLevel) {
+        navigate(`/home/levelup`, { replace: true, state: { level: newLevel } });
+      } else {
+        setFinished(true);
+      }
+    });
+  }, [refreshLevel, navigate]);
+
   // ── Handlers ────────────────────────────────────────────────────────────
   const handleChoice = useCallback(
     (choice: string) => {
@@ -97,39 +109,25 @@ export function QuizGame() {
       // Auto-advance after a short delay
       autoAdvanceTimer.current = setTimeout(() => {
         if (current + 1 >= questions.length) {
-          void updateStreak();
-          void refreshLevel().then((newLevel) => {
-            if (newLevel) {
-              navigate(`/home/levelup`, { replace: true, state: { level: newLevel } });
-            } else {
-              setFinished(true);
-            }
-          });
+          finishQuiz();
         } else {
           setCurrent((c) => c + 1);
           setSelected(null);
         }
       }, AUTO_ADVANCE_MS);
     },
-    [selected, questions, current, refreshLevel, navigate],
+    [selected, questions, current, finishQuiz],
   );
 
   const handleNext = useCallback(() => {
     if (autoAdvanceTimer.current) clearTimeout(autoAdvanceTimer.current);
     if (current + 1 >= questions.length) {
-      void updateStreak();
-      void refreshLevel().then((newLevel) => {
-        if (newLevel) {
-          navigate(`/home/levelup`, { replace: true, state: { level: newLevel } });
-        } else {
-          setFinished(true);
-        }
-      });
+      finishQuiz();
     } else {
       setCurrent((c) => c + 1);
       setSelected(null);
     }
-  }, [current, questions.length, refreshLevel, navigate]);
+  }, [current, questions.length, finishQuiz]);
 
   const handleRestart = useCallback(() => {
     setLoading(true);

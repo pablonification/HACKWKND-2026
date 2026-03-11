@@ -83,6 +83,7 @@ export function WordleGame() {
   const [currentRow, setCurrentRow] = useState(0);
   const [currentCol, setCurrentCol] = useState(0);
   const [gameOver, setGameOver] = useState(false);
+  const [won, setWon] = useState(false);
   const [revealingRow, setRevealingRow] = useState<number | null>(null);
   const [shakeRow, setShakeRow] = useState<number | null>(null);
 
@@ -188,6 +189,7 @@ export function WordleGame() {
         if (isWin) {
           triggerHapticFeedback('success');
           void recordSwipe({ wordId: currentCard.word_id ?? null, known: true });
+          setWon(true);
           setGameOver(true);
         } else if (isLastRow) {
           triggerHapticFeedback('light');
@@ -392,6 +394,13 @@ export function WordleGame() {
           }),
         )}
       </div>
+
+      {/* Answer reveal — shown when player runs out of guesses without winning */}
+      {gameOver && !won && currentCard && (
+        <p className="wordle-answer-reveal">
+          The word was: <strong>{currentCard.word.trim().toUpperCase()}</strong>
+        </p>
+      )}
 
       {/* Bottom scenic illustration */}
       <div className="wordle-bottom" aria-hidden="true">

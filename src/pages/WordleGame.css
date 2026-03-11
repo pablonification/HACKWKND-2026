@@ -340,3 +340,18 @@
     min-height: 120px;
   }
 }
+
+
+.wordle-answer-reveal {
+  text-align: center;
+  font-size: 14px;
+  color: #604828;
+  margin: 8px 0 0;
+  font-family: var(--font-nunito, 'Nunito', sans-serif);
+}
+
+.wordle-answer-reveal strong {
+  color: #c0392b;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
