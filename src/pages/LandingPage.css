@@ -1,0 +1,461 @@
+/* ─── Landing Shell ─────────────────────────────────────────────────────────── */
+
+.landing-shell {
+  display: flex;
+  flex-direction: column;
+  font-family: 'Satoshi', 'Poppins', ui-sans-serif, system-ui, sans-serif;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  position: relative;
+  background: #fff9e9;
+}
+
+/* ─── Hero ───────────────────────────────────────────────────────────────── */
+
+.landing-hero {
+  flex-shrink: 0;
+  height: 310px;
+  overflow: hidden;
+  pointer-events: none;
+  position: relative;
+  width: 100%;
+  z-index: 0;
+  justify-items: center;
+}
+
+.landing-hero img {
+  height: 110%;
+  left: 0;
+  max-width: none;
+  object-fit: cover;
+  position: absolute;
+  top: -10%;
+  user-select: none;
+  width: 100%;
+  aspect-ratio: 197/296;
+}
+
+/* Elder hero sits a bit higher (design has top: -168px offset) */
+.landing-hero--elder {
+  height: 290px;
+}
+
+.landing-hero--elder img {
+  height: 125%;
+  top: -20%;
+}
+
+/* Learner "Hello" overlay on hero */
+.landing-hero-greeting {
+  position: absolute;
+  top: 30px;
+  z-index: 2;
+}
+
+.landing-hero-greeting span {
+  font-family: 'Playfair Display', 'Playfair', Georgia, serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: 32px;
+  color: #604828;
+  letter-spacing: 1px;
+  text-shadow: 0 1px 4px rgba(255, 255, 255, 0.5);
+}
+
+/* ─── Search bar — floats on the seam ──────────────────────────────────────── */
+
+.landing-search-wrap {
+  left: 24px;
+  position: absolute;
+  right: 24px;
+  top: 200px;
+  z-index: 10;
+}
+
+.landing-search-bar {
+  align-items: center;
+  background: #fff;
+  border: none;
+  border-radius: 20px;
+  box-shadow:
+    0px 4.4px 4.4px 0px rgba(0, 0, 0, 0.25),
+    -2.2px 0px 4.4px 0px rgba(0, 0, 0, 0.25),
+    1.1px -1.1px 4.4px 0px rgba(0, 0, 0, 0.25);
+  cursor: text;
+  display: flex;
+  gap: 14px;
+  height: 40px;
+  padding: 0 16px;
+  width: 100%;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 120ms ease;
+}
+
+.landing-search-bar:active {
+  transform: scale(0.98);
+}
+
+.landing-search-icon {
+  color: #604828;
+  flex-shrink: 0;
+  height: 19px;
+  opacity: 0.7;
+  width: 19px;
+}
+
+.landing-search-placeholder {
+  color: rgba(96, 72, 40, 0.61);
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ─── Content card ──────────────────────────────────────────────────────────── */
+
+.landing-card {
+  background: #fff9e9;
+  border-radius: 35px 35px 0 0;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  margin-top: -32px; /* pull up over hero */
+  min-height: 0;
+  padding: 30px 24px calc(env(safe-area-inset-bottom, 0px) + 120px); /* 120 ≥ nav height (107px) */
+  position: relative;
+  z-index: 1;
+  gap: 32px;
+}
+
+/* ─── Section headings ──────────────────────────────────────────────────────── */
+
+.landing-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.landing-section-title {
+  color: #000;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  margin: 0;
+}
+
+/* ─── Last Read card (learner) ──────────────────────────────────────────────── */
+
+.landing-last-read {
+  align-items: center;
+  background: rgba(246, 158, 6, 0.42);
+  border: 3px solid #fff;
+  border-radius: 20px;
+  box-shadow:
+    0px 4.4px 4.4px rgba(0, 0, 0, 0.1),
+    -2.2px 0px 4.4px rgba(0, 0, 0, 0.1),
+    1.1px -1.1px 4.4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  display: flex;
+  gap: 12px;
+  overflow: hidden;
+  padding: 12px;
+  position: relative;
+  text-align: left;
+  width: 100%;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 120ms ease;
+}
+
+.landing-last-read:active {
+  transform: scale(0.98);
+}
+
+.landing-last-read-cover {
+  border-radius: 10px;
+  flex-shrink: 0;
+  height: 88px;
+  overflow: hidden;
+  width: 62px;
+}
+
+.landing-last-read-cover img {
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.landing-last-read-info {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 4px;
+  justify-content: center;
+  min-width: 0;
+}
+
+.landing-last-read-title {
+  color: #604828;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  line-height: 1.3;
+}
+
+.landing-last-read-author {
+  color: #604828;
+  font-size: 11px;
+  font-weight: 400;
+}
+
+.landing-last-read-bar {
+  background: rgba(255, 255, 255, 0.81);
+  border-radius: 14px;
+  height: 6px;
+  margin-top: 4px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.landing-last-read-bar-fill {
+  background: #cb403c;
+  border-radius: 14px;
+  height: 100%;
+  transition: width 0.4s ease;
+}
+
+.landing-last-read-pct {
+  color: #604828;
+  font-size: 10px;
+  font-weight: 500;
+  text-align: right;
+}
+
+.landing-last-read-cta {
+  align-items: center;
+  align-self: flex-end;
+  background: #cb403c;
+  border-radius: 10px;
+  color: #fff;
+  display: flex;
+  font-size: 11px;
+  font-weight: 500;
+  gap: 4px;
+  padding: 5px 10px;
+  white-space: nowrap;
+  margin-top: 8px;
+}
+
+/* ─── Books row ─────────────────────────────────────────────────────────────── */
+
+.landing-books-wrap {
+  position: relative;
+}
+
+.landing-books-bg {
+  background: #fff;
+  border-radius: 20px;
+  bottom: 0;
+  box-shadow:
+    0px 4.4px 4.4px rgba(0, 0, 0, 0.25),
+    -2.2px 0px 4.4px rgba(0, 0, 0, 0.25),
+    1.1px -1.1px 4.4px rgba(0, 0, 0, 0.25);
+  height: 65px;
+  left: 0;
+  position: absolute;
+  right: 0;
+}
+
+.landing-books-row {
+  align-items: flex-end;
+  display: flex;
+  gap: 0;
+  justify-content: space-around;
+  padding: 0 12px 12px;
+  position: relative;
+  z-index: 1;
+}
+
+.landing-book-item {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 68px;
+}
+
+.landing-book-cover {
+  border-radius: 8px;
+  height: 96px;
+  overflow: hidden;
+  width: 68px;
+}
+
+.landing-book-cover img {
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.landing-book-title {
+  color: #604828;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+  overflow: hidden;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.landing-book-sub {
+  color: #604828;
+  font-size: 10px;
+  font-weight: 400;
+  overflow: hidden;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+}
+
+/* ─── Ranking ───────────────────────────────────────────────────────────────── */
+
+.landing-ranking {
+  display: flex;
+  flex-direction: column;
+}
+
+.landing-ranking-bars {
+  align-items: flex-end;
+  display: flex;
+  gap: 0;
+  justify-content: center;
+  padding-top: 56px;
+}
+
+.landing-ranking-col {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 84px;
+}
+
+.landing-ranking-avatar-wrap {
+  background: #67adcb;
+  border-radius: 12px;
+  height: 52px;
+  left: 50%;
+  overflow: hidden;
+  position: absolute;
+  top: -56px;
+  transform: translateX(-50%);
+  width: 52px;
+}
+
+.landing-ranking-avatar {
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.landing-ranking-bar {
+  align-items: center;
+  border-radius: 10px 10px 0 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+  padding-bottom: 8px;
+  position: relative;
+  width: 84px;
+}
+
+.landing-ranking-bar-info {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  position: absolute;
+  top: 14px;
+  width: 100%;
+}
+
+.landing-ranking-name {
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+}
+
+.landing-ranking-wl {
+  color: #fff;
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.landing-ranking-num {
+  color: #fff;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+  line-height: 1;
+}
+
+.landing-ranking-note {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow:
+    0px 4.4px 4.4px rgba(0, 0, 0, 0.25),
+    -2.2px 0px 4.4px rgba(0, 0, 0, 0.25),
+    1.1px -1.1px 4.4px rgba(0, 0, 0, 0.25);
+  color: #604828;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+  padding: 10px 20px;
+  text-align: center;
+}
+
+/* ─── Action cards ("Whats up") ─────────────────────────────────────────────── */
+
+.landing-action-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.landing-action-card {
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  display: flex;
+  height: 122px;
+  overflow: hidden;
+  padding: 0;
+  position: relative;
+  width: 100%;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease;
+}
+
+.landing-action-card:active {
+  transform: scale(0.97);
+}
+
+.landing-action-card-img {
+  height: 100%;
+  left: 0;
+  object-fit: cover;
+  object-position: center;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}

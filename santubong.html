@@ -1,0 +1,2079 @@
+<!doctype html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Puteri Santubong & Sejinjang — Terjemahan Semai</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Noto+Sans+Mono:wght@400;600&family=Lora:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #f5f0f8;
+        --surface: #faf7fc;
+        --border: #d8c8e8;
+        --text: #1e0f33;
+        --muted: #7a6090;
+        --accent: #8b3fa8;
+        --semai: #1a6e4a;
+        --semai-bg: #e5f5ec;
+        --missing: #a0a0b0;
+        --missing-bg: #f3f3f6;
+        --highlight: #f3e8ff;
+        --highlight-border: #b87de0;
+        --gold: #b8860b;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: 'Lora', Georgia, serif;
+        min-height: 100vh;
+      }
+
+      header {
+        background: linear-gradient(135deg, #1e0f33 0%, #3d1a5e 100%);
+        color: #f5f0f8;
+        padding: 22px 32px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        border-bottom: 3px solid var(--gold);
+      }
+
+      .header-icon {
+        font-size: 2rem;
+      }
+
+      header h1 {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.3rem;
+        font-weight: 700;
+        line-height: 1.3;
+        font-style: italic;
+      }
+
+      header p {
+        font-size: 0.75rem;
+        opacity: 0.6;
+        font-family: 'Noto Sans Mono', monospace;
+        margin-top: 3px;
+      }
+
+      .controls {
+        display: flex;
+        gap: 10px;
+        padding: 14px 32px;
+        background: var(--surface);
+        border-bottom: 1px solid var(--border);
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      .controls label {
+        font-size: 0.75rem;
+        color: var(--muted);
+        font-family: 'Noto Sans Mono', monospace;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+
+      .btn {
+        padding: 5px 13px;
+        border-radius: 20px;
+        border: 1.5px solid var(--border);
+        background: white;
+        cursor: pointer;
+        font-size: 0.78rem;
+        font-family: 'Noto Sans Mono', monospace;
+        color: var(--text);
+        transition: all 0.15s;
+      }
+
+      .btn:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+      .btn.active {
+        background: #1e0f33;
+        color: white;
+        border-color: #1e0f33;
+      }
+
+      .stats {
+        margin-left: auto;
+        font-size: 0.73rem;
+        font-family: 'Noto Sans Mono', monospace;
+        color: var(--muted);
+        background: var(--semai-bg);
+        padding: 4px 12px;
+        border-radius: 20px;
+        border: 1px solid #b8ddc8;
+      }
+
+      .stats span {
+        color: var(--semai);
+        font-weight: 600;
+      }
+
+      .main {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+        min-height: calc(100vh - 110px);
+      }
+
+      .panel {
+        padding: 28px 32px;
+        border-right: 1px solid var(--border);
+        overflow-y: auto;
+      }
+
+      .panel:last-child {
+        border-right: none;
+      }
+
+      .panel-title {
+        font-size: 0.68rem;
+        font-family: 'Noto Sans Mono', monospace;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--muted);
+        margin-bottom: 18px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .panel-title::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: var(--border);
+      }
+
+      .fable-text {
+        font-size: 1rem;
+        line-height: 2.1;
+        color: var(--text);
+      }
+
+      .story-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.15rem;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        display: inline;
+      }
+
+      .word-token {
+        display: inline;
+        cursor: pointer;
+        border-radius: 3px;
+        transition: background 0.1s;
+        padding: 1px 2px;
+      }
+
+      .word-token.has-translation {
+        border-bottom: 2px solid transparent;
+      }
+
+      .word-token.has-translation:hover,
+      .word-token.has-translation.selected {
+        background: var(--highlight);
+        border-bottom-color: var(--highlight-border);
+      }
+
+      .word-token.no-translation {
+        color: var(--missing);
+        border-bottom: 2px dotted #c8c8d8;
+      }
+
+      .word-token.no-translation:hover,
+      .word-token.no-translation.selected {
+        background: var(--missing-bg);
+        border-bottom-color: #aaaac0;
+      }
+
+      .semai-word {
+        display: inline;
+        padding: 1px 2px;
+        border-radius: 3px;
+        transition: background 0.1s;
+        cursor: pointer;
+      }
+
+      .semai-word.translated {
+        color: var(--semai);
+        font-weight: 600;
+      }
+
+      .semai-word.translated:hover,
+      .semai-word.translated.selected {
+        background: var(--semai-bg);
+      }
+
+      .semai-word.untranslated {
+        color: var(--missing);
+        font-style: italic;
+      }
+
+      .semai-word.untranslated:hover,
+      .semai-word.untranslated.selected {
+        background: var(--missing-bg);
+      }
+
+      .tooltip-panel {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #1e0f33;
+        color: #f5f0f8;
+        padding: 10px 22px;
+        border-radius: 10px;
+        font-size: 0.88rem;
+        display: flex;
+        gap: 14px;
+        align-items: center;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+        z-index: 100;
+        opacity: 0;
+        transition: opacity 0.2s;
+        pointer-events: none;
+        max-width: 480px;
+        border-top: 2px solid var(--gold);
+      }
+
+      .tooltip-panel.visible {
+        opacity: 1;
+      }
+
+      .tooltip-ms {
+        font-size: 0.78rem;
+        opacity: 0.6;
+      }
+      .tooltip-arrow {
+        opacity: 0.45;
+        font-size: 0.78rem;
+      }
+      .tooltip-semai {
+        color: #78f0b0;
+        font-size: 1.05rem;
+        font-weight: 600;
+        font-family: 'Noto Sans Mono', monospace;
+      }
+      .tooltip-none {
+        color: #f5a07e;
+        font-size: 0.82rem;
+      }
+
+      .legend {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        font-size: 0.73rem;
+        font-family: 'Noto Sans Mono', monospace;
+        color: var(--muted);
+      }
+
+      .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+      .dot {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        display: inline-block;
+      }
+      .dot-found {
+        background: var(--semai);
+      }
+      .dot-missing {
+        background: var(--missing);
+      }
+
+      @media (max-width: 720px) {
+        .main {
+          grid-template-columns: 1fr;
+        }
+        .panel {
+          border-right: none;
+          border-bottom: 1px solid var(--border);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="header-icon">👑</div>
+      <div>
+        <h1>Puteri Santubong & Puteri Sejinjang</h1>
+        <p>Bahasa Melayu → Bahasa Semai · Kamus Webonary · 73.9% liputan kata</p>
+      </div>
+    </header>
+
+    <div class="controls">
+      <div class="legend">
+        <div class="legend-item"><span class="dot dot-found"></span> Diterjemah</div>
+        <div class="legend-item"><span class="dot dot-missing"></span> Tiada dalam kamus</div>
+      </div>
+      <div style="display: flex; gap: 8px; align-items: center; margin-left: 16px">
+        <label>Paparan:</label>
+        <button class="btn active" id="btn-split" onclick="setMode('split')">Belah Dua</button>
+        <button class="btn" id="btn-semai" onclick="setMode('semai')">Semai Sahaja</button>
+        <button class="btn" id="btn-interlinear" onclick="setMode('interlinear')">
+          Antarabaris
+        </button>
+      </div>
+      <div class="stats" id="stats-badge">Mengira...</div>
+    </div>
+
+    <div class="main" id="main-container">
+      <div class="panel" id="panel-ms">
+        <div class="panel-title">🇲🇾 Bahasa Melayu (Asal)</div>
+        <div class="fable-text" id="ms-text"></div>
+      </div>
+      <div class="panel" id="panel-semai">
+        <div class="panel-title">🌿 Bahasa Semai (Terjemahan)</div>
+        <div class="fable-text" id="semai-text"></div>
+      </div>
+    </div>
+
+    <div class="tooltip-panel" id="tooltip">
+      <span class="tooltip-ms" id="tt-ms"></span>
+      <span class="tooltip-arrow">→</span>
+      <span class="tooltip-semai" id="tt-semai"></span>
+      <span class="tooltip-none" id="tt-none"></span>
+    </div>
+
+    <script>
+      const TOKENS = [
+        { type: 'word', ms: 'PUTERI', semai: 'putri' },
+        { type: 'space' },
+        { type: 'word', ms: 'SANTUBONG', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'DAN', semai: 'lok' },
+        { type: 'space' },
+        { type: 'word', ms: 'PUTERI', semai: 'putri' },
+        { type: 'space' },
+        { type: 'word', ms: 'SEJINJANG', semai: null },
+        { type: 'newline' },
+        { type: 'newline' },
+        { type: 'word', ms: 'Puteri', semai: 'putri' },
+        { type: 'space' },
+        { type: 'word', ms: 'Santubong', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'dan', semai: 'lok' },
+        { type: 'space' },
+        { type: 'word', ms: 'Puteri', semai: 'putri' },
+        { type: 'space' },
+        { type: 'word', ms: 'Sejinjang', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'ialah', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'dua', semai: 'due' },
+        { type: 'space' },
+        { type: 'word', ms: 'orang', semai: 'angkot' },
+        { type: 'space' },
+        { type: 'word', ms: 'puteri', semai: 'putri' },
+        { type: 'space' },
+        { type: 'word', ms: 'dewa', semai: 'cagoh' },
+        { type: 'space' },
+        { type: 'word', ms: 'kayangan', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'yang', semai: 'de' },
+        { type: 'space' },
+        { type: 'word', ms: 'mempunyai', semai: 'abei' },
+        { type: 'space' },
+        { type: 'word', ms: 'paras', semai: 'sangkat' },
+        { type: 'space' },
+        { type: 'word', ms: 'rupa', semai: 'mat-moh' },
+        { type: 'space' },
+        { type: 'word', ms: 'dan', semai: 'lok' },
+        { type: 'space' },
+        { type: 'word', ms: 'kecantikan', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'yang', semai: 'de' },
+        { type: 'space' },
+        { type: 'word', ms: 'tiada', semai: 'betok' },
+        { type: 'space' },
+        { type: 'word', ms: 'tolok', semai: 'tenlug' },
+        { type: 'space' },
+        { type: 'word', ms: 'bandingnya', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'ketika', semai: 'apabile' },
+        { type: 'space' },
+        { type: 'word', ms: 'itu', semai: 'ajeh' },
+        { type: 'punct', text: '.' },
+        { type: 'space' },
+        { type: 'word', ms: 'Sesiapa', semai: 'bok-bok' },
+        { type: 'space' },
+        { type: 'word', ms: 'sahaja', semai: 'taleh' },
+        { type: 'space' },
+        { type: 'word', ms: 'yang', semai: 'de' },
+        { type: 'space' },
+        { type: 'word', ms: 'memandang', semai: 'jengon' },
+        { type: 'space' },
+        { type: 'word', ms: 'pasti', semai: 'jamin' },
+        { type: 'space' },
+        { type: 'word', ms: 'akan', semai: 'barik' },
+        { type: 'space' },
+        { type: 'word', ms: 'terpikat', semai: 'jop' },
+        { type: 'punct', text: '.' },
+        { type: 'space' },
+        { type: 'word', ms: 'Paras', semai: 'sangkat' },
+        { type: 'space' },
+        { type: 'word', ms: 'kedua-dua', semai: 'rimnar' },
+        { type: 'space' },
+        { type: 'word', ms: 'puteri', semai: 'putri' },
+        { type: 'space' },
+        { type: 'word', ms: 'anak', semai: 'kenon' },
+        { type: 'space' },
+        { type: 'word', ms: 'dewa', semai: 'cagoh' },
+        { type: 'space' },
+        { type: 'word', ms: 'dari', semai: 'ju' },
+        { type: 'space' },
+        { type: 'word', ms: 'kayangan', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'itu', semai: 'ajeh' },
+        { type: 'space' },
+        { type: 'word', ms: 'bagaikan', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'purnama', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'menghias', semai: 'kermik' },
+        { type: 'space' },
+        { type: 'word', ms: 'alam', semai: 'alam' },
+        { type: 'punct', text: ',' },
+        { type: 'space' },
+        { type: 'word', ms: 'bersinar-sinar', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'bergemerlapan', semai: null },
+        { type: 'punct', text: '.' },
+        { type: 'space' },
+        { type: 'word', ms: 'Alis', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'mata', semai: 'mat' },
+        { type: 'punct', text: ',' },
+        { type: 'space' },
+        { type: 'word', ms: 'yang', semai: 'de' },
+        { type: 'space' },
+        { type: 'word', ms: 'lentik', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'dan', semai: 'lok' },
+        { type: 'space' },
+        { type: 'word', ms: 'ekor', semai: 'sentak' },
+        { type: 'space' },
+        { type: 'word', ms: 'mata', semai: 'mat' },
+        { type: 'space' },
+        { type: 'word', ms: 'seperti', semai: 'begei' },
+        { type: 'space' },
+        { type: 'word', ms: 'seroja', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'biru', semai: 'bata' },
+        { type: 'space' },
+        { type: 'word', ms: 'di', semai: 'ku' },
+        { type: 'space' },
+        { type: 'word', ms: 'kolam', semai: 'kulam' },
+        { type: 'space' },
+        { type: 'word', ms: 'madu', semai: 'madu' },
+        { type: 'punct', text: '.' },
+        { type: 'space' },
+        { type: 'word', ms: 'Walaupun', semai: 'alaupen' },
+        { type: 'space' },
+        { type: 'word', ms: 'ketinggian', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'tubuh', semai: 'baju manik' },
+        { type: 'space' },
+        { type: 'word', ms: 'mereka', semai: 'enai' },
+        { type: 'space' },
+        { type: 'word', ms: 'hanyalah', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'sederhana', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'tetapi', semai: 'tapi' },
+        { type: 'space' },
+        { type: 'word', ms: 'suara', semai: 'suara' },
+        { type: 'space' },
+        { type: 'word', ms: 'mereka', semai: 'enai' },
+        { type: 'space' },
+        { type: 'word', ms: 'cukup', semai: 'cukop' },
+        { type: 'space' },
+        { type: 'word', ms: 'merdu', semai: 'perat' },
+        { type: 'space' },
+        { type: 'word', ms: 'seperti', semai: 'begei' },
+        { type: 'space' },
+        { type: 'word', ms: 'seruling', semai: 'pensol' },
+        { type: 'space' },
+        { type: 'word', ms: 'bambu', semai: 'awat' },
+        { type: 'punct', text: '.' },
+        { type: 'space' },
+        { type: 'word', ms: 'Inilah', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'kelebihan', semai: 'terloh' },
+        { type: 'space' },
+        { type: 'word', ms: 'yang', semai: 'de' },
+        { type: 'space' },
+        { type: 'word', ms: 'terdapat', semai: 'alam' },
+        { type: 'space' },
+        { type: 'word', ms: 'pada', semai: 'ba' },
+        { type: 'space' },
+        { type: 'word', ms: 'Puteri', semai: 'putri' },
+        { type: 'space' },
+        { type: 'word', ms: 'Santubong', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'dan', semai: 'lok' },
+        { type: 'space' },
+        { type: 'word', ms: 'Puteri', semai: 'putri' },
+        { type: 'space' },
+        { type: 'word', ms: 'Sejinjang', semai: null },
+        { type: 'punct', text: '.' },
+        { type: 'newline' },
+        { type: 'newline' },
+        { type: 'word', ms: 'Kehidupan', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'Puteri', semai: 'putri' },
+        { type: 'space' },
+        { type: 'word', ms: 'Santubong', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'dan', semai: 'lok' },
+        { type: 'space' },
+        { type: 'word', ms: 'Puteri', semai: 'putri' },
+        { type: 'space' },
+        { type: 'word', ms: 'Sejinjang', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'amat', semai: 'had' },
+        { type: 'space' },
+        { type: 'word', ms: 'mesra', semai: 'ramah' },
+        { type: 'space' },
+        { type: 'word', ms: 'sekali', semai: 'arik' },
+        { type: 'punct', text: '.' },
+        { type: 'space' },
+        { type: 'word', ms: 'Mereka', semai: 'enai' },
+        { type: 'space' },
+        { type: 'word', ms: 'diibaratkan', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'adik-beradik', semai: 'beradek' },
+        { type: 'space' },
+        { type: 'word', ms: 'kembar', semai: 'kebar' },
+        { type: 'punct', text: '.' },
+        { type: 'space' },
+        { type: 'word', ms: 'Senyuman', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'dan', semai: 'lok' },
+        { type: 'space' },
+        { type: 'word', ms: 'kegembiraan', semai: 'keremmik' },
+        { type: 'space' },
+        { type: 'word', ms: 'sentiasa', semai: 'asek' },
+        { type: 'space' },
+        { type: 'word', ms: 'bermain', semai: 'batak' },
+        { type: 'space' },
+        { type: 'word', ms: 'dibibir', semai: 'kanyuk' },
+        { type: 'punct', text: '.' },
+        { type: 'space' },
+        { type: 'word', ms: 'Bergurau', semai: 'bertot' },
+        { type: 'space' },
+        { type: 'word', ms: 'dan', semai: 'lok' },
+        { type: 'space' },
+        { type: 'word', ms: 'bersenda', semai: 'acah' },
+        { type: 'space' },
+        { type: 'word', ms: 'tidak', semai: 'pek' },
+        { type: 'space' },
+        { type: 'word', ms: 'lekang', semai: 'lekang' },
+        { type: 'space' },
+        { type: 'word', ms: 'daripada', semai: 'abat' },
+        { type: 'space' },
+        { type: 'word', ms: 'keduanya', semai: null },
+        { type: 'punct', text: '.' },
+        { type: 'space' },
+        { type: 'word', ms: 'Mereka', semai: 'enai' },
+        { type: 'space' },
+        { type: 'word', ms: 'sentiasa', semai: 'asek' },
+        { type: 'space' },
+        { type: 'word', ms: 'sepakat', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'dan', semai: 'lok' },
+        { type: 'space' },
+        { type: 'word', ms: 'sekata', semai: 'adeh' },
+        { type: 'punct', text: '.' },
+        { type: 'space' },
+        { type: 'word', ms: 'Demikianlah', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'kehidupan', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'yang', semai: 'de' },
+        { type: 'space' },
+        { type: 'word', ms: 'mereka', semai: 'enai' },
+        { type: 'space' },
+        { type: 'word', ms: 'lalui', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'setiap', semai: 'jap' },
+        { type: 'space' },
+        { type: 'word', ms: 'hari', semai: 'arik' },
+        { type: 'punct', text: '.' },
+        { type: 'newline' },
+        { type: 'newline' },
+        { type: 'punct', text: '"' },
+        { type: 'word', ms: 'Sejinjang', semai: null },
+        { type: 'punct', text: ',' },
+        { type: 'space' },
+        { type: 'word', ms: 'selepas', semai: 'telas' },
+        { type: 'space' },
+        { type: 'word', ms: 'selesainya', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'kerja', semai: 'kerjak' },
+        { type: 'space' },
+        { type: 'word', ms: 'kita', semai: 'hik' },
+        { type: 'space' },
+        { type: 'word', ms: 'berdua', semai: 'bai-' },
+        { type: 'space' },
+        { type: 'word', ms: 'ini', semai: 'adeh' },
+        { type: 'punct', text: ',' },
+        { type: 'space' },
+        { type: 'word', ms: 'kita', semai: 'hik' },
+        { type: 'space' },
+        { type: 'word', ms: 'bermain-main', semai: null },
+        { type: 'punct', text: ',' },
+        { type: 'space' },
+        { type: 'word', ms: 'mahu', semai: 'ha-' },
+        { type: 'punct', text: '?"' },
+        { type: 'space' },
+        { type: 'word', ms: 'Tanya', semai: 'tanyak' },
+        { type: 'space' },
+        { type: 'word', ms: 'Puteri', semai: 'putri' },
+        { type: 'space' },
+        { type: 'word', ms: 'Santubong', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'kepada', semai: 'ba' },
+        { type: 'space' },
+        { type: 'word', ms: 'Puteri', semai: 'putri' },
+        { type: 'space' },
+        { type: 'word', ms: 'Sejinjang', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'yang', semai: 'de' },
+        { type: 'space' },
+        { type: 'word', ms: 'asyik', semai: 'asek' },
+        { type: 'space' },
+        { type: 'word', ms: 'menumbuk', semai: 'seh' },
+        { type: 'space' },
+        { type: 'word', ms: 'padi', semai: 'bak' },
+        { type: 'punct', text: '.' },
+        { type: 'space' },
+        { type: 'punct', text: '"' },
+        { type: 'word', ms: 'Baiklah', semai: null },
+        { type: 'punct', text: '.' },
+        { type: 'space' },
+        { type: 'word', ms: 'Tapi', semai: 'tapi' },
+        { type: 'space' },
+        { type: 'word', ms: 'kita', semai: 'hik' },
+        { type: 'space' },
+        { type: 'word', ms: 'mahu', semai: 'ha-' },
+        { type: 'space' },
+        { type: 'word', ms: 'main', semai: 'main' },
+        { type: 'space' },
+        { type: 'word', ms: 'apa', semai: 'jalek' },
+        { type: 'space' },
+        { type: 'word', ms: 'ya', semai: 'haah' },
+        { type: 'punct', text: '?"' },
+        { type: 'space' },
+        { type: 'word', ms: 'balas', semai: 'balas' },
+        { type: 'space' },
+        { type: 'word', ms: 'Puteri', semai: 'putri' },
+        { type: 'space' },
+        { type: 'word', ms: 'Sejinjang', semai: null },
+        { type: 'punct', text: '.' },
+        { type: 'space' },
+        { type: 'punct', text: '"' },
+        { type: 'word', ms: 'Kita', semai: 'hik' },
+        { type: 'space' },
+        { type: 'word', ms: 'main', semai: 'main' },
+        { type: 'space' },
+        { type: 'word', ms: 'sorok-sorok', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'di', semai: 'ku' },
+        { type: 'space' },
+        { type: 'word', ms: 'taman', semai: 'kungkang' },
+        { type: 'space' },
+        { type: 'word', ms: 'bunga', semai: 'bunga' },
+        { type: 'space' },
+        { type: 'word', ms: 'di', semai: 'ku' },
+        { type: 'space' },
+        { type: 'word', ms: 'halaman', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'sana', semai: 'aseh' },
+        { type: 'punct', text: '.' },
+        { type: 'space' },
+        { type: 'word', ms: 'Lepas', semai: 'ungkit' },
+        { type: 'space' },
+        { type: 'word', ms: 'itu', semai: 'ajeh' },
+        { type: 'space' },
+        { type: 'word', ms: 'kita', semai: 'hik' },
+        { type: 'space' },
+        { type: 'word', ms: 'petik', semai: 'leh' },
+        { type: 'space' },
+        { type: 'word', ms: 'bunga-bunga', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'yang', semai: 'de' },
+        { type: 'space' },
+        { type: 'word', ms: 'telah', semai: 'la' },
+        { type: 'space' },
+        { type: 'word', ms: 'mekar', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'di', semai: 'ku' },
+        { type: 'space' },
+        { type: 'word', ms: 'taman', semai: 'kungkang' },
+        { type: 'punct', text: '."' },
+        { type: 'space' },
+        { type: 'punct', text: '"' },
+        { type: 'word', ms: 'Yalah', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'Santubong', semai: null },
+        { type: 'punct', text: '!' },
+        { type: 'space' },
+        { type: 'word', ms: 'Sudah', semai: 'la' },
+        { type: 'space' },
+        { type: 'word', ms: 'lama', semai: 'manah' },
+        { type: 'space' },
+        { type: 'word', ms: 'juga', semai: 'juga' },
+        { type: 'space' },
+        { type: 'word', ms: 'kita', semai: 'hik' },
+        { type: 'space' },
+        { type: 'word', ms: 'tidak', semai: 'pek' },
+        { type: 'space' },
+        { type: 'word', ms: 'memetik', semai: 'toj' },
+        { type: 'space' },
+        { type: 'word', ms: 'bunga-bunga', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'di', semai: 'ku' },
+        { type: 'space' },
+        { type: 'word', ms: 'taman', semai: 'kungkang' },
+        { type: 'space' },
+        { type: 'word', ms: 'sana', semai: 'aseh' },
+        { type: 'punct', text: '."' },
+        { type: 'space' },
+        { type: 'word', ms: 'Menantikan', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'saat', semai: 'umor' },
+        { type: 'space' },
+        { type: 'word', ms: 'itu', semai: 'ajeh' },
+        { type: 'punct', text: ',' },
+        { type: 'space' },
+        { type: 'word', ms: 'kedua-duanya', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'meneruskan', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'pekerjaan', semai: 'kerenjak' },
+        { type: 'space' },
+        { type: 'word', ms: 'masing-masing', semai: 'maseg-maseg' },
+        { type: 'space' },
+        { type: 'word', ms: 'hingga', semai: 'arik' },
+        { type: 'space' },
+        { type: 'word', ms: 'selesai', semai: 'selesei' },
+        { type: 'punct', text: '.' },
+        { type: 'newline' },
+        { type: 'newline' },
+        { type: 'word', ms: 'Pekerjaan', semai: 'kerenjak' },
+        { type: 'space' },
+        { type: 'word', ms: 'Puteri', semai: 'putri' },
+        { type: 'space' },
+        { type: 'word', ms: 'Santubong', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'dari', semai: 'ju' },
+        { type: 'space' },
+        { type: 'word', ms: 'siang', semai: 'yahnah' },
+        { type: 'space' },
+        { type: 'word', ms: 'hingga', semai: 'arik' },
+        { type: 'space' },
+        { type: 'word', ms: 'malam', semai: 'kelem' },
+        { type: 'space' },
+        { type: 'word', ms: 'hanyalah', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'menenun', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'kain', semai: 'abat' },
+        { type: 'punct', text: '.' },
+        { type: 'space' },
+        { type: 'word', ms: 'Manakala', semai: 'beltop' },
+        { type: 'space' },
+        { type: 'word', ms: 'Puteri', semai: 'putri' },
+        { type: 'space' },
+        { type: 'word', ms: 'Sejinjang', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'pula', semai: 'beltop' },
+        { type: 'space' },
+        { type: 'word', ms: 'asyik', semai: 'asek' },
+        { type: 'space' },
+        { type: 'word', ms: 'dengan', semai: 'lok' },
+        { type: 'space' },
+        { type: 'word', ms: 'menumbuk', semai: 'seh' },
+        { type: 'space' },
+        { type: 'word', ms: 'padi', semai: 'bak' },
+        { type: 'punct', text: '.' },
+        { type: 'newline' },
+        { type: 'newline' },
+        { type: 'word', ms: 'Pada', semai: 'ba' },
+        { type: 'space' },
+        { type: 'word', ms: 'suatu', semai: 'ajak' },
+        { type: 'space' },
+        { type: 'word', ms: 'hari', semai: 'arik' },
+        { type: 'punct', text: ',' },
+        { type: 'space' },
+        { type: 'word', ms: 'ketika', semai: 'apabile' },
+        { type: 'space' },
+        { type: 'word', ms: 'Puteri', semai: 'putri' },
+        { type: 'space' },
+        { type: 'word', ms: 'Santubong', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'leka', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'menenun', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'kain', semai: 'abat' },
+        { type: 'space' },
+        { type: 'word', ms: 'dan', semai: 'lok' },
+        { type: 'space' },
+        { type: 'word', ms: 'Puteri', semai: 'putri' },
+        { type: 'space' },
+        { type: 'word', ms: 'Sejinjang', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'asyik', semai: 'asek' },
+        { type: 'space' },
+        { type: 'word', ms: 'menumbuk', semai: 'seh' },
+        { type: 'space' },
+        { type: 'word', ms: 'padi', semai: 'bak' },
+        { type: 'punct', text: ',' },
+        { type: 'space' },
+        { type: 'word', ms: 'berbual-buallah', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'mereka', semai: 'enai' },
+        { type: 'space' },
+        { type: 'word', ms: 'tentang', semai: 'adu' },
+        { type: 'space' },
+        { type: 'word', ms: 'kecantikan', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'diri', semai: 'diri' },
+        { type: 'space' },
+        { type: 'word', ms: 'masing-masing', semai: 'maseg-maseg' },
+        { type: 'punct', text: '.' },
+        { type: 'space' },
+        { type: 'word', ms: 'Mereka', semai: 'enai' },
+        { type: 'space' },
+        { type: 'word', ms: 'memuji-muji', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'tentang', semai: 'adu' },
+        { type: 'space' },
+        { type: 'word', ms: 'kelebihan', semai: 'terloh' },
+        { type: 'space' },
+        { type: 'word', ms: 'diri', semai: 'diri' },
+        { type: 'space' },
+        { type: 'word', ms: 'sendiri', semai: 'ilei' },
+        { type: 'punct', text: '.' },
+        { type: 'newline' },
+        { type: 'newline' },
+        { type: 'punct', text: '"' },
+        { type: 'word', ms: 'Sejinjang', semai: null },
+        { type: 'punct', text: '!' },
+        { type: 'space' },
+        { type: 'word', ms: 'Kau', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'lihat', semai: 'let' },
+        { type: 'space' },
+        { type: 'word', ms: 'tak', semai: 'pek' },
+        { type: 'space' },
+        { type: 'word', ms: 'diri', semai: 'diri' },
+        { type: 'space' },
+        { type: 'word', ms: 'aku', semai: 'eng' },
+        { type: 'space' },
+        { type: 'word', ms: 'yang', semai: 'de' },
+        { type: 'space' },
+        { type: 'word', ms: 'serba', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'tidak', semai: 'pek' },
+        { type: 'space' },
+        { type: 'word', ms: 'cacat', semai: 'cacat' },
+        { type: 'space' },
+        { type: 'word', ms: 'ini', semai: 'adeh' },
+        { type: 'punct', text: '!' },
+        { type: 'space' },
+        { type: 'word', ms: 'Dengan', semai: 'lok' },
+        { type: 'space' },
+        { type: 'word', ms: 'duduk', semai: 'gei' },
+        { type: 'space' },
+        { type: 'word', ms: 'menenun', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'seperti', semai: 'begei' },
+        { type: 'space' },
+        { type: 'word', ms: 'ini', semai: 'adeh' },
+        { type: 'punct', text: ',' },
+        { type: 'space' },
+        { type: 'word', ms: 'aku', semai: 'eng' },
+        { type: 'space' },
+        { type: 'word', ms: 'dapat', semai: 'kep' },
+        { type: 'space' },
+        { type: 'word', ms: 'menjaga', semai: 'baklak' },
+        { type: 'space' },
+        { type: 'word', ms: 'kerampingan', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'pinggangku', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'ini', semai: 'adeh' },
+        { type: 'punct', text: '.' },
+        { type: 'space' },
+        { type: 'word', ms: 'Aku', semai: 'eng' },
+        { type: 'space' },
+        { type: 'word', ms: 'pasti', semai: 'jamin' },
+        { type: 'space' },
+        { type: 'word', ms: 'suatu', semai: 'ajak' },
+        { type: 'space' },
+        { type: 'word', ms: 'hari', semai: 'arik' },
+        { type: 'space' },
+        { type: 'word', ms: 'nanti', semai: 'doh' },
+        { type: 'punct', text: ',' },
+        { type: 'space' },
+        { type: 'word', ms: 'bila', semai: 'bile' },
+        { type: 'space' },
+        { type: 'word', ms: 'anak', semai: 'kenon' },
+        { type: 'space' },
+        { type: 'word', ms: 'raja', semai: 'raja' },
+        { type: 'space' },
+        { type: 'word', ms: 'sampai', semai: 'hit' },
+        { type: 'space' },
+        { type: 'word', ms: 'ke', semai: 'ma-' },
+        { type: 'space' },
+        { type: 'word', ms: 'mari', semai: 'bei' },
+        { type: 'punct', text: ',' },
+        { type: 'space' },
+        { type: 'word', ms: 'dia', semai: 'ilei' },
+        { type: 'space' },
+        { type: 'word', ms: 'akan', semai: 'barik' },
+        { type: 'space' },
+        { type: 'word', ms: 'melamar', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'dan', semai: 'lok' },
+        { type: 'space' },
+        { type: 'word', ms: 'mengahwini', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'aku', semai: 'eng' },
+        { type: 'punct', text: '.' },
+        { type: 'space' },
+        { type: 'word', ms: 'Aduh', semai: null },
+        { type: 'punct', text: '!' },
+        { type: 'space' },
+        { type: 'word', ms: 'Betapa', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'bahagianya', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'di', semai: 'ku' },
+        { type: 'space' },
+        { type: 'word', ms: 'saat', semai: 'umor' },
+        { type: 'space' },
+        { type: 'word', ms: 'itu', semai: 'ajeh' },
+        { type: 'punct', text: ',' },
+        { type: 'space' },
+        { type: 'word', ms: 'Sejinjang', semai: null },
+        { type: 'punct', text: '?"' },
+        { type: 'space' },
+        { type: 'word', ms: 'Tanya', semai: 'tanyak' },
+        { type: 'space' },
+        { type: 'word', ms: 'Santubong', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'kepada', semai: 'ba' },
+        { type: 'space' },
+        { type: 'word', ms: 'Sejinjang', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'yang', semai: 'de' },
+        { type: 'space' },
+        { type: 'word', ms: 'asyik', semai: 'asek' },
+        { type: 'space' },
+        { type: 'word', ms: 'menumbuk', semai: 'seh' },
+        { type: 'space' },
+        { type: 'word', ms: 'padi', semai: 'bak' },
+        { type: 'punct', text: '.' },
+        { type: 'newline' },
+        { type: 'newline' },
+        { type: 'word', ms: 'Puteri', semai: 'putri' },
+        { type: 'space' },
+        { type: 'word', ms: 'Santubong', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'terus', semai: 'teros' },
+        { type: 'space' },
+        { type: 'word', ms: 'memuji-muji', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'akan', semai: 'barik' },
+        { type: 'space' },
+        { type: 'word', ms: 'kecantikan', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'dirinya', semai: null },
+        { type: 'punct', text: '.' },
+        { type: 'space' },
+        { type: 'punct', text: '"' },
+        { type: 'word', ms: 'Bila', semai: 'bile' },
+        { type: 'space' },
+        { type: 'word', ms: 'aku', semai: 'eng' },
+        { type: 'space' },
+        { type: 'word', ms: 'sudah', semai: 'la' },
+        { type: 'space' },
+        { type: 'word', ms: 'diam', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'di', semai: 'ku' },
+        { type: 'space' },
+        { type: 'word', ms: 'istana', semai: 'istane' },
+        { type: 'space' },
+        { type: 'word', ms: 'nanti', semai: 'doh' },
+        { type: 'punct', text: ',' },
+        { type: 'space' },
+        { type: 'word', ms: 'tentunya', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'dayang-dayang', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'mengelilingi', semai: 'kepug' },
+        { type: 'space' },
+        { type: 'word', ms: 'aku', semai: 'eng' },
+        { type: 'punct', text: ',' },
+        { type: 'space' },
+        { type: 'word', ms: 'sambil', semai: 'tengah' },
+        { type: 'space' },
+        { type: 'word', ms: 'menyikat-nyikat', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'rambutku', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'yang', semai: 'de' },
+        { type: 'space' },
+        { type: 'word', ms: 'mengurai', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'ini', semai: 'adeh' },
+        { type: 'punct', text: '.' },
+        { type: 'space' },
+        { type: 'word', ms: 'Nanti', semai: 'doh' },
+        { type: 'space' },
+        { type: 'word', ms: 'mereka', semai: 'enai' },
+        { type: 'space' },
+        { type: 'word', ms: 'akan', semai: 'barik' },
+        { type: 'space' },
+        { type: 'word', ms: 'berkata', semai: 'pe' },
+        { type: 'punct', text: ',' },
+        { type: 'space' },
+        { type: 'word', ms: 'inilah', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'anak', semai: 'kenon' },
+        { type: 'space' },
+        { type: 'word', ms: 'dewa', semai: 'cagoh' },
+        { type: 'space' },
+        { type: 'word', ms: 'kayangan', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'yang', semai: 'de' },
+        { type: 'space' },
+        { type: 'word', ms: 'paling', semai: 'paleng' },
+        { type: 'space' },
+        { type: 'word', ms: 'cantik', semai: 'bor' },
+        { type: 'space' },
+        { type: 'word', ms: 'pernah', semai: 'ganjel' },
+        { type: 'space' },
+        { type: 'word', ms: 'mereka', semai: 'enai' },
+        { type: 'space' },
+        { type: 'word', ms: 'temui', semai: null },
+        { type: 'punct', text: '.' },
+        { type: 'space' },
+        { type: 'word', ms: 'Saat', semai: 'umor' },
+        { type: 'space' },
+        { type: 'word', ms: 'itu', semai: 'ajeh' },
+        { type: 'space' },
+        { type: 'word', ms: 'akulah', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'tuan', semai: 'jenang' },
+        { type: 'space' },
+        { type: 'word', ms: 'puteri', semai: 'putri' },
+        { type: 'space' },
+        { type: 'word', ms: 'yang', semai: 'de' },
+        { type: 'space' },
+        { type: 'word', ms: 'paling', semai: 'paleng' },
+        { type: 'space' },
+        { type: 'word', ms: 'cantik', semai: 'bor' },
+        { type: 'space' },
+        { type: 'word', ms: 'di', semai: 'ku' },
+        { type: 'space' },
+        { type: 'word', ms: 'dunia', semai: 'dat' },
+        { type: 'space' },
+        { type: 'word', ms: 'ini', semai: 'adeh' },
+        { type: 'punct', text: '."' },
+        { type: 'newline' },
+        { type: 'newline' },
+        { type: 'word', ms: 'Puteri', semai: 'putri' },
+        { type: 'space' },
+        { type: 'word', ms: 'Sejinjang', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'yang', semai: 'de' },
+        { type: 'space' },
+        { type: 'word', ms: 'asyik', semai: 'asek' },
+        { type: 'space' },
+        { type: 'word', ms: 'menumbuk', semai: 'seh' },
+        { type: 'space' },
+        { type: 'word', ms: 'padi', semai: 'bak' },
+        { type: 'space' },
+        { type: 'word', ms: 'mulai', semai: 'setat' },
+        { type: 'space' },
+        { type: 'word', ms: 'merasa', semai: 'bej' },
+        { type: 'space' },
+        { type: 'word', ms: 'marah', semai: 'belal' },
+        { type: 'space' },
+        { type: 'word', ms: 'dan', semai: 'lok' },
+        { type: 'space' },
+        { type: 'word', ms: 'cuba', semai: 'pandu' },
+        { type: 'space' },
+        { type: 'word', ms: 'menentang', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'kata-kata', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'Puteri', semai: 'putri' },
+        { type: 'space' },
+        { type: 'word', ms: 'Santubong', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'yang', semai: 'de' },
+        { type: 'space' },
+        { type: 'word', ms: 'menganggap', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'dirinya', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'sahajalah', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'yang', semai: 'de' },
+        { type: 'space' },
+        { type: 'word', ms: 'paling', semai: 'paleng' },
+        { type: 'space' },
+        { type: 'word', ms: 'cantik', semai: 'bor' },
+        { type: 'punct', text: '.' },
+        { type: 'space' },
+        { type: 'word', ms: 'Puteri', semai: 'putri' },
+        { type: 'space' },
+        { type: 'word', ms: 'Sejinjang', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'menyatakan', semai: 'agok' },
+        { type: 'space' },
+        { type: 'word', ms: 'dirinya', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'yang', semai: 'de' },
+        { type: 'space' },
+        { type: 'word', ms: 'paling', semai: 'paleng' },
+        { type: 'space' },
+        { type: 'word', ms: 'cantik', semai: 'bor' },
+        { type: 'space' },
+        { type: 'word', ms: 'dan', semai: 'lok' },
+        { type: 'space' },
+        { type: 'word', ms: 'rupawan', semai: null },
+        { type: 'punct', text: '.' },
+        { type: 'space' },
+        { type: 'word', ms: 'Kecantikannya', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'menghalahi', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'paras', semai: 'sangkat' },
+        { type: 'space' },
+        { type: 'word', ms: 'rupa', semai: 'mat-moh' },
+        { type: 'space' },
+        { type: 'word', ms: 'Puteri', semai: 'putri' },
+        { type: 'space' },
+        { type: 'word', ms: 'Santubong', semai: null },
+        { type: 'punct', text: '.' },
+        { type: 'newline' },
+        { type: 'newline' },
+        { type: 'punct', text: '"' },
+        { type: 'word', ms: 'Tidakkah', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'kau', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'tahu', semai: 'panei' },
+        { type: 'space' },
+        { type: 'word', ms: 'Santubong', semai: null },
+        { type: 'punct', text: '?' },
+        { type: 'space' },
+        { type: 'word', ms: 'Dengan', semai: 'lok' },
+        { type: 'space' },
+        { type: 'word', ms: 'cara', semai: 'care' },
+        { type: 'space' },
+        { type: 'word', ms: 'berdiri', semai: 'cendot' },
+        { type: 'space' },
+        { type: 'word', ms: 'menumbuk', semai: 'seh' },
+        { type: 'space' },
+        { type: 'word', ms: 'padi', semai: 'bak' },
+        { type: 'space' },
+        { type: 'word', ms: 'begini', semai: 'bagei adeh' },
+        { type: 'space' },
+        { type: 'word', ms: 'menjadikan', semai: 'cerlah' },
+        { type: 'space' },
+        { type: 'word', ms: 'tubuhku', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'ini', semai: 'adeh' },
+        { type: 'punct', text: ',' },
+        { type: 'space' },
+        { type: 'word', ms: 'kuat', semai: 'cegeh' },
+        { type: 'space' },
+        { type: 'word', ms: 'dan', semai: 'lok' },
+        { type: 'space' },
+        { type: 'word', ms: 'tegap', semai: 'cegeh' },
+        { type: 'punct', text: '.' },
+        { type: 'space' },
+        { type: 'word', ms: 'Subur', semai: 'segar' },
+        { type: 'space' },
+        { type: 'word', ms: 'menawan', semai: 'sagop' },
+        { type: 'punct', text: '.' },
+        { type: 'space' },
+        { type: 'word', ms: 'Leher', semai: 'tangen' },
+        { type: 'space' },
+        { type: 'word', ms: 'juga', semai: 'juga' },
+        { type: 'space' },
+        { type: 'word', ms: 'jinjang', semai: null },
+        { type: 'punct', text: '.' },
+        { type: 'space' },
+        { type: 'word', ms: 'Betis', semai: 'kemong' },
+        { type: 'space' },
+        { type: 'word', ms: 'bagaikan', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'bunting', semai: 'makok' },
+        { type: 'space' },
+        { type: 'word', ms: 'padi', semai: 'bak' },
+        { type: 'punct', text: '."' },
+        { type: 'newline' },
+        { type: 'newline' },
+        { type: 'punct', text: '"' },
+        { type: 'word', ms: 'Dengan', semai: 'lok' },
+        { type: 'space' },
+        { type: 'word', ms: 'menumbuk', semai: 'seh' },
+        { type: 'space' },
+        { type: 'word', ms: 'padi', semai: 'bak' },
+        { type: 'space' },
+        { type: 'word', ms: 'ini', semai: 'adeh' },
+        { type: 'space' },
+        { type: 'word', ms: 'juga', semai: 'juga' },
+        { type: 'space' },
+        { type: 'word', ms: 'jari-jemariku', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'halus', semai: 'berui' },
+        { type: 'space' },
+        { type: 'word', ms: 'dan', semai: 'lok' },
+        { type: 'space' },
+        { type: 'word', ms: 'lenganku', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'ini', semai: 'adeh' },
+        { type: 'space' },
+        { type: 'word', ms: 'serasa', semai: 'kenjip' },
+        { type: 'space' },
+        { type: 'word', ms: 'tegap', semai: 'cegeh' },
+        { type: 'space' },
+        { type: 'word', ms: 'daripada', semai: 'abat' },
+        { type: 'space' },
+        { type: 'word', ms: 'engkau', semai: 'hek' },
+        { type: 'space' },
+        { type: 'word', ms: 'yang', semai: 'de' },
+        { type: 'space' },
+        { type: 'word', ms: 'asyik', semai: 'asek' },
+        { type: 'space' },
+        { type: 'word', ms: 'bongkok', semai: 'cungkoh' },
+        { type: 'space' },
+        { type: 'word', ms: 'menenun', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'kain', semai: 'abat' },
+        { type: 'punct', text: '.' },
+        { type: 'space' },
+        { type: 'word', ms: 'Entah', semai: 'eu' },
+        { type: 'space' },
+        { type: 'word', ms: 'nanti', semai: 'doh' },
+        { type: 'punct', text: ',' },
+        { type: 'space' },
+        { type: 'word', ms: 'engkau', semai: 'hek' },
+        { type: 'space' },
+        { type: 'word', ms: 'cepat', semai: 'aderas' },
+        { type: 'space' },
+        { type: 'word', ms: 'pula', semai: 'beltop' },
+        { type: 'space' },
+        { type: 'word', ms: 'rebah', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'ke', semai: 'ma-' },
+        { type: 'space' },
+        { type: 'word', ms: 'bumi', semai: 'alam' },
+        { type: 'punct', text: '.' },
+        { type: 'space' },
+        { type: 'word', ms: 'Takut', semai: 'belaj' },
+        { type: 'space' },
+        { type: 'word', ms: 'pula', semai: 'beltop' },
+        { type: 'space' },
+        { type: 'word', ms: 'anak', semai: 'kenon' },
+        { type: 'space' },
+        { type: 'word', ms: 'raja', semai: 'raja' },
+        { type: 'space' },
+        { type: 'word', ms: 'itu', semai: 'ajeh' },
+        { type: 'space' },
+        { type: 'word', ms: 'melamar', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'aku', semai: 'eng' },
+        { type: 'space' },
+        { type: 'word', ms: 'dahulu', semai: 'entem' },
+        { type: 'punct', text: ',"' },
+        { type: 'space' },
+        { type: 'word', ms: 'balas', semai: 'balas' },
+        { type: 'space' },
+        { type: 'word', ms: 'Puteri', semai: 'putri' },
+        { type: 'space' },
+        { type: 'word', ms: 'Sejinjang', semai: null },
+        { type: 'punct', text: '.' },
+        { type: 'newline' },
+        { type: 'newline' },
+        { type: 'word', ms: 'Mendengar', semai: 'gerteg' },
+        { type: 'space' },
+        { type: 'word', ms: 'kata-kata', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'Puteri', semai: 'putri' },
+        { type: 'space' },
+        { type: 'word', ms: 'Sejinjang', semai: null },
+        { type: 'punct', text: ',' },
+        { type: 'space' },
+        { type: 'word', ms: 'Puteri', semai: 'putri' },
+        { type: 'space' },
+        { type: 'word', ms: 'Santubong', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'enggan', semai: 'beet' },
+        { type: 'space' },
+        { type: 'word', ms: 'mengalah', semai: 'galah' },
+        { type: 'punct', text: '.' },
+        { type: 'space' },
+        { type: 'word', ms: 'Puteri', semai: 'putri' },
+        { type: 'space' },
+        { type: 'word', ms: 'Sejinjang', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'juga', semai: 'juga' },
+        { type: 'space' },
+        { type: 'word', ms: 'pantang', semai: 'lanak' },
+        { type: 'space' },
+        { type: 'word', ms: 'menyerah', semai: 'serinda' },
+        { type: 'punct', text: '.' },
+        { type: 'space' },
+        { type: 'word', ms: 'Masing-masing', semai: 'maseg-maseg' },
+        { type: 'space' },
+        { type: 'word', ms: 'mahu', semai: 'ha-' },
+        { type: 'space' },
+        { type: 'word', ms: 'dipuji', semai: null },
+        { type: 'punct', text: '.' },
+        { type: 'space' },
+        { type: 'word', ms: 'Akhirnya', semai: null },
+        { type: 'punct', text: ',' },
+        { type: 'space' },
+        { type: 'word', ms: 'pertengkaran', semai: 'jenawab' },
+        { type: 'space' },
+        { type: 'word', ms: 'antara', semai: 'antare' },
+        { type: 'space' },
+        { type: 'word', ms: 'Puteri', semai: 'putri' },
+        { type: 'space' },
+        { type: 'word', ms: 'Santubong', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'dan', semai: 'lok' },
+        { type: 'space' },
+        { type: 'word', ms: 'Puteri', semai: 'putri' },
+        { type: 'space' },
+        { type: 'word', ms: 'Sejinjang', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'semakin', semai: 'gu-' },
+        { type: 'space' },
+        { type: 'word', ms: 'hangat', semai: 'seep' },
+        { type: 'punct', text: '.' },
+        { type: 'space' },
+        { type: 'word', ms: 'Masing-masing', semai: 'maseg-maseg' },
+        { type: 'space' },
+        { type: 'word', ms: 'tidak', semai: 'pek' },
+        { type: 'space' },
+        { type: 'word', ms: 'dapat', semai: 'kep' },
+        { type: 'space' },
+        { type: 'word', ms: 'mengawal', semai: 'pebiler' },
+        { type: 'space' },
+        { type: 'word', ms: 'perasaan', semai: 'nos' },
+        { type: 'space' },
+        { type: 'word', ms: 'mereka', semai: 'enai' },
+        { type: 'space' },
+        { type: 'word', ms: 'lagi', semai: 'arik' },
+        { type: 'punct', text: '.' },
+        { type: 'space' },
+        { type: 'word', ms: 'Pertengkaran', semai: 'jenawab' },
+        { type: 'space' },
+        { type: 'word', ms: 'antara', semai: 'antare' },
+        { type: 'space' },
+        { type: 'word', ms: 'keduanya', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'berlarutan', semai: 'semendang' },
+        { type: 'punct', text: '.' },
+        { type: 'newline' },
+        { type: 'newline' },
+        { type: 'word', ms: 'Daripada', semai: 'abat' },
+        { type: 'space' },
+        { type: 'word', ms: 'nada', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'suara', semai: 'suara' },
+        { type: 'space' },
+        { type: 'word', ms: 'yang', semai: 'de' },
+        { type: 'space' },
+        { type: 'word', ms: 'rendah', semai: 'leng' },
+        { type: 'space' },
+        { type: 'word', ms: 'bertukar', semai: 'berlak-berlik' },
+        { type: 'space' },
+        { type: 'word', ms: 'menjadi', semai: 'jadi' },
+        { type: 'space' },
+        { type: 'word', ms: 'lantang', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'sambil', semai: 'tengah' },
+        { type: 'space' },
+        { type: 'word', ms: 'mencaci-caci', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'dan', semai: 'lok' },
+        { type: 'space' },
+        { type: 'word', ms: 'menghina', semai: 'hina' },
+        { type: 'space' },
+        { type: 'word', ms: 'antara', semai: 'antare' },
+        { type: 'space' },
+        { type: 'word', ms: 'satu', semai: 'nanek' },
+        { type: 'space' },
+        { type: 'word', ms: 'dengan', semai: 'lok' },
+        { type: 'space' },
+        { type: 'word', ms: 'yang', semai: 'de' },
+        { type: 'space' },
+        { type: 'word', ms: 'lain', semai: 'kilek' },
+        { type: 'punct', text: '.' },
+        { type: 'newline' },
+        { type: 'newline' },
+        { type: 'punct', text: '"' },
+        { type: 'word', ms: 'Sejinjang', semai: null },
+        { type: 'punct', text: '!' },
+        { type: 'space' },
+        { type: 'word', ms: 'Kalau', semai: 'amen' },
+        { type: 'space' },
+        { type: 'word', ms: 'asyik', semai: 'asek' },
+        { type: 'space' },
+        { type: 'word', ms: 'pegang', semai: 'cap' },
+        { type: 'space' },
+        { type: 'word', ms: 'antan', semai: 'keneh' },
+        { type: 'punct', text: ',' },
+        { type: 'space' },
+        { type: 'word', ms: 'jangan', semai: 'aga' },
+        { type: 'space' },
+        { type: 'word', ms: 'harap', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'betis', semai: 'kemong' },
+        { type: 'space' },
+        { type: 'word', ms: 'kau', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'tu', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'akan', semai: 'barik' },
+        { type: 'space' },
+        { type: 'word', ms: 'jadi', semai: 'jadi' },
+        { type: 'space' },
+        { type: 'word', ms: 'bunting', semai: 'makok' },
+        { type: 'space' },
+        { type: 'word', ms: 'padi', semai: 'bak' },
+        { type: 'punct', text: '.' },
+        { type: 'space' },
+        { type: 'word', ms: 'Takut', semai: 'belaj' },
+        { type: 'space' },
+        { type: 'word', ms: 'lemak', semai: 'bencok' },
+        { type: 'space' },
+        { type: 'word', ms: 'tak', semai: 'pek' },
+        { type: 'space' },
+        { type: 'word', ms: 'berisi', semai: 'tebek' },
+        { type: 'punct', text: '.' },
+        { type: 'space' },
+        { type: 'word', ms: 'Dek', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'antan', semai: 'keneh' },
+        { type: 'space' },
+        { type: 'word', ms: 'tu', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'jugalah', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'jari-jemari', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'kau', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'tu', semai: null },
+        { type: 'punct', text: ',' },
+        { type: 'space' },
+        { type: 'word', ms: 'kesat', semai: 'gid' },
+        { type: 'space' },
+        { type: 'word', ms: 'dan', semai: 'lok' },
+        { type: 'space' },
+        { type: 'word', ms: 'kasar', semai: 'dahajal' },
+        { type: 'punct', text: '.' },
+        { type: 'space' },
+        { type: 'word', ms: 'Tidak', semai: 'pek' },
+        { type: 'space' },
+        { type: 'word', ms: 'seperti', semai: 'begei' },
+        { type: 'space' },
+        { type: 'word', ms: 'jari-jemariku', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'ini', semai: 'adeh' },
+        { type: 'space' },
+        { type: 'word', ms: 'yang', semai: 'de' },
+        { type: 'space' },
+        { type: 'word', ms: 'halus', semai: 'berui' },
+        { type: 'space' },
+        { type: 'word', ms: 'serta', semai: 'aleh-aleh' },
+        { type: 'space' },
+        { type: 'word', ms: 'runcing', semai: 'sujeu' },
+        { type: 'punct', text: ',"' },
+        { type: 'space' },
+        { type: 'word', ms: 'kata', semai: 'adeh' },
+        { type: 'space' },
+        { type: 'word', ms: 'Puteri', semai: 'putri' },
+        { type: 'space' },
+        { type: 'word', ms: 'Santubong', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'dengan', semai: 'lok' },
+        { type: 'space' },
+        { type: 'word', ms: 'bangga', semai: null },
+        { type: 'punct', text: '.' },
+        { type: 'newline' },
+        { type: 'newline' },
+        { type: 'word', ms: 'Dengan', semai: 'lok' },
+        { type: 'space' },
+        { type: 'word', ms: 'perasaan', semai: 'nos' },
+        { type: 'space' },
+        { type: 'word', ms: 'penuh', semai: 'tebek' },
+        { type: 'space' },
+        { type: 'word', ms: 'dendam', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'dan', semai: 'lok' },
+        { type: 'space' },
+        { type: 'word', ms: 'dengan', semai: 'lok' },
+        { type: 'space' },
+        { type: 'word', ms: 'amat', semai: 'had' },
+        { type: 'space' },
+        { type: 'word', ms: 'marah', semai: 'belal' },
+        { type: 'punct', text: ',' },
+        { type: 'space' },
+        { type: 'word', ms: 'Puteri', semai: 'putri' },
+        { type: 'space' },
+        { type: 'word', ms: 'Sejinjang', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'hilang', semai: 'leboh' },
+        { type: 'space' },
+        { type: 'word', ms: 'sabar', semai: 'sabar' },
+        { type: 'space' },
+        { type: 'word', ms: 'lalu', semai: 'laluk' },
+        { type: 'space' },
+        { type: 'word', ms: 'menyerang', semai: 'jabug' },
+        { type: 'space' },
+        { type: 'word', ms: 'Puteri', semai: 'putri' },
+        { type: 'space' },
+        { type: 'word', ms: 'Santubong', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'dengan', semai: 'lok' },
+        { type: 'space' },
+        { type: 'word', ms: 'antan', semai: 'keneh' },
+        { type: 'space' },
+        { type: 'word', ms: 'di', semai: 'ku' },
+        { type: 'space' },
+        { type: 'word', ms: 'tangan', semai: 'teg' },
+        { type: 'punct', text: '.' },
+        { type: 'space' },
+        { type: 'word', ms: 'Ayunan', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'pukulan', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'Puteri', semai: 'putri' },
+        { type: 'space' },
+        { type: 'word', ms: 'Sejinjang', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'amat', semai: 'had' },
+        { type: 'space' },
+        { type: 'word', ms: 'kuat', semai: 'cegeh' },
+        { type: 'space' },
+        { type: 'word', ms: 'dan', semai: 'lok' },
+        { type: 'space' },
+        { type: 'word', ms: 'cepat', semai: 'aderas' },
+        { type: 'punct', text: ',' },
+        { type: 'space' },
+        { type: 'word', ms: 'lalu', semai: 'laluk' },
+        { type: 'space' },
+        { type: 'word', ms: 'terkenalah', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'ke', semai: 'ma-' },
+        { type: 'space' },
+        { type: 'word', ms: 'pipi', semai: 'kapok' },
+        { type: 'space' },
+        { type: 'word', ms: 'Puteri', semai: 'putri' },
+        { type: 'space' },
+        { type: 'word', ms: 'Santubong', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'yang', semai: 'de' },
+        { type: 'space' },
+        { type: 'word', ms: 'sedang', semai: 'tengah' },
+        { type: 'space' },
+        { type: 'word', ms: 'duduk', semai: 'gei' },
+        { type: 'space' },
+        { type: 'word', ms: 'menenun', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'kain', semai: 'abat' },
+        { type: 'punct', text: '.' },
+        { type: 'space' },
+        { type: 'word', ms: 'Menjeritlah', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'Puteri', semai: 'putri' },
+        { type: 'space' },
+        { type: 'word', ms: 'Santubong', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'kerana', semai: 'kerana' },
+        { type: 'space' },
+        { type: 'word', ms: 'kesakitan', semai: 'urot' },
+        { type: 'punct', text: '.' },
+        { type: 'newline' },
+        { type: 'newline' },
+        { type: 'word', ms: 'Puteri', semai: 'putri' },
+        { type: 'space' },
+        { type: 'word', ms: 'Santubong', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'bertambah', semai: 'cuai' },
+        { type: 'space' },
+        { type: 'word', ms: 'marah', semai: 'belal' },
+        { type: 'punct', text: '.' },
+        { type: 'space' },
+        { type: 'word', ms: 'Puteri', semai: 'putri' },
+        { type: 'space' },
+        { type: 'word', ms: 'Santubong', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'juga', semai: 'juga' },
+        { type: 'space' },
+        { type: 'word', ms: 'tidak', semai: 'pek' },
+        { type: 'space' },
+        { type: 'word', ms: 'berdiam', semai: 'kerakdik' },
+        { type: 'space' },
+        { type: 'word', ms: 'diri', semai: 'diri' },
+        { type: 'punct', text: ',' },
+        { type: 'space' },
+        { type: 'word', ms: 'lantas', semai: 'teros' },
+        { type: 'space' },
+        { type: 'word', ms: 'menikam', semai: 'cog' },
+        { type: 'space' },
+        { type: 'word', ms: 'Puteri', semai: 'putri' },
+        { type: 'space' },
+        { type: 'word', ms: 'Sejinjang', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'dengan', semai: 'lok' },
+        { type: 'space' },
+        { type: 'word', ms: 'batang', semai: 'baur' },
+        { type: 'space' },
+        { type: 'word', ms: 'belidah', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'yang', semai: 'de' },
+        { type: 'space' },
+        { type: 'word', ms: 'ada', semai: 'mong' },
+        { type: 'space' },
+        { type: 'word', ms: 'dalam', semai: 'jerek' },
+        { type: 'space' },
+        { type: 'word', ms: 'genggamannya', semai: null },
+        { type: 'punct', text: '.' },
+        { type: 'space' },
+        { type: 'word', ms: 'Tikaman', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'itu', semai: 'ajeh' },
+        { type: 'space' },
+        { type: 'word', ms: 'tepat', semai: 'dekar' },
+        { type: 'space' },
+        { type: 'word', ms: 'ke', semai: 'ma-' },
+        { type: 'space' },
+        { type: 'word', ms: 'arah', semai: 'alak' },
+        { type: 'space' },
+        { type: 'word', ms: 'kepala', semai: 'kui' },
+        { type: 'space' },
+        { type: 'word', ms: 'Puteri', semai: 'putri' },
+        { type: 'space' },
+        { type: 'word', ms: 'Sejinjang', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'dan', semai: 'lok' },
+        { type: 'space' },
+        { type: 'word', ms: 'menembusinya', semai: null },
+        { type: 'punct', text: '.' },
+        { type: 'space' },
+        { type: 'word', ms: 'Maka', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'menjeritlah', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'pula', semai: 'beltop' },
+        { type: 'space' },
+        { type: 'word', ms: 'Puteri', semai: 'putri' },
+        { type: 'space' },
+        { type: 'word', ms: 'Sejinjang', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'sekuat-kuatnya', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'akibat', semai: 'as' },
+        { type: 'space' },
+        { type: 'word', ms: 'kesakitan', semai: 'urot' },
+        { type: 'space' },
+        { type: 'word', ms: 'tikaman', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'tersebut', semai: 'harok' },
+        { type: 'punct', text: '.' },
+        { type: 'space' },
+        { type: 'word', ms: 'Berakhirlah', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'sebuah', semai: 'bab' },
+        { type: 'space' },
+        { type: 'word', ms: 'persahabatan', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'dan', semai: 'lok' },
+        { type: 'space' },
+        { type: 'word', ms: 'persaudaraan', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'yang', semai: 'de' },
+        { type: 'space' },
+        { type: 'word', ms: 'telah', semai: 'la' },
+        { type: 'space' },
+        { type: 'word', ms: 'dijalin', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'oleh', semai: 'la' },
+        { type: 'space' },
+        { type: 'word', ms: 'mereka', semai: 'enai' },
+        { type: 'space' },
+        { type: 'word', ms: 'selama', semai: 'ditehjeh' },
+        { type: 'space' },
+        { type: 'word', ms: 'ini', semai: 'adeh' },
+        { type: 'punct', text: '.' },
+        { type: 'newline' },
+        { type: 'newline' },
+        { type: 'word', ms: 'Kononnya', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'akibat', semai: 'as' },
+        { type: 'space' },
+        { type: 'word', ms: 'pergaduhan', semai: 'relei' },
+        { type: 'space' },
+        { type: 'word', ms: 'dan', semai: 'lok' },
+        { type: 'space' },
+        { type: 'word', ms: 'ayunan', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'antan', semai: 'keneh' },
+        { type: 'space' },
+        { type: 'word', ms: 'Puteri', semai: 'putri' },
+        { type: 'space' },
+        { type: 'word', ms: 'Sejinjang', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'yang', semai: 'de' },
+        { type: 'space' },
+        { type: 'word', ms: 'terkena', semai: 'kecot' },
+        { type: 'space' },
+        { type: 'word', ms: 'ke', semai: 'ma-' },
+        { type: 'space' },
+        { type: 'word', ms: 'pipi', semai: 'kapok' },
+        { type: 'space' },
+        { type: 'word', ms: 'Puteri', semai: 'putri' },
+        { type: 'space' },
+        { type: 'word', ms: 'Santubong', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'menyebabkan', semai: 'bak' },
+        { type: 'space' },
+        { type: 'word', ms: 'Gunung', semai: 'cenan' },
+        { type: 'space' },
+        { type: 'word', ms: 'Santubong', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'telah', semai: 'la' },
+        { type: 'space' },
+        { type: 'word', ms: 'terpecah', semai: 'bekah' },
+        { type: 'space' },
+        { type: 'word', ms: 'menjadi', semai: 'jadi' },
+        { type: 'space' },
+        { type: 'word', ms: 'dua', semai: 'due' },
+        { type: 'space' },
+        { type: 'word', ms: 'seperti', semai: 'begei' },
+        { type: 'space' },
+        { type: 'word', ms: 'yang', semai: 'de' },
+        { type: 'space' },
+        { type: 'word', ms: 'dilihat', semai: 'gaep' },
+        { type: 'space' },
+        { type: 'word', ms: 'pada', semai: 'ba' },
+        { type: 'space' },
+        { type: 'word', ms: 'hari', semai: 'arik' },
+        { type: 'space' },
+        { type: 'word', ms: 'ini', semai: 'adeh' },
+        { type: 'punct', text: '.' },
+        { type: 'space' },
+        { type: 'word', ms: 'Demikian', semai: 'balej' },
+        { type: 'space' },
+        { type: 'word', ms: 'juga', semai: 'juga' },
+        { type: 'space' },
+        { type: 'word', ms: 'dengan', semai: 'lok' },
+        { type: 'space' },
+        { type: 'word', ms: 'tikaman', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'batang', semai: 'baur' },
+        { type: 'space' },
+        { type: 'word', ms: 'belidah', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'oleh', semai: 'la' },
+        { type: 'space' },
+        { type: 'word', ms: 'Puteri', semai: 'putri' },
+        { type: 'space' },
+        { type: 'word', ms: 'Santubong', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'yang', semai: 'de' },
+        { type: 'space' },
+        { type: 'word', ms: 'mengenai', semai: 'sijel' },
+        { type: 'space' },
+        { type: 'word', ms: 'tepat', semai: 'dekar' },
+        { type: 'space' },
+        { type: 'word', ms: 'ke', semai: 'ma-' },
+        { type: 'space' },
+        { type: 'word', ms: 'kepala', semai: 'kui' },
+        { type: 'space' },
+        { type: 'word', ms: 'Puteri', semai: 'putri' },
+        { type: 'space' },
+        { type: 'word', ms: 'Sejinjang', semai: null },
+        { type: 'punct', text: ',' },
+        { type: 'space' },
+        { type: 'word', ms: 'menyebabkan', semai: 'bak' },
+        { type: 'space' },
+        { type: 'word', ms: 'Bukit', semai: 'cenan' },
+        { type: 'space' },
+        { type: 'word', ms: 'Sejinjang', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'pecah', semai: 'bekah' },
+        { type: 'space' },
+        { type: 'word', ms: 'bertaburan', semai: 'burei' },
+        { type: 'space' },
+        { type: 'word', ms: 'menjadi', semai: 'jadi' },
+        { type: 'space' },
+        { type: 'word', ms: 'pulau-pulau', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'kecil', semai: 'bacen' },
+        { type: 'space' },
+        { type: 'word', ms: 'berhampiran', semai: 'beg' },
+        { type: 'space' },
+        { type: 'word', ms: 'Gunung', semai: 'cenan' },
+        { type: 'space' },
+        { type: 'word', ms: 'Santubong', semai: null },
+        { type: 'punct', text: '.' },
+        { type: 'newline' },
+        { type: 'newline' },
+        { type: 'word', ms: 'Kisah', semai: 'cerite' },
+        { type: 'space' },
+        { type: 'word', ms: 'sedih', semai: 'sedeh' },
+        { type: 'space' },
+        { type: 'word', ms: 'di', semai: 'ku' },
+        { type: 'space' },
+        { type: 'word', ms: 'antara', semai: 'antare' },
+        { type: 'space' },
+        { type: 'word', ms: 'Puteri', semai: 'putri' },
+        { type: 'space' },
+        { type: 'word', ms: 'Santubong', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'dan', semai: 'lok' },
+        { type: 'space' },
+        { type: 'word', ms: 'Puteri', semai: 'putri' },
+        { type: 'space' },
+        { type: 'word', ms: 'Sejinjang', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'akhirnya', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'menjadi', semai: 'jadi' },
+        { type: 'space' },
+        { type: 'word', ms: 'kenangan', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'dan', semai: 'lok' },
+        { type: 'space' },
+        { type: 'word', ms: 'ingatan', semai: 'bel' },
+        { type: 'space' },
+        { type: 'word', ms: 'rakyat', semai: 'rakyat' },
+        { type: 'space' },
+        { type: 'word', ms: 'Sarawak', semai: null },
+        { type: 'punct', text: '.' },
+        { type: 'space' },
+        { type: 'word', ms: 'Maka', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'lahirlah', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'legenda', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'Puteri', semai: 'putri' },
+        { type: 'space' },
+        { type: 'word', ms: 'Santubong', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'dan', semai: 'lok' },
+        { type: 'space' },
+        { type: 'word', ms: 'Puteri', semai: 'putri' },
+        { type: 'space' },
+        { type: 'word', ms: 'Sejinjang', semai: null },
+        { type: 'space' },
+        { type: 'word', ms: 'yang', semai: 'de' },
+        { type: 'space' },
+        { type: 'word', ms: 'kita', semai: 'hik' },
+        { type: 'space' },
+        { type: 'word', ms: 'dengar', semai: 'cerengai' },
+        { type: 'space' },
+        { type: 'word', ms: 'sehingga', semai: 'hingge' },
+        { type: 'space' },
+        { type: 'word', ms: 'ke', semai: 'ma-' },
+        { type: 'space' },
+        { type: 'word', ms: 'hari', semai: 'arik' },
+        { type: 'space' },
+        { type: 'word', ms: 'ini', semai: 'adeh' },
+        { type: 'punct', text: '.' },
+      ];
+
+      let mode = 'split';
+      let tooltipTimer = null;
+
+      function setMode(m) {
+        mode = m;
+        ['split', 'semai', 'interlinear'].forEach((x) => {
+          document.getElementById('btn-' + x).classList.toggle('active', x === m);
+        });
+        render();
+      }
+
+      function render() {
+        const msContainer = document.getElementById('ms-text');
+        const semaiContainer = document.getElementById('semai-text');
+        const main = document.getElementById('main-container');
+
+        if (mode === 'interlinear') {
+          main.style.gridTemplateColumns = '1fr';
+          document.getElementById('panel-ms').style.display = 'none';
+          document.getElementById('panel-semai').style.display = 'block';
+          renderInterlinear(semaiContainer);
+          return;
+        }
+
+        document.getElementById('panel-ms').style.display = 'block';
+        document.getElementById('panel-semai').style.display = 'block';
+
+        if (mode === 'split') {
+          main.style.gridTemplateColumns = '1fr 1fr';
+          renderMS(msContainer);
+          renderSemai(semaiContainer);
+        } else {
+          main.style.gridTemplateColumns = '1fr';
+          document.getElementById('panel-ms').style.display = 'none';
+          renderSemai(semaiContainer);
+        }
+      }
+
+      function renderMS(container) {
+        let html = '';
+        let wordIdx = 0;
+        let isFirst = true;
+        TOKENS.forEach((tok) => {
+          if (tok.type === 'space') {
+            html += ' ';
+          } else if (tok.type === 'newline') {
+            html += '<br>';
+          } else if (tok.type === 'punct') {
+            html += escHtml(tok.text);
+          } else if (tok.type === 'word') {
+            const idx = wordIdx++;
+            const cls = tok.semai ? 'word-token has-translation' : 'word-token no-translation';
+            const isTitle = isFirst && tok.ms === tok.ms.toUpperCase() && tok.ms.length > 1;
+            if (isTitle) html += `<span class="story-title">`;
+            html += `<span class="${cls}" data-idx="${idx}" onclick="selectWord('${escAttr(tok.ms)}', '${escAttr(tok.semai || '')}')">${escHtml(tok.ms)}</span>`;
+            if (isTitle) html += `</span>`;
+            isFirst = false;
+          }
+        });
+        container.innerHTML = html;
+      }
+
+      function renderSemai(container) {
+        let html = '';
+        let wordIdx = 0;
+        let isFirst = true;
+        TOKENS.forEach((tok) => {
+          if (tok.type === 'space') {
+            html += ' ';
+          } else if (tok.type === 'newline') {
+            html += '<br>';
+          } else if (tok.type === 'punct') {
+            html += escHtml(tok.text);
+          } else if (tok.type === 'word') {
+            const idx = wordIdx++;
+            const display = tok.semai || tok.ms;
+            const cls = tok.semai ? 'semai-word translated' : 'semai-word untranslated';
+            const isTitle = isFirst && tok.ms === tok.ms.toUpperCase() && tok.ms.length > 1;
+            if (isTitle) html += `<span class="story-title">`;
+            html += `<span class="${cls}" onclick="selectWord('${escAttr(tok.ms)}', '${escAttr(tok.semai || '')}')">${escHtml(display)}</span>`;
+            if (isTitle) html += `</span>`;
+            isFirst = false;
+          }
+        });
+        container.innerHTML = html;
+      }
+
+      function renderInterlinear(container) {
+        let html = '<div style="font-size:0.9rem; line-height:1.4;">';
+        let wordIdx = 0;
+        TOKENS.forEach((tok) => {
+          if (tok.type === 'newline') {
+            html += '<br>';
+            return;
+          }
+          if (tok.type === 'space') {
+            html += ' ';
+            return;
+          }
+          if (tok.type === 'punct') {
+            html += escHtml(tok.text);
+            return;
+          }
+          if (tok.type === 'word') {
+            const idx = wordIdx++;
+            const semDisplay = tok.semai || '—';
+            const color = tok.semai ? 'var(--semai)' : 'var(--missing)';
+            html +=
+              `<span style="display:inline-block; text-align:center; margin:2px 1px; cursor:pointer; padding:2px 3px; border-radius:3px;" onclick="selectWord('${escAttr(tok.ms)}', '${escAttr(tok.semai || '')}')">` +
+              `<span style="display:block; font-size:0.78em; color:var(--muted); line-height:1.1;">${escHtml(tok.ms)}</span>` +
+              `<span style="display:block; font-size:0.9em; color:${color}; font-weight:600; font-family:'Noto Sans Mono',monospace; line-height:1.1;">${escHtml(semDisplay)}</span>` +
+              `</span>`;
+          }
+        });
+        html += '</div>';
+        container.innerHTML = html;
+      }
+
+      function selectWord(ms, semai) {
+        const tt = document.getElementById('tooltip');
+        document.getElementById('tt-ms').textContent = ms;
+        if (semai) {
+          document.getElementById('tt-semai').textContent = semai;
+          document.getElementById('tt-semai').style.display = '';
+          document.querySelector('.tooltip-arrow').style.display = '';
+          document.getElementById('tt-none').style.display = 'none';
+        } else {
+          document.getElementById('tt-semai').style.display = 'none';
+          document.querySelector('.tooltip-arrow').style.display = 'none';
+          document.getElementById('tt-none').textContent = 'tiada dalam kamus';
+          document.getElementById('tt-none').style.display = '';
+        }
+        tt.classList.add('visible');
+        clearTimeout(tooltipTimer);
+        tooltipTimer = setTimeout(() => tt.classList.remove('visible'), 3500);
+      }
+
+      function escHtml(s) {
+        if (!s) return '';
+        return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      }
+      function escAttr(s) {
+        if (!s) return '';
+        return s.replace(/'/g, "\\'").replace(/\n/g, '');
+      }
+
+      const wordTokens = TOKENS.filter((t) => t.type === 'word');
+      const translated = wordTokens.filter((t) => t.semai).length;
+      document.getElementById('stats-badge').innerHTML =
+        `<span>${translated}</span>/${wordTokens.length} kata diterjemah`;
+
+      render();
+    </script>
+  </body>
+</html>

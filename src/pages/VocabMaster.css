@@ -1,0 +1,560 @@
+﻿/* ─── Shell ───────────────────────────────────────────────────────────────── */
+
+.vocab-shell {
+  background: #fff9e9;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Satoshi', 'Poppins', ui-sans-serif, system-ui, sans-serif;
+  min-height: 100dvh;
+  overflow: hidden;
+  padding: calc(env(safe-area-inset-top, 0px) + 16px) 0px
+    calc(env(safe-area-inset-bottom, 0px) + 0px);
+  position: relative;
+}
+
+.vocab-shell--loading,
+.vocab-shell--error {
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+/* ─── Top bar ─────────────────────────────────────────────────────────────── */
+
+.vocab-topbar {
+  justify-content: space-between;
+  display: flex;
+  height: 52px;
+  padding: 0 24px;
+}
+
+.vocab-back-btn:active {
+  opacity: 0.6;
+}
+
+/* Level label — left side */
+.vocab-level-label {
+  color: #8a8a8a;
+  flex: 1;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0px;
+}
+
+/* Timer — right side */
+.vocab-timer {
+  align-items: center;
+  color: #604828;
+  display: flex;
+  font-size: 14px;
+  font-weight: 500;
+  gap: 5px;
+  letter-spacing: 0.5px;
+  transition: color 300ms ease;
+}
+
+.vocab-timer--urgent {
+  color: #cb403c;
+  font-weight: 700;
+  animation: vocab-timer-pulse 600ms ease-in-out infinite alternate;
+}
+
+@keyframes vocab-timer-pulse {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.55;
+  }
+}
+
+/* ─── Progress bar (timer — kept for legacy) ─────────────────────────────── */
+
+.vocab-progress-bar-track {
+  background: #e5d5c0;
+  height: 6px;
+  margin: 0 10% 80px;
+  overflow: hidden;
+  width: 80%;
+  align-items: center;
+  border-radius: 20px;
+}
+
+.vocab-progress-bar-fill {
+  background: #a7ca54;
+  border-radius: 0 3px 3px 0;
+  height: 100%;
+  transition:
+    width 1000ms linear,
+    background 400ms ease;
+}
+
+.vocab-progress-bar-fill--urgent {
+  background: #cb403c;
+}
+
+/* ─── Level progress bar ─────────────────────────────────────────────────── */
+
+.vocab-level-bar-row {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 24px 4px;
+}
+
+.vocab-level-label {
+  color: #604828;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.vocab-level-pct {
+  color: #604828;
+  font-size: 12px;
+  font-weight: 500;
+  opacity: 0.7;
+}
+
+.vocab-level-bar-track {
+  background: rgba(96, 72, 40, 0.12);
+  border-radius: 27px;
+  height: 8px;
+  margin: 0 24px 8px;
+  overflow: hidden;
+}
+
+.vocab-level-bar-fill {
+  background: linear-gradient(90deg, #e1da33 0%, #a8b800 100%);
+  border-radius: 27px;
+  height: 100%;
+  transition: width 600ms ease;
+}
+
+/* ─── Deck area ───────────────────────────────────────────────────────────── */
+
+/* Vertical column — card4 at top, card1 front at bottom */
+.vocab-deck-area {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  padding: 64px 0 8px;
+  position: relative;
+}
+
+/* ─── Stacked background cards ────────────────────────────────────────────── */
+
+/* Each back card shows only its top edge peeking above the card in front */
+.vocab-card-stack {
+  border-radius: 20px;
+  flex-shrink: 0;
+  overflow: hidden;
+  transition:
+    transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    width 300ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    height 300ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    margin-bottom 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* card4 — furthest back, topmost */
+.vocab-card-stack--back3 {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  transform: translateX(-6px);
+  z-index: 0;
+  height: 208px;
+  width: 236px;
+  margin-bottom: -196px; /* 208 - 28px peek */
+}
+/* back3 steps into back2's slot */
+.vocab-card-stack--back3.is-promoting {
+  height: 224px;
+  width: 254px;
+  transform: translateX(-3px);
+  margin-bottom: -209px;
+}
+
+/* card3 */
+.vocab-card-stack--back2 {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  transform: translateX(-3px);
+  z-index: 1;
+  height: 224px;
+  width: 254px;
+  margin-bottom: -209px; /* 208 - 28px peek */
+}
+/* back2 steps into back1's slot */
+.vocab-card-stack--back2.is-promoting {
+  height: 237px;
+  width: 267px;
+  transform: translateX(-1px);
+  margin-bottom: -209px;
+}
+
+/* card2 */
+.vocab-card-stack--back1 {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.14);
+  transform: translateX(-1px);
+  z-index: 2;
+  width: 267px;
+  height: 237px;
+  margin-bottom: -209px; /* 237 - 28px peek */
+}
+/* back1 steps into the front position */
+.vocab-card-stack--back1.is-promoting {
+  transform: translateX(0px) scale(1.02);
+}
+
+/* ─── Front card (flipper) ────────────────────────────────────────────────── */
+
+.vocab-card-flipper {
+  transform: translateX(-6px);
+  cursor: pointer;
+  flex-shrink: 0;
+  perspective: 1000px;
+  position: relative;
+  transition:
+    transform 220ms ease,
+    opacity 300ms ease;
+  user-select: none;
+  z-index: 3;
+  width: 267px;
+  height: 237px;
+}
+
+.vocab-card-flipper.is-flying {
+  transition:
+    transform 320ms cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 300ms ease;
+}
+
+/* ─── Card faces ──────────────────────────────────────────────────────────── */
+
+.vocab-card-face {
+  backface-visibility: hidden;
+  border-radius: 20px;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transform-style: preserve-3d;
+  transition: transform 420ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.vocab-card-face--front {
+  transform: rotateY(0deg);
+  z-index: 2;
+}
+.vocab-card-face--back {
+  transform: rotateY(180deg);
+  z-index: 1;
+}
+
+.vocab-card-flipper.is-flipped .vocab-card-face--front {
+  transform: rotateY(-180deg);
+}
+.vocab-card-flipper.is-flipped .vocab-card-face--back {
+  transform: rotateY(0deg);
+}
+
+/* ─── Card bg image ───────────────────────────────────────────────────────── */
+
+.vocab-card-bg {
+  height: 100%;
+  left: 0;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+.vocab-card-bg--back {
+  filter: brightness(0.88) saturate(0.8);
+}
+
+/* ─── Card content ────────────────────────────────────────────────────────── */
+
+.vocab-card-content {
+  align-items: center;
+  bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  justify-content: center;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 24px;
+  z-index: 1;
+}
+
+.vocab-card-word {
+  color: #ffffff;
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin: 0;
+  padding: 0 16px;
+  text-align: center;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+}
+
+.vocab-card-phonetic {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 16px;
+  font-style: italic;
+  font-weight: 400;
+  margin: 0;
+  text-align: center;
+}
+
+.vocab-card-definition-preview {
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 8px 0 0;
+  padding: 0 20px;
+  text-align: center;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+.vocab-card-label {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.vocab-card-definition {
+  color: #ffffff;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 0;
+  padding: 0 20px;
+  text-align: center;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.18);
+}
+
+.vocab-card-definition-ms {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 13px;
+  font-style: italic;
+  font-weight: 400;
+  margin: 0;
+  padding: 0 20px;
+  text-align: center;
+}
+
+/* ─── Swipe hint labels ───────────────────────────────────────────────────── */
+
+.vocab-swipe-hint {
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  opacity: 0;
+  padding: 6px 14px;
+  pointer-events: none;
+  position: absolute;
+  top: 50px;
+  transition: opacity 120ms ease;
+  z-index: 10;
+}
+
+.vocab-swipe-hint--know {
+  border: 2.5px solid #a7ca54;
+  color: #a7ca54;
+  left: 16px;
+}
+.vocab-swipe-hint--review {
+  border: 0px solid #cb403c;
+  color: #cb403c;
+  right: 16px;
+}
+.vocab-swipe-hint.is-visible {
+  opacity: 1;
+}
+
+/* ─── Bottom section (word-in-use + scenic bg) ────────────────────────────── */
+
+.vocab-bottom-section {
+  flex: 1;
+  min-height: 220px;
+  position: relative;
+}
+
+.vocab-word-in-use {
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  margin: 44px 20px 12px;
+  padding: 14px 16px;
+  position: relative;
+  z-index: 5;
+}
+
+.vocab-word-in-use__label {
+  color: #604828;
+  font-size: 13px;
+  font-weight: 700;
+  margin: 0 0 6px;
+}
+
+.vocab-word-in-use__sentence {
+  color: #364153;
+  font-size: 14px;
+  font-style: italic;
+  line-height: 1.5;
+  margin: 0 0 4px;
+}
+
+.vocab-word-in-use__highlight {
+  color: #604828;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.vocab-word-in-use__translation {
+  color: rgba(54, 65, 83, 0.6);
+  font-size: 12px;
+  margin: 0;
+}
+
+/* Scenic background illustration */
+.vocab-bg-illustration {
+  bottom: 0;
+  height: 100%;
+  left: 0;
+  overflow: hidden;
+  pointer-events: none;
+  position: absolute;
+  width: 100%;
+  z-index: 0;
+}
+
+.vocab-bg-illustration img {
+  bottom: 0;
+  height: 100%;
+  left: -1.53%;
+  max-width: none;
+  object-fit: cover;
+  position: absolute;
+  width: 109.92%;
+}
+
+/* ─── Result screen ───────────────────────────────────────────────────────── */
+
+.vocab-result-card {
+  align-items: center;
+  background: #ffffff;
+  border-radius: 24px;
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 24px 24px 0;
+  padding: 32px 24px;
+  text-align: center;
+}
+
+.vocab-result-emoji {
+  font-size: 48px;
+  margin: 0;
+}
+.vocab-result-heading {
+  color: #604828;
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0;
+}
+.vocab-result-sub {
+  color: #604828;
+  font-size: 15px;
+  margin: 0;
+}
+
+.vocab-btn-primary {
+  background: #604828;
+  border: none;
+  border-radius: 14px;
+  color: #fff;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  height: 52px;
+  transition:
+    opacity 120ms ease,
+    transform 100ms ease;
+  width: 100%;
+}
+.vocab-btn-primary:active {
+  opacity: 0.85;
+  transform: scale(0.97);
+}
+
+.vocab-btn-secondary {
+  background: transparent;
+  border: 1.5px solid #604828;
+  border-radius: 14px;
+  color: #604828;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  height: 52px;
+  transition:
+    opacity 120ms ease,
+    transform 100ms ease;
+  width: 100%;
+}
+.vocab-btn-secondary:active {
+  opacity: 0.7;
+  transform: scale(0.97);
+}
+
+/* ─── Topbar title / spacer (result & error screens) ─────────────────────── */
+
+.vocab-topbar-title {
+  color: #604828;
+  flex: 1;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  text-align: center;
+}
+
+.vocab-topbar-spacer {
+  width: 40px;
+}
+
+/* ─── Loading / Error ─────────────────────────────────────────────────────── */
+
+.vocab-spinner {
+  --color: #604828;
+  height: 40px;
+  width: 40px;
+}
+.vocab-loading-text,
+.vocab-error-text {
+  color: #604828;
+  font-size: 16px;
+  margin: 0;
+}
+.vocab-btn-text {
+  background: transparent;
+  border: none;
+  color: #604828;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 15px;
+  padding: 0;
+}

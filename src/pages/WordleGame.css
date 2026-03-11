@@ -1,0 +1,342 @@
+/* -----------------------------------------------------------------------------
+   Wordle Game � styles
+   Shell, topbar, result card, and button classes come from VocabMaster.css.
+   This file adds Wordle-specific components only.
+----------------------------------------------------------------------------- */
+
+/* -- Shell override --------------------------------------------------------- */
+.wordle-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  position: relative;
+  overflow: hidden;
+  padding: calc(env(safe-area-inset-top, 0px) + 30px) 0px 0px;
+}
+
+/* -- Back button (left side, before level label) --------------------------- */
+.wordle-back-btn {
+  background: none;
+  border: none;
+  padding: 0px 0px 0px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  opacity: 0.85;
+  transition: opacity 0.15s;
+}
+.wordle-back-btn:active {
+  opacity: 0.5;
+}
+
+/* -- Progress bar (timer — kept for legacy) -------------------------------- */
+.wordle-progress-track {
+  background: #f1f1f1;
+  border-radius: 20px;
+  height: 6px;
+  margin: 0 11% 33px;
+  overflow: hidden;
+  width: 78%;
+}
+
+.wordle-progress-fill {
+  background: #cb403c;
+  border-radius: 20px;
+  height: 100%;
+  transition: width 1000ms linear;
+}
+
+/* -- Level progress bar ---------------------------------------------------- */
+.wordle-level-bar-row {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 24px 12px;
+}
+
+.wordle-level-label {
+  color: #604828;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0px;
+}
+
+.wordle-level-pct {
+  color: #604828;
+  font-size: 12px;
+  font-weight: 500;
+  opacity: 0.7;
+}
+
+.wordle-level-bar-track {
+  background: rgba(96, 72, 40, 0.12);
+  border-radius: 27px;
+  height: 8px;
+  margin: 0 24px 16px;
+  overflow: hidden;
+}
+
+.wordle-level-bar-fill {
+  background: linear-gradient(90deg, #e1da33 0%, #a8b800 100%);
+  border-radius: 27px;
+  height: 100%;
+  transition: width 600ms ease;
+}
+
+/* -- WORDLE title ----------------------------------------------------------- */
+.wordle-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  padding: 0 0 20px;
+  letter-spacing: 6px;
+}
+
+.wordle-title-letter {
+  font-family: 'Satoshi', 'Poppins', ui-sans-serif, system-ui, sans-serif;
+  font-size: 35px;
+  font-weight: 700;
+  color: #604828;
+  line-height: 1;
+  display: block;
+}
+
+/* -- Clue card � layered mauve shadow + frosted white card ------------------ */
+.wordle-clue-wrapper {
+  position: relative;
+  margin: 0px 24px 20px;
+}
+
+/* Back shadow card in mauve */
+.wordle-clue-shadow {
+  position: absolute;
+  inset: 5px 0 -5px 0;
+  background: #af7ea7;
+  border-radius: 10px;
+  z-index: 0;
+}
+
+/* Frosted card on top */
+.wordle-clue-card {
+  position: relative;
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.81);
+  border-radius: 10px;
+  padding: 14px 18px;
+  min-height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wordle-clue-text {
+  font-family: 'Satoshi', 'Poppins', ui-sans-serif, system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #604828;
+  line-height: 1.45;
+  text-align: justify;
+  margin: 0;
+  letter-spacing: 0.3px;
+}
+
+/* -- Grid � 6 columns x 4 rows, always fixed ------------------------------- */
+.wordle-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: 6.6px;
+  margin: 0 24px 0;
+  padding-bottom: 3px;
+}
+
+/* -- Tile ------------------------------------------------------------------- */
+.wordle-tile {
+  aspect-ratio: 1;
+  position: relative;
+  border-radius: 7.3px;
+  border: 1.45px solid #604828;
+  background: #af7ea7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  box-shadow: 0px 3px 0px #7a4f73;
+}
+
+.wordle-tile-shadow {
+  display: none;
+}
+
+/* Inner overlay layer � matches Figma's inset coloured box */
+.wordle-tile::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 5.8px;
+  border: 1.45px solid #604828;
+  transition: background 0.15s ease;
+}
+
+/* Empty / filled tiles � solid white inner */
+.wordle-tile--empty::before,
+.wordle-tile--filled::before {
+  background: #ffffff;
+}
+
+/* Correct (green tint) */
+.wordle-tile--correct::before {
+  background: rgba(167, 202, 84, 0.45);
+}
+
+/* Present / wrong position (red tint) */
+.wordle-tile--present::before {
+  background: var(
+    --WRONG,
+    linear-gradient(0deg, rgba(203, 64, 60, 0.35) 0%, rgba(203, 64, 60, 0.35) 100%),
+    #fff
+  );
+}
+
+/* Absent (neutral grey tint) */
+.wordle-tile--absent::before {
+  background: rgba(180, 180, 180, 0.45);
+}
+
+/* Tile letter � sits above the ::before overlay */
+.wordle-tile-letter {
+  position: relative;
+  z-index: 1;
+  font-family: 'Satoshi', 'Poppins', ui-sans-serif, system-ui, sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #604828;
+  letter-spacing: 0.88px;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+/* Pop when letter typed */
+.wordle-tile.is-current {
+  animation: wordle-tile-pop 0.1s ease;
+}
+
+@keyframes wordle-tile-pop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Row shake on incomplete submit */
+.wordle-tile.is-shaking {
+  animation: wordle-shake 0.4s ease;
+}
+
+@keyframes wordle-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-5px);
+  }
+  40% {
+    transform: translateX(5px);
+  }
+  60% {
+    transform: translateX(-4px);
+  }
+  80% {
+    transform: translateX(4px);
+  }
+}
+
+/* Flip reveal on committed rows */
+.wordle-tile.is-flipped {
+  animation: wordle-flip 0.28s ease both;
+}
+
+@keyframes wordle-flip {
+  0% {
+    transform: scaleY(1);
+  }
+  45% {
+    transform: scaleY(0);
+  }
+  100% {
+    transform: scaleY(1);
+  }
+}
+
+/* -- Bottom scenic illustration with fade ---------------------------------- */
+.wordle-bottom {
+  flex: 1;
+  min-height: 189px;
+  position: relative;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.wordle-bottom-img {
+  position: absolute;
+  bottom: 0px;
+  left: -1.53%;
+  width: 109.92%;
+  max-width: none;
+  height: calc(100%, 9px);
+  object-fit: cover;
+  display: block;
+}
+
+/* Three stacked gradient fades matching Figma node-id 29:11266-29:11269 */
+.wordle-bottom-fade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 24px;
+  background: linear-gradient(to bottom, #fffde9, rgba(255, 255, 255, 0.46));
+  z-index: 1;
+}
+.wordle-bottom-fade--2 {
+  top: 10px;
+}
+.wordle-bottom-fade--3 {
+  top: 20px;
+}
+
+/* -- Responsive: compact on short screens ----------------------------------- */
+@media (max-height: 700px) {
+  .wordle-title-letter {
+    font-size: 28px;
+  }
+  .wordle-title {
+    padding-bottom: 8px;
+  }
+  .wordle-clue-wrapper {
+    margin-bottom: 10px;
+  }
+  .wordle-clue-card {
+    padding: 10px 14px;
+    min-height: 70px;
+  }
+  .wordle-clue-text {
+    font-size: 13px;
+  }
+  .wordle-grid {
+    gap: 3px;
+  }
+  .wordle-tile-letter {
+    font-size: 18px;
+  }
+  .wordle-bottom {
+    min-height: 120px;
+  }
+}

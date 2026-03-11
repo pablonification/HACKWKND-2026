@@ -1,7 +1,7 @@
 import { IonSpinner, IonToast } from '@ionic/react';
 import type { ReactNode } from 'react';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import cameraImg from '../../assets/camera.png';
 import taviImg from '../../assets/tavi.png';
@@ -51,12 +51,6 @@ type RetryPayload = {
   action?: CoachClientAction;
   textOverride: string;
   trackOverride: LearningTrack;
-};
-
-const PHASE_LABEL: Record<CoachSessionPhase, string> = {
-  idle: 'Idle',
-  onboarding: 'Onboarding',
-  learning_active: 'Learning',
 };
 
 const ACTION_LABEL: Record<CoachClientAction, string> = {
@@ -371,6 +365,7 @@ function ChatBubble({
 
 export function AiHelperPage() {
   const navigate = useNavigate();
+  const [, setSearchParams] = useSearchParams();
   const { user } = useAuthStore();
   const [showIntro, setShowIntro] = useState<boolean | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -412,6 +407,14 @@ export function AiHelperPage() {
       track,
     } satisfies PersistedTaviSession);
   }, [sessionPhase, track]);
+
+  useEffect(() => {
+    if (showIntro === false) {
+      setSearchParams({ chat: '1' }, { replace: true });
+    } else if (showIntro === true) {
+      setSearchParams({}, { replace: true });
+    }
+  }, [showIntro, setSearchParams]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -646,9 +649,7 @@ export function AiHelperPage() {
             <span className="tavi-back-chevron" aria-hidden="true" />
           </button>
           <span className="tavi-intro-header-pill">Personal AI Buddy</span>
-          <span className={`tavi-session-badge tavi-session-badge--${sessionPhase}`}>
-            {PHASE_LABEL[sessionPhase]}
-          </span>
+          <div style={{ width: 36 }}></div>
         </header>
 
         {messages.length === 0 ? (

@@ -1,0 +1,174 @@
+/* =============================================================================
+   Level Up Page
+   Background: #fff9e9 (matches app-wide warm cream)
+   Figma node: 71:552
+============================================================================= */
+
+.levelup-shell {
+  align-items: center;
+  background: #fff9e9;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Satoshi', 'Poppins', ui-sans-serif, system-ui, sans-serif;
+  min-height: 100dvh;
+  overflow: hidden;
+  padding: calc(env(safe-area-inset-top, 0px) + 0px) 0 calc(env(safe-area-inset-bottom, 0px) + 24px);
+  position: relative;
+}
+
+/* -- "Level Up!" heading ---------------------------------------------------- */
+.levelup-title {
+  color: #604828;
+  font-size: 35px;
+  font-weight: 900;
+  letter-spacing: 0.88px;
+  line-height: 1.1;
+  margin: 30px 0 4px;
+  text-align: center;
+}
+
+/* -- Gradient level-name text SVG ------------------------------------------ */
+.levelup-level-name {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.levelup-level-text-img {
+  width: 260px;
+  max-width: 75vw;
+  height: auto;
+  display: block;
+}
+
+/* -- Illustration area (glow + character) ---------------------------------- */
+.levelup-illustration-area {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 280px;
+}
+
+/* Circular orange aura behind the character */
+.levelup-glow {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 160, 50, 0.55) 0%,
+    rgba(255, 120, 20, 0.3) 38%,
+    rgba(255, 190, 100, 0.12) 65%,
+    transparent 75%
+  );
+  animation: levelup-aura-pulse 2.8s ease-in-out infinite;
+}
+
+@keyframes levelup-aura-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+}
+
+/* Character illustration */
+.levelup-character-img {
+  position: relative;
+  z-index: 1;
+  width: 230px;
+  max-width: 65vw;
+  height: auto;
+  display: block;
+  /* subtle float animation */
+  animation: levelup-float 3.2s ease-in-out infinite;
+}
+
+@keyframes levelup-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* -- Footer button ---------------------------------------------------------- */
+.levelup-footer {
+  width: 100%;
+  padding: 48px 24px;
+  flex-shrink: 0;
+}
+
+.levelup-btn {
+  align-items: center;
+  background: #cb403c;
+  border: none;
+  border-radius: 10px;
+  color: #ffffff;
+  cursor: pointer;
+  display: flex;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 500;
+  gap: 10px;
+  height: 48px;
+  justify-content: center;
+  padding: 0 20px;
+  transition:
+    opacity 0.15s,
+    transform 0.1s;
+  width: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.levelup-btn:active {
+  opacity: 0.85;
+  transform: scale(0.97);
+}
+
+/* -- Auto-dismiss countdown bar -------------------------------------------- */
+.levelup-dismiss-track {
+  background: rgba(96, 72, 40, 0.15);
+  border-radius: 27px;
+  height: 4px;
+  margin-top: 10px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.levelup-dismiss-fill {
+  background: #cb403c;
+  border-radius: 27px;
+  height: 100%;
+  transition: width 1s linear;
+}
+
+/* -- Entry animation -------------------------------------------------------- */
+.levelup-shell {
+  animation: levelup-enter 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes levelup-enter {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}

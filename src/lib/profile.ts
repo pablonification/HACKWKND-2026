@@ -8,6 +8,11 @@ type ProfileRole = NonNullable<ProfileRow['role']>;
 type ProfileUpdate = Database['public']['Tables']['profiles']['Update'];
 type FollowRow = Database['public']['Tables']['follows']['Row'];
 const AVATAR_BUCKET = 'avatars' as const;
+
+const toProfileRole = (value: unknown): ProfileRole | null => {
+  if (value === 'admin' || value === 'elder' || value === 'learner') return value;
+  return null;
+};
 const MAX_AVATAR_BYTES = 5 * 1024 * 1024;
 const ALLOWED_AVATAR_MIME_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp']);
 
@@ -123,61 +128,96 @@ export const fetchProfileDashboard = async ({
     .from('profiles')
     .select(PROFILE_SELECT)
     .eq('id', userId)
-    .single();
+    .maybeSingle();
 
   if (profileError) {
     throw profileError;
   }
 
+  // New account — profile row not created yet. Auto-create it from auth user metadata.
+  if (!profile) {
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
+    if (userError) throw userError;
+
+    const meta = user?.user_metadata as Record<string, unknown> | undefined;
+    const autoRole = toProfileRole(meta?.role) ?? fallbackRole ?? 'learner';
+    const autoName = typeof meta?.full_name === 'string' ? meta.full_name.trim() || null : null;
+    const autoEmail = user?.email ?? null;
+    const autoUsername = autoEmail
+      ? autoEmail
+          .split('@')[0]
+          .replace(/[^a-z0-9_]/gi, '')
+          .toLowerCase()
+      : null;
+
+    const { error: upsertError } = await supabase.from('profiles').upsert(
+      {
+        id: userId,
+        email: autoEmail,
+        full_name: autoName,
+        role: autoRole,
+        username: autoUsername,
+      },
+      { onConflict: 'id' },
+    );
+    if (upsertError) throw upsertError;
+
+    // Re-fetch after upsert
+    const { data: newProfile, error: refetchError } = await supabase
+      .from('profiles')
+      .select(PROFILE_SELECT)
+      .eq('id', userId)
+      .single();
+    if (refetchError) throw refetchError;
+
+    return fetchProfileDashboard({ userId, fallbackRole: newProfile.role ?? fallbackRole });
+  }
+
   const role = resolveRole(profile.role, fallbackRole);
 
-  const [
-    wordsLearned,
-    totalWords,
-    authoredStories,
-    uploadedRecordings,
-    followerCount,
-    followingCount,
-  ] = await Promise.all([
-    safeCount(
-      'words learned',
-      supabase
-        .from('progress')
-        .select('*', { count: 'exact', head: true })
-        .eq('user_id', userId)
-        .gt('mastery_level', 0),
-    ),
-    safeCount('total words', supabase.from('words').select('*', { count: 'exact', head: true })),
-    safeCount(
-      'stories',
-      supabase
-        .from('stories')
-        .select('*', { count: 'exact', head: true })
-        .eq('author_id', userId)
-        .eq('is_published', true),
-    ),
-    safeCount(
-      'recordings',
-      supabase
-        .from('recordings')
-        .select('*', { count: 'exact', head: true })
-        .eq('uploader_id', userId),
-    ),
-    safeCount(
-      'followers',
-      supabase
-        .from('follows')
-        .select('*', { count: 'exact', head: true })
-        .eq('following_id', userId),
-    ),
-    safeCount(
-      'following',
-      supabase
-        .from('follows')
-        .select('*', { count: 'exact', head: true })
-        .eq('follower_id', userId),
-    ),
-  ]);
+  const [wordsLearned, authoredStories, uploadedRecordings, followerCount, followingCount] =
+    await Promise.all([
+      safeCount(
+        'words learned',
+        supabase
+          .from('progress')
+          .select('*', { count: 'exact', head: true })
+          .eq('user_id', userId)
+          .gt('mastery_level', 0),
+      ),
+      safeCount(
+        'stories',
+        supabase
+          .from('stories')
+          .select('*', { count: 'exact', head: true })
+          .eq('author_id', userId)
+          .eq('is_published', true),
+      ),
+      safeCount(
+        'recordings',
+        supabase
+          .from('recordings')
+          .select('*', { count: 'exact', head: true })
+          .eq('uploader_id', userId),
+      ),
+      safeCount(
+        'followers',
+        supabase
+          .from('follows')
+          .select('*', { count: 'exact', head: true })
+          .eq('following_id', userId),
+      ),
+      safeCount(
+        'following',
+        supabase
+          .from('follows')
+          .select('*', { count: 'exact', head: true })
+          .eq('follower_id', userId),
+      ),
+    ]);
 
   const storiesShared = authoredStories + uploadedRecordings;
   // Story completion is not modeled yet in MVP schema; derive from learning depth for learner profiles.
@@ -191,9 +231,6 @@ export const fetchProfileDashboard = async ({
     storiesShared,
     followerCount,
   });
-
-  const learnerCompletionPercent =
-    totalWords > 0 ? Math.round((Math.min(wordsLearned, totalWords) / totalWords) * 100) : null;
 
   return {
     profile: {
@@ -212,10 +249,7 @@ export const fetchProfileDashboard = async ({
     },
     level: {
       label: level.label,
-      progressPercent:
-        role === 'learner' && learnerCompletionPercent !== null
-          ? learnerCompletionPercent
-          : level.percentToNextLevel,
+      progressPercent: level.percentToNextLevel,
     },
     stats: {
       wordsLearned,
