@@ -55,12 +55,9 @@ function evaluateGuess(guess: string, answer: string): TileState[] {
   return result;
 }
 
-/** Pick a Semai word that fits the 6-column grid (pad/truncate handled by logic). */
+/** Pick a Semai word that is exactly 6 letters (matches the fixed 6-column grid). */
 function pickWordleWord(cards: VocabCard[]): VocabCard | null {
-  // prefer exactly 6 letters; fall back to 3-6
-  const exact = cards.filter((c) => c.word && /^[a-zA-Z]{6}$/.test(c.word.trim()));
-  const fallback = cards.filter((c) => c.word && /^[a-zA-Z]{3,6}$/.test(c.word.trim()));
-  const pool = exact.length > 0 ? exact : fallback;
+  const pool = cards.filter((c) => c.word && /^[a-zA-Z]{6}$/.test(c.word.trim()));
   if (pool.length === 0) return null;
   return pool[Math.floor(Math.random() * pool.length)];
 }
@@ -165,7 +162,7 @@ export function WordleGame() {
   // ── Input handling ────────────────────────────────────────────────────────────
   const commitGuess = useCallback(() => {
     if (!currentCard || revealingRow !== null) return;
-    const word = currentCard.word.trim().toUpperCase().padEnd(WORD_LEN, ' ').slice(0, WORD_LEN);
+    const word = currentCard.word.trim().toUpperCase().slice(0, WORD_LEN);
     const row = guesses[currentRow];
 
     // Must fill all 6 columns

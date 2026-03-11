@@ -173,7 +173,41 @@ export const fetchProfileDashboard = async ({
       .single();
     if (refetchError) throw refetchError;
 
-    return fetchProfileDashboard({ userId, fallbackRole: newProfile.role ?? fallbackRole });
+    const newRole = resolveRole(newProfile.role, fallbackRole);
+    const newProgress = deriveProfileProgress({
+      role: newRole,
+      wordsLearned: 0,
+      storiesCompleted: 0,
+      storiesShared: 0,
+      followerCount: 0,
+    });
+    return {
+      profile: {
+        id: newProfile.id,
+        fullName: newProfile.full_name ?? 'Taleka User',
+        email: newProfile.email ?? '',
+        role: newRole,
+        avatarUrl: newProfile.avatar_url,
+        bio: newProfile.bio,
+        village: newProfile.village,
+        age: newProfile.age,
+        specialty: newProfile.specialty,
+        appLanguage: newProfile.app_language,
+        indigenousLanguage: newProfile.indigenous_language,
+        pushNotificationsEnabled: newProfile.push_notifications_enabled,
+      },
+      level: {
+        label: newProgress.label,
+        progressPercent: newProgress.percentToNextLevel,
+      },
+      stats: {
+        wordsLearned: 0,
+        storiesCompleted: 0,
+        storiesShared: 0,
+        followerCount: 0,
+        followingCount: 0,
+      },
+    };
   }
 
   const role = resolveRole(profile.role, fallbackRole);

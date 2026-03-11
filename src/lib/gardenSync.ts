@@ -145,7 +145,7 @@ export async function updateStreak(): Promise<void> {
   } = await supabase.auth.getUser();
   if (!user) return;
 
-  const today = new Date().toISOString().slice(0, 10); // 'YYYY-MM-DD'
+  const today = new Date().toLocaleDateString('en-CA'); // 'YYYY-MM-DD' in local timezone
 
   const { data: existing } = await supabase
     .from('streaks')

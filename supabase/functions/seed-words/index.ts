@@ -72,20 +72,10 @@ Deno.serve(async (request: Request) => {
     return jsonResponse(500, { error: 'Missing SUPABASE_SERVICE_ROLE_KEY or SUPABASE_URL' });
   }
 
-  // The Supabase gateway already validates the JWT.
-  // We additionally confirm the caller used the service-role key
-  // by checking the decoded 'role' claim in the token payload.
-  const authHeader = request.headers.get('Authorization') ?? '';
-  const bearerToken = authHeader.replace(/^Bearer\s+/i, '').trim();
-  try {
-    const payloadB64 = bearerToken.split('.')[1] ?? '';
-    const payloadJson = atob(payloadB64.replace(/-/g, '+').replace(/_/g, '/'));
-    const payload = JSON.parse(payloadJson) as { role?: string };
-    if (payload.role !== 'service_role') {
-      return jsonResponse(403, { error: 'Forbidden — service-role key required' });
-    }
-  } catch {
-    return jsonResponse(401, { error: 'Unauthorized — invalid token' });
+  // Confirm caller used the service-role key directly (it IS the bearer token in Supabase).
+  // Decoding and checking JWT payload claims without verifying the signature is insecure.
+  if (bearerToken !== serviceRoleKey) {
+    return jsonResponse(403, { error: 'Forbidden — service-role key required' });
   }
 
   try {
