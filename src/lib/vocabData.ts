@@ -19,52 +19,23 @@ const POOL_SIZE = 300;
 
 let cachedPool: VocabCard[] | null = null;
 
-type RawEntry = {
-  word: string;
-  senses: { definition_en?: string; examples?: { semai?: string; en?: string }[] }[];
-};
-
-/** Build a map of semai_word → first example sentence from the local JSON (cheap, one-time). */
-async function loadExampleMap(): Promise<Map<string, { semai: string; en: string }>> {
-  try {
-    const url = new URL('../../docs/plan/source/webonary-semai-parsed.json', import.meta.url).href;
-    const res = await fetch(url);
-    const raw: RawEntry[] = await res.json();
-    const map = new Map<string, { semai: string; en: string }>();
-    for (const entry of raw) {
-      if (!entry.word) continue;
-      for (const sense of entry.senses ?? []) {
-        const ex = sense.examples?.[0];
-        if (ex?.semai?.trim()) {
-          map.set(entry.word.toLowerCase(), { semai: ex.semai.trim(), en: ex.en?.trim() ?? '' });
-          break;
-        }
-      }
-    }
-    return map;
-  } catch {
-    return new Map();
-  }
-}
-
 async function loadPool(): Promise<VocabCard[]> {
   if (cachedPool) return cachedPool;
 
-  // Random offset so each session draws a different slice of the 3 k+ word pool.
-  const totalRows = 3304;
+  // Query the actual row count so the random offset never exceeds the table size.
+  const { count } = await supabase
+    .from('words')
+    .select('id', { count: 'exact', head: true })
+    .not('english_translation', 'is', null);
+  const totalRows = count ?? POOL_SIZE;
   const maxOffset = Math.max(0, totalRows - POOL_SIZE);
-  const offset = Math.floor(Math.random() * maxOffset);
+  const offset = Math.floor(Math.random() * (maxOffset + 1));
 
-  const [supabaseResult, exampleMap] = await Promise.all([
-    supabase
-      .from('words')
-      .select('id, semai_word, english_translation, malay_translation')
-      .not('english_translation', 'is', null)
-      .range(offset, offset + POOL_SIZE - 1),
-    loadExampleMap(),
-  ]);
-
-  const { data, error } = supabaseResult;
+  const { data, error } = await supabase
+    .from('words')
+    .select('id, semai_word, english_translation, malay_translation')
+    .not('english_translation', 'is', null)
+    .range(offset, offset + POOL_SIZE - 1);
 
   if (error || !data) {
     console.error('[vocabData] Failed to load pool from Supabase:', error?.message);
@@ -73,17 +44,14 @@ async function loadPool(): Promise<VocabCard[]> {
 
   const pool: VocabCard[] = data
     .filter((row) => row.semai_word && row.english_translation)
-    .map((row) => {
-      const ex = exampleMap.get((row.semai_word as string).toLowerCase());
-      return {
-        word_id: row.id as string,
-        word: row.semai_word as string,
-        definition_en: (row.english_translation as string).trim(),
-        definition_ms: ((row.malay_translation as string | null) ?? '').trim(),
-        example_semai: ex?.semai ?? '',
-        example_en: ex?.en ?? '',
-      };
-    });
+    .map((row) => ({
+      word_id: row.id as string,
+      word: row.semai_word as string,
+      definition_en: (row.english_translation as string).trim(),
+      definition_ms: ((row.malay_translation as string | null) ?? '').trim(),
+      example_semai: '',
+      example_en: '',
+    }));
 
   cachedPool = pool;
   return pool;

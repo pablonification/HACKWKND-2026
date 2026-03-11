@@ -1,4 +1,4 @@
-﻿import { IonSpinner } from '@ionic/react';
+import { IonSpinner } from '@ionic/react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 

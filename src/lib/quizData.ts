@@ -28,10 +28,14 @@ let cachedPool: QuizWord[] | null = null;
 async function loadPool(): Promise<QuizWord[]> {
   if (cachedPool) return cachedPool;
 
-  // Random offset so each quiz session draws a different slice of the 3 k+ word pool.
-  const totalRows = 3304;
+  // Query the actual row count so the random offset never exceeds the table size.
+  const { count } = await supabase
+    .from('words')
+    .select('id', { count: 'exact', head: true })
+    .not('english_translation', 'is', null);
+  const totalRows = count ?? POOL_SIZE;
   const maxOffset = Math.max(0, totalRows - POOL_SIZE);
-  const offset = Math.floor(Math.random() * maxOffset);
+  const offset = Math.floor(Math.random() * (maxOffset + 1));
 
   const { data, error } = await supabase
     .from('words')
