@@ -67,7 +67,6 @@ export function LevelUpPage({ level: propLevel }: LevelUpPageProps) {
       setRemaining((s) => {
         if (s <= 1) {
           clearInterval(timerRef.current!);
-          navigate('/home/garden', { replace: true });
           return 0;
         }
         return s - 1;
@@ -76,7 +75,14 @@ export function LevelUpPage({ level: propLevel }: LevelUpPageProps) {
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, [navigate]);
+  }, []);
+
+  // Navigate once countdown hits zero (kept outside setState updater — no side effects in updaters)
+  useEffect(() => {
+    if (remaining === 0) {
+      navigate('/home/garden', { replace: true });
+    }
+  }, [remaining, navigate]);
 
   return (
     <div className="levelup-shell">

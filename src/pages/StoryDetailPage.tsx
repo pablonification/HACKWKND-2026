@@ -70,7 +70,7 @@ export function StoryDetailPage() {
   if (!story) {
     return (
       <div className="story-detail-page story-detail-not-found">
-        <button className="story-detail-back-btn" onClick={() => navigate(-1)}>
+        <button type="button" className="story-detail-back-btn" onClick={() => navigate(-1)}>
           <BackIcon />
         </button>
         <p>Story not found.</p>
@@ -85,7 +85,10 @@ export function StoryDetailPage() {
 
   function handleContinue() {
     triggerHapticFeedback('medium');
-    // Stub — will navigate to actual reading page when implemented
+    if (!story!.scenes || story!.scenes.length === 0) {
+      // Story content not yet available — prevent navigating to a dead-end
+      return;
+    }
     navigate(`/home/stories/${story!.id}/read`);
   }
 
@@ -100,7 +103,12 @@ export function StoryDetailPage() {
       <div className="story-detail-hero-fade" aria-hidden="true" />
 
       {/* ── Back button ── */}
-      <button className="story-detail-back-btn" onClick={handleBack} aria-label="Go back">
+      <button
+        type="button"
+        className="story-detail-back-btn"
+        onClick={handleBack}
+        aria-label="Go back"
+      >
         <BackIcon />
       </button>
 
@@ -177,8 +185,17 @@ export function StoryDetailPage() {
 
       {/* ── CTA button ── */}
       <div className="story-detail-cta-wrap">
-        <button className="story-detail-cta-btn" onClick={handleContinue}>
-          {story.progress > 0 ? 'Continue Reading' : 'Start Reading'}
+        <button
+          type="button"
+          className="story-detail-cta-btn"
+          onClick={handleContinue}
+          disabled={!story.scenes || story.scenes.length === 0}
+        >
+          {!story.scenes || story.scenes.length === 0
+            ? 'Coming Soon'
+            : story.progress > 0
+              ? 'Continue Reading'
+              : 'Start Reading'}
         </button>
       </div>
     </div>
