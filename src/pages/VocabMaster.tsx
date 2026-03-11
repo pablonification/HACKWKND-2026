@@ -178,6 +178,7 @@ export function VocabMaster() {
     }
   };
   const onTouchEnd = () => {
+    if (promoting) return;
     if (Math.abs(dragX) >= SWIPE_THRESHOLD) {
       advance(dragX > 0 ? 'right' : 'left');
     } else {
@@ -202,6 +203,7 @@ export function VocabMaster() {
   };
   const onMouseUp = () => {
     mouseDown.current = false;
+    if (promoting) return;
     if (Math.abs(dragX) >= SWIPE_THRESHOLD) {
       advance(dragX > 0 ? 'right' : 'left');
     } else {

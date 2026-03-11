@@ -64,7 +64,12 @@ export function StoryPage() {
           <p className="story-empty">No stories found for "{query}"</p>
         ) : (
           filtered.map((s) => (
-            <button key={s.id} className="story-card" onClick={() => handleCardPress(s.id)}>
+            <button
+              type="button"
+              key={s.id}
+              className="story-card"
+              onClick={() => handleCardPress(s.id)}
+            >
               <div className="story-card-cover">
                 <img src={s.cover} alt={s.title} />
               </div>

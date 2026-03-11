@@ -100,35 +100,39 @@ export interface SwipeResult {
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 export async function recordSwipe(result: SwipeResult): Promise<void> {
-  if (!result.wordId || !UUID_RE.test(result.wordId)) return; // local-only or malformed id
+  try {
+    if (!result.wordId || !UUID_RE.test(result.wordId)) return; // local-only or malformed id
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) return;
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) return;
 
-  // Fetch existing mastery level (if any)
-  const { data: existing } = await supabase
-    .from('progress')
-    .select('id, mastery_level')
-    .eq('user_id', user.id)
-    .eq('word_id', result.wordId)
-    .maybeSingle();
+    // Fetch existing mastery level (if any)
+    const { data: existing } = await supabase
+      .from('progress')
+      .select('id, mastery_level')
+      .eq('user_id', user.id)
+      .eq('word_id', result.wordId)
+      .maybeSingle();
 
-  const currentMastery = existing?.mastery_level ?? 0;
-  const newMastery = result.known ? Math.min(currentMastery + 1, 5) : 0;
+    const currentMastery = existing?.mastery_level ?? 0;
+    const newMastery = result.known ? Math.min(currentMastery + 1, 5) : 0;
 
-  await supabase.from('progress').upsert(
-    {
-      ...(existing?.id ? { id: existing.id } : {}),
-      user_id: user.id,
-      word_id: result.wordId,
-      mastery_level: newMastery,
-      last_reviewed_at: new Date().toISOString(),
-      next_review_at: nextReviewAt(newMastery),
-    },
-    { onConflict: 'user_id,word_id' },
-  );
+    await supabase.from('progress').upsert(
+      {
+        ...(existing?.id ? { id: existing.id } : {}),
+        user_id: user.id,
+        word_id: result.wordId,
+        mastery_level: newMastery,
+        last_reviewed_at: new Date().toISOString(),
+        next_review_at: nextReviewAt(newMastery),
+      },
+      { onConflict: 'user_id,word_id' },
+    );
+  } catch {
+    // Offline-safe: silently swallow network errors
+  }
 }
 
 // ─── Update streak at session end ────────────────────────────────────────────
@@ -140,44 +144,48 @@ export async function recordSwipe(result: SwipeResult): Promise<void> {
  * - Gap > 1 day: streak resets to 1
  */
 export async function updateStreak(): Promise<void> {
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) return;
+  try {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) return;
 
-  const today = new Date().toLocaleDateString('en-CA'); // 'YYYY-MM-DD' in local timezone
+    const today = new Date().toLocaleDateString('en-CA'); // 'YYYY-MM-DD' in local timezone
 
-  const { data: existing } = await supabase
-    .from('streaks')
-    .select('id, current_streak, longest_streak, last_activity_date')
-    .eq('user_id', user.id)
-    .maybeSingle();
+    const { data: existing } = await supabase
+      .from('streaks')
+      .select('id, current_streak, longest_streak, last_activity_date')
+      .eq('user_id', user.id)
+      .maybeSingle();
 
-  // Already updated today — skip
-  if (existing?.last_activity_date === today) return;
+    // Already updated today — skip
+    if (existing?.last_activity_date === today) return;
 
-  const lastDate = existing?.last_activity_date;
-  const isConsecutive =
-    lastDate != null &&
-    (() => {
-      const last = new Date(lastDate);
-      const now = new Date(today);
-      const diffDays = Math.round((now.getTime() - last.getTime()) / 86_400_000);
-      return diffDays === 1;
-    })();
+    const lastDate = existing?.last_activity_date;
+    const isConsecutive =
+      lastDate != null &&
+      (() => {
+        const last = new Date(lastDate);
+        const now = new Date(today);
+        const diffDays = Math.round((now.getTime() - last.getTime()) / 86_400_000);
+        return diffDays === 1;
+      })();
 
-  const newStreak = isConsecutive ? (existing?.current_streak ?? 0) + 1 : 1;
-  const newLongest = Math.max(existing?.longest_streak ?? 0, newStreak);
+    const newStreak = isConsecutive ? (existing?.current_streak ?? 0) + 1 : 1;
+    const newLongest = Math.max(existing?.longest_streak ?? 0, newStreak);
 
-  await supabase.from('streaks').upsert(
-    {
-      ...(existing?.id ? { id: existing.id } : {}),
-      user_id: user.id,
-      current_streak: newStreak,
-      longest_streak: newLongest,
-      last_activity_date: today,
-      updated_at: new Date().toISOString(),
-    },
-    { onConflict: 'user_id' },
-  );
+    await supabase.from('streaks').upsert(
+      {
+        ...(existing?.id ? { id: existing.id } : {}),
+        user_id: user.id,
+        current_streak: newStreak,
+        longest_streak: newLongest,
+        last_activity_date: today,
+        updated_at: new Date().toISOString(),
+      },
+      { onConflict: 'user_id' },
+    );
+  } catch {
+    // Offline-safe: silently swallow network errors
+  }
 }
