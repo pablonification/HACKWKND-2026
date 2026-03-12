@@ -20,7 +20,7 @@
   display: flex;
   flex-direction: column;
   min-height: 100dvh;
-  padding: 0 0 calc(env(safe-area-inset-bottom, 0px) + 88px);
+  padding: calc(env(safe-area-inset-top, 0px) 0px) 0 calc(env(safe-area-inset-bottom, 0px) + 88px);
 }
 
 .tavi-intro-mascot-wrap {
@@ -88,7 +88,7 @@
   align-items: center;
   display: flex;
   justify-content: space-between;
-  padding: calc(env(safe-area-inset-top, 0px) + 14px) 20px 0;
+  padding: calc(env(safe-area-inset-top, 0px) + 30px) 24px 0;
 }
 
 .tavi-back-button {
@@ -99,13 +99,12 @@
   cursor: pointer;
   display: inline-flex;
   gap: 9px;
-  padding: 8px 4px;
+  padding: 0px 4px;
   transition:
     opacity 160ms ease,
     transform 140ms ease;
   flex-shrink: 0;
   width: 36px;
-  justify-content: center;
 }
 
 .tavi-back-button:active {
@@ -143,10 +142,10 @@
   color: #1a1a1a;
   font-family: 'PlayfairDisplay', Georgia, serif;
   font-size: 43px;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: -0.5px;
   line-height: 1.1;
-  margin: 0 0 6px;
+  margin: 0px;
 }
 
 .tavi-intro-name {
@@ -160,9 +159,9 @@
   color: #1a1a1a;
   font-family: 'PlayfairDisplay', Georgia, serif;
   font-size: 26px;
-  font-weight: 600;
+  font-weight: 500;
   line-height: 1.3;
-  margin: 0 0 16px;
+  margin: 0px;
 }
 
 .tavi-intro-desc {
@@ -173,7 +172,7 @@
   line-height: 1.6;
   margin: 0 auto;
   max-width: 280px;
-  padding-top: 3em;
+  padding-top: 4em;
 }
 
 .tavi-intro-footer {
@@ -209,55 +208,31 @@
   flex: 1;
   min-height: 100%;
   position: relative;
+  padding: calc(env(safe-area-inset-top, 0px) + 0px) 24px 12px;
 }
 
 .tavi-chat-header {
   align-items: center;
   display: flex;
   justify-content: space-between;
-  padding: calc(env(safe-area-inset-top, 0px) + 14px) 20px 12px;
-  position: relative;
+  padding: calc(env(safe-area-inset-top, 0px) + 30px) 0px 0;
 }
 
 .tavi-chat-header-pill {
   background: #cb403c;
+  border: 0;
   border-radius: 100px;
   color: #fff;
   font-family: 'Satoshi', 'Poppins', ui-sans-serif, system-ui, sans-serif;
   font-size: 14px;
   font-weight: 600;
-  padding: 7px 20px;
-}
-
-.tavi-session-badge {
-  border-radius: 999px;
-  border: 1px solid rgba(203, 64, 60, 0.25);
-  color: #8f2723;
-  font-family: 'Satoshi', 'Poppins', ui-sans-serif, system-ui, sans-serif;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.2px;
-  min-width: 78px;
-  text-align: center;
-  padding: 6px 10px;
-}
-
-.tavi-session-badge--idle {
-  background: rgba(255, 255, 255, 0.75);
-}
-
-.tavi-session-badge--onboarding {
-  background: rgba(203, 64, 60, 0.14);
-}
-
-.tavi-session-badge--learning_active {
-  background: rgba(89, 148, 79, 0.18);
-  border-color: rgba(89, 148, 79, 0.35);
-  color: #2f5f2a;
+  letter-spacing: 0.1px;
+  padding: 9px 22px;
+  line-height: 1;
 }
 
 .tavi-chat-greeting {
-  padding: 28px 24px 0;
+  padding: 28px 0px 0;
 }
 
 .tavi-chat-greeting-title {
@@ -288,7 +263,7 @@
   flex: 1;
   min-height: 0;
   overflow-y: auto;
-  padding: 16px 16px 16px;
+  padding: 16px 0px 16px;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -546,11 +521,10 @@
 .tavi-chat-inputbar {
   align-items: flex-end;
   background: #fff9e9;
-  bottom: calc(env(safe-area-inset-bottom, 0px) + 68px);
   display: flex;
   flex-shrink: 0;
-  gap: 10px;
-  padding: 10px 16px 10px;
+  gap: 0px;
+  padding: 10px 0px 0px;
   position: sticky;
   z-index: 20;
 }
@@ -702,7 +676,7 @@
   display: flex;
   flex-shrink: 0;
   height: 44px;
-  justify-content: center;
+  justify-content: left;
   transition: transform 120ms ease;
   width: 44px;
   padding: 0;

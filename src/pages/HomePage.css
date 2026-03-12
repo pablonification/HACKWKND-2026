@@ -17,6 +17,42 @@
   background: #fff9e9;
 }
 
+.home-content-garden-mode {
+  --background: #f3ccab;
+}
+
+.home-content-garden-mode::part(background) {
+  background: #f3ccab;
+}
+
+.home-shell.is-garden {
+  background: #f3ccab;
+}
+
+.home-content-quiz-mode {
+  --background: #fff9e9;
+}
+
+.home-content-quiz-mode::part(background) {
+  background: #fff9e9;
+}
+
+.home-shell.is-quiz {
+  background: #fff9e9;
+}
+
+.home-content-landing-mode {
+  --background: #fff9e9;
+}
+
+.home-content-landing-mode::part(background) {
+  background: #fff9e9;
+}
+
+.home-shell.is-landing {
+  background: transparent;
+}
+
 .home-shell.is-studio-surface,
 .home-content.is-studio-surface {
   background: #fff9e9;
@@ -47,14 +83,14 @@
   background: #fff9e9;
   flex: 1;
   min-height: 100%;
+  padding-top: calc(env(safe-area-inset-top, 0px) + 16px);
   padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 96px);
 }
 
 .studio-shell {
   margin: 0 auto;
   max-width: 393px;
-  padding: calc(env(safe-area-inset-top, 0px) + 18px) 27px
-    calc(env(safe-area-inset-bottom, 0px) + 20px);
+  padding: 0px 27px calc(env(safe-area-inset-bottom, 0px) + 20px);
 }
 
 .studio-heading-row {
@@ -1227,6 +1263,161 @@
 
 .home-shell.profile-route .home-content {
   background: #fff9e9;
+}
+
+/* ── Learner NavBar (Figma node 65-306) ─────────────────────────────────── */
+
+.learner-nav {
+  align-items: flex-end;
+  background: transparent;
+  bottom: 0;
+  /* drop-shadow on the whole nav renders the shadow on the SVG shape edge */
+  filter: drop-shadow(2px -1px 16px rgba(0, 0, 0, 0.13));
+  display: flex;
+  height: 107px;
+  justify-content: space-between;
+  left: 0;
+  padding: 0 4px calc(env(safe-area-inset-bottom, 0px) + 12px);
+  position: fixed;
+  right: 0;
+  z-index: 30;
+}
+
+/* SVG notch background — stretched to fill full nav area */
+.learner-nav-bg {
+  bottom: 0;
+  height: calc(100% + 24px); /* extra height so upward notch isn't clipped */
+  left: 0;
+  overflow: visible;
+  pointer-events: none;
+  position: absolute;
+  top: 12px; /* shift up to expose the notch above the nav top edge */
+  width: 100%;
+  z-index: 0;
+}
+
+/* Keep all content above the SVG bg */
+.learner-nav-side,
+.learner-nav-center {
+  position: relative;
+  z-index: 1;
+}
+
+.learner-nav-side {
+  align-items: flex-end;
+  display: flex;
+  flex: 1;
+  gap: 0;
+  justify-content: space-evenly;
+  padding-bottom: 4px;
+}
+
+.learner-nav-item {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 60px;
+  padding: 8px 4px 4px;
+  transition:
+    transform 120ms ease,
+    opacity 120ms ease;
+}
+
+.learner-nav-item:active {
+  transform: scale(0.9);
+}
+
+.learner-nav-item svg {
+  flex-shrink: 0;
+}
+
+.learner-nav-label {
+  color: #9db2ce;
+  font-family: 'Satoshi', 'Poppins', ui-sans-serif, system-ui, sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1;
+  transition: color 140ms ease;
+  white-space: nowrap;
+}
+
+.learner-nav-item.is-active .learner-nav-label {
+  color: #b14602;
+}
+
+/* Center garden button */
+
+.learner-nav-center {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  justify-content: flex-end;
+  padding-bottom: 4px;
+  position: relative;
+}
+
+.learner-nav-garden-btn {
+  align-items: center;
+  background: linear-gradient(134.59deg, #e77d11 0%, #cb5201 64%);
+  border: 0;
+  border-radius: 50%;
+  box-shadow: 0 4px 12px 0 rgba(97, 62, 234, 0.32);
+  cursor: pointer;
+  display: flex;
+  height: 60px;
+  justify-content: center;
+  margin-bottom: 4px;
+  position: relative;
+  top: -4px;
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease;
+  width: 60px;
+}
+
+.learner-nav-garden-btn:active {
+  box-shadow: 0 2px 6px 0 rgba(97, 62, 234, 0.2);
+  transform: scale(0.92);
+}
+
+.learner-nav-garden-btn.is-active {
+  box-shadow:
+    0 4px 12px 0 rgba(97, 62, 234, 0.32),
+    0 0 0 3px rgba(231, 125, 17, 0.25);
+}
+
+.learner-nav-garden-label {
+  color: #9db2ce;
+  margin-top: -10px;
+}
+
+.learner-nav-garden-label.is-active {
+  color: #b14602;
+}
+
+/* Elder nav — single item per side, centred */
+.elder-nav .learner-nav-side {
+  justify-content: center;
+}
+
+@media (min-width: 1200px) {
+  .learner-nav {
+    left: 50%;
+    max-width: 428px;
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .learner-nav-item,
+  .learner-nav-garden-btn {
+    transition: none;
+  }
 }
 
 .home-menu {

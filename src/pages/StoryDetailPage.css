@@ -1,0 +1,335 @@
+/* ── Story Detail Page ──────────────────────────────────────────────────────── */
+
+.story-detail-page {
+  position: relative;
+  min-height: 100%;
+  background: #f2e9e0;
+  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 120px);
+  overflow-x: hidden;
+}
+
+/* ── Blurred hero background ─────────────────────────────────────────────────── */
+
+.story-detail-hero-blur {
+  position: absolute;
+  top: -10px;
+  left: -2px;
+  width: calc(100% + 4px);
+  height: 303px;
+  overflow: hidden;
+  filter: blur(5px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.story-detail-hero-blur img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+
+/* Gradient fade from hero into cream background */
+.story-detail-hero-fade {
+  position: absolute;
+  top: -5px;
+  left: -1px;
+  width: calc(100% + 2px);
+  height: 316px;
+  background: linear-gradient(to bottom, rgba(242, 233, 224, 0) 0%, rgba(242, 233, 224, 1) 92%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── Back button ─────────────────────────────────────────────────────────────── */
+
+.story-detail-back-btn {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 249, 233, 0.85);
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  margin: 30px 0 0 24px;
+  cursor: pointer;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  transition:
+    transform 0.12s ease,
+    opacity 0.12s ease;
+}
+
+.story-detail-back-btn:active {
+  transform: scale(0.9);
+  opacity: 0.75;
+}
+
+/* ── Book cover + title ──────────────────────────────────────────────────────── */
+
+.story-detail-cover-wrap {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 0;
+  padding-top: 8px;
+}
+
+.story-detail-cover-shadow {
+  position: absolute;
+  bottom: 56px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 126px;
+  height: 18px;
+  background: #96bf81;
+  border-radius: 50%;
+  filter: blur(10px);
+  z-index: 0;
+}
+
+.story-detail-cover {
+  position: relative;
+  z-index: 1;
+  width: 132px;
+  height: 200px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+}
+
+.story-detail-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.story-detail-cover-meta {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin-top: 16px;
+}
+
+.story-detail-title {
+  font-family: 'Satoshi', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  color: #604828;
+  letter-spacing: -0.47px;
+  text-align: center;
+}
+
+.story-detail-author {
+  font-family: 'Satoshi', sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  color: #604828;
+  text-align: center;
+}
+
+/* ── Stats row ───────────────────────────────────────────────────────────────── */
+
+.story-detail-stats {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  gap: 15px;
+  justify-content: flex-start;
+  padding: 24px 32px 0;
+}
+
+.story-detail-stat-card {
+  flex: 1;
+  max-width: 100px;
+  display: flex;
+  flex-direction: column;
+  background: #efddcc;
+  border: 0.7px solid #604828;
+  border-radius: 10px;
+  overflow: hidden;
+  height: 69px;
+}
+
+.story-detail-stat-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f2e9e0;
+  border-bottom: 0.7px solid #604828;
+  border-radius: 10px 10px 5px 5px;
+  height: 29px;
+  font-family: 'Satoshi', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  color: #604828;
+  letter-spacing: -0.47px;
+}
+
+.story-detail-stat-value {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  flex: 1;
+  font-family: 'Satoshi', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: #604828;
+  letter-spacing: -0.47px;
+}
+
+/* ── Progress card ───────────────────────────────────────────────────────────── */
+
+.story-detail-progress-card {
+  position: relative;
+  z-index: 2;
+  margin: 16px 32px 0;
+  border: 0.7px solid #604828;
+  border-radius: 10px;
+  padding: 14px;
+  background: #fff9ef;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+}
+
+.story-detail-progress-chapter {
+  display: block;
+  font-family: 'Satoshi', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: #604828;
+  text-align: center;
+  letter-spacing: -0.47px;
+  margin-bottom: 10px;
+}
+
+.story-detail-progress-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.story-detail-progress-page {
+  font-family: 'Satoshi', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  color: #604828;
+  letter-spacing: -0.47px;
+}
+
+.story-detail-progress-page strong {
+  font-weight: 700;
+}
+
+.story-detail-progress-pct {
+  font-family: 'Satoshi', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  color: #604828;
+  letter-spacing: -0.47px;
+}
+
+.story-detail-progress-track {
+  height: 4px;
+  background: #d9d9d9;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.story-detail-progress-fill {
+  height: 100%;
+  background: #cb403c;
+  border-radius: 20px;
+  transition: width 0.4s ease;
+}
+
+/* ── Synopsis ────────────────────────────────────────────────────────────────── */
+
+.story-detail-synopsis-section {
+  position: relative;
+  z-index: 2;
+  padding: 20px 32px 0;
+}
+
+.story-detail-synopsis-heading {
+  font-family: 'Satoshi', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  color: #604828;
+  letter-spacing: -0.47px;
+  margin: 0 0 10px;
+}
+
+.story-detail-synopsis-body {
+  font-family: 'Satoshi', sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  color: #604828;
+  line-height: 1.6;
+  letter-spacing: 0.5px;
+  text-align: justify;
+  margin: 0;
+}
+
+/* ── CTA button ──────────────────────────────────────────────────────────────── */
+
+.story-detail-cta-wrap {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding: 24px 27px calc(env(safe-area-inset-bottom, 0px) + 24px);
+  background: linear-gradient(to top, rgba(242, 233, 224, 1) 71%, rgba(242, 233, 224, 0.4) 100%);
+}
+
+.story-detail-cta-btn {
+  width: 100%;
+  max-width: 340px;
+  height: 39px;
+  background: #cb403c;
+  border: none;
+  border-radius: 10px;
+  font-family: 'Satoshi', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: #fff;
+  cursor: pointer;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    transform 0.12s ease,
+    opacity 0.12s ease;
+}
+
+.story-detail-cta-btn:active {
+  transform: scale(0.97);
+  opacity: 0.88;
+}
+
+/* ── Not found state ─────────────────────────────────────────────────────────── */
+
+.story-detail-not-found {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 60px 32px;
+  font-family: 'Satoshi', sans-serif;
+  font-size: 14px;
+  color: #604828;
+}

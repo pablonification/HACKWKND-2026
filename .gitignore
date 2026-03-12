@@ -43,3 +43,6 @@ yarn-error.*
 
 # local Supabase CLI temp
 supabase/.temp/
+
+# IDE-specific config
+.vscode/
