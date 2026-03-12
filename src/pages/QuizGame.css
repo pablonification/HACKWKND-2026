@@ -338,8 +338,7 @@
 }
 
 .quiz-footer-card {
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.97) 0%, rgba(249, 240, 221, 0.98) 100%);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.97) 0%, rgba(249, 240, 221, 0.98) 100%);
   border: 1px solid rgba(96, 72, 40, 0.08);
   border-radius: 18px;
   box-shadow: 0 12px 28px rgba(96, 72, 40, 0.08);
