@@ -1,6 +1,6 @@
 # Semai Translation Review Workflow
 
-This workflow operationalizes TUYANG's translation quality goals for Semai, Malay, and English.
+This workflow operationalizes TALEKA's translation quality goals for Semai, Malay, and English.
 
 ## 1) Automated Evaluation
 
@@ -59,4 +59,4 @@ When a term fails:
 ## 5) Offline Safety
 
 If SEA-LION is unavailable, the function returns glossary dictionary fallback translation and a warning message.
-This keeps the feature usable in constrained network conditions (aligned with TUYANG offline-first goals).
+This keeps the feature usable in constrained network conditions (aligned with TALEKA offline-first goals).

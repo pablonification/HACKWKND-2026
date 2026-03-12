@@ -1,10 +1,13 @@
 /* ── Story Page ────────────────────────────────────────────────────────────── */
 
 .story-page {
+  margin: 0 auto;
+  max-width: 920px;
   position: relative;
   min-height: 100%;
   background: #f2e9e0;
   padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 96px);
+  width: 100%;
 }
 
 /* Red rounded arc behind the header (matches Figma design) */
@@ -13,7 +16,7 @@
   top: -116px;
   left: 50%;
   transform: translateX(-50%);
-  width: 393px;
+  width: min(100% - 24px, 680px);
   height: 237px;
   background: #cb403c;
   border-radius: 40px;
@@ -126,7 +129,7 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
-  padding: 20px 40px 0;
+  padding: 20px 32px 0;
 }
 
 /* ── Book card ──────────────────────────────────────────────────────────────── */
@@ -194,4 +197,37 @@
   font-size: 14px;
   color: rgba(96, 72, 40, 0.55);
   padding: 32px 0;
+}
+
+@media (min-width: 768px) {
+  .story-header-title {
+    font-size: 22px;
+    padding-top: 38px;
+  }
+
+  .story-search-wrap,
+  .story-section-header,
+  .story-grid {
+    margin: 0 auto;
+    max-width: 760px;
+    width: 100%;
+  }
+
+  .story-search-wrap,
+  .story-section-header {
+    padding-inline: 32px;
+  }
+
+  .story-grid {
+    gap: 28px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 420px) {
+  .story-search-wrap,
+  .story-section-header,
+  .story-grid {
+    padding-inline: 24px;
+  }
 }

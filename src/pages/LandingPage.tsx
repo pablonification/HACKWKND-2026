@@ -1,14 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 
 import { triggerHapticFeedback } from '../lib/feedback';
+import { STORIES } from '../lib/storyData';
 import { useAuthStore } from '../stores/authStore';
 
 import bgLearner from '../../assets/landing/background-learner.png';
 import bgElder from '../../assets/landing/background-elder.png';
-import imgNafiri from '../../assets/landing/nafiri.png';
-import imgBoano from '../../assets/landing/boano.png';
-import imgSunbeFenyi from '../../assets/landing/sunbe-fenyi.png';
-import imgFifineImbo from '../../assets/landing/fifine-imbo.png';
 import imgGardenCard from '../../assets/landing/garden-card.png';
 import imgTaviCard from '../../assets/landing/tavi-card.png';
 import imgRecordCard from '../../assets/landing/record-card.png';
@@ -27,14 +24,47 @@ function SearchIcon() {
   );
 }
 
-const BOOKS = [
-  { id: 'nafiri', title: 'Nafiri', subtitle: 'A Myth of th..', img: imgNafiri },
-  { id: 'boano', title: 'Boano', subtitle: 'A Legend of..', img: imgBoano },
-  { id: 'sunbe', title: 'Sunbe & Fenyi', subtitle: 'The Story of...', img: imgSunbeFenyi },
-  { id: 'fifine', title: 'Fifine & Imbo', subtitle: 'The Tale of t..', img: imgFifineImbo },
+const BOOKS = STORIES.slice(0, 4).map((story) => ({
+  id: story.id,
+  title: story.title,
+  subtitle: story.author,
+  img: story.cover,
+}));
+
+const FEATURED_STORY =
+  [...STORIES].sort((first, second) => second.progress - first.progress)[0] ?? STORIES[0];
+
+const LEARNER_PULSE = [
+  {
+    label: 'Stories in progress',
+    value: String(STORIES.filter((story) => story.progress > 0).length),
+  },
+  {
+    label: 'Pages ready to read',
+    value: String(STORIES.reduce((total, story) => total + story.totalPages, 0)),
+  },
+  {
+    label: 'Activities available',
+    value: '5',
+  },
 ] as const;
 
-function BookRow({ label }: { label: string }) {
+const ELDER_PULSE = [
+  {
+    label: 'Archive-ready stories',
+    value: String(STORIES.length),
+  },
+  {
+    label: 'Featured folk tales',
+    value: String(BOOKS.length),
+  },
+  {
+    label: 'Translation tools',
+    value: '2',
+  },
+] as const;
+
+function BookRow({ label, onSelect }: { label: string; onSelect: (storyId: string) => void }) {
   return (
     <div className="landing-section">
       <h2 className="landing-section-title">{label}</h2>
@@ -42,13 +72,19 @@ function BookRow({ label }: { label: string }) {
         <div className="landing-books-bg" />
         <div className="landing-books-row">
           {BOOKS.map((b) => (
-            <div key={b.id} className="landing-book-item">
+            <button
+              key={b.id}
+              type="button"
+              className="landing-book-item"
+              onClick={() => onSelect(b.id)}
+              aria-label={`Open ${b.title}`}
+            >
               <div className="landing-book-cover">
                 <img src={b.img} alt={b.title} />
               </div>
               <span className="landing-book-title">{b.title}</span>
               <span className="landing-book-sub">{b.subtitle}</span>
-            </div>
+            </button>
           ))}
         </div>
       </div>
@@ -57,12 +93,6 @@ function BookRow({ label }: { label: string }) {
 }
 
 // ── Learner Landing ─────────────────────────────────────────────────────────
-
-// TODO: Replace with real leaderboard data fetched from Supabase.
-// Showing empty state until real data is available.
-const RANKING: { name: string; wl: number; rank: number; color: string; avatar: string }[] = [];
-
-const BAR_HEIGHTS: Record<number, number> = { 1: 154, 2: 116, 3: 85 };
 
 function LearnerLanding({
   firstName,
@@ -90,63 +120,59 @@ function LearnerLanding({
           aria-label="Search"
         >
           <SearchIcon />
-          <span className="landing-search-placeholder">What are you gonna do today?</span>
+          <span className="landing-search-placeholder">What would you like to explore today?</span>
         </button>
       </div>
 
-      {/* Card */}
       <div className="landing-card">
-        {/* Last read — TODO: fetch real last-read story and progress from Supabase */}
         <div className="landing-section">
           <h2 className="landing-section-title">Last Read</h2>
-          <div className="landing-last-read-empty">
-            <span>Start reading a story to see your progress here!</span>
-          </div>
-        </div>
-
-        {/* Top Tale */}
-        <BookRow label="Top Tale This Week" />
-
-        {/* Weekly Ranking */}
-        <div className="landing-section">
-          <h2 className="landing-section-title">Weekly Taleka Ranking</h2>
-          <div className="landing-ranking">
-            {RANKING.length === 0 ? (
-              <div className="landing-ranking-empty">
-                <span>Rankings coming soon. Keep reading to earn WL!</span>
+          <button
+            type="button"
+            className="landing-last-read"
+            onClick={() => onNavigate(`/home/stories/${FEATURED_STORY.id}`)}
+          >
+            <div className="landing-last-read-cover">
+              <img src={FEATURED_STORY.cover} alt={FEATURED_STORY.title} />
+            </div>
+            <div className="landing-last-read-info">
+              <span className="landing-last-read-title">{FEATURED_STORY.title}</span>
+              <span className="landing-last-read-author">by {FEATURED_STORY.author}</span>
+              <div className="landing-last-read-bar" aria-hidden="true">
+                <div
+                  className="landing-last-read-bar-fill"
+                  style={{ width: `${FEATURED_STORY.progress}%` }}
+                />
               </div>
-            ) : (
-              <>
-                <div className="landing-ranking-bars">
-                  {RANKING.map((r) => (
-                    <div key={r.rank} className="landing-ranking-col">
-                      <div className="landing-ranking-avatar-wrap">
-                        <img src={r.avatar} alt={r.name} className="landing-ranking-avatar" />
-                      </div>
-                      <div
-                        className="landing-ranking-bar"
-                        style={{ height: BAR_HEIGHTS[r.rank], background: r.color }}
-                      >
-                        <div className="landing-ranking-bar-info">
-                          <span className="landing-ranking-name">{r.name}</span>
-                          <span className="landing-ranking-wl">{r.wl} WL</span>
-                        </div>
-                        <span className="landing-ranking-num">{r.rank}</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                <div className="landing-ranking-note">
-                  🏆 {RANKING[0]?.name} is leading this week!
-                </div>
-              </>
-            )}
+              <span className="landing-last-read-pct">
+                {FEATURED_STORY.progress > 0
+                  ? `${FEATURED_STORY.progress}% complete`
+                  : `${FEATURED_STORY.totalPages} pages ready`}
+              </span>
+              <span className="landing-last-read-cta">Continue reading</span>
+            </div>
+          </button>
+        </div>
+
+        <BookRow
+          label="Top Tale This Week"
+          onSelect={(storyId) => onNavigate(`/home/stories/${storyId}`)}
+        />
+
+        <div className="landing-section">
+          <h2 className="landing-section-title">Weekly Taleka Pulse</h2>
+          <div className="landing-metrics" role="list">
+            {LEARNER_PULSE.map((item) => (
+              <article key={item.label} className="landing-metric-card" role="listitem">
+                <strong>{item.value}</strong>
+                <span>{item.label}</span>
+              </article>
+            ))}
           </div>
         </div>
 
-        {/* Whats up */}
         <div className="landing-section">
-          <h2 className="landing-section-title">Whats up on Taleka</h2>
+          <h2 className="landing-section-title">Explore Taleka</h2>
           <div className="landing-action-cards">
             <button
               type="button"
@@ -201,18 +227,30 @@ function ElderLanding({
           aria-label="Search"
         >
           <SearchIcon />
-          <span className="landing-search-placeholder">What are you gonna do today?</span>
+          <span className="landing-search-placeholder">What would you like to record today?</span>
         </button>
       </div>
 
-      {/* Card */}
       <div className="landing-card">
-        {/* Top Record */}
-        <BookRow label="Top Record This Week" />
+        <BookRow
+          label="Story Archive Highlights"
+          onSelect={(storyId) => onNavigate(`/home/stories/${storyId}`)}
+        />
 
-        {/* Whats up */}
         <div className="landing-section">
-          <h2 className="landing-section-title">Whats up on Taleka</h2>
+          <h2 className="landing-section-title">Studio readiness</h2>
+          <div className="landing-metrics" role="list">
+            {ELDER_PULSE.map((item) => (
+              <article key={item.label} className="landing-metric-card" role="listitem">
+                <strong>{item.value}</strong>
+                <span>{item.label}</span>
+              </article>
+            ))}
+          </div>
+        </div>
+
+        <div className="landing-section">
+          <h2 className="landing-section-title">Create in Taleka</h2>
           <div className="landing-action-cards">
             <button
               type="button"

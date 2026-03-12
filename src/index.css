@@ -19,15 +19,39 @@
 /* Custom fonts */
 @font-face {
   font-family: 'Satoshi';
-  src: url('/assets/fonts/Satoshi-Variable.woff2') format('woff2');
-  font-weight: 100 900;
+  src: url('/assets/fonts/Satoshi-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/assets/fonts/Satoshi-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/assets/fonts/Satoshi-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/assets/fonts/Satoshi-Bold.ttf') format('truetype');
+  font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
   font-family: 'Poppins';
-  src: url('/assets/fonts/Poppins-Regular.woff2') format('woff2');
+  src: url('/assets/fonts/Poppins-Regular.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -35,7 +59,7 @@
 
 @font-face {
   font-family: 'Poppins';
-  src: url('/assets/fonts/Poppins-Medium.woff2') format('woff2');
+  src: url('/assets/fonts/Poppins-Medium.ttf') format('truetype');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
@@ -43,21 +67,21 @@
 
 @font-face {
   font-family: 'Poppins';
-  src: url('/assets/fonts/Poppins-SemiBold.woff2') format('woff2');
+  src: url('/assets/fonts/Poppins-Medium.ttf') format('truetype');
   font-weight: 600;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'PlayfairDisplay';
-  src: url('/assets/fonts/PlayfairDisplay-Variable.woff2') format('woff2');
+  font-family: 'Playfair Display';
+  src: url('/assets/fonts/PlayfairDisplay-Variable.ttf') format('truetype');
   font-weight: 400 900;
   font-style: normal;
   font-display: swap;
 }
 
-/* Tuyang design tokens */
+/* Taleka design tokens */
 :root {
   --ion-font-family: 'Satoshi', 'Poppins', ui-sans-serif, system-ui, sans-serif;
   --ion-color-primary: #2d6a4f;
@@ -76,4 +100,18 @@
 
   --ion-background-color: #f5f0e8;
   --ion-text-color: #1a1a1a;
+}
+
+html,
+body,
+#root {
+  background: #fff9e9;
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }

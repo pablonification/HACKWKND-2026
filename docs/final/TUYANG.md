@@ -1,4 +1,4 @@
-# TUYANG: Indigenous Language Preservation Ecosystem
+# TALEKA: Indigenous Language Preservation Ecosystem
 
 **Document Type:** Solution Design & Implementation Blueprint  
 **Case Study:** Case Study 2 — Indigenous Language Preservation  
@@ -31,11 +31,11 @@
 
 ## Executive Summary
 
-**TUYANG** (meaning "we/us/our" in Semai) is a comprehensive mobile ecosystem for preserving and revitalizing the Semai language — an endangered indigenous language spoken by the Orang Asli of peninsular Malaysia.
+**TALEKA** is a comprehensive mobile ecosystem for preserving and revitalizing the Semai language — an endangered indigenous language spoken by the Orang Asli of peninsular Malaysia.
 
 The solution addresses the critical challenge outlined in Case Study 2: Indigenous Language Preservation. While commercial AI and NLP tools remain optimized for high-resource languages like English and Chinese, hundreds of indigenous languages in ASEAN face extinction without digital presence.
 
-TUYANG distinguishes itself through:
+TALEKA distinguishes itself through:
 
 - **Community-driven content**: Elders contribute recordings, youth learn
 - **Offline-first architecture**: Works in rural areas with limited connectivity
@@ -118,11 +118,11 @@ The solution is designed for the **Technical Track** submission, requiring a wor
 
 ## Solution Overview
 
-### The TUYANG Ecosystem
+### The TALEKA Ecosystem
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                         TUYANG                               │
+│                         TALEKA                               │
 │            Language Preservation Through Connection         │
 ├─────────────────────────────────────────────────────────────┤
 │                                                             │
@@ -150,7 +150,7 @@ The solution is designed for the **Technical Track** submission, requiring a wor
 
 ### Core Value Proposition
 
-| Traditional Language Apps | TUYANG |
+| Traditional Language Apps | TALEKA |
 |--------------------------|--------|
 | Vocabulary drills | Cultural immersion |
 | Individual learning | Community ecosystem |
@@ -165,7 +165,7 @@ The solution is designed for the **Technical Track** submission, requiring a wor
 
 ### "Language Lives Through People"
 
-TUYANG is built on the principle that language is not just vocabulary — it's:
+TALEKA is built on the principle that language is not just vocabulary — it's:
 
 - **Connection to ancestors** — Language carries cultural memory
 - **Place** — Words are tied to land, forest, rivers
@@ -495,7 +495,7 @@ A web-based platform bridging the gap between urban youth (who may have lost con
 
 #### Description
 
-AI Helper is not a separate module users interact with directly, but an underlying service layer that enhances every feature in TUYANG. It provides translation, speech, and intelligence capabilities.
+AI Helper is not a separate module users interact with directly, but an underlying service layer that enhances every feature in TALEKA. It provides translation, speech, and intelligence capabilities.
 
 #### Features
 
@@ -719,7 +719,7 @@ A web-based admin dashboard for managing content, users, and viewing analytics. 
 
 ```
 ┌─────────────────────────────────────────────────┐
-│  TUYANG ANALYTICS                               │
+│  TALEKA ANALYTICS                               │
 ├─────────────────────────────────────────────────┤
 │  📊 Overview                                    │
 │  ────────────────────────────────────────────  │
@@ -768,7 +768,7 @@ A web-based admin dashboard for managing content, users, and viewing analytics. 
 
 ### Overview
 
-TUYANG leverages multiple AI technologies to enhance every module:
+TALEKA leverages multiple AI technologies to enhance every module:
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -963,7 +963,7 @@ Semai communities live in **rural areas** with:
 - Expensive data plans
 - Unreliable network coverage
 
-Traditional apps won't work. TUYANG is designed from ground up to **work without internet**.
+Traditional apps won't work. TALEKA is designed from ground up to **work without internet**.
 
 ### Offline Strategy
 
@@ -1008,9 +1008,9 @@ Traditional apps won't work. TUYANG is designed from ground up to **work without
 
 ## Evaluation Criteria Alignment
 
-### How TUYANG Meets BorNEO HackWknd 2026 Criteria
+### How TALEKA Meets BorNEO HackWknd 2026 Criteria
 
-| Criteria | Weight | TUYANG Alignment |
+| Criteria | Weight | TALEKA Alignment |
 |----------|--------|------------------|
 | **Report** | 25% | Comprehensive problem analysis, SDG alignment, methodology |
 | **AI Integration** | 10% | 4+ AI features: ASR, TTS, translation, sentence generation |
@@ -1022,7 +1022,7 @@ Traditional apps won't work. TUYANG is designed from ground up to **work without
 
 ### SDG Alignment
 
-| SDG | TUYANG Contribution |
+| SDG | TALEKA Contribution |
 |-----|-------------------|
 | **SDG 4: Quality Education** | Making language education accessible to all |
 | **SDG 10: Reduced Inequalities** | Giving indigenous communities digital tools |

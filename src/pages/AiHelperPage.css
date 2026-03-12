@@ -20,25 +20,24 @@
   display: flex;
   flex-direction: column;
   min-height: 100dvh;
-  padding: calc(env(safe-area-inset-top, 0px) 0px) 0 calc(env(safe-area-inset-bottom, 0px) + 88px);
+  padding: 0 0 calc(env(safe-area-inset-bottom, 0px) + 132px);
 }
 
 .tavi-intro-mascot-wrap {
   align-items: center;
   display: flex;
-  flex: 1;
   justify-content: center;
   padding: 16px 24px 0;
   position: relative;
-  max-height: 300px;
+  min-height: 220px;
 }
 
 .tavi-intro-mascot {
   border-radius: 50%;
-  height: 240px;
+  height: 208px;
   object-fit: contain;
   position: relative;
-  width: 240px;
+  width: 208px;
   z-index: 1;
 
   animation: tavi-float 3.6s ease-in-out infinite;
@@ -56,13 +55,13 @@
 
 .tavi-intro-aura {
   border-radius: 50%;
-  height: 340px;
+  height: 300px;
   left: 50%;
   pointer-events: none;
   position: absolute;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: 340px;
+  width: 300px;
   background: radial-gradient(
     circle,
     rgba(203, 64, 60, 0.6) 0%,
@@ -172,24 +171,24 @@
   line-height: 1.6;
   margin: 0 auto;
   max-width: 280px;
-  padding-top: 4em;
-}
-
-.tavi-intro-footer {
-  padding: 32px 24px 16px;
+  padding-top: 18px;
 }
 
 .tavi-intro-cta {
+  align-items: center;
   background: #cb403c;
   border: 0;
   border-radius: 100px;
   color: #fff;
   cursor: pointer;
+  display: inline-flex;
   font-family: 'Satoshi', 'Poppins', ui-sans-serif, system-ui, sans-serif;
   font-size: 16px;
   font-weight: 600;
   height: 52px;
+  justify-content: center;
   letter-spacing: 0.2px;
+  margin-top: 22px;
   transition:
     transform 120ms ease,
     opacity 120ms ease;

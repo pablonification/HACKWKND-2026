@@ -319,7 +319,7 @@ export function AuthPage() {
                             className="auth-input"
                             type="text"
                             autoComplete="name"
-                            placeholder="Tuyang Surya Putra"
+                            placeholder="Taleka Surya Putra"
                             value={fullName}
                             onChange={(event) => setFullName(event.target.value)}
                             disabled={loading}
@@ -336,7 +336,7 @@ export function AuthPage() {
                           type="email"
                           autoComplete="email"
                           inputMode="email"
-                          placeholder="tuyang@gmail.com"
+                          placeholder="taleka@gmail.com"
                           value={email}
                           onChange={(event) => setEmail(event.target.value)}
                           disabled={loading}

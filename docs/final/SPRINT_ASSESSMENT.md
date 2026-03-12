@@ -1,4 +1,4 @@
-# TUYANG Sprint Plan vs Codebase State Assessment
+# TALEKA Sprint Plan vs Codebase State Assessment
 
 **Date:** March 4–5, 2026  
 **Assessment Type:** Day 1 Completion & Next Task Identification

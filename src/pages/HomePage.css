@@ -1363,10 +1363,10 @@
 
 .learner-nav-garden-btn {
   align-items: center;
-  background: linear-gradient(134.59deg, #e77d11 0%, #cb5201 64%);
-  border: 0;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(157, 178, 206, 0.3);
   border-radius: 50%;
-  box-shadow: 0 4px 12px 0 rgba(97, 62, 234, 0.32);
+  box-shadow: 0 10px 24px rgba(30, 41, 59, 0.12);
   cursor: pointer;
   display: flex;
   height: 60px;
@@ -1386,8 +1386,9 @@
 }
 
 .learner-nav-garden-btn.is-active {
+  background: linear-gradient(134.59deg, #e77d11 0%, #cb5201 64%);
   box-shadow:
-    0 4px 12px 0 rgba(97, 62, 234, 0.32),
+    0 10px 24px rgba(177, 70, 2, 0.28),
     0 0 0 3px rgba(231, 125, 17, 0.25);
 }
 

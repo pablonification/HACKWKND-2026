@@ -4,8 +4,8 @@ const isDev = process.env.CAPACITOR_DEV === 'true';
 const devServerUrl = process.env.CAPACITOR_DEV_SERVER_URL;
 
 const config: CapacitorConfig = {
-  appId: 'com.tuyang.app',
-  appName: 'Tuyang',
+  appId: 'com.taleka.app',
+  appName: 'Taleka',
   webDir: 'dist',
   ...(isDev && devServerUrl
     ? {

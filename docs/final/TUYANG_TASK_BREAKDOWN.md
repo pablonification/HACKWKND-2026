@@ -1,4 +1,4 @@
-# TUYANG: Task Breakdown Document
+# TALEKA: Task Breakdown Document
 
 **Project:** Indigenous Language Preservation Ecosystem  
 **Hackathon:** BorNEO HackWknd 2026  

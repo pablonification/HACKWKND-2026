@@ -1,6 +1,6 @@
 # AI Helper (OmniASR Proxy)
 
-This service implements `POST /ai/transcribe` for TUYANG and forwards audio to Meta OmniASR with Semai (`sea_Latn`) by default.
+This service implements `POST /ai/transcribe` for TALEKA and forwards audio to Meta OmniASR with Semai (`sea_Latn`) by default.
 
 ## Why it exists
 

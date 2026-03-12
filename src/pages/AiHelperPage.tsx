@@ -15,12 +15,11 @@ import {
   type LearningTrack,
 } from '../lib/aiCoach';
 import { triggerHapticFeedback } from '../lib/feedback';
-import { getBoolean, getJSON, setBoolean, setJSON } from '../lib/storage';
+import { getJSON, setJSON } from '../lib/storage';
 import { useAuthStore } from '../stores/authStore';
 
 import './AiHelperPage.css';
 
-const TAVI_INTRO_SEEN_KEY = 'tavi-intro-seen';
 const TAVI_SESSION_STATE_KEY = 'tavi-session-state-v1';
 
 type MessageRole = 'user' | 'tavi';
@@ -70,14 +69,14 @@ const createId = () => {
 
 const getDisplayName = (email: string | undefined, fullName: unknown): string => {
   if (typeof fullName === 'string' && fullName.trim()) {
-    return fullName.trim().split(/\s+/)[0] ?? 'Tuyang';
+    return fullName.trim().split(/\s+/)[0] ?? 'Taleka';
   }
 
   if (typeof email === 'string' && email.trim()) {
-    return email.split('@')[0] ?? 'Tuyang';
+    return email.split('@')[0] ?? 'Taleka';
   }
 
-  return 'Tuyang';
+  return 'Taleka';
 };
 
 const renderMarkdownInline = (value: string): ReactNode[] => {
@@ -273,9 +272,6 @@ function TaviIntro({ onStart, onBack }: { onStart: () => void; onBack: () => voi
           Chat naturally, get grounded answers, and keep practicing Semai one conversation at a
           time.
         </p>
-      </div>
-
-      <div className="tavi-intro-footer">
         <button className="tavi-intro-cta" onClick={onStart}>
           Get Started
         </button>
@@ -365,9 +361,8 @@ function ChatBubble({
 
 export function AiHelperPage() {
   const navigate = useNavigate();
-  const [, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const { user } = useAuthStore();
-  const [showIntro, setShowIntro] = useState<boolean | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState('');
   const [isSending, setIsSending] = useState(false);
@@ -387,11 +382,9 @@ export function AiHelperPage() {
     () => getDisplayName(user?.email, user?.user_metadata?.full_name),
     [user?.email, user?.user_metadata?.full_name],
   );
+  const showIntro = searchParams.get('chat') !== '1';
 
   useEffect(() => {
-    void getBoolean(TAVI_INTRO_SEEN_KEY, false).then((seen) => {
-      setShowIntro(!seen);
-    });
     void getJSON<PersistedTaviSession>(TAVI_SESSION_STATE_KEY, {
       sessionPhase: 'idle',
       track: 'vocabulary_first',
@@ -409,14 +402,6 @@ export function AiHelperPage() {
   }, [sessionPhase, track]);
 
   useEffect(() => {
-    if (showIntro === false) {
-      setSearchParams({ chat: '1' }, { replace: true });
-    } else if (showIntro === true) {
-      setSearchParams({}, { replace: true });
-    }
-  }, [showIntro, setSearchParams]);
-
-  useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
@@ -427,8 +412,7 @@ export function AiHelperPage() {
 
   const handleStartChat = async () => {
     triggerHapticFeedback('medium');
-    await setBoolean(TAVI_INTRO_SEEN_KEY, true);
-    setShowIntro(false);
+    setSearchParams({ chat: '1' }, { replace: true });
   };
 
   const handleUseFollowUp = (prompt: string) => {
@@ -622,14 +606,6 @@ export function AiHelperPage() {
     triggerHapticFeedback('light');
   };
 
-  if (showIntro === null) {
-    return (
-      <div className="tavi-loading-screen">
-        <IonSpinner name="crescent" />
-      </div>
-    );
-  }
-
   if (showIntro) {
     return <TaviIntro onStart={() => void handleStartChat()} onBack={handleBack} />;
   }
@@ -643,7 +619,7 @@ export function AiHelperPage() {
             aria-label="Go back to intro"
             onClick={() => {
               triggerHapticFeedback('light');
-              setShowIntro(true);
+              setSearchParams({}, { replace: true });
             }}
           >
             <span className="tavi-back-chevron" aria-hidden="true" />
