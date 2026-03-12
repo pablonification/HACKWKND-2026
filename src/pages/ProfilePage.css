@@ -60,7 +60,7 @@
 }
 
 .profile-loading-shell .profile-cards {
-  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 95px);
+  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 116px);
 }
 
 .profile-loading-shell .profile-hero {
@@ -283,7 +283,7 @@
   flex-direction: column;
   gap: 9px;
   margin: 27px auto 0;
-  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 95px);
+  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 116px);
   width: min(331px, calc(100% - 62px));
 }
 

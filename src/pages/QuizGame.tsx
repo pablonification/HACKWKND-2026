@@ -1,7 +1,7 @@
-import { IonSpinner } from '@ionic/react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { AppSkeleton } from '../components/ui';
 import { triggerHapticFeedback } from '../lib/feedback';
 import { recordSwipe, updateStreak } from '../lib/gardenSync';
 import { useUserLevel } from '../lib/useUserLevel';
@@ -17,6 +17,38 @@ type ChoiceState = 'idle' | 'correct' | 'wrong';
 
 const QUESTIONS_PER_ROUND = 5;
 const AUTO_ADVANCE_MS = 3000;
+
+const QuizLoadingSkeleton = () => (
+  <div className="quiz-shell quiz-shell--loading quiz-shell--skeleton" aria-label="Loading quiz">
+    <div className="quiz-topbar">
+      <AppSkeleton className="app-skeleton--circle" width={40} height={40} />
+      <span className="quiz-topbar-spacer" aria-hidden="true" />
+      <span className="quiz-topbar-spacer" aria-hidden="true" />
+    </div>
+
+    <div className="quiz-level-bar-row">
+      <AppSkeleton className="app-skeleton--pill" width={90} height={14} />
+      <AppSkeleton className="app-skeleton--pill" width={44} height={14} />
+    </div>
+    <div className="quiz-level-bar-track">
+      <AppSkeleton width="58%" height="100%" />
+    </div>
+
+    <div className="quiz-skeleton-copy">
+      <AppSkeleton className="app-skeleton--pill" width="34%" height={15} />
+      <AppSkeleton className="app-skeleton--pill quiz-skeleton-question" width="82%" height={24} />
+      <AppSkeleton className="app-skeleton--pill quiz-skeleton-question" width="66%" height={24} />
+    </div>
+
+    <div className="quiz-choices-card quiz-choices-card--skeleton" aria-hidden="true">
+      <div className="quiz-choices-list">
+        {Array.from({ length: 4 }).map((_, index) => (
+          <AppSkeleton key={index} className="quiz-choice quiz-choice--skeleton" />
+        ))}
+      </div>
+    </div>
+  </div>
+);
 
 // ─── Component ───────────────────────────────────────────────────────────────
 
@@ -42,7 +74,7 @@ export function QuizGame() {
   const autoAdvanceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // ── User level (for progress bar) ───────────────────────────────────────
-  const { label: levelLabel, percentToNext: levelPercent, refresh: refreshLevel } = useUserLevel();
+  const { refresh: refreshLevel } = useUserLevel();
 
   // ── Load questions on mount ──────────────────────────────────────────────
   useEffect(() => {
@@ -120,6 +152,7 @@ export function QuizGame() {
   );
 
   const handleNext = useCallback(() => {
+    triggerHapticFeedback('light');
     if (autoAdvanceTimer.current) clearTimeout(autoAdvanceTimer.current);
     if (current + 1 >= questions.length) {
       finishQuiz();
@@ -130,6 +163,7 @@ export function QuizGame() {
   }, [current, questions.length, finishQuiz]);
 
   const handleRestart = useCallback(() => {
+    triggerHapticFeedback('light');
     setLoading(true);
     setError(null);
     setScore(0);
@@ -165,12 +199,7 @@ export function QuizGame() {
 
   // ─── Render: Loading ──────────────────────────────────────────────────────
   if (loading) {
-    return (
-      <div className="quiz-shell quiz-shell--loading">
-        <IonSpinner name="crescent" className="quiz-spinner" />
-        <p className="quiz-loading-text">Loading quiz…</p>
-      </div>
-    );
+    return <QuizLoadingSkeleton />;
   }
 
   // ─── Render: Error ────────────────────────────────────────────────────────
@@ -192,7 +221,7 @@ export function QuizGame() {
   if (finished) {
     const perfect = score === questions.length;
     return (
-      <div className="quiz-shell">
+      <div className="quiz-shell quiz-shell--result">
         {/* Header */}
         <div className="vocab-topbar">
           <button
@@ -214,7 +243,7 @@ export function QuizGame() {
               />
             </svg>
           </button>
-          <span className="vocab-level-label">{levelLabel}</span>
+          <span className="quiz-topbar-spacer" aria-hidden="true" />
           <span className="quiz-topbar-spacer" aria-hidden="true" />
         </div>
 
@@ -240,6 +269,10 @@ export function QuizGame() {
   // ─── Render: Question ─────────────────────────────────────────────────────
   const q = questions[current];
   const answered = selected !== null;
+  const quizProgress = questions.length
+    ? ((current + (answered ? 1 : 0)) / questions.length) * 100
+    : 0;
+  const quizProgressPct = Math.round(quizProgress);
 
   return (
     <div className="quiz-shell">
@@ -264,23 +297,23 @@ export function QuizGame() {
             />
           </svg>
         </button>
-        <span className="vocab-level-label">{levelLabel}</span>
+        <span className="quiz-topbar-spacer" aria-hidden="true" />
         <span className="quiz-topbar-spacer" aria-hidden="true" />
       </div>
 
       {/* Level progress bar */}
       <div className="quiz-level-bar-row">
         <span className="quiz-level-label">Progress</span>
-        <span className="quiz-level-pct">{levelPercent}%</span>
+        <span className="quiz-level-pct">{quizProgressPct}%</span>
       </div>
       <div
         className="quiz-level-bar-track"
         role="progressbar"
-        aria-valuenow={levelPercent}
+        aria-valuenow={quizProgressPct}
         aria-valuemax={100}
-        aria-label={`${levelLabel} progress`}
+        aria-label="Quiz progress"
       >
-        <div className="quiz-level-bar-fill" style={{ width: `${levelPercent}%` }} />
+        <div className="quiz-level-bar-fill" style={{ width: `${quizProgress}%` }} />
       </div>
 
       {/* Progress */}
@@ -366,6 +399,26 @@ export function QuizGame() {
             </p>
           </div>
           <p className="quiz-reveal-explanation">{q.explanation}</p>
+        </div>
+      )}
+
+      {!answered && (
+        <div className="quiz-footer-panel" aria-label="Quiz helper">
+          <div className="quiz-footer-card">
+            <p className="quiz-footer-eyebrow">Current word</p>
+            <p className="quiz-footer-word">{q.semai}</p>
+            <div className="quiz-footer-progress-track" aria-hidden="true">
+              <div className="quiz-footer-progress-fill" style={{ width: `${quizProgress}%` }} />
+            </div>
+          </div>
+
+          <div className="quiz-footer-card">
+            <p className="quiz-footer-eyebrow">Tip</p>
+            <p className="quiz-footer-copy">
+              Read every answer fully before tapping. The explanation below will help reinforce the
+              word after each guess.
+            </p>
+          </div>
         </div>
       )}
     </div>

@@ -9,6 +9,7 @@ import eyeIcon from '../../assets/auth/icon-eye.png';
 import facebookIcon from '../../assets/auth/icon-facebook.png';
 import googleIcon from '../../assets/auth/icon-google.png';
 import landingIllustration from '../../assets/auth/landing-illustration.png';
+import { TalekaWordmark } from '../components/ui';
 import { requestPasswordReset, signInWithEmail, signUpWithEmail } from '../lib/auth';
 import { triggerHapticFeedback } from '../lib/feedback';
 import { supabase } from '../lib/supabase';
@@ -497,10 +498,7 @@ export function AuthPage() {
             {mode === 'landing' && (
               <section className="auth-landing auth-animate-in" key="landing">
                 <div className="auth-landing-core">
-                  <div className="auth-landing-brand" aria-label="Taleka">
-                    <span className="auth-landing-brand-initial">T</span>
-                    <span className="auth-landing-brand-text">aleka</span>
-                  </div>
+                  <TalekaWordmark className="auth-landing-brand" />
 
                   <div className="auth-landing-copy">
                     <h1>Every story keeps a language alive</h1>

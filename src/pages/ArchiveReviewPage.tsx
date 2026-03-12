@@ -1,4 +1,4 @@
-import { IonIcon, IonSpinner, IonToast } from '@ionic/react';
+import { IonIcon, IonToast } from '@ionic/react';
 import {
   arrowBackOutline,
   checkmarkOutline,
@@ -33,6 +33,7 @@ import {
   type StudioTranscriptionMatch,
   type StudioWordReplacement,
 } from '../lib/elderStudio';
+import { AppSkeleton } from '../components/ui';
 import { triggerHapticFeedback } from '../lib/feedback';
 import { findSemaiDictionaryHints, type SemaiDictionaryHint } from '../lib/semaiDictionary';
 import { normalizeSemaiText } from '../lib/semaiText';
@@ -148,6 +149,35 @@ const toErrorMessage = (error: unknown): string => {
   }
   return 'Unable to complete that review action right now.';
 };
+
+const ArchiveReviewLoadingSkeleton = () => (
+  <div
+    className="studio-loading-state studio-loading-state--stack"
+    aria-label="Loading review queue"
+  >
+    {Array.from({ length: 2 }).map((_, index) => (
+      <div key={index} className="studio-skeleton-card review-skeleton-card">
+        <div className="studio-skeleton-card-header">
+          <AppSkeleton className="app-skeleton--pill" width="38%" height={16} />
+          <AppSkeleton className="app-skeleton--pill" width={94} height={24} />
+        </div>
+        <div className="studio-skeleton-card-lines">
+          <AppSkeleton className="app-skeleton--pill" width="92%" height={14} />
+          <AppSkeleton className="app-skeleton--pill" width="80%" height={14} />
+        </div>
+        <div className="review-skeleton-fields">
+          <AppSkeleton className="app-skeleton--card" width="100%" height={104} />
+          <AppSkeleton className="app-skeleton--card" width="100%" height={84} />
+        </div>
+        <div className="studio-skeleton-card-actions">
+          <AppSkeleton className="app-skeleton--pill" width={108} height={36} />
+          <AppSkeleton className="app-skeleton--pill" width={134} height={36} />
+          <AppSkeleton className="app-skeleton--pill" width={118} height={36} />
+        </div>
+      </div>
+    ))}
+  </div>
+);
 
 export function ArchiveReviewPage() {
   const navigate = useNavigate();
@@ -649,9 +679,7 @@ export function ArchiveReviewPage() {
         </section>
 
         {isLoading ? (
-          <div className="studio-loading-state">
-            <IonSpinner name="crescent" />
-          </div>
+          <ArchiveReviewLoadingSkeleton />
         ) : reviewableRecordings.length === 0 ? (
           <div className="studio-empty-state review-empty-state">
             <p>No recordings in this queue.</p>

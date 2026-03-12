@@ -1,8 +1,11 @@
 import { useState } from 'react';
-import { IonToast } from '@ionic/react';
-import { useNavigate } from 'react-router-dom';
+import { IonIcon, IonToast } from '@ionic/react';
+import { arrowBackOutline } from 'ionicons/icons';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { triggerHapticFeedback } from '../lib/feedback';
+import { isExploreEntry } from '../lib/navigationEntry';
+import { useEdgeSwipeBack } from '../lib/useEdgeSwipeBack';
 
 import wordleImg from '../../assets/garden/wordle.png';
 import vocabMasterImg from '../../assets/garden/vocab-master.png';
@@ -34,7 +37,23 @@ const GAME_CARDS = [
 
 export function LanguageGardenTab() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [toastOpen, setToastOpen] = useState(false);
+  const fromExplore = isExploreEntry(searchParams);
+
+  const navigateBackFromExplore = () => {
+    if (window.history.length > 1) {
+      navigate(-1);
+      return;
+    }
+
+    navigate('/home/landing', { replace: true });
+  };
+
+  const edgeSwipeBackHandlers = useEdgeSwipeBack({
+    enabled: fromExplore,
+    onBack: navigateBackFromExplore,
+  });
 
   const handleCardTap = (id: string) => {
     triggerHapticFeedback('light');
@@ -50,8 +69,21 @@ export function LanguageGardenTab() {
   };
 
   return (
-    <section className="garden-shell">
+    <section className="garden-shell" {...edgeSwipeBackHandlers}>
       <header className="garden-header">
+        {fromExplore ? (
+          <button
+            type="button"
+            className="garden-back-button"
+            onClick={() => {
+              triggerHapticFeedback('light');
+              navigateBackFromExplore();
+            }}
+            aria-label="Back to home"
+          >
+            <IonIcon icon={arrowBackOutline} />
+          </button>
+        ) : null}
         <h1 className="garden-title">Garden</h1>
         <p className="garden-subtitle">What do you want to play today?</p>
       </header>

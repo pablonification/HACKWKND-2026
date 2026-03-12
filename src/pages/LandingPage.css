@@ -11,6 +11,74 @@
   background: #fff9e9;
 }
 
+.landing-shell--skeleton {
+  overflow: hidden;
+}
+
+.landing-skeleton-hero {
+  height: 310px;
+  overflow: hidden;
+  position: relative;
+}
+
+.landing-skeleton-hero--elder {
+  height: 290px;
+}
+
+.landing-skeleton-hero-block {
+  border-radius: 0 0 32px 32px;
+  height: 100%;
+  width: 100%;
+}
+
+.landing-skeleton-greeting {
+  left: 24px;
+  max-width: 172px;
+  position: absolute;
+  top: 34px;
+}
+
+.landing-search-bar--skeleton {
+  cursor: default;
+}
+
+.landing-card--skeleton {
+  gap: 28px;
+}
+
+.landing-section--skeleton {
+  gap: 14px;
+}
+
+.landing-skeleton-section-title {
+  max-width: 168px;
+}
+
+.landing-skeleton-card {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.82);
+  border-radius: 22px;
+  box-shadow: 0 12px 24px rgba(96, 72, 40, 0.08);
+  display: flex;
+  gap: 14px;
+  min-height: 120px;
+  padding: 14px;
+}
+
+.landing-skeleton-card-block {
+  border-radius: 16px;
+  flex-shrink: 0;
+  height: 92px;
+  width: 84px;
+}
+
+.landing-skeleton-lines {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 10px;
+}
+
 /* ─── Hero ───────────────────────────────────────────────────────────────── */
 
 .landing-hero {
@@ -130,7 +198,7 @@
   margin-top: -32px; /* pull up over hero */
   max-width: 720px;
   min-height: 0;
-  padding: 30px 24px calc(env(safe-area-inset-bottom, 0px) + 120px); /* 120 ≥ nav height (107px) */
+  padding: 30px 24px calc(env(safe-area-inset-bottom, 0px) + 138px);
   position: relative;
   width: 100%;
   z-index: 1;
@@ -367,15 +435,163 @@
   line-height: 1.4;
 }
 
-/* ─── Action cards ("Whats up") ─────────────────────────────────────────────── */
+/* ─── Weekly ranking ───────────────────────────────────────────────────────── */
+
+.landing-ranking-board {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.landing-ranking-stage {
+  align-items: flex-end;
+  display: flex;
+  justify-content: center;
+  padding: 20px 0 0;
+}
+
+.landing-ranking-podium {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 96px;
+}
+
+.landing-ranking-avatar-wrap {
+  margin-bottom: -10px;
+  position: relative;
+  z-index: 1;
+}
+
+.landing-ranking-avatar-shell {
+  background: #67adcb;
+  border-radius: 14px;
+  align-items: center;
+  display: flex;
+  height: 68px;
+  justify-content: center;
+  overflow: visible;
+  width: 68px;
+}
+
+.landing-ranking-avatar-shell--first {
+  overflow: hidden;
+}
+
+.landing-ranking-avatar-img {
+  display: block;
+  height: auto;
+  object-fit: contain;
+  width: 100%;
+}
+
+.landing-ranking-avatar-img--leader-fallback {
+  height: 108px;
+  object-fit: contain;
+  object-position: center bottom;
+  transform: translateY(4px) scale(1.15);
+  width: 96px;
+}
+
+.landing-ranking-avatar-img--leader-photo {
+  height: 100%;
+  object-fit: cover;
+  transform: none;
+  width: 100%;
+}
+
+.landing-ranking-avatar-img--bayu,
+.landing-ranking-avatar-img--ajeng {
+  height: 86px;
+  object-fit: contain;
+  transform: none;
+  width: 68px;
+}
+
+.landing-ranking-podium-body {
+  align-items: center;
+  color: #fff;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 22px 8px 16px;
+  text-align: center;
+  width: 100%;
+}
+
+.landing-ranking-podium-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.landing-ranking-podium-name {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.22px;
+  line-height: 1;
+}
+
+.landing-ranking-podium-score {
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.landing-ranking-podium-rank {
+  font-size: 44px;
+  font-weight: 700;
+  letter-spacing: -0.22px;
+  line-height: 0.85;
+}
+
+.landing-ranking-podium--second .landing-ranking-podium-body {
+  background: #af7ea7;
+  border-radius: 10px 10px 0 0;
+  min-height: 132px;
+}
+
+.landing-ranking-podium--first .landing-ranking-podium-body {
+  background: #cb403c;
+  border-radius: 10px 10px 0 0;
+  min-height: 178px;
+}
+
+.landing-ranking-podium--third .landing-ranking-podium-body {
+  background: #3788c6;
+  border-radius: 10px 10px 0 0;
+  min-height: 102px;
+}
+
+.landing-ranking-message {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow:
+    0px 4.4px 4.4px rgba(0, 0, 0, 0.25),
+    -2.2px 0px 4.4px rgba(0, 0, 0, 0.25),
+    1.1px -1.1px 4.4px rgba(0, 0, 0, 0.25);
+  color: #604828;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: -0.22px;
+  line-height: 1.25;
+  margin-top: -2px;
+  padding: 8px 16px;
+  text-align: center;
+}
+
+/* ─── Action cards ("Explore Taleka") ─────────────────────────────────────── */
 
 .landing-action-cards {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 24px;
 }
 
 .landing-action-card {
+  align-items: stretch;
   border: none;
   border-radius: 20px;
   cursor: pointer;
@@ -396,19 +612,20 @@
 }
 
 .landing-action-card-img {
+  display: block;
   height: 100%;
-  left: 0;
   object-fit: cover;
-  object-position: center;
   pointer-events: none;
-  position: absolute;
-  top: 0;
   width: 100%;
 }
 
 @media (min-width: 768px) {
   .landing-shell {
     background: radial-gradient(circle at top, rgba(255, 255, 255, 0.45), transparent 42%), #fff9e9;
+  }
+
+  .landing-skeleton-hero {
+    height: 360px;
   }
 
   .landing-hero {
@@ -431,6 +648,10 @@
     border-radius: 36px;
     box-shadow: 0 -8px 30px rgba(96, 72, 40, 0.08);
     padding-inline: 32px;
+  }
+
+  .landing-skeleton-greeting {
+    left: max(40px, calc((100vw - 720px) / 2 + 24px));
   }
 
   .landing-books-row {
@@ -464,11 +685,20 @@
   .landing-action-card:first-child {
     grid-column: 1 / -1;
   }
+
+  .landing-ranking-stage {
+    justify-content: flex-start;
+    padding-inline: 0;
+  }
 }
 
 @media (max-width: 640px) {
   .landing-metrics {
     grid-template-columns: 1fr;
+  }
+
+  .landing-skeleton-card {
+    min-height: 108px;
   }
 }
 

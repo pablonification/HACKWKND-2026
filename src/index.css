@@ -81,6 +81,14 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'Playfair Display';
+  src: url('/assets/fonts/PlayfairDisplay-Italic-Variable.ttf') format('truetype');
+  font-weight: 400 900;
+  font-style: italic;
+  font-display: swap;
+}
+
 /* Taleka design tokens */
 :root {
   --ion-font-family: 'Satoshi', 'Poppins', ui-sans-serif, system-ui, sans-serif;
@@ -100,6 +108,11 @@
 
   --ion-background-color: #f5f0e8;
   --ion-text-color: #1a1a1a;
+  --app-skeleton-base: #e9e1d2;
+  --app-skeleton-highlight: rgba(255, 255, 255, 0.72);
+  --app-press-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --app-press-duration: 140ms;
+  --app-focus-ring: rgba(203, 64, 60, 0.18);
 }
 
 html,
@@ -109,9 +122,155 @@ body,
   min-height: 100%;
 }
 
+html,
+body,
+#root,
+* {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+#root::-webkit-scrollbar,
+*::-webkit-scrollbar {
+  display: none;
+  height: 0;
+  width: 0;
+}
+
 body {
   margin: 0;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+button,
+a,
+[role='button'],
+ion-button,
+ion-tab-button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+a,
+[role='button'],
+ion-button,
+ion-tab-button {
+  transition:
+    transform var(--app-press-duration) var(--app-press-ease),
+    box-shadow 180ms ease,
+    filter 180ms ease,
+    opacity 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease;
+}
+
+input,
+textarea,
+select {
+  transition:
+    box-shadow 180ms ease,
+    border-color 180ms ease,
+    background-color 180ms ease,
+    transform var(--app-press-duration) var(--app-press-ease);
+}
+
+/* Prevent iPhone Safari from zooming when editable controls receive focus. */
+@supports (-webkit-touch-callout: none) {
+  input,
+  textarea,
+  select,
+  ion-input,
+  ion-textarea,
+  ion-select {
+    font-size: 16px !important;
+  }
+}
+
+button:not(:disabled):active,
+a:active,
+[role='button']:not([aria-disabled='true']):active,
+ion-button:active,
+ion-tab-button:active {
+  transform: scale(0.98);
+  filter: brightness(0.985);
+}
+
+button:focus-visible,
+a:focus-visible,
+[role='button']:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+ion-button:focus-visible,
+ion-tab-button:focus-visible {
+  box-shadow: 0 0 0 3px var(--app-focus-ring);
+  outline: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  button:not(:disabled):hover,
+  a:hover,
+  [role='button']:not([aria-disabled='true']):hover,
+  ion-button:hover,
+  ion-tab-button:hover {
+    transform: translateY(-1px);
+  }
+}
+
+@keyframes app-skeleton-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.app-skeleton {
+  background: var(--app-skeleton-base);
+  overflow: hidden;
+  position: relative;
+}
+
+.app-skeleton::after {
+  animation: app-skeleton-shimmer 1400ms ease-in-out infinite;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    var(--app-skeleton-highlight) 48%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  content: '';
+  inset: 0;
+  position: absolute;
+  transform: translateX(-100%);
+}
+
+.app-skeleton--circle {
+  border-radius: 999px;
+}
+
+.app-skeleton--pill {
+  border-radius: 999px;
+}
+
+.app-skeleton--card {
+  border-radius: 24px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .app-skeleton::after {
+    display: none;
+  }
 }

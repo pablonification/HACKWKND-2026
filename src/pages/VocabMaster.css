@@ -19,6 +19,12 @@
   gap: 16px;
 }
 
+.vocab-shell--skeleton {
+  align-items: stretch;
+  gap: 0;
+  justify-content: flex-start;
+}
+
 /* ─── Top bar ─────────────────────────────────────────────────────────────── */
 
 .vocab-topbar {
@@ -28,8 +34,36 @@
   padding: 0 24px;
 }
 
+.vocab-back-btn {
+  -webkit-tap-highlight-color: transparent;
+  align-items: center;
+  appearance: none;
+  background: transparent;
+  border: 0;
+  border-radius: 999px;
+  box-shadow: none;
+  color: #604828;
+  cursor: pointer;
+  display: inline-flex;
+  height: 40px;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  transition:
+    opacity 120ms ease,
+    transform 120ms ease,
+    background-color 120ms ease;
+  width: 40px;
+}
+
+.vocab-back-btn:focus-visible {
+  outline: 2px solid rgba(175, 126, 167, 0.55);
+  outline-offset: 2px;
+}
+
 .vocab-back-btn:active {
   opacity: 0.6;
+  transform: scale(0.96);
 }
 
 /* Level label — left side */
@@ -141,6 +175,50 @@
   position: relative;
 }
 
+.vocab-deck-area--skeleton {
+  gap: 0;
+  min-height: 430px;
+  padding-top: 56px;
+}
+
+.vocab-skeleton-card {
+  width: 267px;
+}
+
+.vocab-skeleton-card--back {
+  height: 208px;
+  margin-bottom: -196px;
+  opacity: 0.78;
+  transform: translateX(-6px);
+}
+
+.vocab-skeleton-card--mid {
+  height: 224px;
+  margin-bottom: -206px;
+  opacity: 0.88;
+  transform: translateX(-3px);
+}
+
+.vocab-skeleton-card--front {
+  height: 237px;
+  transform: translateX(-1px);
+}
+
+.vocab-skeleton-copy {
+  display: grid;
+  gap: 12px;
+  justify-items: center;
+  margin-top: 34px;
+  width: min(100%, 320px);
+}
+
+.vocab-skeleton-actions {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  padding: 18px 24px 0;
+}
+
 /* ─── Stacked background cards ────────────────────────────────────────────── */
 
 /* Each back card shows only its top edge peeking above the card in front */
@@ -148,59 +226,72 @@
   border-radius: 20px;
   flex-shrink: 0;
   overflow: hidden;
+  will-change: transform, width, height, margin-bottom;
   transition:
-    transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1),
-    width 300ms cubic-bezier(0.34, 1.56, 0.64, 1),
-    height 300ms cubic-bezier(0.34, 1.56, 0.64, 1),
-    margin-bottom 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform 380ms cubic-bezier(0.22, 1, 0.36, 1),
+    width 380ms cubic-bezier(0.22, 1, 0.36, 1),
+    height 380ms cubic-bezier(0.22, 1, 0.36, 1),
+    margin-bottom 380ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 380ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* card4 — furthest back, topmost */
 .vocab-card-stack--back3 {
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-  transform: translateX(-6px);
+  opacity: 0.74;
+  transform: translateX(-7px);
   z-index: 0;
-  height: 208px;
-  width: 236px;
-  margin-bottom: -196px; /* 208 - 28px peek */
+  height: 202px;
+  width: 228px;
+  margin-bottom: -174px; /* 202 - 28px peek */
 }
 /* back3 steps into back2's slot */
 .vocab-card-stack--back3.is-promoting {
-  height: 224px;
-  width: 254px;
-  transform: translateX(-3px);
-  margin-bottom: -209px;
+  opacity: 0.84;
+  height: 216px;
+  width: 244px;
+  transform: translateX(-4px) translateY(18px);
+  margin-bottom: -188px;
 }
 
 /* card3 */
 .vocab-card-stack--back2 {
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
-  transform: translateX(-3px);
+  opacity: 0.86;
+  transform: translateX(-4px);
   z-index: 1;
-  height: 224px;
-  width: 254px;
-  margin-bottom: -209px; /* 208 - 28px peek */
+  height: 216px;
+  width: 244px;
+  margin-bottom: -188px; /* 216 - 28px peek */
 }
 /* back2 steps into back1's slot */
 .vocab-card-stack--back2.is-promoting {
-  height: 237px;
-  width: 267px;
-  transform: translateX(-1px);
-  margin-bottom: -209px;
+  opacity: 0.94;
+  height: 228px;
+  width: 258px;
+  transform: translateX(-2px) translateY(18px);
+  margin-bottom: -200px;
 }
 
 /* card2 */
 .vocab-card-stack--back1 {
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.14);
-  transform: translateX(-1px);
+  opacity: 0.94;
+  transform: translateX(-2px);
   z-index: 2;
-  width: 267px;
-  height: 237px;
-  margin-bottom: -209px; /* 237 - 28px peek */
+  width: 258px;
+  height: 228px;
+  margin-bottom: -200px; /* 228 - 28px peek */
 }
 /* back1 steps into the front position */
 .vocab-card-stack--back1.is-promoting {
-  transform: translateX(0px) scale(1.02);
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.18);
+  height: 237px;
+  margin-bottom: -209px;
+  opacity: 1;
+  transform: translateX(0px) translateY(18px) scale(1.02);
+  width: 267px;
+  z-index: 4;
 }
 
 /* ─── Front card (flipper) ────────────────────────────────────────────────── */
@@ -214,16 +305,29 @@
   transition:
     transform 220ms ease,
     opacity 300ms ease;
+  touch-action: pan-y;
   user-select: none;
   z-index: 3;
   width: 267px;
   height: 237px;
+  will-change: transform, opacity;
+  will-change: transform, opacity;
+}
+
+.vocab-card-flipper.is-resetting {
+  transition: none !important;
+  opacity: 1 !important;
+}
+
+.vocab-card-flipper.is-dragging {
+  transition: none;
 }
 
 .vocab-card-flipper.is-flying {
   transition:
-    transform 320ms cubic-bezier(0.4, 0, 0.2, 1),
-    opacity 300ms ease;
+    transform 380ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 170ms ease 150ms;
+  opacity: 0;
 }
 
 /* ─── Card faces ──────────────────────────────────────────────────────────── */
@@ -383,8 +487,11 @@
 
 .vocab-bottom-section {
   flex: 1;
-  min-height: 220px;
+  margin-top: auto;
+  min-height: 0;
+  padding: 24px 0 calc(env(safe-area-inset-bottom, 0px) + 28px);
   position: relative;
+  z-index: 1;
 }
 
 .vocab-word-in-use {
@@ -393,7 +500,7 @@
   background: rgba(255, 255, 255, 0.9);
   border-radius: 16px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  margin: 44px 20px 12px;
+  margin: 0 20px 12px;
   padding: 14px 16px;
   position: relative;
   z-index: 5;
@@ -426,26 +533,75 @@
   margin: 0;
 }
 
-/* Scenic background illustration */
-.vocab-bg-illustration {
-  bottom: 0;
-  height: 100%;
-  left: 0;
-  overflow: hidden;
-  pointer-events: none;
-  position: absolute;
-  width: 100%;
-  z-index: 0;
+.vocab-practice-panel {
+  display: grid;
+  gap: 12px;
+  margin: 0 20px;
 }
 
-.vocab-bg-illustration img {
-  bottom: 0;
+.vocab-practice-card {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(249, 240, 221, 0.96) 100%);
+  border: 1px solid rgba(96, 72, 40, 0.08);
+  border-radius: 18px;
+  box-shadow: 0 12px 28px rgba(96, 72, 40, 0.08);
+  padding: 14px 16px;
+}
+
+.vocab-practice-eyebrow {
+  color: rgba(96, 72, 40, 0.66);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  margin: 0 0 10px;
+  text-transform: uppercase;
+}
+
+.vocab-practice-progress-row {
+  align-items: baseline;
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.vocab-practice-progress-value {
+  color: #604828;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.vocab-practice-progress-copy {
+  color: rgba(96, 72, 40, 0.72);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.vocab-practice-progress-track {
+  background: rgba(96, 72, 40, 0.1);
+  border-radius: 999px;
+  height: 8px;
+  overflow: hidden;
+}
+
+.vocab-practice-progress-fill {
+  background: linear-gradient(90deg, #e1da33 0%, #a8b800 100%);
+  border-radius: inherit;
   height: 100%;
-  left: -1.53%;
-  max-width: none;
-  object-fit: cover;
-  position: absolute;
-  width: 109.92%;
+  transition: width 260ms ease;
+}
+
+.vocab-practice-list {
+  color: #604828;
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding-left: 18px;
+}
+
+.vocab-practice-list li {
+  font-size: 13px;
+  line-height: 1.45;
 }
 
 /* ─── Result screen ───────────────────────────────────────────────────────── */
@@ -543,7 +699,6 @@
   height: 40px;
   width: 40px;
 }
-.vocab-loading-text,
 .vocab-error-text {
   color: #604828;
   font-size: 16px;

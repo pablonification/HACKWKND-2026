@@ -8,6 +8,12 @@
     <link rel="icon" type="image/svg+xml" href="/assets/icon.svg" />
   </head>
   <body>
+    <!-- Preload overlay: prevents cream flash between native splash and React mount.
+         Removed by AppSplashScreen on mount. Inline style = renders on first paint. -->
+    <div
+      id="splash-preload"
+      style="position: fixed; inset: 0; z-index: 100000; background: #fff9e9"
+    ></div>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

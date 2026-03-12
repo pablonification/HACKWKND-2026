@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+  <head>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      .taleka-wordmark {
+        --taleka-wordmark-scale: 1;
+        color: #060606;
+        display: flex;
+        align-items: baseline;
+        justify-content: center;
+        font-family: 'Playfair Display', Georgia, serif;
+        font-style: italic;
+        font-weight: 600;
+        height: calc(106px * var(--taleka-wordmark-scale));
+      }
+
+      .taleka-wordmark-initial {
+        font-size: calc(113px * var(--taleka-wordmark-scale));
+        line-height: 1;
+      }
+
+      .taleka-wordmark-rest {
+        font-size: calc(64px * var(--taleka-wordmark-scale));
+        line-height: 1;
+        margin-left: calc(-10px * var(--taleka-wordmark-scale));
+      }
+    </style>
+  </head>
+  <body style="background: #fff9e9">
+    <div class="taleka-wordmark">
+      <span class="taleka-wordmark-initial">T</span>
+      <span class="taleka-wordmark-rest">aleka</span>
+    </div>
+  </body>
+</html>

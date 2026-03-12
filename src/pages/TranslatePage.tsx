@@ -7,10 +7,12 @@ import {
   volumeMediumOutline,
 } from 'ionicons/icons';
 import { useEffect, useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { triggerHapticFeedback } from '../lib/feedback';
+import { isExploreEntry } from '../lib/navigationEntry';
 import { type TranslationLanguage, translateText } from '../lib/translate';
+import { useEdgeSwipeBack } from '../lib/useEdgeSwipeBack';
 
 import './TranslatePage.css';
 
@@ -47,6 +49,23 @@ const toErrorMessage = (error: unknown): string => {
 
 export function TranslatePage({ showBackButton = true }: { showBackButton?: boolean }) {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const fromExplore = isExploreEntry(searchParams);
+  const shouldShowBackButton = showBackButton || fromExplore;
+
+  const navigateBackFromExplore = () => {
+    if (window.history.length > 1) {
+      navigate(-1);
+      return;
+    }
+
+    navigate('/home/landing', { replace: true });
+  };
+
+  const edgeSwipeBackHandlers = useEdgeSwipeBack({
+    enabled: fromExplore,
+    onBack: navigateBackFromExplore,
+  });
 
   const [sourceText, setSourceText] = useState('');
   const [translatedText, setTranslatedText] = useState('');
@@ -72,6 +91,11 @@ export function TranslatePage({ showBackButton = true }: { showBackButton?: bool
 
   const handleBack = () => {
     triggerHapticFeedback('light');
+    if (fromExplore) {
+      navigateBackFromExplore();
+      return;
+    }
+
     navigate(-1);
   };
 
@@ -191,9 +215,9 @@ export function TranslatePage({ showBackButton = true }: { showBackButton?: bool
   };
 
   return (
-    <section className="translate-page">
+    <section className="translate-page" {...edgeSwipeBackHandlers}>
       <header className="translate-header">
-        {showBackButton ? (
+        {shouldShowBackButton ? (
           <button type="button" className="translate-back" onClick={handleBack} aria-label="Back">
             <IonIcon icon={arrowBackOutline} />
           </button>

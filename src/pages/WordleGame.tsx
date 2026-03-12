@@ -1,19 +1,23 @@
-import { IonSpinner } from '@ionic/react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { AppSkeleton } from '../components/ui';
 import { triggerHapticFeedback } from '../lib/feedback';
 import { recordSwipe, updateStreak } from '../lib/gardenSync';
 import { useUserLevel } from '../lib/useUserLevel';
 import { generateDeck, type VocabCard } from '../lib/vocabData';
-
-import vocabBg from '../../assets/vocab/background.png';
 
 import './WordleGame.css';
 
 const TOTAL_TIME = 180; // seconds per word
 const MAX_GUESSES = 4;
 const WORD_LEN = 6; // Figma grid is always 6 columns
+const WORDLE_KEYBOARD_ROWS = [
+  ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
+  ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
+  ['ENTER', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'BACKSPACE'],
+] as const;
+
 type TileState = 'empty' | 'filled' | 'correct' | 'present' | 'absent';
 
 interface GuessRow {
@@ -69,6 +73,73 @@ function formatTime(secs: number): string {
   const s = (secs % 60).toString().padStart(2, '0');
   return `${m}:${s}`;
 }
+
+function buildKeyboardLetterStates(guesses: GuessRow[]): Record<string, TileState> {
+  const priority: Record<TileState, number> = {
+    empty: 0,
+    filled: 1,
+    absent: 2,
+    present: 3,
+    correct: 4,
+  };
+
+  return guesses.reduce<Record<string, TileState>>((acc, row) => {
+    if (!row.committed) return acc;
+
+    row.letters.forEach((letter, index) => {
+      const upper = letter.toUpperCase();
+      const nextState = row.states[index];
+
+      if (!upper || nextState === 'empty' || nextState === 'filled') return;
+      if ((priority[acc[upper] ?? 'empty'] ?? 0) >= priority[nextState]) return;
+
+      acc[upper] = nextState;
+    });
+
+    return acc;
+  }, {});
+}
+
+const WordleLoadingSkeleton = () => (
+  <div className="vocab-shell wordle-shell wordle-shell--loading" aria-label="Loading word puzzle">
+    <div className="vocab-topbar">
+      <AppSkeleton className="app-skeleton--circle" width={40} height={40} />
+      <span className="vocab-topbar-spacer" aria-hidden="true" />
+      <AppSkeleton className="app-skeleton--pill" width={58} height={14} />
+    </div>
+
+    <div className="wordle-level-bar-row">
+      <AppSkeleton className="app-skeleton--pill" width={78} height={14} />
+      <AppSkeleton className="app-skeleton--pill" width={40} height={14} />
+    </div>
+    <div className="wordle-level-bar-track">
+      <AppSkeleton width="54%" height="100%" />
+    </div>
+
+    <div className="wordle-title" aria-hidden="true">
+      {Array.from({ length: 6 }).map((_, index) => (
+        <AppSkeleton key={index} className="app-skeleton--pill wordle-skeleton-title-letter" />
+      ))}
+    </div>
+
+    <div className="wordle-clue-wrapper" aria-hidden="true">
+      <div className="wordle-clue-shadow" />
+      <div className="wordle-clue-card wordle-clue-card--skeleton">
+        <div className="wordle-skeleton-clue">
+          <AppSkeleton className="app-skeleton--pill" width="100%" height={14} />
+          <AppSkeleton className="app-skeleton--pill" width="84%" height={14} />
+          <AppSkeleton className="app-skeleton--pill" width="62%" height={14} />
+        </div>
+      </div>
+    </div>
+
+    <div className="wordle-grid wordle-grid--skeleton" aria-hidden="true">
+      {Array.from({ length: MAX_GUESSES * WORD_LEN }).map((_, index) => (
+        <AppSkeleton key={index} className="wordle-tile wordle-tile--skeleton" />
+      ))}
+    </div>
+  </div>
+);
 
 export function WordleGame() {
   const navigate = useNavigate();
@@ -168,6 +239,7 @@ export function WordleGame() {
 
     // Must fill all 6 columns
     if (row.letters.some((l) => l === '')) {
+      triggerHapticFeedback('error');
       setShakeRow(currentRow);
       setTimeout(() => setShakeRow(null), 500);
       return;
@@ -269,12 +341,7 @@ export function WordleGame() {
 
   // ── Loading / Error ───────────────────────────────────────────────────────────
   if (loading) {
-    return (
-      <div className="vocab-shell vocab-shell--loading">
-        <IonSpinner name="crescent" className="vocab-spinner" />
-        <p className="vocab-loading-text">Loading words…</p>
-      </div>
-    );
+    return <WordleLoadingSkeleton />;
   }
 
   if (error || !currentCard) {
@@ -290,6 +357,8 @@ export function WordleGame() {
 
   // ── Main game ─────────────────────────────────────────────────────────────────
   const isUrgent = countdown <= 15;
+  const keyboardLetterStates = buildKeyboardLetterStates(guesses);
+  const isKeyboardLocked = gameOver || revealingRow !== null;
 
   return (
     <div className="vocab-shell wordle-shell">
@@ -314,7 +383,6 @@ export function WordleGame() {
             />
           </svg>
         </button>
-        <span className="vocab-level-label">{levelLabel}</span>
         <span className={`vocab-timer${isUrgent ? ' vocab-timer--urgent' : ''}`}>
           <svg
             width="14"
@@ -395,20 +463,51 @@ export function WordleGame() {
         )}
       </div>
 
+      <div className="wordle-keyboard-wrap">
+        <p className="wordle-keyboard-hint">Tap the keyboard to enter your guess.</p>
+        <div className="wordle-keyboard" role="group" aria-label="Wordle keyboard">
+          {WORDLE_KEYBOARD_ROWS.map((row, rowIndex) => (
+            <div key={rowIndex} className="wordle-keyboard-row">
+              {row.map((key) => {
+                const isWideKey = key === 'ENTER' || key === 'BACKSPACE';
+                const letterState =
+                  key.length === 1 ? (keyboardLetterStates[key] ?? 'empty') : 'empty';
+
+                return (
+                  <button
+                    key={key}
+                    type="button"
+                    className={[
+                      'wordle-key',
+                      isWideKey ? 'wordle-key--wide' : '',
+                      letterState !== 'empty' ? `wordle-key--${letterState}` : '',
+                    ]
+                      .filter(Boolean)
+                      .join(' ')}
+                    onClick={() => {
+                      triggerHapticFeedback('light');
+                      handleKey(key);
+                    }}
+                    aria-label={
+                      key === 'BACKSPACE' ? 'Delete letter' : key === 'ENTER' ? 'Submit guess' : key
+                    }
+                    disabled={isKeyboardLocked}
+                  >
+                    {key === 'BACKSPACE' ? '⌫' : key}
+                  </button>
+                );
+              })}
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* Answer reveal — shown when player runs out of guesses without winning */}
       {gameOver && !won && currentCard && (
         <p className="wordle-answer-reveal">
           The word was: <strong>{currentCard.word.trim().toUpperCase()}</strong>
         </p>
       )}
-
-      {/* Bottom scenic illustration */}
-      <div className="wordle-bottom" aria-hidden="true">
-        <div className="wordle-bottom-fade" />
-        <div className="wordle-bottom-fade wordle-bottom-fade--2" />
-        <div className="wordle-bottom-fade wordle-bottom-fade--3" />
-        <img src={vocabBg} alt="" className="wordle-bottom-img" draggable={false} />
-      </div>
     </div>
   );
 }

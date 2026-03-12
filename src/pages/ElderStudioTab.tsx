@@ -24,7 +24,7 @@ import {
   useRef,
   useState,
 } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import {
   countPendingStudioReview,
@@ -48,11 +48,13 @@ import {
   type StudioRecordingType,
 } from '../lib/elderStudio';
 import { triggerHapticFeedback } from '../lib/feedback';
+import { isExploreEntry } from '../lib/navigationEntry';
 import {
   buildStudioWaveformBarsFromChannels,
   buildStudioWaveformBarsFromLevels,
   DEFAULT_STUDIO_WAVEFORM_BARS,
 } from '../lib/studioWaveform';
+import { useEdgeSwipeBack } from '../lib/useEdgeSwipeBack';
 import { useAuthStore } from '../stores/authStore';
 import micIllustration from '../../assets/studio/mic-illustration.png';
 import archiveBook from '../../assets/studio/archive-book.png';
@@ -177,7 +179,9 @@ const formatDraftSize = (blob: Blob | null): string => {
 
 export function ElderStudioTab() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { user } = useAuthStore();
+  const fromExplore = isExploreEntry(searchParams);
   const [recordings, setRecordings] = useState<StudioRecording[]>([]);
   const [isComposerOpen, setIsComposerOpen] = useState(false);
   const [flowStep, setFlowStep] = useState<StudioFlowStep>('capture');
@@ -528,6 +532,20 @@ export function ElderStudioTab() {
     [recordings],
   );
   const draftFileSizeLabel = useMemo(() => formatDraftSize(draftBlob), [draftBlob]);
+
+  const navigateBackFromExplore = useCallback(() => {
+    if (window.history.length > 1) {
+      navigate(-1);
+      return;
+    }
+
+    navigate('/home/landing', { replace: true });
+  }, [navigate]);
+
+  const edgeSwipeBackHandlers = useEdgeSwipeBack({
+    enabled: fromExplore,
+    onBack: navigateBackFromExplore,
+  });
 
   const handleOpenComposer = () => {
     triggerHapticFeedback('light');
@@ -967,9 +985,22 @@ export function ElderStudioTab() {
       : 'Start recording';
 
   return (
-    <section className="home-tab-content home-tab-content--studio">
+    <section className="home-tab-content home-tab-content--studio" {...edgeSwipeBackHandlers}>
       <div className="studio-shell studio-shell--landing">
         <header className="studio-heading-row studio-heading-row--studio-home">
+          {fromExplore ? (
+            <button
+              type="button"
+              className="studio-back-button studio-back-button--home"
+              onClick={() => {
+                triggerHapticFeedback('light');
+                navigateBackFromExplore();
+              }}
+              aria-label="Back to home"
+            >
+              <IonIcon aria-hidden icon={arrowBackOutline} />
+            </button>
+          ) : null}
           <h2>Studio</h2>
           <div className={`studio-sync-badge is-${syncBadge.tone}`}>
             {isSyncing ? (

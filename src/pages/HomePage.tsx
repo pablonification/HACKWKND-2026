@@ -165,30 +165,19 @@ function NavNotchBg() {
     <svg
       className="learner-nav-bg"
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="17 -20 390 113"
+      viewBox="0 0 390 116"
       preserveAspectRatio="none"
       aria-hidden="true"
     >
       <path
         d="
-          M212,
-          -23
-          C220,-22 228,-23 242,
-          -12
-          C250,-2 255,-2 281,-2
-          H382
-          C406,0 408,3 408,6
-          V60
-          C408,63 398,75 384,75
-          H40
-          C17,63 17,63 6,60
-          V6
-          C17,3 19,0 60,-2
-          H143
-          C169,-2 174,-2 183,
-          -12
-          C193,-22 206,-23 212,
-          -23
+          M28,30
+          H362
+          C377,30 390,43 390,58
+          V116
+          H0
+          V58
+          C0,43 13,30 28,30
           Z
         "
         fill="white"
@@ -454,31 +443,37 @@ export function HomePage() {
     .join(' ');
 
   const activeTab = resolveLearnerTab(location.pathname);
+  const routeAnimationKey = `${location.pathname}${location.search}${location.hash}`;
+  const routeFrameClassName = ['home-route-frame', !isProfileRoute ? 'home-route-frame-enter' : '']
+    .filter(Boolean)
+    .join(' ');
 
   return (
     <IonPage>
       <IonContent fullscreen className={ionContentClassName}>
         <div className={homeShellClassName}>
           <div className={`home-content ${usesStudioSurface ? 'is-studio-surface' : ''}`}>
-            <Routes>
-              <Route path="studio" element={<ElderStudioTab />} />
-              <Route path="archive/review" element={<ArchiveReviewPage />} />
-              <Route path="archive" element={<SoundArchiveTab />} />
-              <Route path="ai" element={<AiHelperPage />} />
-              <Route path="translation" element={<TranslatePage showBackButton={false} />} />
-              <Route path="garden/quiz" element={<QuizGame />} />
-              <Route path="garden/vocab" element={<VocabMaster />} />
-              <Route path="garden/wordle" element={<WordleGame />} />
-              <Route path="levelup" element={<LevelUpPage />} />
-              <Route path="stories/:id/read" element={<StoryReadPage />} />
-              <Route path="stories/:id" element={<StoryDetailPage />} />
-              <Route path="stories" element={<StoryPage />} />
-              <Route path="landing" element={<LandingPage />} />
-              <Route path="garden" element={<LanguageGardenTab />} />
-              <Route path="profile/*" element={<ProfilePage />} />
-              <Route index element={<Navigate to="landing" replace />} />
-              <Route path="*" element={<Navigate to="landing" replace />} />
-            </Routes>
+            <div key={routeAnimationKey} className={routeFrameClassName}>
+              <Routes>
+                <Route path="studio" element={<ElderStudioTab />} />
+                <Route path="archive/review" element={<ArchiveReviewPage />} />
+                <Route path="archive" element={<SoundArchiveTab />} />
+                <Route path="ai" element={<AiHelperPage />} />
+                <Route path="translation" element={<TranslatePage showBackButton={false} />} />
+                <Route path="garden/quiz" element={<QuizGame />} />
+                <Route path="garden/vocab" element={<VocabMaster />} />
+                <Route path="garden/wordle" element={<WordleGame />} />
+                <Route path="levelup" element={<LevelUpPage />} />
+                <Route path="stories/:id/read" element={<StoryReadPage />} />
+                <Route path="stories/:id" element={<StoryDetailPage />} />
+                <Route path="stories" element={<StoryPage />} />
+                <Route path="landing" element={<LandingPage />} />
+                <Route path="garden" element={<LanguageGardenTab />} />
+                <Route path="profile/*" element={<ProfilePage />} />
+                <Route index element={<Navigate to="landing" replace />} />
+                <Route path="*" element={<Navigate to="landing" replace />} />
+              </Routes>
+            </div>
           </div>
 
           {shouldShowTabMenu && !shouldHideMenu ? (

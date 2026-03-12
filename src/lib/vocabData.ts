@@ -3,6 +3,7 @@
  */
 
 import { supabase } from './supabase';
+import { loadGardenGlossaryWords } from './gardenGlossary';
 
 export interface VocabCard {
   /** Supabase words.id — real UUID from the DB */
@@ -22,37 +23,50 @@ let cachedPool: VocabCard[] | null = null;
 async function loadPool(): Promise<VocabCard[]> {
   if (cachedPool) return cachedPool;
 
-  // Query the actual row count so the random offset never exceeds the table size.
-  const { count } = await supabase
-    .from('words')
-    .select('id', { count: 'exact', head: true })
-    .not('english_translation', 'is', null);
-  const totalRows = count ?? POOL_SIZE;
-  const maxOffset = Math.max(0, totalRows - POOL_SIZE);
-  const offset = Math.floor(Math.random() * (maxOffset + 1));
+  try {
+    // Query the actual row count so the random offset never exceeds the table size.
+    const { count } = await supabase
+      .from('words')
+      .select('id', { count: 'exact', head: true })
+      .not('english_translation', 'is', null);
+    const totalRows = count ?? POOL_SIZE;
+    const maxOffset = Math.max(0, totalRows - POOL_SIZE);
+    const offset = Math.floor(Math.random() * (maxOffset + 1));
 
-  const { data, error } = await supabase
-    .from('words')
-    .select('id, semai_word, english_translation, malay_translation')
-    .not('english_translation', 'is', null)
-    .range(offset, offset + POOL_SIZE - 1);
+    const { data, error } = await supabase
+      .from('words')
+      .select('id, semai_word, english_translation, malay_translation')
+      .not('english_translation', 'is', null)
+      .range(offset, offset + POOL_SIZE - 1);
 
-  if (error || !data) {
-    console.error('[vocabData] Failed to load pool from Supabase:', error?.message);
-    return [];
+    if (error) {
+      throw error;
+    }
+
+    const pool: VocabCard[] = (data ?? [])
+      .filter((row) => row.semai_word && row.english_translation)
+      .map((row) => ({
+        word_id: row.id as string,
+        word: row.semai_word as string,
+        definition_en: (row.english_translation as string).trim(),
+        definition_ms: ((row.malay_translation as string | null) ?? '').trim(),
+        example_semai: '',
+        example_en: '',
+      }));
+
+    if (pool.length > 0) {
+      cachedPool = pool;
+      return pool;
+    }
+  } catch (error) {
+    console.warn('[vocabData] Falling back to bundled glossary:', error);
   }
 
-  const pool: VocabCard[] = data
-    .filter((row) => row.semai_word && row.english_translation)
-    .map((row) => ({
-      word_id: row.id as string,
-      word: row.semai_word as string,
-      definition_en: (row.english_translation as string).trim(),
-      definition_ms: ((row.malay_translation as string | null) ?? '').trim(),
-      example_semai: '',
-      example_en: '',
-    }));
-
+  const pool = loadGardenGlossaryWords().map((row) => ({
+    ...row,
+    example_semai: '',
+    example_en: '',
+  }));
   cachedPool = pool;
   return pool;
 }

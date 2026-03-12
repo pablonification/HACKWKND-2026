@@ -15,7 +15,9 @@ import {
   type LearningTrack,
 } from '../lib/aiCoach';
 import { triggerHapticFeedback } from '../lib/feedback';
+import { buildAiSearchParams, isExploreEntry } from '../lib/navigationEntry';
 import { getJSON, setJSON } from '../lib/storage';
+import { useEdgeSwipeBack } from '../lib/useEdgeSwipeBack';
 import { useAuthStore } from '../stores/authStore';
 
 import './AiHelperPage.css';
@@ -245,15 +247,27 @@ const renderMarkdown = (value: string, keyPrefix: string): ReactNode => {
   return blocks;
 };
 
-function TaviIntro({ onStart, onBack }: { onStart: () => void; onBack: () => void }) {
+function TaviIntro({
+  onStart,
+  onBack,
+  showBackButton,
+}: {
+  onStart: () => void;
+  onBack: () => void;
+  showBackButton: boolean;
+}) {
   return (
     <div className="tavi-intro">
       <header className="tavi-intro-header">
-        <button className="tavi-back-button" aria-label="Go back" onClick={onBack}>
-          <span className="tavi-back-chevron" aria-hidden="true" />
-        </button>
+        {showBackButton ? (
+          <button className="tavi-back-button" aria-label="Go back" onClick={onBack}>
+            <span className="tavi-back-chevron" aria-hidden="true" />
+          </button>
+        ) : (
+          <span className="tavi-back-button tavi-back-button--spacer" aria-hidden="true" />
+        )}
         <span className="tavi-intro-header-pill">Personal AI Buddy</span>
-        <div style={{ width: 36 }} />
+        <div className="tavi-back-button tavi-back-button--spacer" aria-hidden="true" />
       </header>
 
       <div className="tavi-intro-mascot-wrap">
@@ -382,7 +396,22 @@ export function AiHelperPage() {
     () => getDisplayName(user?.email, user?.user_metadata?.full_name),
     [user?.email, user?.user_metadata?.full_name],
   );
+  const fromExplore = isExploreEntry(searchParams);
   const showIntro = searchParams.get('chat') !== '1';
+
+  const navigateBackFromExplore = () => {
+    if (window.history.length > 1) {
+      navigate(-1);
+      return;
+    }
+
+    navigate('/home/landing', { replace: true });
+  };
+
+  const edgeSwipeBackHandlers = useEdgeSwipeBack({
+    enabled: fromExplore && showIntro,
+    onBack: navigateBackFromExplore,
+  });
 
   useEffect(() => {
     void getJSON<PersistedTaviSession>(TAVI_SESSION_STATE_KEY, {
@@ -407,12 +436,17 @@ export function AiHelperPage() {
 
   const handleBack = () => {
     triggerHapticFeedback('light');
+    if (fromExplore) {
+      navigateBackFromExplore();
+      return;
+    }
+
     navigate('/home/garden', { replace: true });
   };
 
   const handleStartChat = async () => {
     triggerHapticFeedback('medium');
-    setSearchParams({ chat: '1' }, { replace: true });
+    setSearchParams(buildAiSearchParams({ chat: '1' }, searchParams), { replace: true });
   };
 
   const handleUseFollowUp = (prompt: string) => {
@@ -607,7 +641,15 @@ export function AiHelperPage() {
   };
 
   if (showIntro) {
-    return <TaviIntro onStart={() => void handleStartChat()} onBack={handleBack} />;
+    return (
+      <div {...edgeSwipeBackHandlers}>
+        <TaviIntro
+          onStart={() => void handleStartChat()}
+          onBack={handleBack}
+          showBackButton={fromExplore}
+        />
+      </div>
+    );
   }
 
   return (
@@ -619,7 +661,7 @@ export function AiHelperPage() {
             aria-label="Go back to intro"
             onClick={() => {
               triggerHapticFeedback('light');
-              setSearchParams({}, { replace: true });
+              setSearchParams(buildAiSearchParams({}, searchParams), { replace: true });
             }}
           >
             <span className="tavi-back-chevron" aria-hidden="true" />

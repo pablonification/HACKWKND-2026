@@ -14,6 +14,10 @@
   padding: calc(env(safe-area-inset-top, 0px) + 30px) 0px 0px;
 }
 
+.wordle-shell--loading {
+  gap: 0;
+}
+
 /* -- Back button (left side, before level label) --------------------------- */
 .wordle-back-btn {
   background: none;
@@ -102,6 +106,11 @@
   display: block;
 }
 
+.wordle-skeleton-title-letter {
+  height: 35px;
+  width: 20px;
+}
+
 /* -- Clue card � layered mauve shadow + frosted white card ------------------ */
 .wordle-clue-wrapper {
   position: relative;
@@ -130,6 +139,16 @@
   justify-content: center;
 }
 
+.wordle-clue-card--skeleton {
+  justify-content: stretch;
+}
+
+.wordle-skeleton-clue {
+  display: grid;
+  gap: 10px;
+  width: 100%;
+}
+
 .wordle-clue-text {
   font-family: 'Satoshi', 'Poppins', ui-sans-serif, system-ui, sans-serif;
   font-size: 15px;
@@ -151,6 +170,10 @@
   padding-bottom: 3px;
 }
 
+.wordle-grid--skeleton {
+  pointer-events: none;
+}
+
 /* -- Tile ------------------------------------------------------------------- */
 .wordle-tile {
   aspect-ratio: 1;
@@ -163,6 +186,11 @@
   justify-content: center;
   user-select: none;
   box-shadow: 0px 3px 0px #7a4f73;
+}
+
+.wordle-tile--skeleton {
+  border-color: rgba(96, 72, 40, 0.2);
+  box-shadow: 0px 3px 0px rgba(122, 79, 115, 0.35);
 }
 
 .wordle-tile-shadow {
@@ -275,41 +303,94 @@
   }
 }
 
-/* -- Bottom scenic illustration with fade ---------------------------------- */
-.wordle-bottom {
-  flex: 1;
-  min-height: 189px;
-  position: relative;
-  overflow: hidden;
-  pointer-events: none;
+.wordle-keyboard-wrap {
+  margin: 14px 14px 0;
 }
 
-.wordle-bottom-img {
-  position: absolute;
-  bottom: 0px;
-  left: -1.53%;
-  width: 109.92%;
-  max-width: none;
-  height: calc(100%, 9px);
-  object-fit: cover;
-  display: block;
+.wordle-keyboard-hint {
+  color: rgba(96, 72, 40, 0.7);
+  font-family: 'Satoshi', 'Poppins', ui-sans-serif, system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  margin: 0 0 10px;
+  text-align: center;
 }
 
-/* Three stacked gradient fades matching Figma node-id 29:11266-29:11269 */
-.wordle-bottom-fade {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 24px;
-  background: linear-gradient(to bottom, #fffde9, rgba(255, 255, 255, 0.46));
-  z-index: 1;
+.wordle-keyboard {
+  display: grid;
+  gap: 8px;
 }
-.wordle-bottom-fade--2 {
-  top: 10px;
+
+.wordle-keyboard-row {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
 }
-.wordle-bottom-fade--3 {
-  top: 20px;
+
+.wordle-key {
+  -webkit-tap-highlight-color: transparent;
+  appearance: none;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1.5px solid rgba(96, 72, 40, 0.16);
+  border-radius: 10px;
+  box-shadow: 0 3px 0 rgba(96, 72, 40, 0.08);
+  color: #604828;
+  cursor: pointer;
+  flex: 1 1 0;
+  font-family: 'Satoshi', 'Poppins', ui-sans-serif, system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  height: 44px;
+  max-width: 34px;
+  min-width: 0;
+  padding: 0;
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease,
+    background 150ms ease,
+    color 150ms ease,
+    border-color 150ms ease,
+    opacity 150ms ease;
+}
+
+.wordle-key--wide {
+  flex: 1.6 1 0;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  max-width: 64px;
+  text-transform: uppercase;
+}
+
+.wordle-key--correct {
+  background: rgba(167, 202, 84, 0.42);
+  border-color: rgba(115, 150, 35, 0.35);
+}
+
+.wordle-key--present {
+  background: rgba(203, 64, 60, 0.18);
+  border-color: rgba(203, 64, 60, 0.28);
+}
+
+.wordle-key--absent {
+  background: rgba(96, 72, 40, 0.12);
+  border-color: rgba(96, 72, 40, 0.14);
+  color: rgba(96, 72, 40, 0.72);
+}
+
+.wordle-key:active:not(:disabled) {
+  box-shadow: 0 1px 0 rgba(96, 72, 40, 0.08);
+  transform: translateY(2px) scale(0.98);
+}
+
+.wordle-key:disabled {
+  cursor: default;
+  opacity: 0.55;
+}
+
+.wordle-key:focus-visible {
+  outline: 2px solid rgba(175, 126, 167, 0.7);
+  outline-offset: 2px;
 }
 
 /* -- Responsive: compact on short screens ----------------------------------- */
@@ -336,8 +417,14 @@
   .wordle-tile-letter {
     font-size: 18px;
   }
-  .wordle-bottom {
-    min-height: 120px;
+  .wordle-keyboard-wrap {
+    margin-top: 10px;
+  }
+  .wordle-keyboard {
+    gap: 6px;
+  }
+  .wordle-key {
+    height: 40px;
   }
 }
 

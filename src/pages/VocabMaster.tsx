@@ -1,7 +1,7 @@
-import { IonSpinner } from '@ionic/react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { AppSkeleton } from '../components/ui';
 import { triggerHapticFeedback } from '../lib/feedback';
 import { recordSwipe, updateStreak } from '../lib/gardenSync';
 import { useUserLevel } from '../lib/useUserLevel';
@@ -11,16 +11,53 @@ import card1Svg from '../../assets/vocab/card 1.svg';
 import card2Svg from '../../assets/vocab/card 2.svg';
 import card3Svg from '../../assets/vocab/card 3.svg';
 import card4Svg from '../../assets/vocab/card 4.svg';
-import vocabBg from '../../assets/vocab/background.png';
 
 import './VocabMaster.css';
 
 const CARDS_PER_ROUND = 10;
 const SWIPE_THRESHOLD = 80;
 const CARD_TIMER = 20;
+const SWIPE_ANIMATION_MS = 380;
 
 // card1 = front of deck, card4 = furthest back
 const CARD_ARTS = [card1Svg, card2Svg, card3Svg, card4Svg];
+
+const VocabLoadingSkeleton = () => (
+  <div
+    className="vocab-shell vocab-shell--loading vocab-shell--skeleton"
+    aria-label="Loading vocabulary cards"
+  >
+    <div className="vocab-topbar">
+      <AppSkeleton className="app-skeleton--circle" width={40} height={40} />
+      <AppSkeleton className="app-skeleton--pill" width={92} height={14} />
+      <AppSkeleton className="app-skeleton--pill" width={58} height={14} />
+    </div>
+
+    <div className="vocab-level-bar-row">
+      <AppSkeleton className="app-skeleton--pill" width={78} height={14} />
+      <AppSkeleton className="app-skeleton--pill" width={40} height={14} />
+    </div>
+    <div className="vocab-level-bar-track">
+      <AppSkeleton width="46%" height="100%" />
+    </div>
+
+    <div className="vocab-deck-area vocab-deck-area--skeleton" aria-hidden="true">
+      <AppSkeleton className="app-skeleton--card vocab-skeleton-card vocab-skeleton-card--back" />
+      <AppSkeleton className="app-skeleton--card vocab-skeleton-card vocab-skeleton-card--mid" />
+      <AppSkeleton className="app-skeleton--card vocab-skeleton-card vocab-skeleton-card--front" />
+      <div className="vocab-skeleton-copy">
+        <AppSkeleton className="app-skeleton--pill" width="52%" height={28} />
+        <AppSkeleton className="app-skeleton--pill" width="34%" height={16} />
+        <AppSkeleton className="app-skeleton--pill" width="70%" height={18} />
+      </div>
+    </div>
+
+    <div className="vocab-skeleton-actions" aria-hidden="true">
+      <AppSkeleton className="app-skeleton--pill" width="42%" height={48} />
+      <AppSkeleton className="app-skeleton--pill" width="42%" height={48} />
+    </div>
+  </div>
+);
 
 export function VocabMaster() {
   const navigate = useNavigate();
@@ -49,6 +86,7 @@ export function VocabMaster() {
   const touchStartY = useRef(0);
   const mouseDownX = useRef(0);
   const mouseDown = useRef(false);
+  const dragXRef = useRef(0);
 
   // Load deck
   useEffect(() => {
@@ -92,11 +130,13 @@ export function VocabMaster() {
   }, [loading, finished, index]);
 
   const [promoting, setPromoting] = useState(false);
+  const [resetting, setResetting] = useState(false);
 
   const advance = useCallback(
     (dir: 'left' | 'right') => {
       if (timerRef.current) clearInterval(timerRef.current);
       triggerHapticFeedback(dir === 'right' ? 'medium' : 'light');
+      setDragging(false);
       setSwipeDir(dir);
       setPromoting(true);
 
@@ -105,8 +145,12 @@ export function VocabMaster() {
       void recordSwipe({ wordId: currentCard?.word_id ?? null, known: dir === 'right' });
 
       setTimeout(() => {
+        // Disable transitions so the flipper teleports to center instantly
+        setResetting(true);
         setSwipeDir(null);
         setDragX(0);
+        dragXRef.current = 0;
+        setDragging(false);
         setFlipped(false);
         setPromoting(false);
         if (index + 1 >= deck.length) {
@@ -119,10 +163,15 @@ export function VocabMaster() {
               setFinished(true);
             }
           });
+          setResetting(false);
         } else {
           setIndex((i) => i + 1);
+          // Re-enable transitions on the next frame so future drags/swipes animate
+          requestAnimationFrame(() => {
+            setResetting(false);
+          });
         }
-      }, 320);
+      }, SWIPE_ANIMATION_MS);
     },
     [index, deck, refreshLevel, navigate],
   );
@@ -133,10 +182,10 @@ export function VocabMaster() {
   }, [advance]);
 
   const handleFlip = useCallback(() => {
-    if (dragging) return;
+    if (dragging || promoting || swipeDir) return;
     triggerHapticFeedback('light');
     setFlipped((f) => !f);
-  }, [dragging]);
+  }, [dragging, promoting, swipeDir]);
 
   const handleBack = useCallback(() => {
     triggerHapticFeedback('light');
@@ -144,12 +193,14 @@ export function VocabMaster() {
   }, [navigate]);
 
   const handleRestart = useCallback(() => {
+    triggerHapticFeedback('light');
     setLoading(true);
     setError(null);
     setIndex(0);
     setFlipped(false);
     setFinished(false);
     setDragX(0);
+    dragXRef.current = 0;
     setSwipeDir(null);
     setCountdown(CARD_TIMER);
     generateDeck(CARDS_PER_ROUND)
@@ -167,6 +218,7 @@ export function VocabMaster() {
   const onTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
     touchStartY.current = e.touches[0].clientY;
+    dragXRef.current = 0;
     setDragging(false);
   };
   const onTouchMove = (e: React.TouchEvent) => {
@@ -174,14 +226,17 @@ export function VocabMaster() {
     const dy = e.touches[0].clientY - touchStartY.current;
     if (Math.abs(dx) > Math.abs(dy)) {
       setDragging(true);
+      dragXRef.current = dx;
       setDragX(dx);
     }
   };
   const onTouchEnd = () => {
     if (promoting) return;
-    if (Math.abs(dragX) >= SWIPE_THRESHOLD) {
-      advance(dragX > 0 ? 'right' : 'left');
+    const dx = dragXRef.current;
+    if (Math.abs(dx) >= SWIPE_THRESHOLD) {
+      advance(dx > 0 ? 'right' : 'left');
     } else {
+      dragXRef.current = 0;
       setDragX(0);
       setDragging(false);
     }
@@ -191,6 +246,7 @@ export function VocabMaster() {
   const onMouseDown = (e: React.MouseEvent) => {
     mouseDownX.current = e.clientX;
     mouseDown.current = true;
+    dragXRef.current = 0;
     setDragging(false);
   };
   const onMouseMove = (e: React.MouseEvent) => {
@@ -198,15 +254,18 @@ export function VocabMaster() {
     const dx = e.clientX - mouseDownX.current;
     if (Math.abs(dx) > 4) {
       setDragging(true);
+      dragXRef.current = dx;
       setDragX(dx);
     }
   };
   const onMouseUp = () => {
     mouseDown.current = false;
     if (promoting) return;
-    if (Math.abs(dragX) >= SWIPE_THRESHOLD) {
-      advance(dragX > 0 ? 'right' : 'left');
+    const dx = dragXRef.current;
+    if (Math.abs(dx) >= SWIPE_THRESHOLD) {
+      advance(dx > 0 ? 'right' : 'left');
     } else {
+      dragXRef.current = 0;
       setDragX(0);
       setDragging(false);
     }
@@ -214,6 +273,7 @@ export function VocabMaster() {
 
   // â”€â”€ Render â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const card = deck[index];
+  const roundProgress = deck.length > 0 ? Math.min(index + 1, deck.length) : 0;
 
   const flyX = swipeDir === 'right' ? 420 : swipeDir === 'left' ? -420 : dragX;
   const flyRotate = swipeDir ? (swipeDir === 'right' ? 20 : -20) : dragX * 0.08;
@@ -223,12 +283,7 @@ export function VocabMaster() {
   const artAt = (offset: number) => CARD_ARTS[(index + offset) % CARD_ARTS.length];
 
   if (loading) {
-    return (
-      <div className="vocab-shell vocab-shell--loading">
-        <IonSpinner name="crescent" className="vocab-spinner" />
-        <p className="vocab-loading-text">Loading cards</p>
-      </div>
-    );
+    return <VocabLoadingSkeleton />;
   }
 
   if (error || deck.length === 0) {
@@ -300,22 +355,22 @@ export function VocabMaster() {
       </div>
 
       {/* Stacked deck */}
-      <div className="vocab-deck-area">
+      <div className={`vocab-deck-area ${promoting ? 'is-promoting' : ''}`}>
         {/* Back cards — card4 furthest, card3, card2 */}
         <div
-          className={`vocab-card-stack vocab-card-stack--back3 ${promoting ? 'is-promoting' : ''}`}
+          className={`vocab-card-stack vocab-card-stack--back3 ${promoting ? 'is-promoting' : ''} ${resetting ? 'is-resetting' : ''}`}
           aria-hidden="true"
         >
           <img src={artAt(3)} alt="" className="vocab-card-bg" draggable={false} />
         </div>
         <div
-          className={`vocab-card-stack vocab-card-stack--back2 ${promoting ? 'is-promoting' : ''}`}
+          className={`vocab-card-stack vocab-card-stack--back2 ${promoting ? 'is-promoting' : ''} ${resetting ? 'is-resetting' : ''}`}
           aria-hidden="true"
         >
           <img src={artAt(2)} alt="" className="vocab-card-bg" draggable={false} />
         </div>
         <div
-          className={`vocab-card-stack vocab-card-stack--back1 ${promoting ? 'is-promoting' : ''}`}
+          className={`vocab-card-stack vocab-card-stack--back1 ${promoting ? 'is-promoting' : ''} ${resetting ? 'is-resetting' : ''}`}
           aria-hidden="true"
         >
           <img src={artAt(1)} alt="" className="vocab-card-bg" draggable={false} />
@@ -323,10 +378,18 @@ export function VocabMaster() {
 
         {/* Front card — card1, flippable + swipeable */}
         <div
-          className={`vocab-card-flipper ${flipped ? 'is-flipped' : ''} ${swipeDir ? 'is-flying' : ''}`}
+          className={[
+            'vocab-card-flipper',
+            dragging ? 'is-dragging' : '',
+            resetting ? 'is-resetting' : '',
+            flipped ? 'is-flipped' : '',
+            swipeDir ? 'is-flying' : '',
+            swipeDir ? `is-flying--${swipeDir}` : '',
+          ]
+            .filter(Boolean)
+            .join(' ')}
           style={{
             transform: `translateX(${flyX}px) rotate(${baseRotate + flyRotate}deg)`,
-            opacity: swipeDir ? 0 : 1,
           }}
           onTouchStart={onTouchStart}
           onTouchMove={onTouchMove}
@@ -386,7 +449,7 @@ export function VocabMaster() {
         )}
       </div>
 
-      {/* Word in use + scenic background */}
+      {/* Word in use */}
       <div className="vocab-bottom-section">
         {card.example_semai && (
           <div className="vocab-word-in-use">
@@ -406,8 +469,32 @@ export function VocabMaster() {
             </p>
           </div>
         )}
-        <div className="vocab-bg-illustration" aria-hidden="true">
-          <img src={vocabBg} alt="" draggable={false} />
+
+        <div className="vocab-practice-panel" aria-label="Vocabulary practice guide">
+          <div className="vocab-practice-card">
+            <p className="vocab-practice-eyebrow">Round progress</p>
+            <div className="vocab-practice-progress-row">
+              <strong className="vocab-practice-progress-value">
+                {roundProgress}/{deck.length}
+              </strong>
+              <span className="vocab-practice-progress-copy">cards reviewed</span>
+            </div>
+            <div className="vocab-practice-progress-track" aria-hidden="true">
+              <div
+                className="vocab-practice-progress-fill"
+                style={{ width: `${deck.length ? (roundProgress / deck.length) * 100 : 0}%` }}
+              />
+            </div>
+          </div>
+
+          <div className="vocab-practice-card">
+            <p className="vocab-practice-eyebrow">Quick guide</p>
+            <ul className="vocab-practice-list" role="list">
+              <li>Tap the card to flip and reveal the meaning.</li>
+              <li>Swipe right if you know it.</li>
+              <li>Swipe left if you want to review it again.</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>

@@ -644,33 +644,7 @@
 }
 
 .auth-landing-brand {
-  color: #111828;
-  height: 126.5px;
-  position: relative;
-  width: 178.5px;
-}
-
-.auth-landing-brand-initial {
-  display: block;
-  font-family: 'PlayfairDisplay', serif;
-  font-size: 92.771px;
-  font-weight: 600;
-  left: 0;
-  letter-spacing: 1.8554px;
-  line-height: 1;
-  position: absolute;
-  top: 0;
-}
-
-.auth-landing-brand-text {
-  display: block;
-  font-family: 'PlayfairDisplay', serif;
-  font-size: 52px;
-  font-weight: 600;
-  left: 48.5px;
-  line-height: 1;
-  position: absolute;
-  top: 41px;
+  --taleka-wordmark-scale: 0.79;
 }
 
 .auth-landing-copy {
@@ -815,19 +789,7 @@
   }
 
   .auth-landing-brand {
-    height: 114px;
-    width: 162px;
-  }
-
-  .auth-landing-brand-initial {
-    font-size: 84px;
-    letter-spacing: 1.6px;
-  }
-
-  .auth-landing-brand-text {
-    font-size: 48px;
-    left: 44px;
-    top: 37px;
+    --taleka-wordmark-scale: 0.72;
   }
 
   .auth-landing-copy h1 {
@@ -868,19 +830,7 @@
   }
 
   .auth-landing-brand {
-    height: 152px;
-    width: 214px;
-  }
-
-  .auth-landing-brand-initial {
-    font-size: 111px;
-    letter-spacing: 2.1px;
-  }
-
-  .auth-landing-brand-text {
-    font-size: 62px;
-    left: 58px;
-    top: 49px;
+    --taleka-wordmark-scale: 0.95;
   }
 
   .auth-landing-copy {
@@ -988,19 +938,7 @@
   }
 
   .auth-landing-brand {
-    height: 126.5px;
-    width: 178.5px;
-  }
-
-  .auth-landing-brand-initial {
-    font-size: 92.771px;
-    letter-spacing: 1.8554px;
-  }
-
-  .auth-landing-brand-text {
-    font-size: 52px;
-    left: 48.5px;
-    top: 41px;
+    --taleka-wordmark-scale: 0.79;
   }
 
   .auth-landing-copy {

@@ -1,0 +1,33 @@
+.taleka-wordmark {
+  --taleka-wordmark-scale: 1;
+  color: #060606;
+  display: inline-flex;
+  align-items: baseline;
+  justify-content: center;
+  /* Add slight padding so italic overhangs don't get clipped */
+  padding: 0 calc(8px * var(--taleka-wordmark-scale));
+}
+
+.taleka-wordmark-initial,
+.taleka-wordmark-rest {
+  display: inline-block;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  font-weight: 600;
+  font-variation-settings: 'wght' 600;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.taleka-wordmark-initial {
+  font-size: calc(113.373px * var(--taleka-wordmark-scale));
+  letter-spacing: calc(0.5px * var(--taleka-wordmark-scale));
+  /* No need for position absolute anymore */
+}
+
+.taleka-wordmark-rest {
+  font-size: calc(64.198px * var(--taleka-wordmark-scale));
+  letter-spacing: calc(-0.4px * var(--taleka-wordmark-scale));
+  /* Pull the "aleka" left to tuck under the "T" overhang, just like the image */
+  margin-left: calc(-24px * var(--taleka-wordmark-scale));
+}

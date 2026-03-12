@@ -30,6 +30,7 @@ import {
   type StudioRecording,
   type StudioRecordingType,
 } from '../lib/elderStudio';
+import { AppSkeleton } from '../components/ui';
 import { triggerHapticFeedback } from '../lib/feedback';
 import { useAuthStore } from '../stores/authStore';
 
@@ -67,6 +68,31 @@ const toPreviewText = (value: string, maxLength = 140): string => {
   }
   return `${clean.slice(0, maxLength - 1)}…`;
 };
+
+const SoundArchiveLoadingSkeleton = () => (
+  <div
+    className="studio-loading-state studio-loading-state--stack"
+    aria-label="Loading sound archive"
+  >
+    {Array.from({ length: 3 }).map((_, index) => (
+      <div key={index} className="studio-skeleton-card">
+        <div className="studio-skeleton-card-header">
+          <AppSkeleton className="app-skeleton--pill" width="42%" height={16} />
+          <AppSkeleton className="app-skeleton--pill" width={88} height={24} />
+        </div>
+        <div className="studio-skeleton-card-lines">
+          <AppSkeleton className="app-skeleton--pill" width="88%" height={14} />
+          <AppSkeleton className="app-skeleton--pill" width="72%" height={14} />
+          <AppSkeleton className="app-skeleton--pill" width="56%" height={14} />
+        </div>
+        <div className="studio-skeleton-card-actions">
+          <AppSkeleton className="app-skeleton--pill" width={108} height={36} />
+          <AppSkeleton className="app-skeleton--pill" width={132} height={36} />
+        </div>
+      </div>
+    ))}
+  </div>
+);
 
 export function SoundArchiveTab() {
   const navigate = useNavigate();
@@ -404,9 +430,7 @@ export function SoundArchiveTab() {
           </header>
 
           {isLoading ? (
-            <div className="studio-loading-state">
-              <IonSpinner name="crescent" />
-            </div>
+            <SoundArchiveLoadingSkeleton />
           ) : recordings.length === 0 ? (
             <div className="studio-empty-state">
               <p>No recordings yet.</p>

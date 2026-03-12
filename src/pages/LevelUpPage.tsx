@@ -105,7 +105,7 @@ export function LevelUpPage({ level: propLevel }: LevelUpPageProps) {
         />
       </div>
 
-      {/* Back to Home button */}
+      {/* Back to Garden button */}
       <div className="levelup-footer">
         <button type="button" className="levelup-btn" onClick={handleHome}>
           {/* home icon */}
@@ -125,7 +125,7 @@ export function LevelUpPage({ level: propLevel }: LevelUpPageProps) {
               strokeLinejoin="round"
             />
           </svg>
-          <span>Back to Home ({remaining}s)</span>
+          <span>Back to Garden ({remaining}s)</span>
         </button>
         {/* Countdown progress bar */}
       </div>

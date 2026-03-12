@@ -1,4 +1,4 @@
-import { IonButton, IonSpinner, IonToast } from '@ionic/react';
+import { IonButton, IonToast } from '@ionic/react';
 import {
   useCallback,
   useEffect,
@@ -24,6 +24,7 @@ import { supabase } from '../lib/supabase';
 import { useAuthStore } from '../stores/authStore';
 import { toAuthErrorMessage } from '../utils/authErrors';
 import { validateEmail, validateFullName, validatePassword } from '../utils/authValidation';
+import { AppSkeleton } from '../components/ui';
 
 import avatarLearnerImg from '../../assets/profile/avatar-learner.png';
 import avatarElderImg from '../../assets/profile/avatar-elder.png';
@@ -281,6 +282,39 @@ const BackButton = ({ onBack, tone = 'dark' }: BackButtonProps) => {
     </button>
   );
 };
+
+const ProfileLoadingSkeleton = () => (
+  <section
+    className="profile-screen profile-loading-shell profile-screen-enter"
+    aria-label="Loading profile"
+  >
+    <div className="profile-hero">
+      <div className="profile-avatar-block">
+        <div className="profile-loading-avatar profile-loading-shimmer" />
+      </div>
+      <div className="profile-loading-line profile-loading-name profile-loading-shimmer" />
+      <div className="profile-loading-line profile-loading-subtitle profile-loading-shimmer" />
+    </div>
+
+    <div className="profile-cards">
+      <article className="profile-level-card">
+        <AppSkeleton className="profile-loading-level" />
+      </article>
+
+      <div className="profile-loading-stats" aria-hidden="true">
+        {Array.from({ length: 4 }).map((_, index) => (
+          <AppSkeleton key={index} className="profile-loading-stat" />
+        ))}
+      </div>
+
+      <div className="profile-loading-menu" aria-hidden="true">
+        {Array.from({ length: 4 }).map((_, index) => (
+          <AppSkeleton key={index} className="profile-loading-menu-item" />
+        ))}
+      </div>
+    </div>
+  </section>
+);
 
 const ProfileSubHeader = ({ title, onBack }: { title: string; onBack: () => void }) => {
   return (
@@ -1106,18 +1140,21 @@ export function ProfilePage() {
   }
 
   if (isLoading && !dashboard) {
-    return (
-      <div className="profile-loading profile-screen-enter">
-        <IonSpinner name="crescent" />
-      </div>
-    );
+    return <ProfileLoadingSkeleton />;
   }
 
   if (!dashboard) {
     return (
       <div className="profile-loading profile-loading-error">
         <p>Unable to load profile right now.</p>
-        <IonButton onClick={() => void refreshProfile()}>Retry</IonButton>
+        <IonButton
+          onClick={() => {
+            triggerHapticFeedback('light');
+            void refreshProfile();
+          }}
+        >
+          Retry
+        </IonButton>
       </div>
     );
   }
