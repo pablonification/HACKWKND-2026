@@ -1,5 +1,7 @@
 # Taleka
 
+
+
 Taleka is a mobile language learning and cultural preservation platform designed to help protect endangered indigenous languages. Built for the BorNEO HackWknd 2026 (Theme: The Role of AI in ASEAN Social Impact), the app currently focuses on Semai, an indigenous language spoken by the Semai people of Peninsular Malaysia.
 
 The platform serves two user types: learners who want to learn Semai, and elders who preserve and share their language through voice recordings. By combining community voices, interactive learning tools, and AI-powered features, Taleka creates an engaging environment for language preservation and acquisition.
