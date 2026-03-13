@@ -69,7 +69,8 @@ Works on any modern browser (Chrome, Safari, Firefox, Edge).
 
 ## Test Account
 
-If you'd prefer not to register, use these credentials to log in:
+If the organizer has provided a test account, use these credentials to log in.
+If placeholders are still shown, register a new account in the app:
 
 | Field    | Value                    |
 | -------- | ------------------------ |
