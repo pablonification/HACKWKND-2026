@@ -16,13 +16,15 @@ Run these from the repository root:
 
 ```bash
 npm run precommit
-```
-
-If needed, also run:
-
-```bash
 npm run check
+npm run build
 ```
+
+Why this is mandatory:
+
+- `precommit` uses `lint-staged`, which only lint/formats staged files.
+- CI checks the full repo (`format:check`, `lint`, `typecheck`, `test`) and also runs `build`.
+- Running all three commands locally prevents the recurring "passes locally, fails in CI" loop.
 
 ## Design and UX Standards
 
