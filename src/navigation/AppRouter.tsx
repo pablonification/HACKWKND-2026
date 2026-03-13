@@ -69,11 +69,11 @@ export function AppRouter() {
           await waitForNextFrame();
           if (cancelled) return;
 
+          removeSplashPreload();
           dismissNativeLaunchOverlay();
 
           window.setTimeout(() => {
             if (cancelled) return;
-            removeSplashPreload();
             setShowSplash(false);
           }, NATIVE_OVERLAY_EXIT_MS);
         };
