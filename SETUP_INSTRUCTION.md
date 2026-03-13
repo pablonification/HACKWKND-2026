@@ -1,4 +1,4 @@
-# Taleka — Judge Setup Guide
+# Taleka — Setup Guide
 
 **Version:** v1.0.3 · **Release:** [GitHub Releases](https://github.com/pablonification/HACKWKND-2026/releases/tag/v1.0.3)
 
@@ -81,4 +81,4 @@ If placeholders are still shown, register a new account in the app:
 
 ## Questions?
 
-Reach us at **arqilasp@gmail.com** or find us at the hackathon venue.
+Reach us at **arqilasp@gmail.com**.
