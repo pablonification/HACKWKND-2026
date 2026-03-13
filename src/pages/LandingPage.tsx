@@ -11,12 +11,12 @@ import { useAuthStore } from '../stores/authStore';
 import aiTaviCardImg from '../../assets/home-revised/ai-tavi.png';
 import ajengAvatarImg from '../../assets/home-revised/ajeng.png';
 import bayuAvatarImg from '../../assets/home-revised/bayu.png';
+import defaultLeaderboardImg from '../../assets/home-revised/default-leaderboard.png';
 import elderStudioCardImg from '../../assets/home-revised/elder-studio.png';
 import gardenCardImg from '../../assets/home-revised/lang-garden.png';
 import translateCardImg from '../../assets/home-revised/translate.png';
 import bgLearner from '../../assets/landing/background-learner.png';
 import bgElder from '../../assets/landing/background-elder.png';
-import rankingFirstAvatarImg from '../../assets/landing/figma/rank-first-avatar.png';
 import imgRecordCard from '../../assets/landing/record-card.png';
 import imgTranslateCard from '../../assets/landing/translate-card.png';
 
@@ -179,7 +179,7 @@ function WeeklyTalekaRanking({
               >
                 <div className="landing-ranking-avatar-wrap" aria-hidden="true">
                   <div
-                    className={`landing-ranking-avatar-shell landing-ranking-avatar-shell--${item.tone}`}
+                    className={`landing-ranking-avatar-shell landing-ranking-avatar-shell--${item.tone}${isLeader && leaderHasCustomPhoto ? ' landing-ranking-avatar-shell--clipped' : ''}`}
                   >
                     <img src={avatarSrc} alt="" className={avatarClassName} />
                   </div>
@@ -406,7 +406,7 @@ export function LandingPage() {
   const navigate = useNavigate();
   const { user } = useAuthStore();
   const [leaderName, setLeaderName] = useState('You');
-  const [leaderAvatarSrc, setLeaderAvatarSrc] = useState(rankingFirstAvatarImg);
+  const [leaderAvatarSrc, setLeaderAvatarSrc] = useState(defaultLeaderboardImg);
   const [leaderHasCustomPhoto, setLeaderHasCustomPhoto] = useState(false);
   const [isProfileLoading, setIsProfileLoading] = useState(true);
 
@@ -429,7 +429,7 @@ export function LandingPage() {
         : null;
 
     setLeaderName(metadataName ?? firstName);
-    setLeaderAvatarSrc(metadataAvatar ?? rankingFirstAvatarImg);
+    setLeaderAvatarSrc(metadataAvatar ?? defaultLeaderboardImg);
     setLeaderHasCustomPhoto(Boolean(metadataAvatar));
 
     if (!user?.id) {

@@ -27,7 +27,7 @@
   left: 0;
   right: 0;
   top: 71px;
-  height: 590px;
+  bottom: 22%;
   overflow: hidden;
   pointer-events: none;
 }
@@ -70,13 +70,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: calc(env(safe-area-inset-top, 0px) + 30px);
+  padding-top: calc(var(--safe-area-top) + 30px);
 }
 
 .story-read-back-btn {
   position: absolute;
   left: 24px;
-  top: calc(env(safe-area-inset-top, 0px) + 30px);
+  top: calc(var(--safe-area-top) + 30px);
   width: 36px;
   height: 36px;
   display: flex;
@@ -121,7 +121,7 @@
   bottom: 40px;
   left: 0;
   right: 0;
-  height: var(--cloud-down-h, 38vh);
+  height: 38%;
   z-index: 10;
   display: flex;
   align-items: center;
@@ -134,7 +134,7 @@
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  padding: 124px 22px 0px;
+  padding: min(124px, 15dvh) 22px 0px;
   pointer-events: auto;
   text-align: center;
 }
@@ -190,7 +190,7 @@
 /* ── Swipe hint ────────────────────────────────────────────────────────────── */
 .story-read-swipe-hint {
   position: absolute;
-  bottom: calc(env(safe-area-inset-bottom, 0px) + 28px);
+  bottom: calc(var(--safe-area-bottom) + 28px);
   right: 20px;
   z-index: 10;
   display: flex;

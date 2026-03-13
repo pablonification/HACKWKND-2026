@@ -113,6 +113,10 @@
   --app-press-ease: cubic-bezier(0.22, 1, 0.36, 1);
   --app-press-duration: 140ms;
   --app-focus-ring: rgba(203, 64, 60, 0.18);
+  --safe-area-top: env(safe-area-inset-top, 0px);
+  --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-area-left: env(safe-area-inset-left, 0px);
+  --safe-area-right: env(safe-area-inset-right, 0px);
 }
 
 html,

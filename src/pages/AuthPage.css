@@ -61,7 +61,7 @@
   line-height: 1;
   padding: 8px 2px;
   position: absolute;
-  top: calc(env(safe-area-inset-top, 0px) + 6px);
+  top: calc(var(--safe-area-top) + 6px);
   transition:
     opacity 160ms ease,
     transform 140ms ease;
@@ -93,7 +93,7 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
   margin-top: 186px;
   min-height: calc(100dvh - 186px);
-  padding: 35px 0 calc(env(safe-area-inset-bottom, 0px) + 22px);
+  padding: 35px 0 calc(var(--safe-area-bottom) + 22px);
   position: relative;
   z-index: 2;
 }
@@ -637,7 +637,7 @@
   gap: 42px;
   left: 50%;
   position: absolute;
-  top: calc(env(safe-area-inset-top, 0px) + 125px);
+  top: calc(var(--safe-area-top) + 125px);
   transform: translateX(-50%);
   width: min(334px, calc(100% - 60px));
   z-index: 2;
@@ -736,7 +736,7 @@
 }
 
 .auth-landing-badge {
-  bottom: calc(env(safe-area-inset-bottom, 0px) + 11px);
+  bottom: calc(var(--safe-area-bottom) + 11px);
   height: 46px;
   left: 14px;
   position: absolute;
@@ -784,7 +784,7 @@
   }
 
   .auth-landing-core {
-    top: calc(env(safe-area-inset-top, 0px) + 108px);
+    top: calc(var(--safe-area-top) + 108px);
     width: calc(100% - 36px);
   }
 
@@ -825,7 +825,7 @@
   }
 
   .auth-landing-core {
-    top: calc(env(safe-area-inset-top, 0px) + 96px);
+    top: calc(var(--safe-area-top) + 96px);
     width: min(520px, calc(100% - 120px));
   }
 
@@ -866,7 +866,7 @@
   }
 
   .auth-landing-badge {
-    bottom: calc(env(safe-area-inset-bottom, 0px) + 22px);
+    bottom: calc(var(--safe-area-bottom) + 22px);
     left: clamp(20px, 4vw, 48px);
   }
 }
@@ -879,7 +879,7 @@
   }
 
   .auth-landing-core {
-    top: calc(env(safe-area-inset-top, 0px) + 110px);
+    top: calc(var(--safe-area-top) + 110px);
     width: min(560px, calc(100% - 180px));
   }
 
@@ -933,7 +933,7 @@
   }
 
   .auth-landing-core {
-    top: calc(env(safe-area-inset-top, 0px) + 125px);
+    top: calc(var(--safe-area-top) + 125px);
     width: min(334px, calc(100% - 60px));
   }
 
@@ -974,7 +974,7 @@
   }
 
   .auth-landing-badge {
-    bottom: calc(env(safe-area-inset-bottom, 0px) + 11px);
+    bottom: calc(var(--safe-area-bottom) + 11px);
     left: 14px;
   }
 }

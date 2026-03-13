@@ -12,7 +12,7 @@
   font-family: 'Satoshi', 'Poppins', ui-sans-serif, system-ui, sans-serif;
   min-height: 100dvh;
   overflow: hidden;
-  padding: calc(env(safe-area-inset-top, 0px) + 0px) 0 calc(env(safe-area-inset-bottom, 0px) + 24px);
+  padding: var(--safe-area-top) 0 calc(var(--safe-area-bottom) + 24px);
   position: relative;
 }
 

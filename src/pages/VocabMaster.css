@@ -7,8 +7,7 @@
   font-family: 'Satoshi', 'Poppins', ui-sans-serif, system-ui, sans-serif;
   min-height: 100dvh;
   overflow: hidden;
-  padding: calc(env(safe-area-inset-top, 0px) + 16px) 0px
-    calc(env(safe-area-inset-bottom, 0px) + 0px);
+  padding: calc(var(--safe-area-top) + 16px) 0px calc(var(--safe-area-bottom) + 0px);
   position: relative;
 }
 
@@ -489,7 +488,7 @@
   flex: 1;
   margin-top: auto;
   min-height: 0;
-  padding: 24px 0 calc(env(safe-area-inset-bottom, 0px) + 28px);
+  padding: 24px 0 calc(var(--safe-area-bottom) + 28px);
   position: relative;
   z-index: 1;
 }

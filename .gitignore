@@ -48,3 +48,7 @@ supabase/.temp/
 
 # IDE-specific config
 .vscode/
+
+# local iOS launch debug captures
+tmp-ios-launch-*.png
+tmp-ios-launch.mp4

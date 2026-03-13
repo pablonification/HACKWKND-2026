@@ -9,7 +9,7 @@
   max-width: 760px;
   min-height: 100dvh;
   overflow: visible;
-  padding: calc(env(safe-area-inset-top, 0px) + 30px) 24px 0;
+  padding: calc(var(--safe-area-top) + 30px) 24px 0;
   position: relative;
   width: 100%;
 }
@@ -79,7 +79,7 @@
   justify-content: flex-start;
   list-style: none;
   margin: 0;
-  padding: 0 0 calc(env(safe-area-inset-bottom, 0px) + 116px);
+  padding: 0 0 calc(var(--safe-area-bottom) + 116px);
   position: relative;
   z-index: 1;
 }
