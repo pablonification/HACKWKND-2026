@@ -7,6 +7,7 @@ const config: CapacitorConfig = {
   appId: 'com.taleka.app',
   appName: 'Taleka',
   webDir: 'dist',
+  backgroundColor: '#fff9e9',
   ...(isDev && devServerUrl
     ? {
         server: {
@@ -18,7 +19,9 @@ const config: CapacitorConfig = {
     : {}),
   plugins: {
     SplashScreen: {
-      launchShowDuration: 0,
+      backgroundColor: '#fff9e9',
+      launchAutoHide: false,
+      showSpinner: false,
     },
   },
 };

@@ -7,130 +7,197 @@ from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parents[1]
 ASSETS_DIR = ROOT / "assets"
-PLAYFAIR_ITALIC_FONT = ASSETS_DIR / "fonts" / "PlayfairDisplay-Italic-Variable.ttf"
+FONTS_DIR = ASSETS_DIR / "fonts"
+SPLASH_DIR = ASSETS_DIR / "splash"
+SATOSHI_MEDIUM_FONT = FONTS_DIR / "Satoshi-Medium.ttf"
+MANSALVA_FONT = FONTS_DIR / "Mansalva-Regular.ttf"
+SPLASH_LOGO = SPLASH_DIR / "figma-splash-logo.png"
+SPLASH_FOOTER = SPLASH_DIR / "generated-splash-footer.png"
 
 BG = "#FFF9E9"
-WORDMARK = "#060606"
+BLACK = "#060606"
+GRADIENT_START = (45, 94, 153)
+GRADIENT_END = (203, 64, 60)
 
-IOS_TARGETS = [
-    ROOT / "ios" / "App" / "App" / "Assets.xcassets" / "Splash.imageset" / "splash-2732x2732.png",
-    ROOT / "ios" / "App" / "App" / "Assets.xcassets" / "Splash.imageset" / "splash-2732x2732-1.png",
-    ROOT / "ios" / "App" / "App" / "Assets.xcassets" / "Splash.imageset" / "splash-2732x2732-2.png",
-]
+DESIGN_WIDTH = 393
+DESIGN_HEIGHT = 852
+LOGO_X = 111
+LOGO_Y = 322
+LOGO_WIDTH = 160
+LOGO_HEIGHT = 187
+FOOTER_Y = 747
+FOOTER_WIDTH = 139
+FOOTER_HEIGHT = 42
 
-ANDROID_TARGETS = {
-    ROOT / "android" / "app" / "src" / "main" / "res" / "drawable" / "splash.png": (480, 320),
-    ROOT / "android" / "app" / "src" / "main" / "res" / "drawable-port-mdpi" / "splash.png": (320, 480),
-    ROOT / "android" / "app" / "src" / "main" / "res" / "drawable-port-hdpi" / "splash.png": (480, 800),
-    ROOT / "android" / "app" / "src" / "main" / "res" / "drawable-port-xhdpi" / "splash.png": (720, 1280),
-    ROOT / "android" / "app" / "src" / "main" / "res" / "drawable-port-xxhdpi" / "splash.png": (960, 1600),
-    ROOT / "android" / "app" / "src" / "main" / "res" / "drawable-port-xxxhdpi" / "splash.png": (1280, 1920),
-    ROOT / "android" / "app" / "src" / "main" / "res" / "drawable-land-mdpi" / "splash.png": (480, 320),
-    ROOT / "android" / "app" / "src" / "main" / "res" / "drawable-land-hdpi" / "splash.png": (800, 480),
-    ROOT / "android" / "app" / "src" / "main" / "res" / "drawable-land-xhdpi" / "splash.png": (1280, 720),
-    ROOT / "android" / "app" / "src" / "main" / "res" / "drawable-land-xxhdpi" / "splash.png": (1600, 960),
-    ROOT / "android" / "app" / "src" / "main" / "res" / "drawable-land-xxxhdpi" / "splash.png": (1920, 1280),
-}
+IOS_SPLASH_DIR = ROOT / "ios" / "App" / "App" / "Assets.xcassets" / "Splash.imageset"
+ANDROID_RES_DIR = ROOT / "android" / "app" / "src" / "main" / "res"
+ANDROID_LOGO_TARGET = ANDROID_RES_DIR / "drawable-nodpi" / "splash_logo.png"
+ANDROID_BRANDING_TARGET = ANDROID_RES_DIR / "drawable-nodpi" / "splash_branding.png"
 
 
 def font(path: Path, size: float) -> ImageFont.FreeTypeFont:
     return ImageFont.truetype(str(path), round(size))
 
 
-def measure_text(text: str, font_obj: ImageFont.FreeTypeFont) -> tuple[int, int]:
-    left, top, right, bottom = font_obj.getbbox(text)
-    return right - left, bottom - top
-
-
 def render_text_image(
     text: str,
     font_obj: ImageFont.FreeTypeFont,
-    color: str,
+    fill: str | tuple[int, int, int] | tuple[int, int, int, int],
     tracking: int = 0,
 ) -> Image.Image:
-    width, height = measure_text(text, font_obj)
-    pad = max(24, int(font_obj.size * 0.4))
+    left, top, right, bottom = font_obj.getbbox(text)
+    width = right - left
+    height = bottom - top
+    pad = max(16, int(font_obj.size * 0.35))
     base = Image.new("RGBA", (width + pad * 4, height + pad * 4), (0, 0, 0, 0))
     draw = ImageDraw.Draw(base)
-    x = pad
-    y = pad
+    x = pad - left
+    y = pad - top
     for char in text:
-        char_w, _ = measure_text(char, font_obj)
-        draw.text((x, y), char, font=font_obj, fill=color)
-        x += char_w + tracking
+        char_left, _, char_right, _ = font_obj.getbbox(char)
+        draw.text((x, y), char, font=font_obj, fill=fill)
+        x += (char_right - char_left) + tracking
 
     return base.crop(base.getbbox())
+
+
+def render_gradient_text_image(
+    text: str,
+    font_obj: ImageFont.FreeTypeFont,
+    start_color: tuple[int, int, int],
+    end_color: tuple[int, int, int],
+    tracking: int = 0,
+) -> Image.Image:
+    mask = render_text_image(text, font_obj, fill=(255, 255, 255, 255), tracking=tracking)
+    width, height = mask.size
+    gradient = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(gradient)
+    for x in range(width):
+        mix = x / max(width - 1, 1)
+        color = tuple(
+            round(start + (end - start) * mix) for start, end in zip(start_color, end_color)
+        )
+        draw.line([(x, 0), (x, height)], fill=(*color, 255))
+
+    gradient.putalpha(mask.getchannel("A"))
+    return gradient
 
 
 def paste_with_alpha(base: Image.Image, overlay: Image.Image, xy: tuple[int, int]) -> None:
     base.alpha_composite(overlay, dest=xy)
 
 
-def draw_wordmark(base: Image.Image, center_x: float, center_y: float, scale: float) -> float:
-    # Adjusted spacing for the new web layout to match exactly
-    wordmark_width = int(225.713 * scale)
-    wordmark_height = int(106.523 * scale)
-    
-    # Position everything around the visual center
-    origin_x = int(center_x - wordmark_width / 2)
-    origin_y = int(center_y - wordmark_height / 2)
-    
-    initial = render_text_image(
-        "T",
-        font(PLAYFAIR_ITALIC_FONT, 113.373 * scale),
-        WORDMARK,
-        tracking=0,
+def fit_size(width: int, height: int, max_width: int, max_height: int) -> tuple[int, int]:
+    scale = min(max_width / width, max_height / height)
+    return max(1, round(width * scale)), max(1, round(height * scale))
+
+
+def build_footer_art(scale: int = 4) -> Image.Image:
+    from_text = render_text_image(
+        "from",
+        font(SATOSHI_MEDIUM_FONT, 16 * scale),
+        BLACK,
+        tracking=round(scale),
     )
-    rest = render_text_image(
-        "aleka",
-        font(PLAYFAIR_ITALIC_FONT, 64.198 * scale),
-        WORDMARK,
-        tracking=0,
+    lockup = render_gradient_text_image(
+        "Ayo Ke malAI",
+        font(MANSALVA_FONT, 24 * scale),
+        GRADIENT_START,
+        GRADIENT_END,
+        tracking=round(-0.5 * scale),
     )
-    
-    paste_with_alpha(base, initial, (origin_x, int(origin_y - 1 * scale)))
-    
-    # Tuck "aleka" under "T" exactly like the CSS
-    # CSS does: font size 64px, margin-left: -24px, but baseline aligned.
-    # In canvas we have absolute coords
-    paste_with_alpha(base, rest, (origin_x + int(50 * scale), int(origin_y + 48 * scale)))
-    
-    return center_y + wordmark_height / 2
+
+    content_width = max(from_text.width, lockup.width)
+    top_pad = round(2 * scale)
+    gap = round(12 * scale)
+    bottom_pad = round(12 * scale)
+    side_pad = round(6 * scale)
+    canvas = Image.new(
+        "RGBA",
+        (content_width + side_pad * 2, top_pad + from_text.height + gap + lockup.height + bottom_pad),
+        (0, 0, 0, 0),
+    )
+
+    from_x = round((canvas.width - from_text.width) / 2)
+    lockup_x = round((canvas.width - lockup.width) / 2)
+    paste_with_alpha(canvas, from_text, (from_x, top_pad))
+    paste_with_alpha(canvas, lockup, (lockup_x, top_pad + from_text.height + gap))
+    return canvas.crop(canvas.getbbox())
+
+
+def native_targets() -> list[Path]:
+    return sorted(ANDROID_RES_DIR.glob("**/splash.png"))
+
+
+def ios_targets() -> list[Path]:
+    return sorted(IOS_SPLASH_DIR.glob("Default@*~universal~anyany*.png"))
 
 
 def make_clean_splash(width: int, height: int) -> Image.Image:
     image = Image.new("RGBA", (width, height), BG)
-    
-    # Determine a good scale factor. For pure typography, we want it a bit larger
-    # than it was in the old layout.
-    scale = min(width / 393, height / 852) * 1.5 
-    
-    center_x = width / 2
-    center_y = height / 2
+    scale = min(width / DESIGN_WIDTH, height / DESIGN_HEIGHT)
+    frame_width = DESIGN_WIDTH * scale
+    frame_height = DESIGN_HEIGHT * scale
+    origin_x = round((width - frame_width) / 2)
+    origin_y = round((height - frame_height) / 2)
 
-    draw_wordmark(image, center_x, center_y, scale)
-    
+    logo = Image.open(SPLASH_LOGO).convert("RGBA")
+    footer = Image.open(SPLASH_FOOTER).convert("RGBA")
+
+    logo_size = fit_size(logo.width, logo.height, round(LOGO_WIDTH * scale), round(LOGO_HEIGHT * scale))
+    footer_size = fit_size(
+        footer.width,
+        footer.height,
+        round(FOOTER_WIDTH * scale),
+        round(FOOTER_HEIGHT * scale),
+    )
+
+    logo = logo.resize(logo_size, Image.LANCZOS)
+    footer = footer.resize(footer_size, Image.LANCZOS)
+
+    logo_x = origin_x + round(LOGO_X * scale)
+    logo_y = origin_y + round(LOGO_Y * scale)
+    footer_x = round((width - footer.width) / 2)
+    footer_y = origin_y + round(FOOTER_Y * scale)
+
+    paste_with_alpha(image, logo, (logo_x, logo_y))
+    paste_with_alpha(image, footer, (footer_x, footer_y))
     return image
 
 
 def main() -> None:
-    if not PLAYFAIR_ITALIC_FONT.exists():
-        raise SystemExit(f"Missing font: {PLAYFAIR_ITALIC_FONT}")
+    required = [SATOSHI_MEDIUM_FONT, MANSALVA_FONT, SPLASH_LOGO]
+    for asset in required:
+        if not asset.exists():
+            raise SystemExit(f"Missing asset: {asset}")
 
-    print("Generating clean typography splash screens...")
-    
-    for target in IOS_TARGETS:
+    SPLASH_DIR.mkdir(parents=True, exist_ok=True)
+    ANDROID_LOGO_TARGET.parent.mkdir(parents=True, exist_ok=True)
+
+    footer = build_footer_art()
+    footer.save(SPLASH_FOOTER)
+
+    Image.open(SPLASH_LOGO).convert("RGBA").save(ANDROID_LOGO_TARGET)
+    footer.save(ANDROID_BRANDING_TARGET)
+
+    print("Generating Figma-based splash screens...")
+
+    for extra in IOS_SPLASH_DIR.glob("splash-2732x2732*.png"):
+        extra.unlink(missing_ok=True)
+
+    for target in ios_targets():
         target.parent.mkdir(parents=True, exist_ok=True)
-        # Standard iOS splash dimensions
         make_clean_splash(2732, 2732).save(target)
         print(f"Generated: {target.name}")
 
-    for target, size in ANDROID_TARGETS.items():
+    for target in native_targets():
         target.parent.mkdir(parents=True, exist_ok=True)
+        with Image.open(target) as current:
+            size = current.size
         splash = make_clean_splash(*size)
         splash.save(target)
         print(f"Generated: {target.parent.name}/{target.name}")
-        
+
     print("Done!")
 
 

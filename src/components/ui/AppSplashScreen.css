@@ -1,133 +1,69 @@
-/* ============================================================
-   Splash Screen — Full-screen fixed overlay, plain cream bg
-   ============================================================ */
-
 .app-splash-screen {
-  position: fixed;
+  background: #fff9e9;
   inset: 0;
-  z-index: 99999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   overflow: hidden;
-  background: #fff9e9;
+  position: fixed;
+  z-index: 99999;
 }
 
-/* ============================================================
-   Center group — wordmark container.
-   ZERO animation on this element or any text descendant.
-   ============================================================ */
-
-.app-splash-center {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* ============================================================
-   Wordmark — always rendered with final styles.
-   NO animation of ANY kind on text elements. The Playfair
-   Display "T" glyph distorts on iOS WKWebView whenever ANY
-   CSS animation (even `color`) is applied to text or its
-   ancestors, because it triggers a GPU compositing layer
-   switch that changes anti-aliasing.
-   ============================================================ */
-
-.app-splash-wordmark {
-  --taleka-wordmark-scale: 1.5;
-  position: relative;
-  z-index: 3;
-  /* Text always has its final color — no animation */
-  color: #060606;
-}
-
-/* ============================================================
-   Reveal overlay — cream-colored div that sits ON TOP of the
-   wordmark and fades out. The overlay gets composited (GPU),
-   but the TEXT underneath stays CPU-rendered with correct
-   glyph shapes the entire time.
-   ============================================================ */
-
-.app-splash-reveal {
-  position: absolute;
+.app-splash-scene {
+  height: 100%;
   inset: 0;
-  z-index: 4;
-  background: #fff9e9;
-  pointer-events: none;
-  opacity: 1;
-  will-change: opacity;
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
+  position: relative;
+  width: 100%;
 }
 
-.app-splash-reveal--running {
-  animation: splash-reveal 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  -webkit-animation: splash-reveal 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+.app-splash-logo,
+.app-splash-footer {
+  left: 50%;
+  position: absolute;
 }
 
-/* ============================================================
-   Exit animation — triggered by .app-splash-screen--exiting.
-   opacity+transform here IS intentional: we're fading out the
-   whole screen, text distortion during exit doesn't matter.
-   ============================================================ */
+.app-splash-logo {
+  top: calc(50% - 10.5px);
+  transform: translate(-50%, -50%);
+  width: clamp(140px, 40.7vw, 176px);
+}
+
+.app-splash-footer {
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 63px);
+  transform: translateX(-50%);
+  width: clamp(122px, 35.4vw, 152px);
+}
 
 .app-splash-screen--exiting {
-  animation: splash-exit 400ms cubic-bezier(0.4, 0, 1, 1) forwards;
-  -webkit-animation: splash-exit 400ms cubic-bezier(0.4, 0, 1, 1) forwards;
+  animation: splash-fade-out 280ms cubic-bezier(0.4, 0, 1, 1) forwards;
   pointer-events: none;
 }
 
-/* ============================================================
-   Keyframes
-   ============================================================ */
-
-/* Reveal overlay fades out to show the wordmark underneath */
-@keyframes splash-reveal {
+@keyframes splash-fade-out {
   from {
     opacity: 1;
   }
+
   to {
     opacity: 0;
   }
 }
-
-/* Exit — fade out + slight scale up */
-@keyframes splash-exit {
-  from {
-    opacity: 1;
-    transform: scale(1);
-  }
-  to {
-    opacity: 0;
-    transform: scale(1.04);
-  }
-}
-
-/* ============================================================
-   Responsive — scale wordmark for different screens
-   ============================================================ */
 
 @media (max-width: 360px) {
-  .app-splash-wordmark {
-    --taleka-wordmark-scale: 1.1;
+  .app-splash-footer {
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 54px);
   }
 }
 
 @media (min-width: 768px) {
-  .app-splash-wordmark {
-    --taleka-wordmark-scale: 2;
+  .app-splash-logo {
+    width: 188px;
+  }
+
+  .app-splash-footer {
+    width: 162px;
   }
 }
 
-/* ============================================================
-   Reduced motion — respect user preference
-   ============================================================ */
-
 @media (prefers-reduced-motion: reduce) {
-  .app-splash-reveal {
-    animation-duration: 0.2s;
-    animation-delay: 0.1s;
+  .app-splash-screen {
+    animation: none;
   }
 }
