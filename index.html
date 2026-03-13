@@ -20,18 +20,33 @@
   <body>
     <!-- Preload overlay: prevents cream flash between native splash and React mount.
          Removed by AppSplashScreen on mount. Inline style = renders on first paint. -->
-    <div id="splash-preload" style="position: fixed; inset: 0; z-index: 100000; background: #fff9e9">
+    <div
+      id="splash-preload"
+      style="position: fixed; inset: 0; z-index: 100000; background: #fff9e9"
+    >
       <img
         src="/assets/splash/figma-splash-logo.png"
         alt=""
         aria-hidden="true"
-        style="position: absolute; left: 50%; top: calc(50% - 10.5px); transform: translate(-50%, -50%); width: clamp(140px, 40.7vw, 176px);"
+        style="
+          position: absolute;
+          left: 50%;
+          top: calc(50% - 10.5px);
+          transform: translate(-50%, -50%);
+          width: clamp(140px, 40.7vw, 176px);
+        "
       />
       <img
         src="/assets/splash/generated-splash-footer.png"
         alt=""
         aria-hidden="true"
-        style="position: absolute; left: 50%; bottom: calc(env(safe-area-inset-bottom, 0px) + 63px); transform: translateX(-50%); width: clamp(122px, 35.4vw, 152px);"
+        style="
+          position: absolute;
+          left: 50%;
+          bottom: calc(env(safe-area-inset-bottom, 0px) + 63px);
+          transform: translateX(-50%);
+          width: clamp(122px, 35.4vw, 152px);
+        "
       />
     </div>
     <div id="root"></div>
