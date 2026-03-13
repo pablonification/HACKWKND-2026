@@ -1,6 +1,6 @@
 # Taleka — Judge Setup Guide
 
-**Version:** v1.0.2 · **Release:** [GitHub Releases](https://github.com/pablonification/HACKWKND-2026/releases/tag/v1.0.2)
+**Version:** v1.0.3 · **Release:** [GitHub Releases](https://github.com/pablonification/HACKWKND-2026/releases/tag/v1.0.3)
 
 > **Note:** Taleka is primarily built and optimized for iOS. The Android version is functional but may have minor UI or interaction bugs not present on iOS. The web version works but lacks native haptic feedback and some platform-specific polish.
 
@@ -13,7 +13,7 @@ The fastest way to get running. No account or special setup required.
 1. On your Android device, go to **Settings → Security** (or **Apps → Special app access**) and enable **Install unknown apps** for your browser or Files app.
 2. Download the APK directly on your device:
 
-   **[⬇ Download Taleka.apk (v1.0.2)](https://github.com/pablonification/HACKWKND-2026/releases/download/v1.0.2/Taleka.apk)**
+   **[⬇ Download Taleka.apk (v1.0.3)](https://github.com/pablonification/HACKWKND-2026/releases/download/v1.0.3/Taleka.apk)**
 
 3. Open the downloaded file and tap **Install**.
 4. Launch **Taleka** from your app drawer.
@@ -69,7 +69,8 @@ Works on any modern browser (Chrome, Safari, Firefox, Edge).
 
 ## Test Account
 
-If you'd prefer not to register, use these credentials to log in:
+If the organizer has provided a test account, use these credentials to log in.
+If placeholders are still shown, register a new account in the app:
 
 | Field    | Value                    |
 | -------- | ------------------------ |
