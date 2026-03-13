@@ -46,8 +46,10 @@ yarn-error.*
 # local Supabase CLI temp
 supabase/.temp/
 
-# IDE-specific config
+# IDE / tooling config
 .vscode/
+.codex/
+.sisyphus/
 
 # local iOS launch debug captures
 tmp-ios-launch-*.png

@@ -1,6 +1,6 @@
 # Taleka — Judge Setup Guide
 
-**Version:** v1.0.1 · **Release:** [GitHub Releases](https://github.com/pablonification/HACKWKND-2026/releases/tag/v1.0.1)
+**Version:** v1.0.2 · **Release:** [GitHub Releases](https://github.com/pablonification/HACKWKND-2026/releases/tag/v1.0.2)
 
 > **Note:** Taleka is primarily built and optimized for iOS. The Android version is functional but may have minor UI or interaction bugs not present on iOS. The web version works but lacks native haptic feedback and some platform-specific polish.
 
@@ -13,7 +13,7 @@ The fastest way to get running. No account or special setup required.
 1. On your Android device, go to **Settings → Security** (or **Apps → Special app access**) and enable **Install unknown apps** for your browser or Files app.
 2. Download the APK directly on your device:
 
-   **[⬇ Download app-release.apk (v1.0.1)](https://github.com/pablonification/HACKWKND-2026/releases/download/v1.0.1/app-release.apk)**
+   **[⬇ Download app-release.apk (v1.0.2)](https://github.com/pablonification/HACKWKND-2026/releases/download/v1.0.2/app-release.apk)**
 
 3. Open the downloaded file and tap **Install**.
 4. Launch **Taleka** from your app drawer.
@@ -21,7 +21,7 @@ The fastest way to get running. No account or special setup required.
 **SHA-256 checksum** (optional integrity check):
 
 ```
-c1ece87461fa94a2f1bd4e80977ce4ee3b7b00d0a9a893de5c004752ba817aac
+ff410af65f4c0a0c5266ee478cb2a83093ec87eddd7558a3e20967506f24faaf
 ```
 
 ---
@@ -56,7 +56,7 @@ Works on any modern browser (Chrome, Safari, Firefox, Edge).
 
 🔗 **[https://taleka.vercel.app](https://taleka.vercel.app)**
 
-> **Desktop or tablet?** The web app will show a prompt asking you to switch to a mobile device or use your browser's **Toggle device toolbar** (F12 → device icon → pick iPhone 12 Pro → refresh).
+> **Desktop or tablet?** The web app is designed for mobile viewports but now renders correctly on desktop browsers. For the best experience, use your browser's **Toggle device toolbar** (F12 → device icon → pick iPhone 12 Pro → refresh).
 
 **Limitations vs. native:**
 
