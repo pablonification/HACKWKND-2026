@@ -1934,7 +1934,7 @@
 }
 
 .studio-flow-shell--details {
-  padding-bottom: calc(var(--safe-area-bottom) + 32px);
+  padding-bottom: calc(var(--safe-area-bottom) + 140px);
 }
 
 .studio-flow-header {

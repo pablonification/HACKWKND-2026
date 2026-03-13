@@ -929,7 +929,9 @@
   }
 
   .auth-landing {
-    min-height: 100%;
+    inset: 0;
+    min-height: 0;
+    position: absolute;
   }
 
   .auth-landing-core {
