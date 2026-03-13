@@ -4,7 +4,8 @@
   position: relative;
   min-height: 100%;
   background: #f2e9e0;
-  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 120px);
+  padding-top: var(--safe-area-top);
+  padding-bottom: calc(var(--safe-area-bottom) + 120px);
   overflow-x: hidden;
 }
 
@@ -55,7 +56,7 @@
   border-radius: 50%;
   width: 36px;
   height: 36px;
-  margin: 30px 0 0 24px;
+  margin: 12px 0 0 24px;
   cursor: pointer;
   outline: none;
   -webkit-tap-highlight-color: transparent;
@@ -294,7 +295,7 @@
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  padding: 24px 27px calc(env(safe-area-inset-bottom, 0px) + 24px);
+  padding: 24px 27px calc(var(--safe-area-bottom) + 24px);
   background: linear-gradient(to top, rgba(242, 233, 224, 1) 71%, rgba(242, 233, 224, 0.4) 100%);
 }
 

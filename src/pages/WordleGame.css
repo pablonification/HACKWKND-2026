@@ -11,7 +11,7 @@
   min-height: 100dvh;
   position: relative;
   overflow: hidden;
-  padding: calc(env(safe-area-inset-top, 0px) + 30px) 0px 0px;
+  padding: calc(var(--safe-area-top) + 30px) 0px 0px;
 }
 
 .wordle-shell--loading {

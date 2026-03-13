@@ -60,7 +60,7 @@
 }
 
 .profile-loading-shell .profile-cards {
-  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 116px);
+  padding-bottom: calc(var(--safe-area-bottom) + 116px);
 }
 
 .profile-loading-shell .profile-hero {
@@ -150,7 +150,7 @@
 }
 
 .profile-overview-screen {
-  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 4px);
+  padding-bottom: calc(var(--safe-area-bottom) + 4px);
 }
 
 .profile-hero {
@@ -283,7 +283,7 @@
   flex-direction: column;
   gap: 9px;
   margin: 27px auto 0;
-  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 116px);
+  padding-bottom: calc(var(--safe-area-bottom) + 116px);
   width: min(331px, calc(100% - 62px));
 }
 
@@ -526,7 +526,7 @@
 }
 
 .profile-subscreen {
-  padding: 66px 27px calc(env(safe-area-inset-bottom, 0px) + 28px);
+  padding: 66px 27px calc(var(--safe-area-bottom) + 28px);
 }
 
 .profile-subheader {
@@ -725,7 +725,7 @@
 }
 
 .profile-settings-screen {
-  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 24px);
+  padding-bottom: calc(var(--safe-area-bottom) + 24px);
 }
 
 .profile-settings-hero {
@@ -881,7 +881,7 @@
 }
 
 .profile-info-screen {
-  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 22px);
+  padding-bottom: calc(var(--safe-area-bottom) + 22px);
 }
 
 .profile-info-header {
@@ -921,7 +921,7 @@
   gap: 0;
   line-height: 16px;
   margin: 10px auto 0;
-  padding: 0 10px calc(env(safe-area-inset-bottom, 0px) + 40px);
+  padding: 0 10px calc(var(--safe-area-bottom) + 40px);
   text-align: justify;
   width: min(360px, calc(100% - 34px));
 }
