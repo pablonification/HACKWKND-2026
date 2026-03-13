@@ -24,7 +24,9 @@ import {
   useRef,
   useState,
 } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+
+import { getStickyHeaderPolicy } from '../lib/stickyRoutePolicy';
 
 import {
   countPendingStudioReview,
@@ -79,6 +81,35 @@ type WindowWithWebkitAudioContext = Window &
   };
 
 const PREVIEW_RECORDING_LIMIT = 3;
+
+/**
+ * Proactively request microphone access so the native OS permission dialog
+ * appears immediately (before the user taps record). On iOS WKWebView,
+ * getUserMedia is the only reliable way to trigger the prompt —
+ * navigator.permissions.query is not supported.
+ *
+ * Returns 'granted' | 'denied' | 'unavailable'.
+ */
+const requestMicrophoneAccess = async (): Promise<'granted' | 'denied' | 'unavailable'> => {
+  if (typeof navigator === 'undefined' || !navigator.mediaDevices?.getUserMedia) {
+    return 'unavailable';
+  }
+
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    // Immediately release — we only needed the permission prompt.
+    stream.getTracks().forEach((track) => track.stop());
+    return 'granted';
+  } catch (error) {
+    if (error instanceof DOMException && error.name === 'NotAllowedError') {
+      return 'denied';
+    }
+    if (error instanceof DOMException && error.name === 'NotFoundError') {
+      return 'unavailable';
+    }
+    return 'denied';
+  }
+};
 
 const getMediaRecorderMimeType = (): string => {
   if (typeof MediaRecorder === 'undefined') {
@@ -178,8 +209,11 @@ const formatDraftSize = (blob: Blob | null): string => {
 };
 
 export function ElderStudioTab() {
+  const location = useLocation();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const headerPolicy = getStickyHeaderPolicy(location.pathname, searchParams);
+  const isHeaderSticky = headerPolicy === 'sticky';
   const { user } = useAuthStore();
   const fromExplore = isExploreEntry(searchParams);
   const [recordings, setRecordings] = useState<StudioRecording[]>([]);
@@ -552,6 +586,23 @@ export function ElderStudioTab() {
     resetComposerDraft();
     setFlowStep('capture');
     setIsComposerOpen(true);
+
+    void requestMicrophoneAccess().then((result) => {
+      if (result === 'denied') {
+        setToast({
+          color: 'warning',
+          message:
+            'Microphone access was denied. Please enable it in your device settings to record.',
+        });
+        triggerHapticFeedback('error');
+      } else if (result === 'unavailable') {
+        setToast({
+          color: 'danger',
+          message: 'No microphone detected on this device.',
+        });
+        triggerHapticFeedback('error');
+      }
+    });
   };
 
   const handleCloseComposer = useCallback(() => {
@@ -1133,7 +1184,7 @@ export function ElderStudioTab() {
 
           {flowStep === 'capture' ? (
             <div className="studio-flow-shell studio-flow-shell--capture">
-              <header className="studio-flow-header">
+              <header className={`studio-flow-header ${isHeaderSticky ? 'is-sticky' : ''}`}>
                 <button type="button" className="studio-flow-back-button" onClick={handleFlowBack}>
                   <IonIcon aria-hidden icon={arrowBackOutline} />
                 </button>
@@ -1230,7 +1281,7 @@ export function ElderStudioTab() {
           ) : (
             <div className="studio-flow-shell studio-flow-shell--details">
               <form className="studio-save-form" onSubmit={handleSaveRecording}>
-                <header className="studio-flow-header">
+                <header className={`studio-flow-header ${isHeaderSticky ? 'is-sticky' : ''}`}>
                   <button
                     type="button"
                     className="studio-flow-back-button"

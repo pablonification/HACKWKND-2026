@@ -9,7 +9,7 @@ import {
   refreshOutline,
 } from 'ionicons/icons';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import {
   countPendingStudioReview,
@@ -33,6 +33,7 @@ import {
 } from '../lib/elderStudio';
 import { AppSkeleton } from '../components/ui';
 import { triggerHapticFeedback } from '../lib/feedback';
+import { getStickyHeaderPolicy } from '../lib/stickyRoutePolicy';
 import { useAuthStore } from '../stores/authStore';
 
 type ToastState = {
@@ -96,6 +97,7 @@ const SoundArchiveLoadingSkeleton = () => (
 );
 
 export function SoundArchiveTab() {
+  const location = useLocation();
   const navigate = useNavigate();
   const aiBaseUrl = import.meta.env.VITE_AI_BASE_URL as string | undefined;
   const isAiHelperConfigured = Boolean(aiBaseUrl && aiBaseUrl.trim().length > 0);
@@ -130,8 +132,9 @@ export function SoundArchiveTab() {
 
       try {
         remoteRecordings = await fetchRemoteStudioRecordings(user.id);
-      } catch {
+      } catch (error) {
         // Keep local archive usable even when remote read fails.
+        console.warn('Failed to fetch remote recordings:', error);
       }
 
       setRecordings(mergeStudioRecordings(localRecordings, remoteRecordings));
@@ -374,10 +377,19 @@ export function SoundArchiveTab() {
     }
   };
 
+  const headerPolicy = getStickyHeaderPolicy(
+    location.pathname,
+    new URLSearchParams(location.search),
+  );
+  const headerClass =
+    headerPolicy === 'sticky'
+      ? 'studio-heading-row studio-heading-row--archive is-sticky'
+      : 'studio-heading-row';
+
   return (
     <section className="home-tab-content home-tab-content--studio">
       <div className="studio-shell studio-shell--archive">
-        <header className="studio-heading-row">
+        <header className={headerClass}>
           <button
             type="button"
             className="studio-back-button studio-back-button--home"

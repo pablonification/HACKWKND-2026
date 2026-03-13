@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { triggerHapticFeedback } from '../lib/feedback';
 import { STORIES } from '../lib/storyData';
+import { getStickyHeaderPolicy } from '../lib/stickyRoutePolicy';
 
 import './StoryPage.css';
 
@@ -18,7 +19,14 @@ function SearchIcon() {
 
 export function StoryPage() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [query, setQuery] = useState('');
+
+  const stickyPolicy = getStickyHeaderPolicy(
+    location.pathname,
+    new URLSearchParams(location.search),
+  );
+  const isCompactSticky = stickyPolicy === 'compact-sticky';
 
   const filtered = STORIES.filter(
     (s) =>
@@ -37,19 +45,21 @@ export function StoryPage() {
       <div className="story-header-arc" aria-hidden="true" />
 
       {/* ── Title in header ── */}
-      <div className="story-header-title">Story</div>
+      <div className={isCompactSticky ? 'story-top-area is-compact-sticky' : 'story-top-area'}>
+        <div className="story-header-title">Story</div>
 
-      {/* ── Search bar ── */}
-      <div className="story-search-wrap">
-        <div className="story-search-bar">
-          <SearchIcon />
-          <input
-            className="story-search-input"
-            type="search"
-            placeholder="Search Book Title/Author"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-          />
+        {/* ── Search bar ── */}
+        <div className="story-search-wrap">
+          <div className="story-search-bar">
+            <SearchIcon />
+            <input
+              className="story-search-input"
+              type="search"
+              placeholder="Search Book Title/Author"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+            />
+          </div>
         </div>
       </div>
 

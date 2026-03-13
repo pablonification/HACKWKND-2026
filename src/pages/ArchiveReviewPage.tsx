@@ -8,7 +8,9 @@ import {
   trashOutline,
 } from 'ionicons/icons';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+
+import { getStickyHeaderPolicy } from '../lib/stickyRoutePolicy';
 
 import {
   approveStudioRecordingReview,
@@ -181,6 +183,11 @@ const ArchiveReviewLoadingSkeleton = () => (
 
 export function ArchiveReviewPage() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const stickyPolicy = getStickyHeaderPolicy(
+    location.pathname,
+    new URLSearchParams(location.search),
+  );
   const { user } = useAuthStore();
   const [recordings, setRecordings] = useState<StudioRecording[]>([]);
   const [filter, setFilter] = useState<ReviewFilter>('pending');
@@ -644,7 +651,9 @@ export function ArchiveReviewPage() {
   return (
     <section className="home-tab-content home-tab-content--studio review-page">
       <div className="review-page-shell">
-        <header className="review-page-header">
+        <header
+          className={`review-page-header ${stickyPolicy === 'sticky' ? 'is-sticky' : ''}`.trim()}
+        >
           <button
             type="button"
             className="review-back-button"

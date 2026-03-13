@@ -12,6 +12,7 @@ import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-
 
 import { updatePassword } from '../lib/auth';
 import { triggerHapticFeedback } from '../lib/feedback';
+import { getStickyHeaderPolicy } from '../lib/stickyRoutePolicy';
 import {
   fetchProfileDashboard,
   type ProfileDashboard,
@@ -962,9 +963,16 @@ const InfoScreen = ({
   includeMission = false,
   includePrivacySections = false,
 }: InfoScreenProps) => {
+  const location = useLocation();
+  const stickyPolicy = getStickyHeaderPolicy(
+    location.pathname,
+    new URLSearchParams(location.search),
+  );
+  const isCompactSticky = stickyPolicy === 'compact-sticky';
+
   return (
     <section className="profile-screen profile-info-screen profile-screen-enter">
-      <div className="profile-info-header">
+      <div className={`profile-info-header${isCompactSticky ? ' is-compact-sticky' : ''}`}>
         <div className="profile-info-header-inner">
           <BackButton onBack={onBack} tone="light" />
           <h2>{title}</h2>
