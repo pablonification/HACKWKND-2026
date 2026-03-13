@@ -32,10 +32,10 @@
 }
 
 .landing-skeleton-greeting {
-  left: 24px;
+  left: calc(var(--safe-area-left) + 24px);
   max-width: 172px;
   position: absolute;
-  top: 34px;
+  top: calc(var(--safe-area-top) + 34px);
 }
 
 .landing-search-bar--skeleton {
@@ -118,10 +118,10 @@
 
 /* Learner "Hello" overlay on hero */
 .landing-hero-greeting {
-  left: 24px;
-  right: 24px;
+  left: calc(var(--safe-area-left) + 24px);
+  right: calc(var(--safe-area-right) + 24px);
   position: absolute;
-  top: 30px;
+  top: calc(var(--safe-area-top) + 30px);
   z-index: 2;
 }
 
@@ -138,9 +138,9 @@
 /* ─── Search bar — floats on the seam ──────────────────────────────────────── */
 
 .landing-search-wrap {
-  left: 24px;
+  left: calc(var(--safe-area-left) + 24px);
   position: absolute;
-  right: 24px;
+  right: calc(var(--safe-area-right) + 24px);
   top: 200px;
   z-index: 10;
 }
@@ -198,7 +198,7 @@
   margin-top: -32px; /* pull up over hero */
   max-width: 720px;
   min-height: 0;
-  padding: 30px 24px calc(env(safe-area-inset-bottom, 0px) + 138px);
+  padding: 30px 24px calc(var(--safe-area-bottom) + 138px);
   position: relative;
   width: 100%;
   z-index: 1;
@@ -475,7 +475,7 @@
   width: 68px;
 }
 
-.landing-ranking-avatar-shell--first {
+.landing-ranking-avatar-shell--clipped {
   overflow: hidden;
 }
 
@@ -487,11 +487,10 @@
 }
 
 .landing-ranking-avatar-img--leader-fallback {
-  height: 108px;
-  object-fit: contain;
-  object-position: center bottom;
-  transform: translateY(4px) scale(1.15);
-  width: 96px;
+  border-radius: 10px;
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
 }
 
 .landing-ranking-avatar-img--leader-photo {
@@ -633,7 +632,7 @@
   }
 
   .landing-hero-greeting {
-    left: max(40px, calc((100vw - 720px) / 2 + 24px));
+    left: max(calc(var(--safe-area-left) + 40px), calc((100vw - 720px) / 2 + 24px));
   }
 
   .landing-search-wrap {
@@ -651,7 +650,7 @@
   }
 
   .landing-skeleton-greeting {
-    left: max(40px, calc((100vw - 720px) / 2 + 24px));
+    left: max(calc(var(--safe-area-left) + 40px), calc((100vw - 720px) / 2 + 24px));
   }
 
   .landing-books-row {

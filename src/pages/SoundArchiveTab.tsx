@@ -1,5 +1,6 @@
 import { IonIcon, IonSpinner, IonToast } from '@ionic/react';
 import {
+  arrowBackOutline,
   cloudDoneOutline,
   cloudOfflineOutline,
   cloudUploadOutline,
@@ -377,6 +378,17 @@ export function SoundArchiveTab() {
     <section className="home-tab-content home-tab-content--studio">
       <div className="studio-shell studio-shell--archive">
         <header className="studio-heading-row">
+          <button
+            type="button"
+            className="studio-back-button studio-back-button--home"
+            onClick={() => {
+              triggerHapticFeedback('light');
+              navigate('/home/studio', { replace: true });
+            }}
+            aria-label="Back to Elder Studio"
+          >
+            <IonIcon aria-hidden icon={arrowBackOutline} />
+          </button>
           <h2>Sound Archive</h2>
           <div className={`studio-sync-badge is-${syncBadge.tone}`}>
             {isSyncing ? (

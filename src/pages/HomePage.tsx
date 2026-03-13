@@ -359,7 +359,7 @@ function resolveLearnerTab(pathname: string): LearnerTab | null {
   if (pathname.startsWith('/home/landing')) return 'home';
   if (pathname.startsWith('/home/garden')) return 'garden';
   if (pathname.startsWith('/home/stories')) return 'story';
-  if (pathname.startsWith('/home/archive')) return 'story';
+  if (pathname.startsWith('/home/archive')) return null;
   if (pathname.startsWith('/home/ai')) return 'ai';
   if (pathname.startsWith('/home/profile')) return 'profile';
   return 'home';
