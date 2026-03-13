@@ -73,8 +73,8 @@ If you'd prefer not to register, use these credentials to log in:
 
 | Field    | Value                    |
 | -------- | ------------------------ |
-| Email    | `[INSERT_TEST_EMAIL]`    |
-| Password | `[INSERT_TEST_PASSWORD]` |
+| Email    | `arqilasp@gmail.com`    |
+| Password | `testing12345` |
 
 ---
 
