@@ -1,5 +1,5 @@
 import { IonSpinner, IonToast } from '@ionic/react';
-import type { ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
@@ -391,6 +391,11 @@ export function AiHelperPage() {
   ]);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
+  const hasAutoFocusedChatRef = useRef(false);
+  const [isInitialFocusLockActive, setIsInitialFocusLockActive] = useState(true);
+  const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
+  const [keyboardInset, setKeyboardInset] = useState(0);
+  const [isInputFocused, setIsInputFocused] = useState(false);
 
   const displayName = useMemo(
     () => getDisplayName(user?.email, user?.user_metadata?.full_name),
@@ -398,6 +403,9 @@ export function AiHelperPage() {
   );
   const fromExplore = isExploreEntry(searchParams);
   const showIntro = searchParams.get('chat') !== '1';
+  const chatOuterStyle: CSSProperties & Record<'--tavi-keyboard-offset', string> = {
+    '--tavi-keyboard-offset': `${keyboardInset}px`,
+  };
 
   const navigateBackFromExplore = () => {
     if (window.history.length > 1) {
@@ -433,6 +441,79 @@ export function AiHelperPage() {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
+
+  useEffect(() => {
+    if (showIntro) {
+      hasAutoFocusedChatRef.current = false;
+      setIsInitialFocusLockActive(true);
+      setIsKeyboardOpen(false);
+      setKeyboardInset(0);
+      return;
+    }
+
+    if (hasAutoFocusedChatRef.current) {
+      return;
+    }
+
+    const focusTimer = window.setTimeout(() => {
+      const input = inputRef.current;
+      if (!input) {
+        return;
+      }
+
+      input.focus({ preventScroll: true });
+      const currentLength = input.value.length;
+      input.setSelectionRange(currentLength, currentLength);
+      hasAutoFocusedChatRef.current = true;
+    }, 120);
+
+    return () => {
+      window.clearTimeout(focusTimer);
+    };
+  }, [showIntro]);
+
+  useEffect(() => {
+    if (
+      showIntro ||
+      typeof window === 'undefined' ||
+      typeof window.visualViewport === 'undefined'
+    ) {
+      return;
+    }
+
+    const viewport = window.visualViewport;
+    if (!viewport) {
+      return;
+    }
+
+    const keyboardThreshold = 120;
+    const updateKeyboardState = () => {
+      const inset = Math.max(
+        0,
+        Math.round(window.innerHeight - viewport.height - viewport.offsetTop),
+      );
+      const keyboardVisible = inset > keyboardThreshold;
+      setIsKeyboardOpen(keyboardVisible);
+      setKeyboardInset(keyboardVisible ? inset : 0);
+    };
+
+    updateKeyboardState();
+    const handleViewportChange = () => {
+      window.requestAnimationFrame(() => {
+        updateKeyboardState();
+      });
+    };
+
+    viewport.addEventListener('resize', handleViewportChange);
+    viewport.addEventListener('scroll', handleViewportChange);
+
+    return () => {
+      viewport.removeEventListener('resize', handleViewportChange);
+      viewport.removeEventListener('scroll', handleViewportChange);
+      setIsKeyboardOpen(false);
+      setKeyboardInset(0);
+    };
+  }, [showIntro]);
 
   const handleBack = () => {
     triggerHapticFeedback('light');
@@ -521,6 +602,15 @@ export function AiHelperPage() {
     if (!options?.textOverride) {
       setInputText('');
     }
+
+    if (isInitialFocusLockActive) {
+      setIsInitialFocusLockActive(false);
+    }
+
+    if (shouldRenderUserMessage || action) {
+      inputRef.current?.blur();
+    }
+
     setIsSending(true);
     setSendError(null);
     setRetryPayload(null);
@@ -629,7 +719,7 @@ export function AiHelperPage() {
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (event.key === 'Enter' && !event.shiftKey) {
+    if (event.key === 'Enter' && !event.shiftKey && !event.nativeEvent.isComposing) {
       event.preventDefault();
       void handleSend();
     }
@@ -653,7 +743,7 @@ export function AiHelperPage() {
   }
 
   return (
-    <div className="tavi-chat-outer">
+    <div className="tavi-chat-outer" style={chatOuterStyle}>
       <div className="tavi-chat-shell">
         <header className="tavi-chat-header">
           <button
@@ -682,14 +772,28 @@ export function AiHelperPage() {
           </div>
         ) : null}
 
-        <div className="tavi-chat-messages">
+        <div
+          className="tavi-chat-messages"
+          onPointerDown={() => {
+            const input = inputRef.current;
+            if (!input || isInitialFocusLockActive) {
+              return;
+            }
+
+            if (document.activeElement === input) {
+              input.blur();
+            }
+          }}
+        >
           {messages.map((message) => (
             <ChatBubble key={message.id} message={message} onUseFollowUp={handleUseFollowUp} />
           ))}
           <div ref={messagesEndRef} />
         </div>
 
-        <div className="tavi-chat-inputbar">
+        <div
+          className={`tavi-chat-inputbar${isKeyboardOpen || isInputFocused ? ' is-keyboard-open' : ''}`}
+        >
           <button
             type="button"
             className="tavi-chat-inputbar-icon tavi-chat-inputbar-icon--coming-soon"
@@ -727,11 +831,30 @@ export function AiHelperPage() {
               placeholder="Write your message here"
               value={inputText}
               rows={1}
+              enterKeyHint="send"
               onChange={(event) => setInputText(event.target.value)}
               onFocus={() => {
+                setIsInputFocused(true);
                 if (sendError) {
                   setSendError(null);
                 }
+              }}
+              onBlur={() => {
+                setIsInputFocused(false);
+                if (!isInitialFocusLockActive) {
+                  return;
+                }
+
+                window.setTimeout(() => {
+                  const input = inputRef.current;
+                  if (!input) {
+                    return;
+                  }
+
+                  input.focus({ preventScroll: true });
+                  const currentLength = input.value.length;
+                  input.setSelectionRange(currentLength, currentLength);
+                }, 0);
               }}
               onKeyDown={handleKeyDown}
             />

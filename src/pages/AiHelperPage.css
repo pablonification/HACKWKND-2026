@@ -1,9 +1,11 @@
 .tavi-chat-outer {
+  --tavi-keyboard-offset: 0px;
   display: flex;
   flex-direction: column;
   flex: 1;
-  min-height: 100%;
+  min-height: 100dvh;
   background: #fff9e9;
+  overflow: hidden;
 }
 
 .tavi-loading-screen {
@@ -20,7 +22,7 @@
   display: flex;
   flex-direction: column;
   min-height: 100dvh;
-  padding: 0 0 calc(env(safe-area-inset-bottom, 0px) + 132px);
+  padding: 0 0 calc(var(--safe-area-bottom) + 132px);
 }
 
 .tavi-intro-mascot-wrap {
@@ -87,7 +89,7 @@
   align-items: center;
   display: flex;
   justify-content: space-between;
-  padding: calc(env(safe-area-inset-top, 0px) + 30px) 24px 0;
+  padding: calc(var(--safe-area-top) + 30px) 24px 0;
 }
 
 .tavi-back-button {
@@ -211,16 +213,22 @@
   display: flex;
   flex-direction: column;
   flex: 1;
-  min-height: 100%;
+  min-height: 100dvh;
   position: relative;
-  padding: calc(env(safe-area-inset-top, 0px) + 0px) 24px 12px;
+  padding: 0 calc(var(--safe-area-right) + 24px) calc(var(--safe-area-bottom) + 120px)
+    calc(var(--safe-area-left) + 24px);
+  overflow: hidden;
 }
 
 .tavi-chat-header {
   align-items: center;
   display: flex;
   justify-content: space-between;
-  padding: calc(env(safe-area-inset-top, 0px) + 30px) 0px 0;
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: #fff9e9;
+  padding: calc(var(--safe-area-top) + 12px) 0px 0;
 }
 
 .tavi-chat-header-pill {
@@ -268,7 +276,7 @@
   flex: 1;
   min-height: 0;
   overflow-y: auto;
-  padding: 16px 0px 16px;
+  padding: 16px 0px;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -529,9 +537,16 @@
   display: flex;
   flex-shrink: 0;
   gap: 0px;
-  padding: 10px 0px 0px;
-  position: sticky;
-  z-index: 20;
+  left: calc(var(--safe-area-left) + 24px);
+  padding: 10px 0px 0;
+  position: fixed;
+  right: calc(var(--safe-area-right) + 24px);
+  bottom: calc(var(--safe-area-bottom) + 8px);
+  z-index: 28;
+}
+
+.tavi-chat-inputbar.is-keyboard-open {
+  bottom: calc(var(--tavi-keyboard-offset) + 2px);
 }
 
 .tavi-chat-inputbar-right {
@@ -712,6 +727,7 @@
   font-size: 16px;
   line-height: 1.4;
   max-height: 120px;
+  min-height: 44px;
   outline: none;
   overflow-y: auto;
   padding: 9px 42px 9px 14px;
