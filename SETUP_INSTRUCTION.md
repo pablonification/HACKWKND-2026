@@ -13,7 +13,7 @@ The fastest way to get running. No account or special setup required.
 1. On your Android device, go to **Settings → Security** (or **Apps → Special app access**) and enable **Install unknown apps** for your browser or Files app.
 2. Download the APK directly on your device:
 
-   **[⬇ Download app-release.apk (v1.0.2)](https://github.com/pablonification/HACKWKND-2026/releases/download/v1.0.2/app-release.apk)**
+   **[⬇ Download Taleka.apk (v1.0.2)](https://github.com/pablonification/HACKWKND-2026/releases/download/v1.0.2/Taleka.apk)**
 
 3. Open the downloaded file and tap **Install**.
 4. Launch **Taleka** from your app drawer.
