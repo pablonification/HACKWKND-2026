@@ -39,6 +39,28 @@
   letter-spacing: -0.5px;
 }
 
+/* ── Top Area Wrapper ───────────────────────────────────────────────────────── */
+
+.story-top-area {
+  position: relative;
+  z-index: 10;
+}
+
+.story-top-area.is-compact-sticky {
+  position: sticky;
+  top: 0;
+  background: #cb403c;
+  margin-top: calc(var(--safe-area-top) * -1);
+  padding-top: var(--safe-area-top);
+  padding-bottom: 16px;
+  margin-inline: auto;
+  width: min(100% - 24px, 680px);
+  border-bottom-left-radius: 32px;
+  border-bottom-right-radius: 32px;
+  box-shadow: 0 4px 12px rgba(75, 75, 75, 0.15);
+  transition: box-shadow 0.2s ease;
+}
+
 /* ── Search bar ─────────────────────────────────────────────────────────────── */
 
 .story-search-wrap {

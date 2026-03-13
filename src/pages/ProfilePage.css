@@ -913,6 +913,14 @@
   width: 168px;
 }
 
+.profile-info-header.is-compact-sticky {
+  margin-top: calc(var(--safe-area-top) * -1);
+  padding-top: calc(var(--safe-area-top) + 15px);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
 .profile-info-content {
   color: #111828;
   display: flex;
