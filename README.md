@@ -1,5 +1,7 @@
 # Taleka
 
+<img width="1247" height="697" alt="image" src="https://github.com/user-attachments/assets/74dd9377-6c60-4e1e-85bd-c296d937f9f4" />
+
 Taleka is a mobile language learning and cultural preservation platform designed to help protect endangered indigenous languages. Built for the BorNEO HackWknd 2026 (Theme: The Role of AI in ASEAN Social Impact), the app currently focuses on Semai, an indigenous language spoken by the Semai people of Peninsular Malaysia.
 
 The platform serves two user types: learners who want to learn Semai, and elders who preserve and share their language through voice recordings. By combining community voices, interactive learning tools, and AI-powered features, Taleka creates an engaging environment for language preservation and acquisition.
@@ -46,17 +48,8 @@ User profiles track learning progress, display current level, earned achievement
 
 ## Technical Stack
 
-| Component        | Technology                                               |
-| ---------------- | -------------------------------------------------------- |
-| Framework        | Vite 5 + Ionic React 8 + Capacitor 8                     |
-| Language         | TypeScript                                               |
-| State Management | Zustand                                                  |
-| Navigation       | React Router v6 (MemoryRouter)                           |
-| UI Components    | Ionic React + Tailwind CSS                               |
-| Backend          | Supabase (PostgreSQL, Auth, Storage, Edge Functions)     |
-| AI Services      | Whisper (ASR), Gemini (AI Coach), SEA-LION (Translation) |
-| Offline Storage  | @capacitor/preferences                                   |
-| Testing          | Vitest                                                   |
+<img width="922" height="548" alt="image" src="https://github.com/user-attachments/assets/46c67a07-a8f7-45de-84df-983400641ee2" />
+
 
 ## Project Structure
 
