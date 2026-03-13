@@ -6,6 +6,7 @@
 
 - [YouTube Video Submission](https://youtu.be/bcL9RvYezy4): [https://youtu.be/bcL9RvYezy4](https://youtu.be/bcL9RvYezy4)
 - [Figma Hi-Fi Design](https://www.figma.com/design/eUx2kJ3dssfOGgNwyiCoaz/HackWeeknd?node-id=0-1&t=2P25Uv7cXfUSoD7c-1): [https://www.figma.com/design/eUx2kJ3dssfOGgNwyiCoaz/HackWeeknd?node-id=0-1&t=2P25Uv7cXfUSoD7c-1](https://www.figma.com/design/eUx2kJ3dssfOGgNwyiCoaz/HackWeeknd?node-id=0-1&t=2P25Uv7cXfUSoD7c-1)
+- [Final Report](Report_Taleka_HACKWKND.pdf): [Report_Taleka_HACKWKND.pdf](Report_Taleka_HACKWKND.pdf)
 
 Taleka is a mobile language learning and cultural preservation platform designed to help protect endangered indigenous languages. Built for the BorNEO HackWknd 2026 (Theme: The Role of AI in ASEAN Social Impact), the app currently focuses on Semai, an indigenous language spoken by the Semai people of Peninsular Malaysia.
 
