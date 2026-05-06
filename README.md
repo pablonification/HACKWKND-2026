@@ -34,7 +34,7 @@ A collection of folk tales and stories in Semai, contributed by community elders
 
 ### AI Coach
 
-A personal AI tutor powered by Gemini that provides conversational practice in Semai. The coach uses the project's glossary and sentence examples to give grounded, contextually accurate responses. It supports multiple interaction modes including vocabulary help, sentence construction, translation assistance, and free conversation.
+A personal AI tutor powered by a ChatGPT/Codex proxy with Gemini fallback that provides conversational practice in Semai. The coach uses the project's glossary and sentence examples to give grounded, contextually accurate responses. It supports multiple interaction modes including vocabulary help, sentence construction, translation assistance, and free conversation.
 
 ### Translation
 
@@ -136,11 +136,15 @@ npm run check   # Full check (lint, format, typecheck, test)
 
 ### AI Coach (Supabase Edge Function)
 
-The personal AI coach uses the `ai-coach` edge function and reuses the project glossary and sentence-memory assets for grounded Semai responses.
+The personal AI coach uses the `ai-coach` edge function and reuses the project glossary and sentence-memory assets for grounded Semai responses. For the competition demo, it can use an OpenAI-compatible ChatGPT/Codex proxy as the primary provider and Gemini as fallback.
 
 Set these edge-function secrets for coach generation:
 
 ```bash
+AI_COACH_PROVIDER_ORDER=chatgpt-proxy,gemini
+AI_COACH_OPENAI_BASE_URL=https://your-cloudflare-tunnel.trycloudflare.com/v1
+AI_COACH_OPENAI_API_KEY=your_taleka_demo_proxy_key
+AI_COACH_OPENAI_MODEL=gpt-5.4
 GOOGLE_AI_STUDIO_API_KEY=your_google_ai_studio_key
 AI_COACH_GEMINI_MODEL=gemini-3.1-flash-lite-preview
 ```
@@ -148,9 +152,21 @@ AI_COACH_GEMINI_MODEL=gemini-3.1-flash-lite-preview
 Optional overrides:
 
 ```bash
+AI_COACH_DIRECT_MAX_OUTPUT_TOKENS=220
+AI_COACH_PEDAGOGY_MAX_OUTPUT_TOKENS=150
+AI_COACH_INTENT_MAX_OUTPUT_TOKENS=96
 GOOGLE_AI_STUDIO_BASE_URL=https://generativelanguage.googleapis.com/v1beta
 AI_COACH_TIMEOUT_MS=12000
 ```
+
+Local demo gateway:
+
+```bash
+TALEKA_DEMO_PROXY_KEY=your_taleka_demo_proxy_key npm run demo:ai-gateway
+cloudflared tunnel --url http://127.0.0.1:10532
+```
+
+The gateway forwards only `/v1/models`, `/v1/responses`, and `/v1/chat/completions` to a local `openai-oauth` proxy at `http://127.0.0.1:10531`.
 
 ## License
 

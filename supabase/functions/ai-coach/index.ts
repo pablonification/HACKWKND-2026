@@ -54,16 +54,26 @@ type CoachRequest = {
   track?: LearningTrack;
 };
 
-type GeminiUsage = {
+type CoachLlmProvider = 'chatgpt-proxy' | 'openai' | 'gemini';
+
+type CoachLlmUsage = {
   promptTokenCount?: number;
   candidatesTokenCount?: number;
   totalTokenCount?: number;
+  input_tokens?: number;
+  output_tokens?: number;
+  total_tokens?: number;
+  prompt_tokens?: number;
+  completion_tokens?: number;
 };
 
-type GeminiResult = {
+type CoachLlmResult = {
   text: string;
-  usage?: GeminiUsage;
+  usage?: CoachLlmUsage;
   latencyMs: number;
+  provider: string;
+  model: string;
+  attemptedProviders: string[];
 };
 
 type GroundedTranslationResult = {
@@ -150,11 +160,43 @@ type LlmIntentPayload = {
   reason?: string;
 };
 
+const normalizeCoachProvider = (value: string): CoachLlmProvider | null => {
+  const normalized = value.trim().toLowerCase();
+  if (normalized === 'chatgpt-proxy' || normalized === 'chatgpt' || normalized === 'codex') {
+    return 'chatgpt-proxy';
+  }
+  if (normalized === 'openai' || normalized === 'openai-api') {
+    return 'openai';
+  }
+  if (normalized === 'gemini' || normalized === 'google' || normalized === 'google-ai-studio') {
+    return 'gemini';
+  }
+  return null;
+};
+
+const parseCoachProviderOrder = (value?: string): CoachLlmProvider[] => {
+  const providers = (value ?? 'chatgpt-proxy,gemini')
+    .split(',')
+    .map(normalizeCoachProvider)
+    .filter((provider): provider is CoachLlmProvider => Boolean(provider));
+  return providers.length > 0 ? Array.from(new Set(providers)) : ['chatgpt-proxy', 'gemini'];
+};
+
+const OPENAI_COMPAT_API_KEY =
+  Deno.env.get('AI_COACH_OPENAI_API_KEY') ?? Deno.env.get('OPENAI_API_KEY') ?? '';
+const OPENAI_COMPAT_MODEL =
+  Deno.env.get('AI_COACH_OPENAI_MODEL') ?? Deno.env.get('OPENAI_MODEL') ?? 'gpt-5.4';
+const OPENAI_COMPAT_BASE_URL = (
+  Deno.env.get('AI_COACH_OPENAI_BASE_URL') ??
+  Deno.env.get('OPENAI_BASE_URL') ??
+  'https://api.openai.com/v1'
+).replace(/\/$/, '');
 const GEMINI_API_KEY =
   Deno.env.get('GOOGLE_AI_STUDIO_API_KEY') ?? Deno.env.get('GEMINI_API_KEY') ?? '';
 const GEMINI_MODEL = Deno.env.get('AI_COACH_GEMINI_MODEL') ?? 'gemini-3.1-flash-lite-preview';
 const GEMINI_BASE_URL =
   Deno.env.get('GOOGLE_AI_STUDIO_BASE_URL') ?? 'https://generativelanguage.googleapis.com/v1beta';
+const COACH_PROVIDER_ORDER = parseCoachProviderOrder(Deno.env.get('AI_COACH_PROVIDER_ORDER'));
 const SUPABASE_ANON_KEY =
   Deno.env.get('SUPABASE_ANON_KEY') ??
   Deno.env.get('SUPABASE_PUBLIC_ANON_KEY') ??
@@ -187,16 +229,22 @@ const PEDAGOGY_CONTEXT_TURNS = Number.parseInt(
   Deno.env.get('AI_COACH_PEDAGOGY_CONTEXT_TURNS') ?? '2',
   10,
 );
-const GEMINI_DIRECT_MAX_OUTPUT_TOKENS = Number.parseInt(
-  Deno.env.get('AI_COACH_GEMINI_DIRECT_MAX_TOKENS') ?? '220',
+const COACH_DIRECT_MAX_OUTPUT_TOKENS = Number.parseInt(
+  Deno.env.get('AI_COACH_DIRECT_MAX_OUTPUT_TOKENS') ??
+    Deno.env.get('AI_COACH_GEMINI_DIRECT_MAX_TOKENS') ??
+    '220',
   10,
 );
-const GEMINI_PEDAGOGY_MAX_OUTPUT_TOKENS = Number.parseInt(
-  Deno.env.get('AI_COACH_GEMINI_PEDAGOGY_MAX_TOKENS') ?? '150',
+const COACH_PEDAGOGY_MAX_OUTPUT_TOKENS = Number.parseInt(
+  Deno.env.get('AI_COACH_PEDAGOGY_MAX_OUTPUT_TOKENS') ??
+    Deno.env.get('AI_COACH_GEMINI_PEDAGOGY_MAX_TOKENS') ??
+    '150',
   10,
 );
-const GEMINI_INTENT_MAX_OUTPUT_TOKENS = Number.parseInt(
-  Deno.env.get('AI_COACH_GEMINI_INTENT_MAX_TOKENS') ?? '96',
+const COACH_INTENT_MAX_OUTPUT_TOKENS = Number.parseInt(
+  Deno.env.get('AI_COACH_INTENT_MAX_OUTPUT_TOKENS') ??
+    Deno.env.get('AI_COACH_GEMINI_INTENT_MAX_TOKENS') ??
+    '96',
   10,
 );
 
@@ -516,12 +564,141 @@ const parseGeminiText = (payload: unknown): string => {
   return cleanModelOutput(text);
 };
 
-const parseGeminiUsage = (payload: unknown): GeminiUsage | undefined => {
+const parseGeminiUsage = (payload: unknown): CoachLlmUsage | undefined => {
   if (typeof payload !== 'object' || payload === null || !('usageMetadata' in payload)) {
     return undefined;
   }
-  const usage = (payload as { usageMetadata?: GeminiUsage }).usageMetadata;
+  const usage = (payload as { usageMetadata?: CoachLlmUsage }).usageMetadata;
   return usage && typeof usage === 'object' ? usage : undefined;
+};
+
+const parseOpenAICompatibleText = (payload: unknown): string => {
+  if (typeof payload !== 'object' || payload === null) {
+    return '';
+  }
+
+  if ('output_text' in payload && typeof payload.output_text === 'string') {
+    return cleanModelOutput(payload.output_text);
+  }
+
+  const responsesOutput = (
+    payload as {
+      output?: Array<{
+        content?: Array<{
+          text?: unknown;
+          type?: unknown;
+        }>;
+      }>;
+    }
+  ).output;
+  const responseText =
+    responsesOutput
+      ?.flatMap((item) => item.content ?? [])
+      .map((content) => (typeof content.text === 'string' ? content.text : ''))
+      .filter(Boolean)
+      .join('\n') ?? '';
+  if (responseText) {
+    return cleanModelOutput(responseText);
+  }
+
+  const chatChoices = (
+    payload as {
+      choices?: Array<{
+        message?: {
+          content?: unknown;
+        };
+      }>;
+    }
+  ).choices;
+  const chatText =
+    chatChoices
+      ?.map((choice) => (typeof choice.message?.content === 'string' ? choice.message.content : ''))
+      .filter(Boolean)
+      .join('\n') ?? '';
+  return cleanModelOutput(chatText);
+};
+
+const parseOpenAICompatibleUsage = (payload: unknown): CoachLlmUsage | undefined => {
+  if (typeof payload !== 'object' || payload === null || !('usage' in payload)) {
+    return undefined;
+  }
+  const usage = (payload as { usage?: CoachLlmUsage }).usage;
+  return usage && typeof usage === 'object' ? usage : undefined;
+};
+
+const getCoachLlmDefaultMaxOutputTokens = (responseMimeType?: 'application/json'): number =>
+  responseMimeType ? COACH_PEDAGOGY_MAX_OUTPUT_TOKENS : COACH_DIRECT_MAX_OUTPUT_TOKENS;
+
+const callOpenAICompatibleProvider = async (
+  provider: 'chatgpt-proxy' | 'openai',
+  prompt: string,
+  systemInstruction: string,
+  responseMimeType?: 'application/json',
+  maxOutputTokens?: number,
+): Promise<CoachLlmResult | null> => {
+  if (!OPENAI_COMPAT_API_KEY) {
+    return null;
+  }
+
+  const promptText = responseMimeType
+    ? `${prompt}\n\nReturn only valid compact JSON. Do not wrap it in Markdown.`
+    : prompt;
+  const tokenBudget = maxOutputTokens ?? getCoachLlmDefaultMaxOutputTokens(responseMimeType);
+  const endpoint = provider === 'chatgpt-proxy' ? 'chat/completions' : 'responses';
+  const requestBody =
+    provider === 'chatgpt-proxy'
+      ? {
+          model: OPENAI_COMPAT_MODEL,
+          messages: [
+            { role: 'system', content: systemInstruction },
+            { role: 'user', content: promptText },
+          ],
+          max_tokens: tokenBudget,
+        }
+      : {
+          model: OPENAI_COMPAT_MODEL,
+          instructions: systemInstruction,
+          input: [
+            {
+              role: 'user',
+              content: [{ type: 'input_text', text: promptText }],
+            },
+          ],
+          max_output_tokens: tokenBudget,
+        };
+
+  const startedAt = Date.now();
+  const response = await fetchWithTimeout(
+    `${OPENAI_COMPAT_BASE_URL}/${endpoint}`,
+    {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${OPENAI_COMPAT_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestBody),
+    },
+    PROVIDER_TIMEOUT_MS,
+    provider === 'chatgpt-proxy' ? 'ChatGPT proxy request' : 'OpenAI request',
+  );
+
+  const payload = (await response.json().catch(() => null)) as unknown;
+  if (!response.ok) {
+    const message =
+      typeof payload === 'object' && payload !== null && 'error' in payload
+        ? JSON.stringify((payload as { error?: unknown }).error)
+        : `${provider === 'chatgpt-proxy' ? 'ChatGPT proxy' : 'OpenAI'} request failed (${response.status})`;
+    throw new Error(message);
+  }
+
+  return {
+    text: parseOpenAICompatibleText(payload),
+    usage: parseOpenAICompatibleUsage(payload),
+    latencyMs: Date.now() - startedAt,
+    provider,
+    model: OPENAI_COMPAT_MODEL,
+    attemptedProviders: [],
+  };
 };
 
 const callGemini = async (
@@ -529,7 +706,7 @@ const callGemini = async (
   systemInstruction: string,
   responseMimeType?: 'application/json',
   maxOutputTokens?: number,
-): Promise<GeminiResult | null> => {
+): Promise<CoachLlmResult | null> => {
   if (!GEMINI_API_KEY) {
     return null;
   }
@@ -555,11 +732,7 @@ const callGemini = async (
         generationConfig: {
           temperature: responseMimeType ? 0.2 : 0.45,
           topP: 0.9,
-          maxOutputTokens:
-            maxOutputTokens ??
-            (responseMimeType
-              ? GEMINI_PEDAGOGY_MAX_OUTPUT_TOKENS
-              : GEMINI_DIRECT_MAX_OUTPUT_TOKENS),
+          maxOutputTokens: maxOutputTokens ?? getCoachLlmDefaultMaxOutputTokens(responseMimeType),
           ...(responseMimeType ? { responseMimeType } : {}),
         },
       }),
@@ -581,7 +754,64 @@ const callGemini = async (
     text: parseGeminiText(payload),
     usage: parseGeminiUsage(payload),
     latencyMs: Date.now() - startedAt,
+    provider: 'google-ai-studio',
+    model: GEMINI_MODEL,
+    attemptedProviders: [],
   };
+};
+
+const callCoachLlm = async (
+  prompt: string,
+  systemInstruction: string,
+  responseMimeType?: 'application/json',
+  maxOutputTokens?: number,
+  isUsableText?: (text: string) => boolean,
+): Promise<CoachLlmResult | null> => {
+  const attemptedProviders: string[] = [];
+  const errors: string[] = [];
+
+  for (const provider of COACH_PROVIDER_ORDER) {
+    const hasKey = provider === 'gemini' ? Boolean(GEMINI_API_KEY) : Boolean(OPENAI_COMPAT_API_KEY);
+    if (!hasKey) {
+      continue;
+    }
+
+    const providerLabel = provider === 'gemini' ? 'google-ai-studio' : provider;
+    attemptedProviders.push(providerLabel);
+
+    try {
+      const result =
+        provider === 'gemini'
+          ? await callGemini(prompt, systemInstruction, responseMimeType, maxOutputTokens)
+          : await callOpenAICompatibleProvider(
+              provider,
+              prompt,
+              systemInstruction,
+              responseMimeType,
+              maxOutputTokens,
+            );
+      if (!result?.text) {
+        errors.push(`${providerLabel}: empty response`);
+        continue;
+      }
+      if (isUsableText && !isUsableText(result.text)) {
+        errors.push(`${providerLabel}: unusable response`);
+        continue;
+      }
+      return {
+        ...result,
+        attemptedProviders,
+      };
+    } catch (error) {
+      errors.push(`${providerLabel}: ${String(error)}`);
+    }
+  }
+
+  if (errors.length > 0) {
+    throw new Error(`Coach LLM providers failed: ${errors.join(' | ')}`);
+  }
+
+  return null;
 };
 
 const translateGroundedText = async ({
@@ -1291,16 +1521,17 @@ const resolveIntentWithPlanner = async (
 
   const plannerStartedAtMs = Date.now();
   try {
-    const generated = await callGemini(
+    const generated = await callCoachLlm(
       buildPrimaryIntentPrompt(request, currentPhase, track, explicitTranslationIntent),
       'You are the intent orchestrator for a Semai language coach. Return compact JSON only.',
       'application/json',
-      GEMINI_INTENT_MAX_OUTPUT_TOKENS,
+      COACH_INTENT_MAX_OUTPUT_TOKENS,
+      (text) => Boolean(parseLlmIntentJson(text)),
     );
     markStageTiming(runtime, 'planner', Date.now() - plannerStartedAtMs);
 
-    const plannerProvider = generated?.text ? 'google-ai-studio' : provider;
-    const plannerModel = generated?.text ? GEMINI_MODEL : model;
+    const plannerProvider = generated?.text ? generated.provider : provider;
+    const plannerModel = generated?.text ? generated.model : model;
     const parsed = parseLlmIntentJson(generated?.text ?? '');
     if (!parsed) {
       setDegraded(runtime, 'planner_invalid_json');
@@ -1828,13 +2059,13 @@ const buildDirectHelpPayload = async (
     .join('\n\n');
 
   try {
-    const generated = await callGemini(
+    const generated = await callCoachLlm(
       prompt,
       'You are Tavi, a helpful Semai coach inside a language-learning app.',
       undefined,
       sessionPhase === 'learning_active'
-        ? Math.min(210, GEMINI_DIRECT_MAX_OUTPUT_TOKENS)
-        : Math.min(180, GEMINI_DIRECT_MAX_OUTPUT_TOKENS),
+        ? Math.min(210, COACH_DIRECT_MAX_OUTPUT_TOKENS)
+        : Math.min(180, COACH_DIRECT_MAX_OUTPUT_TOKENS),
     );
     markStageTiming(runtime, 'direct_help', Date.now() - directStartedAtMs);
 
@@ -1874,11 +2105,12 @@ const buildDirectHelpPayload = async (
         grounded: false,
         grounding_source: [],
         validation_passed: true,
-        provider: 'google-ai-studio',
-        model: GEMINI_MODEL,
+        provider: generated.provider,
+        model: generated.model,
         meta: buildRuntimeMeta(runtime, {
           latency_ms: generated.latencyMs,
           usage: generated.usage,
+          attempted_providers: generated.attemptedProviders,
           reason: policyReason,
           orchestration_provider: orchestration.provider,
           orchestration_model: orchestration.model,
@@ -1961,7 +2193,7 @@ const buildClarificationPayload = async (
     .join('\n\n');
 
   try {
-    const generated = await callGemini(
+    const generated = await callCoachLlm(
       prompt,
       'You are Tavi, a conversational Semai coach. Return one concise question only.',
       undefined,
@@ -1990,12 +2222,13 @@ const buildClarificationPayload = async (
         grounded: false,
         grounding_source: [],
         validation_passed: true,
-        provider: 'google-ai-studio',
-        model: GEMINI_MODEL,
+        provider: generated.provider,
+        model: generated.model,
         meta: buildRuntimeMeta(runtime, {
           reason: 'ambiguous_prompt',
           latency_ms: generated.latencyMs,
           usage: generated.usage,
+          attempted_providers: generated.attemptedProviders,
           orchestration_provider: orchestration.provider,
           orchestration_model: orchestration.model,
           package_eligible: false,
@@ -2273,6 +2506,7 @@ const buildLearningPayload = async (
   let pedagogy = fallbackPedagogy;
   let coachProvider = 'rules-fallback';
   let coachModel = 'pedagogy-fallback';
+  let coachAttemptedProviders: string[] = [];
 
   const isInlineTranslationTurn =
     request.clientAction === 'translate_inline' || intent.turnType === 'how_to_say';
@@ -2282,16 +2516,17 @@ const buildLearningPayload = async (
   } else if (remainingBudgetMs(requestStartedAtMs) > CPU_GUARD_PEDAGOGY_MIN_MS) {
     const pedagogyStartedAtMs = Date.now();
     try {
-      const generated = await callGemini(
+      const generated = await callCoachLlm(
         buildPedagogyPrompt(intent, request.message, translationResult, request.turns),
         'You are Tavi, a patient Semai learning coach. Return compact JSON only.',
         'application/json',
-        GEMINI_PEDAGOGY_MAX_OUTPUT_TOKENS,
+        COACH_PEDAGOGY_MAX_OUTPUT_TOKENS,
+        (text) => Boolean(parsePedagogyJson(text)),
       );
       markStageTiming(runtime, 'pedagogy', Date.now() - pedagogyStartedAtMs);
 
       const parsed = parsePedagogyJson(generated?.text ?? '');
-      if (parsed) {
+      if (parsed && generated) {
         const nextPedagogy = {
           coach_note: parsed.coach_note ?? fallbackPedagogy.coach_note,
           follow_up_prompt: parsed.follow_up_prompt ?? fallbackPedagogy.follow_up_prompt,
@@ -2305,8 +2540,9 @@ const buildLearningPayload = async (
             translationResult.sourceText,
           ])
         ) {
-          coachProvider = 'google-ai-studio';
-          coachModel = GEMINI_MODEL;
+          coachProvider = generated.provider;
+          coachModel = generated.model;
+          coachAttemptedProviders = generated.attemptedProviders;
           pedagogy = nextPedagogy;
         } else {
           setDegraded(runtime, 'pedagogy_unverified_semai');
@@ -2353,6 +2589,7 @@ const buildLearningPayload = async (
       turn_type: intent.turnType,
       coach_provider: coachProvider,
       coach_model: coachModel,
+      coach_attempted_providers: coachAttemptedProviders,
       orchestration_provider: orchestration.provider,
       orchestration_model: orchestration.model,
       semai_verified: translationResult.semaiVerified,
