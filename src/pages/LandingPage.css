@@ -98,6 +98,15 @@
   justify-items: center;
 }
 
+.landing-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.32);
+  z-index: 1;
+  pointer-events: none;
+}
+
 .landing-hero img {
   height: 110%;
   left: 0;
@@ -134,9 +143,8 @@
   font-style: italic;
   font-weight: 700;
   font-size: 32px;
-  color: #604828;
+  color: #FFEDD6;
   letter-spacing: 1px;
-  text-shadow: 0 1px 4px rgba(255, 255, 255, 0.5);
 }
 
 .landing-learning-language-badge {
