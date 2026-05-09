@@ -16,7 +16,6 @@ import gardenCardImg from '../../assets/home-revised/lang-garden.png';
 import translateCardImg from '../../assets/home-revised/translate.png';
 import bgLearner from '../../assets/landing/background-learner.png';
 import bgElder from '../../assets/landing/background-elder.png';
-import imgRecordCard from '../../assets/landing/record-card.png';
 
 import './LandingPage.css';
 
@@ -31,6 +30,43 @@ function SearchIcon() {
   );
 }
 
+function RecordStoryIcon() {
+  return (
+    <svg className="landing-elder-action-icon" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+      <path
+        d="M16 4.5a5.25 5.25 0 0 1 5.25 5.25v5.5a5.25 5.25 0 1 1-10.5 0v-5.5A5.25 5.25 0 0 1 16 4.5Z"
+        stroke="currentColor"
+        strokeWidth="2.4"
+      />
+      <path
+        d="M7.5 14.5a8.5 8.5 0 0 0 17 0M16 23v4.5M12.25 27.5h7.5"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeWidth="2.4"
+      />
+    </svg>
+  );
+}
+
+function ReadStoriesIcon() {
+  return (
+    <svg className="landing-elder-action-icon" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+      <path
+        d="M5.5 7.5c0-1.1.9-2 2-2h7.25c1.05 0 2.05.42 2.8 1.16L18 7.1l.45-.44a3.96 3.96 0 0 1 2.8-1.16h3.25c1.1 0 2 .9 2 2v17c0 1.1-.9 2-2 2h-4.25c-.83 0-1.62.33-2.2.91L18 27.46l-.05-.05a3.11 3.11 0 0 0-2.2-.91H7.5c-1.1 0-2-.9-2-2v-17Z"
+        stroke="currentColor"
+        strokeLinejoin="round"
+        strokeWidth="2.2"
+      />
+      <path
+        d="M18 7.1v20.35M10 11h4M10 15h4M22 11h1.5M22 15h1.5"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeWidth="2.2"
+      />
+    </svg>
+  );
+}
+
 const BOOKS = STORIES.slice(0, 4).map((story) => ({
   id: story.id,
   title: story.title,
@@ -40,21 +76,6 @@ const BOOKS = STORIES.slice(0, 4).map((story) => ({
 
 const FEATURED_STORY =
   [...STORIES].sort((first, second) => second.progress - first.progress)[0] ?? STORIES[0];
-
-const ELDER_PULSE = [
-  {
-    label: 'Archive-ready stories',
-    value: String(STORIES.length),
-  },
-  {
-    label: 'Featured folk tales',
-    value: String(BOOKS.length),
-  },
-  {
-    label: 'Translation tools',
-    value: '2',
-  },
-] as const;
 
 function LandingPageSkeleton({ isElder }: { isElder: boolean }) {
   return (
@@ -347,7 +368,9 @@ function ElderLanding({
             className="landing-elder-action landing-elder-action--record"
             onClick={() => onNavigate('/home/studio')}
           >
-            <img src={imgRecordCard} alt="" className="landing-elder-action-image" />
+            <span className="landing-elder-action-icon-wrap">
+              <RecordStoryIcon />
+            </span>
             <span className="landing-elder-action-copy">
               <strong>Record a Story</strong>
               <span>Save your voice for the next generation.</span>
@@ -359,25 +382,15 @@ function ElderLanding({
             className="landing-elder-action landing-elder-action--story"
             onClick={() => onNavigate('/home/stories')}
           >
-            <img src={FEATURED_STORY.cover} alt="" className="landing-elder-action-image" />
+            <span className="landing-elder-action-icon-wrap">
+              <ReadStoriesIcon />
+            </span>
             <span className="landing-elder-action-copy">
               <strong>Read Stories</strong>
               <span>Open the Taleka story collection.</span>
             </span>
           </button>
         </div>
-
-        <section className="landing-elder-status" aria-label="Taleka status">
-          <h2>Today on Taleka</h2>
-          <div className="landing-metrics landing-metrics--elder" role="list">
-            {ELDER_PULSE.slice(0, 2).map((item) => (
-              <article key={item.label} className="landing-metric-card" role="listitem">
-                <strong>{item.value}</strong>
-                <span>{item.label}</span>
-              </article>
-            ))}
-          </div>
-        </section>
 
         <div className="landing-section">
           <h2 className="landing-section-title landing-section-title--elder">Story Highlights</h2>

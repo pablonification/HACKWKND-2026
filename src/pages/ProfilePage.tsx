@@ -31,7 +31,6 @@ import avatarElderImg from '../../assets/profile/avatar-elder.png';
 import levelIconImg from '../../assets/profile/icon-level.png';
 import wordsIconImg from '../../assets/profile/icon-words.png';
 import storiesIconImg from '../../assets/profile/icon-stories.png';
-import elderStatsIconImg from '../../assets/profile/icon-elder-stats.png';
 import avatarEditBadgeImg from '../../assets/profile/ui/icon-avatar-edit-badge.svg';
 import backBlackImg from '../../assets/profile/ui/icon-back-black.png';
 import backWhiteImg from '../../assets/profile/ui/icon-back-white.png';
@@ -74,7 +73,6 @@ const PROFILE_ASSETS = {
   levelIcon: levelIconImg,
   wordsIcon: wordsIconImg,
   storiesIcon: storiesIconImg,
-  elderStatsIcon: elderStatsIconImg,
 } as const;
 
 const PROFILE_UI_ASSETS = {
@@ -172,6 +170,56 @@ type StatCard = {
   value: number;
   visual: StatVisual;
 };
+
+function ElderStoriesStatIcon() {
+  return (
+    <svg viewBox="0 0 48 48" aria-hidden="true" className="profile-stat-svg">
+      <path
+        d="M12 12.5c0-2 1.6-3.5 3.5-3.5h5.7c2.4 0 4.7.9 6.4 2.5l.4.4.4-.4A9.4 9.4 0 0 1 34.8 9h5.7c1.9 0 3.5 1.5 3.5 3.5v23c0 2-1.6 3.5-3.5 3.5h-6.2c-2 0-3.9.7-5.4 2l-.9.8-.9-.8a8.4 8.4 0 0 0-5.4-2h-6.2c-1.9 0-3.5-1.5-3.5-3.5v-23Z"
+        fill="#f8d892"
+      />
+      <path
+        d="M28 12v29.8M17 18h6M17 24h6M33 18h5M33 24h5M16 31h7"
+        fill="none"
+        stroke="#8d4a16"
+        strokeLinecap="round"
+        strokeWidth="2.6"
+      />
+    </svg>
+  );
+}
+
+function ElderLearnersStatIcon() {
+  return (
+    <svg viewBox="0 0 48 48" aria-hidden="true" className="profile-stat-svg">
+      <circle cx="19" cy="17" r="7" fill="#ffe0a3" />
+      <circle cx="31.5" cy="19.5" r="5.5" fill="#f5c6a0" />
+      <path d="M8 38c1.5-7.1 5.5-10.6 11-10.6S28.5 30.9 30 38H8Z" fill="#f8d892" />
+      <path d="M27 37c1.1-4.8 3.8-7.2 7.4-7.2 3.7 0 6.4 2.4 7.6 7.2H27Z" fill="#f5c6a0" />
+      <path
+        d="M13.5 17.7c1.7 2 3.6 3 5.8 3 2 0 3.8-.8 5.2-2.5"
+        fill="none"
+        stroke="#8d4a16"
+        strokeLinecap="round"
+        strokeWidth="2"
+      />
+    </svg>
+  );
+}
+
+function renderStatVisual(visual: StatVisual) {
+  if (visual === 'elderStories') {
+    return <ElderStoriesStatIcon />;
+  }
+
+  if (visual === 'elderLearners') {
+    return <ElderLearnersStatIcon />;
+  }
+
+  return (
+    <img src={visual === 'words' ? PROFILE_ASSETS.wordsIcon : PROFILE_ASSETS.storiesIcon} alt="" />
+  );
+}
 
 const toRoleLabel = (role: ProfileRole) => {
   if (role === 'elder') {
@@ -408,16 +456,7 @@ const ProfileOverviewScreen = ({
                 className={`profile-stat-art profile-stat-art-${card.visual}`}
                 aria-hidden="true"
               >
-                <img
-                  src={
-                    card.visual === 'elderStories' || card.visual === 'elderLearners'
-                      ? PROFILE_ASSETS.elderStatsIcon
-                      : card.visual === 'words'
-                        ? PROFILE_ASSETS.wordsIcon
-                        : PROFILE_ASSETS.storiesIcon
-                  }
-                  alt=""
-                />
+                {renderStatVisual(card.visual)}
               </div>
 
               <div className="profile-stat-copy">

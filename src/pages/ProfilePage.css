@@ -392,6 +392,12 @@
   position: absolute;
 }
 
+.profile-stat-svg {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
 .profile-stat-art-words {
   height: 49px;
   width: 55px;
@@ -417,28 +423,13 @@
 }
 
 .profile-stat-art-elderStories {
-  height: 60.059px;
-  transform: rotate(8.48deg);
-  width: 44.463px;
-}
-
-.profile-stat-art-elderStories img {
-  height: 149.17%;
-  left: -41.23%;
-  top: -23.9%;
-  width: 358.21%;
+  height: 48px;
+  width: 48px;
 }
 
 .profile-stat-art-elderLearners {
-  height: 49px;
-  width: 49px;
-}
-
-.profile-stat-art-elderLearners img {
-  height: 123.15%;
-  left: -104.98%;
-  top: -14.03%;
-  width: 222.48%;
+  height: 48px;
+  width: 48px;
 }
 
 .profile-stat-copy {

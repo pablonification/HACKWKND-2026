@@ -1,5 +1,5 @@
 import { IonContent, IonPage, IonToast } from '@ionic/react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { triggerHapticFeedback } from '../lib/feedback';
 import { useAuthStore } from '../stores/authStore';
@@ -265,17 +265,16 @@ function LearnerNavBar({
 
 type ElderTab = 'home' | 'record' | 'story' | 'profile';
 
-const IconMic = ({ active }: { active: boolean }) => (
+const IconMic = () => (
   <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
     <path
       d="M12 1a4 4 0 0 1 4 4v6a4 4 0 0 1-8 0V5a4 4 0 0 1 4-4Z"
-      fill={active ? 'white' : 'none'}
-      stroke={active ? 'white' : '#9DB2CE'}
+      stroke="currentColor"
       strokeWidth="1.5"
     />
     <path
       d="M5 10a7 7 0 0 0 14 0M12 17v4M9 21h6"
-      stroke={active ? 'white' : '#9DB2CE'}
+      stroke="currentColor"
       strokeWidth="1.5"
       strokeLinecap="round"
     />
@@ -298,61 +297,56 @@ function ElderNavBar({
   activeTab: ElderTab;
   onNavigate: (href: string) => void;
 }) {
+  const items = [
+    {
+      id: 'home',
+      label: 'Home',
+      href: '/home/landing',
+      icon: <IconHome active={activeTab === 'home'} />,
+    },
+    {
+      id: 'story',
+      label: 'Story',
+      href: '/home/stories',
+      icon: <IconStory active={activeTab === 'story'} />,
+    },
+    {
+      id: 'record',
+      label: 'Record',
+      href: '/home/studio',
+      icon: <IconMic />,
+    },
+    {
+      id: 'profile',
+      label: 'Profile',
+      href: '/home/profile',
+      icon: <IconProfile active={activeTab === 'profile'} />,
+    },
+  ] as const satisfies readonly {
+    id: ElderTab;
+    label: string;
+    href: string;
+    icon: ReactNode;
+  }[];
+
   return (
-    <nav className="learner-nav elder-nav" aria-label="Main">
-      <NavNotchBg />
-
-      {/* Left: Home */}
-      <div className="learner-nav-side learner-nav-left">
-        <button
-          type="button"
-          className={`learner-nav-item ${activeTab === 'home' ? 'is-active' : ''}`}
-          onClick={() => onNavigate('/home/landing')}
-          aria-current={activeTab === 'home' ? 'page' : undefined}
-        >
-          <IconHome active={activeTab === 'home'} />
-          <span className="learner-nav-label">Home</span>
-        </button>
-        <button
-          type="button"
-          className={`learner-nav-item ${activeTab === 'story' ? 'is-active' : ''}`}
-          onClick={() => onNavigate('/home/stories')}
-          aria-current={activeTab === 'story' ? 'page' : undefined}
-        >
-          <IconStory active={activeTab === 'story'} />
-          <span className="learner-nav-label">Story</span>
-        </button>
-      </div>
-
-      {/* Center: Record elevated circle */}
-      <div className="learner-nav-center">
-        <button
-          type="button"
-          className={`learner-nav-garden-btn ${activeTab === 'record' ? 'is-active' : ''}`}
-          onClick={() => onNavigate('/home/studio')}
-          aria-current={activeTab === 'record' ? 'page' : undefined}
-          aria-label="Record"
-        >
-          <IconMic active={true} />
-        </button>
-        <span
-          className={`learner-nav-label learner-nav-garden-label ${activeTab === 'record' ? 'is-active' : ''}`}
-        >
-          Record
-        </span>
-      </div>
-
-      {/* Right: Profile */}
-      <div className="learner-nav-side learner-nav-right">
-        <button
-          type="button"
-          className={`learner-nav-item ${activeTab === 'profile' ? 'is-active' : ''}`}
-          onClick={() => onNavigate('/home/profile')}
-          aria-current={activeTab === 'profile' ? 'page' : undefined}
-        >
-          <IconProfile active={activeTab === 'profile'} />
-          <span className="learner-nav-label">Profile</span>
-        </button>
+    <nav className="elder-bottom-nav" aria-label="Main">
+      <div className="elder-bottom-nav-shell">
+        {items.map((item) => {
+          const active = activeTab === item.id;
+          return (
+            <button
+              key={item.id}
+              type="button"
+              className={`elder-bottom-nav-item ${active ? 'is-active' : ''}`}
+              onClick={() => onNavigate(item.href)}
+              aria-current={active ? 'page' : undefined}
+            >
+              <span className="elder-bottom-nav-icon">{item.icon}</span>
+              <span className="elder-bottom-nav-label">{item.label}</span>
+            </button>
+          );
+        })}
       </div>
     </nav>
   );
