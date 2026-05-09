@@ -179,20 +179,6 @@ type StatCard = {
   visual: StatVisual;
 };
 
-const LEARNER_PROFILE_SUMMARY = {
-  levelLabel: 'Lv. Sprout',
-  progressPercent: 42,
-  wordsLearned: 128,
-  storiesCompleted: 7,
-} as const;
-
-const ELDER_PROFILE_SUMMARY = {
-  levelLabel: 'Lv. Story Keeper',
-  progressPercent: 64,
-  storiesShared: 12,
-  learners: 36,
-} as const;
-
 function ElderStoriesStatIcon() {
   return (
     <svg viewBox="0 0 48 48" aria-hidden="true" className="profile-stat-svg">
@@ -1257,7 +1243,6 @@ const createFallbackDashboard = ({
   )
     ? metadataLearningLanguage!
     : LEARNING_LANGUAGE_OPTIONS[0];
-  const profileSummary = role === 'elder' ? ELDER_PROFILE_SUMMARY : LEARNER_PROFILE_SUMMARY;
 
   return {
     profile: {
@@ -1278,21 +1263,21 @@ const createFallbackDashboard = ({
       pushNotificationsEnabled: true,
     },
     level: {
-      label: profileSummary.levelLabel,
-      progressPercent: profileSummary.progressPercent,
+      label: 'Lv. Pending',
+      progressPercent: 0,
     },
     stats:
       role === 'elder'
         ? {
             wordsLearned: 0,
             storiesCompleted: 0,
-            storiesShared: ELDER_PROFILE_SUMMARY.storiesShared,
-            followerCount: ELDER_PROFILE_SUMMARY.learners,
+            storiesShared: 0,
+            followerCount: 0,
             followingCount: 0,
           }
         : {
-            wordsLearned: LEARNER_PROFILE_SUMMARY.wordsLearned,
-            storiesCompleted: LEARNER_PROFILE_SUMMARY.storiesCompleted,
+            wordsLearned: 0,
+            storiesCompleted: 0,
             storiesShared: 0,
             followerCount: 0,
             followingCount: 0,
