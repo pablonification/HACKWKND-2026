@@ -1,4 +1,4 @@
-import { IonAlert, IonSpinner, IonToast } from '@ionic/react';
+import { IonAlert, IonToast } from '@ionic/react';
 import type { CSSProperties, ReactNode } from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -31,6 +31,7 @@ import {
 } from '../lib/taviThreads';
 import { useEdgeSwipeBack } from '../lib/useEdgeSwipeBack';
 import { useAuthStore } from '../stores/authStore';
+import { AppSkeleton } from '../components/ui';
 
 import './AiHelperPage.css';
 
@@ -333,10 +334,9 @@ function ChatBubble({
           <div className="tavi-bubble-tavi-stack">
             <div className="tavi-bubble tavi-bubble--tavi-reply">
               {message.loading ? (
-                <div className="tavi-bubble-loading">
-                  <span />
-                  <span />
-                  <span />
+                <div className="tavi-bubble-loading" aria-label="Tavi is preparing a reply">
+                  <AppSkeleton className="app-skeleton--pill" width="82%" height={12} />
+                  <AppSkeleton className="app-skeleton--pill" width="54%" height={12} />
                 </div>
               ) : (
                 <div className="tavi-bubble-text">
@@ -437,7 +437,7 @@ function ThreadDrawer({
             <h2>History</h2>
           </div>
           <button type="button" className="tavi-thread-close" aria-label="Close" onClick={onClose}>
-            x
+            ×
           </button>
         </div>
 
@@ -446,7 +446,18 @@ function ThreadDrawer({
         </button>
 
         <div className="tavi-thread-list">
-          {isLoading ? <p className="tavi-thread-empty">Loading chats...</p> : null}
+          {isLoading
+            ? Array.from({ length: 4 }).map((_, index) => (
+                <div key={index} className="tavi-thread-item tavi-thread-item--skeleton">
+                  <AppSkeleton className="app-skeleton--pill" width="76%" height={15} />
+                  <AppSkeleton className="app-skeleton--pill" width="34%" height={11} />
+                  <div className="tavi-thread-actions">
+                    <AppSkeleton className="app-skeleton--pill" width={64} height={27} />
+                    <AppSkeleton className="app-skeleton--pill" width={58} height={27} />
+                  </div>
+                </div>
+              ))
+            : null}
           {!isLoading && threads.length === 0 ? (
             <p className="tavi-thread-empty">No saved chats yet.</p>
           ) : null}
@@ -475,6 +486,33 @@ function ThreadDrawer({
           ))}
         </div>
       </section>
+    </div>
+  );
+}
+
+function TaviChatSkeleton() {
+  return (
+    <div className="tavi-chat-history-loading" aria-label="Loading chat">
+      <div className="tavi-chat-skeleton-row tavi-chat-skeleton-row--tavi">
+        <AppSkeleton className="app-skeleton--circle" width={32} height={32} />
+        <div className="tavi-chat-skeleton-bubble tavi-chat-skeleton-bubble--tavi">
+          <AppSkeleton className="app-skeleton--pill" width="84%" height={12} />
+          <AppSkeleton className="app-skeleton--pill" width="62%" height={12} />
+        </div>
+      </div>
+      <div className="tavi-chat-skeleton-row tavi-chat-skeleton-row--user">
+        <div className="tavi-chat-skeleton-bubble tavi-chat-skeleton-bubble--user">
+          <AppSkeleton className="app-skeleton--pill" width="74%" height={12} />
+        </div>
+      </div>
+      <div className="tavi-chat-skeleton-row tavi-chat-skeleton-row--tavi">
+        <AppSkeleton className="app-skeleton--circle" width={32} height={32} />
+        <div className="tavi-chat-skeleton-bubble tavi-chat-skeleton-bubble--tavi">
+          <AppSkeleton className="app-skeleton--pill" width="92%" height={12} />
+          <AppSkeleton className="app-skeleton--pill" width="68%" height={12} />
+          <AppSkeleton className="app-skeleton--pill" width="44%" height={12} />
+        </div>
+      </div>
     </div>
   );
 }
@@ -1289,11 +1327,7 @@ export function AiHelperPage() {
           onDidDismiss={() => setThreadPendingRename(null)}
         />
 
-        {isThreadLoading && messages.length === 0 ? (
-          <div className="tavi-chat-history-loading">
-            <IonSpinner name="crescent" style={{ width: 22, height: 22, color: '#cb403c' }} />
-          </div>
-        ) : null}
+        {isThreadLoading && messages.length === 0 ? <TaviChatSkeleton /> : null}
 
         {!isThreadLoading && messages.length === 0 ? (
           <div className="tavi-chat-greeting">
@@ -1406,7 +1440,7 @@ export function AiHelperPage() {
               aria-label="Send message"
             >
               {isSending ? (
-                <IonSpinner name="crescent" style={{ width: 18, height: 18, color: '#cb403c' }} />
+                <AppSkeleton className="app-skeleton--circle" width={18} height={18} />
               ) : (
                 <svg
                   width="20"

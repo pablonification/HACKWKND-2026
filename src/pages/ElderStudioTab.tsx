@@ -1,4 +1,4 @@
-import { IonIcon, IonSpinner, IonToast } from '@ionic/react';
+import { IonIcon, IonToast } from '@ionic/react';
 import {
   addOutline,
   arrowBackOutline,
@@ -26,6 +26,7 @@ import {
 } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
+import { AppSkeleton } from '../components/ui';
 import {
   countPendingStudioReview,
   doesStudioRecordingNeedReview,
@@ -1004,7 +1005,7 @@ export function ElderStudioTab() {
           <h2>Studio</h2>
           <div className={`studio-sync-badge is-${syncBadge.tone}`}>
             {isSyncing ? (
-              <IonSpinner name="crescent" />
+              <AppSkeleton className="app-skeleton--circle" width={16} height={16} />
             ) : (
               <IonIcon aria-hidden icon={syncBadge.icon} />
             )}
@@ -1364,8 +1365,8 @@ export function ElderStudioTab() {
                   >
                     {isSaving ? (
                       <>
-                        <IonSpinner name="crescent" />
-                        <span>Saving...</span>
+                        <AppSkeleton className="app-skeleton--circle" width={16} height={16} />
+                        <AppSkeleton className="app-skeleton--pill" width={92} height={14} />
                       </>
                     ) : (
                       'Save to Archive'

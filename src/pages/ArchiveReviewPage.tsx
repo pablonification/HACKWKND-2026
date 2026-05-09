@@ -35,7 +35,7 @@ import {
 } from '../lib/elderStudio';
 import { AppSkeleton } from '../components/ui';
 import { triggerHapticFeedback } from '../lib/feedback';
-import { findSemaiDictionaryHints, type SemaiDictionaryHint } from '../lib/semaiDictionary';
+import type { SemaiDictionaryHint } from '../lib/semaiDictionary';
 import { normalizeSemaiText } from '../lib/semaiText';
 import { useAuthStore } from '../stores/authStore';
 
@@ -306,6 +306,7 @@ export function ArchiveReviewPage() {
     let isCancelled = false;
 
     const loadHints = async () => {
+      const { findSemaiDictionaryHints } = await import('../lib/semaiDictionary');
       const nextHints = await Promise.all(
         reviewPagination.items.map(async (recording) => {
           const transcript =
@@ -966,7 +967,7 @@ export function ArchiveReviewPage() {
                         }
                       >
                         {loadingPlaybackRecordingId === recording.id ? (
-                          'Loading...'
+                          <AppSkeleton className="app-skeleton--pill" width={70} height={14} />
                         ) : (
                           <>
                             <IonIcon

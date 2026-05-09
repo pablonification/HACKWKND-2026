@@ -9,7 +9,7 @@ import eyeIcon from '../../assets/auth/icon-eye.png';
 import facebookIcon from '../../assets/auth/icon-facebook.png';
 import googleIcon from '../../assets/auth/icon-google.png';
 import landingIllustration from '../../assets/auth/landing-illustration.png';
-import { TalekaWordmark } from '../components/ui';
+import { AppSkeleton, TalekaWordmark } from '../components/ui';
 import { requestPasswordReset, signInWithEmail, signUpWithEmail } from '../lib/auth';
 import { triggerHapticFeedback } from '../lib/feedback';
 import { supabase } from '../lib/supabase';
@@ -459,13 +459,13 @@ export function AuthPage() {
                       ) : null}
 
                       <button type="submit" className="auth-submit" disabled={loading}>
-                        {loading
-                          ? isSignUp
-                            ? 'Creating account...'
-                            : 'Logging in...'
-                          : isSignUp
-                            ? 'Get Started'
-                            : 'Log In'}
+                        {loading ? (
+                          <AppSkeleton className="app-skeleton--pill auth-submit-skeleton" />
+                        ) : isSignUp ? (
+                          'Get Started'
+                        ) : (
+                          'Log In'
+                        )}
                       </button>
                     </form>
 
