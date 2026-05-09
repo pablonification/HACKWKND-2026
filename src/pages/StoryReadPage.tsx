@@ -1,7 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { triggerHapticFeedback } from '../lib/feedback';
-import { STORIES } from '../lib/storyData';
+import {
+  PUBLISHED_STORY_SELECT,
+  publishedStoryRowToStory,
+  type PublishedStoryRow,
+} from '../lib/publishedStory';
+import { supabase } from '../lib/supabase';
+import { STORIES, type Story } from '../lib/storyData';
 import cloudOverlayUp from '../../assets/story/cloud-overlay-up.png';
 import cloudOverlayDown from '../../assets/story/cloud-overlay-down.png';
 
@@ -97,7 +103,36 @@ function StoryText({ text, highlightWord }: { text: string; highlightWord?: stri
 export function StoryReadPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const story = STORIES.find((s) => s.id === id);
+
+  const staticStory = STORIES.find((s) => s.id === id);
+  const [story, setStory] = useState<Story | null>(staticStory ?? null);
+  const [isLoading, setIsLoading] = useState(!staticStory);
+
+  useEffect(() => {
+    if (staticStory || !id) return;
+    setIsLoading(true);
+    void (async () => {
+      const { data, error } = await supabase
+        .from('recordings')
+        .select(PUBLISHED_STORY_SELECT)
+        .eq('id', id)
+        .eq('is_published', true)
+        .not('cover_url', 'is', null)
+        .not('bg_url', 'is', null)
+        .single();
+
+      if (error) {
+        console.warn('Failed to load published story for reading:', error.message);
+      } else if (data) {
+        try {
+          setStory(publishedStoryRowToStory(data as PublishedStoryRow));
+        } catch (storyError) {
+          console.warn('Published story is missing required media for reading:', storyError);
+        }
+      }
+      setIsLoading(false);
+    })();
+  }, [id, staticStory]);
 
   const [currentScene, setCurrentScene] = useState(0);
 
@@ -116,6 +151,17 @@ export function StoryReadPage() {
     return () => window.removeEventListener('keydown', handleKey);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentScene, story]);
+
+  if (isLoading) {
+    return (
+      <div className="story-read-missing">
+        <button type="button" onClick={() => navigate(-1)} className="story-read-back-btn">
+          <BackIcon />
+        </button>
+        <p>Loading…</p>
+      </div>
+    );
+  }
 
   if (!story || !story.scenes || story.scenes.length === 0) {
     return (

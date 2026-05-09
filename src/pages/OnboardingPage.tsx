@@ -21,7 +21,6 @@ import { useNavigate } from 'react-router-dom';
 
 import authTopPattern from '../../assets/auth/auth-top-pattern.png';
 import { triggerHapticFeedback } from '../lib/feedback';
-import { DEFAULT_LEARNING_LANGUAGE } from '../lib/learningLanguages';
 import { completeProfileOnboarding, type OnboardingResponses } from '../lib/profile';
 import { useAuthStore } from '../stores/authStore';
 
@@ -198,11 +197,11 @@ const STEPS: OnboardingStep[] = [
 ];
 
 const INITIAL_RESPONSES: OnboardingResponses = {
-  purpose: ['learn-language', 'practice-semai'],
-  cultureConnection: ['stories-folktales'],
-  familiarity: 'new',
-  country: 'Malaysia',
-  languageCommunity: DEFAULT_LEARNING_LANGUAGE,
+  purpose: [],
+  cultureConnection: [],
+  familiarity: null,
+  country: null,
+  languageCommunity: null,
 };
 
 const getOptionLabel = (options: Option[], id: string | null) =>
