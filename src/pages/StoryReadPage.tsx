@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { AppSkeleton } from '../components/ui';
 import { triggerHapticFeedback } from '../lib/feedback';
 import {
   PUBLISHED_STORY_SELECT,
@@ -8,6 +9,7 @@ import {
 } from '../lib/publishedStory';
 import { supabase } from '../lib/supabase';
 import { STORIES, type Story } from '../lib/storyData';
+import { getStoryProgressEntry, saveStoryProgress } from '../lib/storyProgress';
 import cloudOverlayUp from '../../assets/story/cloud-overlay-up.png';
 import cloudOverlayDown from '../../assets/story/cloud-overlay-down.png';
 
@@ -100,6 +102,34 @@ function StoryText({ text, highlightWord }: { text: string; highlightWord?: stri
 }
 
 // ── Main page ─────────────────────────────────────────────────────────────────
+function StoryReadSkeleton({ onBack }: { onBack: () => void }) {
+  return (
+    <div className="story-read-root story-read-root--skeleton" aria-label="Loading story reader">
+      <div className="story-read-scene">
+        <div className="story-read-scene-img-wrap">
+          <AppSkeleton className="story-read-scene-img story-read-scene-img--skeleton" />
+        </div>
+        <div className="story-read-header">
+          <button type="button" onClick={onBack} className="story-read-back-btn" aria-label="Back">
+            <BackIcon />
+          </button>
+          <div className="story-read-title-block" aria-hidden="true">
+            <AppSkeleton className="app-skeleton--pill" width={150} height={22} />
+            <AppSkeleton className="app-skeleton--pill" width={84} height={14} />
+          </div>
+        </div>
+        <div className="story-read-text-area story-read-text-area--skeleton">
+          <div className="story-read-content-center story-read-content-center--skeleton">
+            <AppSkeleton className="app-skeleton--pill" width={250} height={18} />
+            <AppSkeleton className="app-skeleton--pill" width={196} height={18} />
+            <AppSkeleton className="app-skeleton--pill" width={140} height={12} />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function StoryReadPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -107,6 +137,7 @@ export function StoryReadPage() {
   const staticStory = STORIES.find((s) => s.id === id);
   const [story, setStory] = useState<Story | null>(staticStory ?? null);
   const [isLoading, setIsLoading] = useState(!staticStory);
+  const [currentScene, setCurrentScene] = useState(0);
 
   useEffect(() => {
     if (staticStory || !id) return;
@@ -134,7 +165,26 @@ export function StoryReadPage() {
     })();
   }, [id, staticStory]);
 
-  const [currentScene, setCurrentScene] = useState(0);
+  useEffect(() => {
+    if (!story) return;
+    let cancelled = false;
+
+    void getStoryProgressEntry(story.id).then((progress) => {
+      if (cancelled || !progress) return;
+      setCurrentScene(
+        Math.min(progress.currentScene, Math.max(0, (story.scenes?.length ?? 1) - 1)),
+      );
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [story]);
+
+  useEffect(() => {
+    if (!story) return;
+    void saveStoryProgress(story, currentScene);
+  }, [currentScene, story]);
 
   // Touch swipe state
   const touchStartX = useRef<number | null>(null);
@@ -153,14 +203,7 @@ export function StoryReadPage() {
   }, [currentScene, story]);
 
   if (isLoading) {
-    return (
-      <div className="story-read-missing">
-        <button type="button" onClick={() => navigate(-1)} className="story-read-back-btn">
-          <BackIcon />
-        </button>
-        <p>Loading…</p>
-      </div>
-    );
+    return <StoryReadSkeleton onBack={() => navigate(-1)} />;
   }
 
   if (!story || !story.scenes || story.scenes.length === 0) {

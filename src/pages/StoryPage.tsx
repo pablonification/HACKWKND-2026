@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { triggerHapticFeedback } from '../lib/feedback';
 import {
   PUBLISHED_STORY_SELECT,
@@ -24,6 +24,8 @@ function SearchIcon() {
 
 export function StoryPage() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const searchInputRef = useRef<HTMLInputElement>(null);
   const [query, setQuery] = useState('');
   const [publishedStories, setPublishedStories] = useState<Story[]>([]);
   const [publishedStoryError, setPublishedStoryError] = useState<string | null>(null);
@@ -49,6 +51,11 @@ export function StoryPage() {
         }
       });
   }, []);
+
+  useEffect(() => {
+    if (searchParams.get('focusSearch') !== '1') return;
+    window.requestAnimationFrame(() => searchInputRef.current?.focus());
+  }, [searchParams]);
 
   const allStories = [...STORIES, ...publishedStories];
 
@@ -76,6 +83,7 @@ export function StoryPage() {
         <div className="story-search-bar">
           <SearchIcon />
           <input
+            ref={searchInputRef}
             className="story-search-input"
             type="search"
             placeholder="Search Book Title/Author"

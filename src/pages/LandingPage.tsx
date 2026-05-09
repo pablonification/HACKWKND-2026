@@ -3,11 +3,13 @@ import { useNavigate } from 'react-router-dom';
 
 import { AppSkeleton } from '../components/ui';
 import { LearningLanguageBadge } from '../components/LearningLanguageBadge';
+import { withTimeout } from '../lib/asyncTimeout';
 import { triggerHapticFeedback } from '../lib/feedback';
 import { DEFAULT_LEARNING_LANGUAGE, resolveLearningLanguage } from '../lib/learningLanguages';
 import { addExploreEntry } from '../lib/navigationEntry';
 import { fetchProfileDashboard } from '../lib/profile';
-import { STORIES } from '../lib/storyData';
+import { STORIES, type Story } from '../lib/storyData';
+import { getLastReadStory, getStoryProgress, type StoryProgressEntry } from '../lib/storyProgress';
 import { useAuthStore } from '../stores/authStore';
 
 import aiTaviCardImg from '../../assets/home-revised/ai-tavi.png';
@@ -75,9 +77,6 @@ const BOOKS = STORIES.slice(0, 4).map((story) => ({
   subtitle: story.author,
   img: story.cover,
 }));
-
-const FEATURED_STORY =
-  [...STORIES].sort((first, second) => second.progress - first.progress)[0] ?? STORIES[0];
 
 function LandingPageSkeleton({ isElder }: { isElder: boolean }) {
   return (
@@ -266,6 +265,7 @@ function LearnerLanding({
   leaderName,
   leaderAvatarSrc,
   leaderHasCustomPhoto,
+  lastReadStory,
 }: {
   firstName: string;
   onNavigate: (h: string) => void;
@@ -273,6 +273,7 @@ function LearnerLanding({
   leaderName: string;
   leaderAvatarSrc: string;
   leaderHasCustomPhoto: boolean;
+  lastReadStory: Story | null;
 }) {
   return (
     <section className="landing-shell landing-shell--learner">
@@ -295,43 +296,41 @@ function LearnerLanding({
         <button
           type="button"
           className="landing-search-bar"
-          onClick={() => onNavigate('/home/ai')}
+          onClick={() => onNavigate('/home/stories?focusSearch=1')}
           aria-label="Search"
         >
           <SearchIcon />
-          <span className="landing-search-placeholder">What would you like to explore today?</span>
+          <span className="landing-search-placeholder">Search stories by title or author</span>
         </button>
       </div>
 
       <div className="landing-card">
-        <div className="landing-section">
-          <h2 className="landing-section-title">Last Read</h2>
-          <button
-            type="button"
-            className="landing-last-read"
-            onClick={() => onNavigate(`/home/stories/${FEATURED_STORY.id}`)}
-          >
-            <div className="landing-last-read-cover">
-              <img src={FEATURED_STORY.cover} alt={FEATURED_STORY.title} />
-            </div>
-            <div className="landing-last-read-info">
-              <span className="landing-last-read-title">{FEATURED_STORY.title}</span>
-              <span className="landing-last-read-author">by {FEATURED_STORY.author}</span>
-              <div className="landing-last-read-bar" aria-hidden="true">
-                <div
-                  className="landing-last-read-bar-fill"
-                  style={{ width: `${FEATURED_STORY.progress}%` }}
-                />
+        {lastReadStory ? (
+          <div className="landing-section">
+            <h2 className="landing-section-title">Last Read</h2>
+            <button
+              type="button"
+              className="landing-last-read"
+              onClick={() => onNavigate(`/home/stories/${lastReadStory.id}/read`)}
+            >
+              <div className="landing-last-read-cover">
+                <img src={lastReadStory.cover} alt={lastReadStory.title} />
               </div>
-              <span className="landing-last-read-pct">
-                {FEATURED_STORY.progress > 0
-                  ? `${FEATURED_STORY.progress}% complete`
-                  : `${FEATURED_STORY.totalPages} pages ready`}
-              </span>
-              <span className="landing-last-read-cta">Continue reading</span>
-            </div>
-          </button>
-        </div>
+              <div className="landing-last-read-info">
+                <span className="landing-last-read-title">{lastReadStory.title}</span>
+                <span className="landing-last-read-author">by {lastReadStory.author}</span>
+                <div className="landing-last-read-bar" aria-hidden="true">
+                  <div
+                    className="landing-last-read-bar-fill"
+                    style={{ width: `${lastReadStory.progress}%` }}
+                  />
+                </div>
+                <span className="landing-last-read-pct">{lastReadStory.progress}% complete</span>
+                <span className="landing-last-read-cta">Continue reading</span>
+              </div>
+            </button>
+          </div>
+        ) : null}
 
         <BookRow
           label="Top Tale This Week"
@@ -421,6 +420,7 @@ export function LandingPage() {
   const [leaderHasCustomPhoto, setLeaderHasCustomPhoto] = useState(false);
   const [learningLanguage, setLearningLanguage] = useState(DEFAULT_LEARNING_LANGUAGE);
   const [isProfileLoading, setIsProfileLoading] = useState(true);
+  const [storyProgress, setStoryProgress] = useState<Record<string, StoryProgressEntry>>({});
 
   const meta = user?.user_metadata as Record<string, unknown> | undefined;
   const fullName = meta?.full_name as string | undefined;
@@ -454,10 +454,14 @@ export function LandingPage() {
 
     setIsProfileLoading(true);
 
-    void fetchProfileDashboard({
-      userId: user.id,
-      fallbackRole: isElder ? 'elder' : 'learner',
-    })
+    void withTimeout(
+      fetchProfileDashboard({
+        userId: user.id,
+        fallbackRole: isElder ? 'elder' : 'learner',
+      }),
+      8000,
+      'Timed out while loading the landing profile.',
+    )
       .then((dashboard) => {
         if (cancelled) return;
 
@@ -484,6 +488,20 @@ export function LandingPage() {
     };
   }, [firstName, isElder, meta?.avatar_url, meta?.full_name, user?.id]);
 
+  useEffect(() => {
+    let cancelled = false;
+
+    void getStoryProgress().then((progress) => {
+      if (!cancelled) {
+        setStoryProgress(progress);
+      }
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   const onNavigate = (href: string) => {
     triggerHapticFeedback('light');
     navigate(href);
@@ -492,6 +510,8 @@ export function LandingPage() {
   if (isProfileLoading) {
     return <LandingPageSkeleton isElder={isElder} />;
   }
+
+  const lastReadStory = getLastReadStory(STORIES, storyProgress);
 
   return isElder ? (
     <ElderLanding firstName={firstName} onNavigate={onNavigate} />
@@ -503,6 +523,7 @@ export function LandingPage() {
       leaderName={leaderName}
       leaderAvatarSrc={leaderAvatarSrc}
       leaderHasCustomPhoto={leaderHasCustomPhoto}
+      lastReadStory={lastReadStory}
     />
   );
 }

@@ -31,6 +31,11 @@
   display: block;
 }
 
+.story-detail-hero-blur--skeleton {
+  background: #e0d4c4;
+  filter: blur(5px);
+}
+
 /* Gradient fade from hero into cream background */
 .story-detail-hero-fade {
   position: absolute;
@@ -111,6 +116,10 @@
   height: 100%;
   object-fit: cover;
   display: block;
+}
+
+.story-detail-cover--skeleton {
+  background: var(--app-skeleton-base);
 }
 
 .story-detail-cover-meta {
@@ -202,6 +211,16 @@
   padding: 14px;
   background: #fff9ef;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+}
+
+.story-detail-skeleton-centered {
+  margin: 0 auto 10px;
+}
+
+.story-detail-skeleton-copy {
+  display: grid;
+  gap: 9px;
+  padding-top: 14px;
 }
 
 .story-detail-progress-chapter {
