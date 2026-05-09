@@ -10,6 +10,7 @@ import { CURATED_SEMAI_TERMS } from './semaiLexicon.js';
 
 const DEFAULT_PORT = 8787;
 const DEFAULT_TIMEOUT_MS = 120_000;
+const IMAGE_GEN_TIMEOUT_MS = 300_000;
 const DEFAULT_OMNIASR_BASE_URL = 'https://facebook-omniasr-transcriptions.hf.space';
 const DEFAULT_OMNIASR_LANGUAGE = 'sea_Latn';
 const DEFAULT_RECORDINGS_BUCKET = 'recordings';
@@ -1450,6 +1451,7 @@ export const buildRuntimeConfig = (env = process.env) => {
     recordingsBucket: env.SUPABASE_RECORDINGS_BUCKET?.trim() || DEFAULT_RECORDINGS_BUCKET,
     supabaseUrl: (env.SUPABASE_URL ?? env.VITE_SUPABASE_URL ?? '').trim(),
     supabaseServiceRoleKey: (env.SUPABASE_SERVICE_ROLE_KEY ?? '').trim(),
+    openrouterApiKey: (env.OPENROUTER_API_KEY ?? '').trim(),
     corsOrigins,
     allowAnyCorsOrigin: corsOrigins.includes('*'),
   };
@@ -2168,6 +2170,228 @@ const toErrorPayload = (error) => {
   };
 };
 
+const OPENROUTER_IMAGE_MODEL = 'openai/gpt-5.4-image-2';
+const STORIES_BUCKET = 'stories';
+
+/**
+ * Fetches description and verified_transcription from Supabase for a recording.
+ * Falls back gracefully if credentials are missing or the row isn't found.
+ * @param {string} recordingId
+ * @param {ReturnType<typeof buildRuntimeConfig>} config
+ * @returns {Promise<string>} trimmed context string, or '' if unavailable
+ */
+const fetchRecordingContext = async (recordingId, config) => {
+  if (!config.supabaseUrl || !config.supabaseServiceRoleKey) return '';
+  try {
+    const url = `${config.supabaseUrl}/rest/v1/recordings?select=description,verified_transcription&id=eq.${encodeURIComponent(recordingId)}&limit=1`;
+    const res = await fetch(url, {
+      headers: {
+        apikey: config.supabaseServiceRoleKey,
+        Authorization: `Bearer ${config.supabaseServiceRoleKey}`,
+      },
+    });
+    if (!res.ok) return '';
+    const rows =
+      /** @type {{ description?: string | null; verified_transcription?: string | null }[]} */ (
+        await res.json()
+      );
+    const row = rows?.[0];
+    const raw = row?.description?.trim() || row?.verified_transcription?.trim() || '';
+    // Cap at 300 chars so it stays within a single prompt sentence
+    return raw.length > 300 ? `${raw.slice(0, 297)}…` : raw;
+  } catch {
+    return '';
+  }
+};
+
+/**
+ * @param {'cover' | 'bg'} type
+ * @param {string} title
+ * @param {string} descriptionPart
+ */
+const buildImagePrompt = (type, title, descriptionPart) => {
+  if (type === 'cover') {
+    return `Create a beautiful illustrated children's storybook cover titled "${title}" inspired by Southeast Asian indigenous folklore and the Semai oral tradition. Use this as context: "${descriptionPart}". The cover design should closely reference a fantasy children's book aesthetic similar to classic Disney-style storybooks, with rich decorative borders made of tropical leaves, flowers, vines, and forest elements surrounding the frame. The title should appear in large bold fantasy typography at the top, with warm golden-yellow gradient letters and soft shadowing, similar to premium animated storybook covers. Under the title, include a smaller subtitle ribbon saying: "A Semai Creation Tale". Style: highly detailed 2D cartoon illustration, Disney Pixar inspired, vibrant tropical palette, cinematic warm lighting, magical folklore atmosphere, emotional and educational children's book cover, glossy illustrated storybook aesthetic, rich textures, whimsical fantasy vibe, mobile-app-friendly composition. Color palette: warm greens, golden sunlight, earthy browns, river blues, tropical flower colors, soft magical glow.`;
+  }
+  return `Create a colorful 2D storybook cartoon illustration inspired by Southeast Asian indigenous culture, especially the Semai community in Malaysia. If exist, use this as context: "${title}". Environment: lush tropical forest, traditional village houses, warm sunset lighting, rivers, mountains, nature elements, indigenous cultural motifs. Art style: Disney-style children's storybook illustration mixed with modern mobile app visuals, soft shading, expressive characters, cinematic composition, highly detailed, warm emotional atmosphere. Clothing and accessories inspired by Orang Asli / indigenous Southeast Asian traditions. Make the scene feel magical, educational, emotional, and culturally rich. Vibrant colors, immersive environment, kid-friendly, fantasy folklore vibes, high quality digital art. Do not add any text in the image.`;
+};
+/**
+ * @param {string} prompt
+ * @param {ReturnType<typeof buildRuntimeConfig>} config
+ * @returns {Promise<Buffer>}
+ */
+const generateImageViaOpenRouter = async (prompt, config) => {
+  if (!config.openrouterApiKey) {
+    throw new HttpError(500, 'OPENROUTER_API_KEY is not configured.', 'missing_openrouter_key');
+  }
+
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), IMAGE_GEN_TIMEOUT_MS);
+
+  let response;
+  try {
+    response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${config.openrouterApiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: OPENROUTER_IMAGE_MODEL,
+        messages: [{ role: 'user', content: prompt }],
+        modalities: ['image', 'text'],
+      }),
+      signal: controller.signal,
+    });
+  } finally {
+    clearTimeout(timeout);
+  }
+
+  if (!response.ok) {
+    const text = await response.text().catch(() => '');
+    console.error('[ai-helper] OpenRouter image generation failed:', response.status, text);
+    throw new HttpError(502, `OpenRouter error ${response.status}`, 'openrouter_error', text);
+  }
+
+  const json = await response.json();
+
+  // Walk the entire response tree looking for the first image URL (data: or https://).
+  // gpt-5.4-image-2 puts the image in a non-standard field (message.content is null),
+  // so we can't rely on a fixed path.
+  const findImageUrl = (node) => {
+    if (typeof node === 'string') {
+      if (
+        node.startsWith('data:image') ||
+        node.startsWith('https://') ||
+        node.startsWith('http://')
+      ) {
+        return node;
+      }
+      return null;
+    }
+    if (Array.isArray(node)) {
+      for (const item of node) {
+        const found = findImageUrl(item);
+        if (found) return found;
+      }
+      return null;
+    }
+    if (node && typeof node === 'object') {
+      // Prioritise known image fields so we don't accidentally pick up a text URL.
+      const priorityKeys = ['url', 'image_url', 'data', 'b64_json'];
+      for (const key of priorityKeys) {
+        if (key in node) {
+          const found = findImageUrl(node[key]);
+          if (found) return found;
+        }
+      }
+      for (const value of Object.values(node)) {
+        const found = findImageUrl(value);
+        if (found) return found;
+      }
+    }
+    return null;
+  };
+
+  const imageUrl = findImageUrl(json?.choices?.[0]);
+
+  if (!imageUrl) {
+    console.error(
+      '[ai-helper] Could not find image URL. Message fields:',
+      Object.keys(json?.choices?.[0]?.message ?? {}),
+    );
+    throw new HttpError(502, 'OpenRouter returned no image data', 'openrouter_no_image');
+  }
+
+  if (imageUrl.startsWith('data:')) {
+    const b64 = imageUrl.split(',')[1];
+    return Buffer.from(b64, 'base64');
+  }
+
+  console.log('[ai-helper] fetching image from URL:', imageUrl);
+  const imgResponse = await fetch(imageUrl);
+  if (!imgResponse.ok) {
+    throw new HttpError(
+      502,
+      `Failed to fetch generated image (${imgResponse.status})`,
+      'image_fetch_error',
+    );
+  }
+  return Buffer.from(await imgResponse.arrayBuffer());
+};
+
+/**
+ * @param {string} storagePath
+ * @param {Buffer} imageBuffer
+ * @param {ReturnType<typeof buildRuntimeConfig>} config
+ * @returns {Promise<string>}
+ */
+const uploadImageToStoragePublic = async (storagePath, imageBuffer, config) => {
+  if (!config.supabaseUrl || !config.supabaseServiceRoleKey) {
+    throw new HttpError(
+      500,
+      'Supabase credentials are not configured.',
+      'missing_supabase_credentials',
+    );
+  }
+
+  const uploadUrl = `${config.supabaseUrl}/storage/v1/object/${STORIES_BUCKET}/${storagePath}`;
+  const response = await fetch(uploadUrl, {
+    method: 'PUT',
+    headers: {
+      Authorization: `Bearer ${config.supabaseServiceRoleKey}`,
+      'Content-Type': 'image/png',
+      'x-upsert': 'true',
+    },
+    body: imageBuffer,
+  });
+
+  if (!response.ok) {
+    const text = await response.text().catch(() => '');
+    throw new HttpError(
+      502,
+      `Storage upload failed: ${response.status}`,
+      'storage_upload_error',
+      text,
+    );
+  }
+
+  return `${config.supabaseUrl}/storage/v1/object/public/${STORIES_BUCKET}/${storagePath}`;
+};
+
+/**
+ * @param {import('node:http').IncomingMessage} request
+ * @param {import('node:http').ServerResponse} response
+ * @param {ReturnType<typeof buildRuntimeConfig>} config
+ */
+const handleGenerateImage = async (request, response, config) => {
+  const body = await readJsonBody(request);
+  const { recordingId, title, description, type } = body ?? {};
+
+  if (!title?.trim()) {
+    throw new HttpError(400, 'title is required', 'missing_title');
+  }
+  if (!recordingId?.trim()) {
+    throw new HttpError(400, 'recordingId is required', 'missing_recording_id');
+  }
+
+  const imageType = type === 'bg' ? 'bg' : 'cover';
+  const dbContext = await fetchRecordingContext(recordingId, config);
+  const rawDesc = dbContext || description?.trim() || '';
+  const descriptionPart = rawDesc ? ` ${rawDesc}.` : '';
+  const prompt = buildImagePrompt(imageType, title.trim(), descriptionPart);
+  const storagePath = `${recordingId}-${imageType}.png`;
+
+  console.log(`[ai-helper] generating ${imageType} image for recording ${recordingId}`);
+  const imageBuffer = await generateImageViaOpenRouter(prompt, config);
+
+  const publicUrl = await uploadImageToStoragePublic(storagePath, imageBuffer, config);
+  console.log(`[ai-helper] ${imageType} image uploaded: ${publicUrl}`);
+
+  const result = imageType === 'cover' ? { coverUrl: publicUrl } : { bgUrl: publicUrl };
+  sendJson(response, 200, result, request, config);
+};
+
 /**
  * @param {ReturnType<typeof buildRuntimeConfig>} [config]
  */
@@ -2191,6 +2415,11 @@ export const createAiHelperServer = (config = buildRuntimeConfig()) =>
 
       if (method === 'POST' && requestUrl.pathname === '/ai/transcribe') {
         await handleTranscribe(request, response, config);
+        return;
+      }
+
+      if (method === 'POST' && requestUrl.pathname === '/ai/generate-image') {
+        await handleGenerateImage(request, response, config);
         return;
       }
 

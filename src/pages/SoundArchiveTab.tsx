@@ -9,7 +9,7 @@ import {
   refreshOutline,
 } from 'ionicons/icons';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import {
   countPendingStudioReview,
@@ -34,8 +34,7 @@ import {
 import { AppSkeleton } from '../components/ui';
 import { triggerHapticFeedback } from '../lib/feedback';
 import { useAuthStore } from '../stores/authStore';
-import { generateStoryVisuals, publishRecordingAsStory } from '../lib/storyImages';
-import type { GeneratedStoryVisuals } from '../lib/storyImages';
+import { generateStoryCover, generateStoryBg, publishRecordingAsStory } from '../lib/storyImages';
 import './SoundArchiveTab.css';
 
 type ToastState = {
@@ -100,6 +99,7 @@ const SoundArchiveLoadingSkeleton = () => (
 
 export function SoundArchiveTab() {
   const navigate = useNavigate();
+  const { recordingId: publishRecordingIdParam } = useParams<{ recordingId?: string }>();
   const aiBaseUrl = import.meta.env.VITE_AI_BASE_URL as string | undefined;
   const isAiHelperConfigured = Boolean(aiBaseUrl && aiBaseUrl.trim().length > 0);
   const { user } = useAuthStore();
@@ -115,9 +115,10 @@ export function SoundArchiveTab() {
   );
   const [toast, setToast] = useState<ToastState | null>(null);
   const [publishFlowRecordingId, setPublishFlowRecordingId] = useState<string | null>(null);
-  const [publishStep, setPublishStep] = useState<'generate' | 'confirm'>('generate');
-  const [generatedVisuals, setGeneratedVisuals] = useState<GeneratedStoryVisuals | null>(null);
-  const [isGenerating, setIsGenerating] = useState(false);
+  const [generatedCoverUrl, setGeneratedCoverUrl] = useState<string | null>(null);
+  const [generatedBgUrl, setGeneratedBgUrl] = useState<string | null>(null);
+  const [isGeneratingCover, setIsGeneratingCover] = useState(false);
+  const [isGeneratingBg, setIsGeneratingBg] = useState(false);
   const [isPublishing, setIsPublishing] = useState(false);
   const isSyncingRef = useRef(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -331,54 +332,85 @@ export function SoundArchiveTab() {
   const handleOpenPublishFlow = (recording: StudioRecording) => {
     triggerHapticFeedback('light');
     setPublishFlowRecordingId(recording.id);
-    setPublishStep('generate');
-    setGeneratedVisuals(null);
+    setGeneratedCoverUrl(null);
+    setGeneratedBgUrl(null);
+    navigate(`/home/archive/publish/${recording.id}`);
   };
 
   const handleClosePublishFlow = () => {
     setPublishFlowRecordingId(null);
-    setPublishStep('generate');
-    setGeneratedVisuals(null);
+    setGeneratedCoverUrl(null);
+    setGeneratedBgUrl(null);
+    if (publishRecordingIdParam) {
+      navigate('/home/archive');
+    }
   };
 
-  const handleGenerateVisuals = async (recording: StudioRecording) => {
-    setIsGenerating(true);
+  useEffect(() => {
+    if (!publishRecordingIdParam) {
+      return;
+    }
+    const target = recordings.find((recording) => recording.id === publishRecordingIdParam);
+    if (!target) {
+      return;
+    }
+    if (publishFlowRecordingId !== target.id) {
+      setPublishFlowRecordingId(target.id);
+      setGeneratedCoverUrl(null);
+      setGeneratedBgUrl(null);
+    }
+  }, [publishFlowRecordingId, publishRecordingIdParam, recordings]);
+
+  const handleGenerateCover = async (recording: StudioRecording) => {
+    setIsGeneratingCover(true);
     try {
-      const visuals = await generateStoryVisuals(
+      const url = await generateStoryCover(
         recording.id,
         recording.title,
         recording.description ?? '',
       );
-      setGeneratedVisuals(visuals);
-      setPublishStep('confirm');
+      setGeneratedCoverUrl(url);
       triggerHapticFeedback('success');
     } catch (error) {
       setToast({
         color: 'danger',
-        message: error instanceof Error ? error.message : 'Image generation failed.',
+        message: error instanceof Error ? error.message : 'Cover generation failed.',
       });
       triggerHapticFeedback('error');
     } finally {
-      setIsGenerating(false);
+      setIsGeneratingCover(false);
+    }
+  };
+
+  const handleGenerateBg = async (recording: StudioRecording) => {
+    setIsGeneratingBg(true);
+    try {
+      const url = await generateStoryBg(recording.id, recording.title, recording.description ?? '');
+      setGeneratedBgUrl(url);
+      triggerHapticFeedback('success');
+    } catch (error) {
+      setToast({
+        color: 'danger',
+        message: error instanceof Error ? error.message : 'Background generation failed.',
+      });
+      triggerHapticFeedback('error');
+    } finally {
+      setIsGeneratingBg(false);
     }
   };
 
   const handlePublishStory = async (recording: StudioRecording) => {
-    if (!generatedVisuals) {
+    if (!generatedCoverUrl || !generatedBgUrl) {
       return;
     }
     setIsPublishing(true);
     try {
-      await publishRecordingAsStory(
-        recording.id,
-        generatedVisuals.coverUrl,
-        generatedVisuals.bgUrl,
-      );
+      await publishRecordingAsStory(recording.id, generatedCoverUrl, generatedBgUrl);
       setRecordings((current) =>
         upsertStudioRecordingInList(current, {
           ...recording,
-          coverUrl: generatedVisuals.coverUrl,
-          bgUrl: generatedVisuals.bgUrl,
+          coverUrl: generatedCoverUrl,
+          bgUrl: generatedBgUrl,
           isPublished: true,
         }),
       );
@@ -691,9 +723,10 @@ export function SoundArchiveTab() {
             if (!rec) {
               return null;
             }
+            const canPublish = Boolean(generatedCoverUrl && generatedBgUrl);
             return (
               <div className="studio-flow-screen" role="dialog" aria-modal="true">
-                <div className="studio-flow-shell studio-flow-shell--details">
+                <div className="studio-flow-shell studio-flow-shell--details items-center ">
                   <header className="studio-flow-header">
                     <button
                       type="button"
@@ -702,87 +735,69 @@ export function SoundArchiveTab() {
                     >
                       <IonIcon aria-hidden icon={arrowBackOutline} />
                     </button>
-                    <h2>{publishStep === 'generate' ? 'Generate Visuals' : 'Confirm & Publish'}</h2>
+                    <h2>Publish as Story</h2>
                     <span className="studio-flow-header-spacer" aria-hidden="true" />
                   </header>
 
-                  {publishStep === 'generate' ? (
-                    <div className="studio-publish-generate">
-                      <p className="studio-publish-title">{rec.title}</p>
-                      {resolveStudioRecordingTranscription(rec) ? (
-                        <p className="studio-publish-excerpt">
-                          {toPreviewText(resolveStudioRecordingTranscription(rec) ?? '', 200)}
-                        </p>
+                  <div className="studio-publish-generate">
+                    <div className="studio-publish-cover-frame">
+                      {generatedCoverUrl ? (
+                        <img src={generatedCoverUrl} alt="Generated story cover" />
                       ) : null}
+                    </div>
+
+                    <p className="studio-publish-title">{rec.title}</p>
+                    {resolveStudioRecordingTranscription(rec) ? (
+                      <p className="studio-publish-excerpt">
+                        {toPreviewText(resolveStudioRecordingTranscription(rec) ?? '', 200)}
+                      </p>
+                    ) : null}
+                    {(!generatedCoverUrl || !generatedBgUrl) && (
                       <button
                         type="button"
                         className="studio-save-button"
-                        onClick={() => void handleGenerateVisuals(rec)}
-                        disabled={isGenerating}
+                        onClick={() => {
+                          if (!generatedCoverUrl) void handleGenerateCover(rec);
+                          else void handleGenerateBg(rec);
+                        }}
+                        disabled={isGeneratingCover || isGeneratingBg}
                       >
-                        {isGenerating ? (
+                        {isGeneratingCover || isGeneratingBg ? (
                           <>
                             <IonSpinner name="crescent" />
-                            <span>Generating visuals…</span>
+                            <span>Generating…</span>
                           </>
+                        ) : !generatedCoverUrl ? (
+                          'Generate Cover'
                         ) : (
-                          'Generate Cover & Background'
+                          'Generate Background'
                         )}
                       </button>
-                      <button
-                        type="button"
-                        className="studio-discard-link"
-                        onClick={handleClosePublishFlow}
-                      >
-                        Cancel
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="studio-publish-confirm">
-                      {generatedVisuals ? (
-                        <div className="studio-publish-previews">
-                          <div className="studio-publish-preview-item">
-                            <span>Cover</span>
-                            <img src={generatedVisuals.coverUrl} alt="Generated story cover" />
-                          </div>
-                          <div className="studio-publish-preview-item">
-                            <span>Background</span>
-                            <img src={generatedVisuals.bgUrl} alt="Generated story background" />
-                          </div>
-                        </div>
-                      ) : null}
-                      <button
-                        type="button"
-                        className="studio-recording-action-button"
-                        onClick={() => void handleGenerateVisuals(rec)}
-                        disabled={isGenerating}
-                      >
-                        {isGenerating ? 'Regenerating…' : 'Regenerate'}
-                      </button>
-                      <button
-                        type="button"
-                        className="studio-save-button"
-                        onClick={() => void handlePublishStory(rec)}
-                        disabled={isPublishing || !generatedVisuals}
-                      >
-                        {isPublishing ? (
-                          <>
-                            <IonSpinner name="crescent" />
-                            <span>Publishing…</span>
-                          </>
-                        ) : (
-                          'Publish Story'
-                        )}
-                      </button>
-                      <button
-                        type="button"
-                        className="studio-discard-link"
-                        onClick={handleClosePublishFlow}
-                      >
-                        Cancel
-                      </button>
-                    </div>
-                  )}
+                    )}
+
+                    <button
+                      type="button"
+                      className="studio-save-button"
+                      onClick={() => void handlePublishStory(rec)}
+                      disabled={isPublishing || !canPublish}
+                    >
+                      {isPublishing ? (
+                        <>
+                          <IonSpinner name="crescent" />
+                          <span>Publishing…</span>
+                        </>
+                      ) : (
+                        'Publish Story'
+                      )}
+                    </button>
+                    <button
+                      type="button"
+                      className="studio-discard-link"
+                      onClick={handleClosePublishFlow}
+                    >
+                      Cancel
+                    </button>
+                  </div>
                 </div>
               </div>
             );

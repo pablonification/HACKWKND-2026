@@ -2,62 +2,105 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('./supabase', () => ({
   supabase: {
-    functions: { invoke: vi.fn() },
+    auth: { getSession: vi.fn() },
     from: vi.fn(),
   },
 }));
 
+const mockFetch = vi.fn();
+vi.stubGlobal('fetch', mockFetch);
+
 import { supabase } from './supabase';
-import { generateStoryVisuals, publishRecordingAsStory } from './storyImages';
+import { generateStoryCover, generateStoryBg, publishRecordingAsStory } from './storyImages';
 
-describe('generateStoryVisuals', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
+const mockSession = { access_token: 'test-token' };
 
-  it('returns coverUrl and bgUrl on success', async () => {
-    vi.mocked(supabase.functions.invoke).mockResolvedValue({
-      data: { coverUrl: 'https://example.com/cover.png', bgUrl: 'https://example.com/bg.png' },
-      error: null,
+beforeEach(() => {
+  vi.clearAllMocks();
+  vi.mocked(supabase.auth.getSession).mockResolvedValue({
+    data: { session: mockSession },
+    error: null,
+  } as Awaited<ReturnType<typeof supabase.auth.getSession>>);
+});
+
+describe('generateStoryCover', () => {
+  it('returns coverUrl on success', async () => {
+    mockFetch.mockResolvedValue({
+      ok: true,
+      json: async () => ({ coverUrl: 'https://example.com/cover.png' }),
     });
 
-    const result = await generateStoryVisuals('rec-1', 'Kancil', 'A story about a deer');
+    const url = await generateStoryCover('rec-1', 'Kancil', 'A story about a deer');
 
-    expect(result).toEqual({
-      coverUrl: 'https://example.com/cover.png',
-      bgUrl: 'https://example.com/bg.png',
-    });
-    expect(supabase.functions.invoke).toHaveBeenCalledWith('generate-story-cover', {
-      body: { recordingId: 'rec-1', title: 'Kancil', description: 'A story about a deer' },
-    });
-  });
-
-  it('throws when the function returns an error', async () => {
-    vi.mocked(supabase.functions.invoke).mockResolvedValue({
-      data: null,
-      error: { message: 'Edge function error' },
-    });
-
-    await expect(generateStoryVisuals('rec-1', 'Kancil', '')).rejects.toThrow(
-      'Edge function error',
+    expect(url).toBe('https://example.com/cover.png');
+    expect(mockFetch).toHaveBeenCalledWith(
+      expect.stringContaining('/ai/generate-image'),
+      expect.objectContaining({
+        method: 'POST',
+        body: JSON.stringify({
+          recordingId: 'rec-1',
+          title: 'Kancil',
+          description: 'A story about a deer',
+          type: 'cover',
+        }),
+      }),
     );
   });
 
-  it('throws when response is missing URLs', async () => {
-    vi.mocked(supabase.functions.invoke).mockResolvedValue({
-      data: { coverUrl: null, bgUrl: null },
-      error: null,
+  it('throws when the backend returns an error', async () => {
+    mockFetch.mockResolvedValue({
+      ok: false,
+      status: 502,
+      json: async () => ({ error: 'OpenRouter error' }),
     });
 
-    await expect(generateStoryVisuals('rec-1', 'Kancil', '')).rejects.toThrow('incomplete data');
+    await expect(generateStoryCover('rec-1', 'Kancil', '')).rejects.toThrow('OpenRouter error');
+  });
+
+  it('throws when response has no coverUrl', async () => {
+    mockFetch.mockResolvedValue({
+      ok: true,
+      json: async () => ({ coverUrl: null }),
+    });
+
+    await expect(generateStoryCover('rec-1', 'Kancil', '')).rejects.toThrow('no URL');
+  });
+});
+
+describe('generateStoryBg', () => {
+  it('returns bgUrl on success', async () => {
+    mockFetch.mockResolvedValue({
+      ok: true,
+      json: async () => ({ bgUrl: 'https://example.com/bg.png' }),
+    });
+
+    const url = await generateStoryBg('rec-1', 'Kancil', 'A story about a deer');
+
+    expect(url).toBe('https://example.com/bg.png');
+    expect(mockFetch).toHaveBeenCalledWith(
+      expect.stringContaining('/ai/generate-image'),
+      expect.objectContaining({
+        body: JSON.stringify({
+          recordingId: 'rec-1',
+          title: 'Kancil',
+          description: 'A story about a deer',
+          type: 'bg',
+        }),
+      }),
+    );
+  });
+
+  it('throws when response has no bgUrl', async () => {
+    mockFetch.mockResolvedValue({
+      ok: true,
+      json: async () => ({ bgUrl: null }),
+    });
+
+    await expect(generateStoryBg('rec-1', 'Kancil', '')).rejects.toThrow('no URL');
   });
 });
 
 describe('publishRecordingAsStory', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
   it('updates the recording with cover_url, bg_url, and is_published=true', async () => {
     const mockEq = vi.fn().mockResolvedValue({ error: null });
     const mockUpdate = vi.fn().mockReturnValue({ eq: mockEq });

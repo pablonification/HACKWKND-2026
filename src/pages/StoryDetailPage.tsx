@@ -1,8 +1,65 @@
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { triggerHapticFeedback } from '../lib/feedback';
-import { STORIES } from '../lib/storyData';
+import { supabase } from '../lib/supabase';
+import { STORIES, type Story, type StoryScene } from '../lib/storyData';
 
 import './StoryDetailPage.css';
+
+type PublishedRow = {
+  id: string;
+  title: string;
+  description: string | null;
+  cover_url: string;
+  bg_url: string;
+  duration_seconds: number | null;
+  transcription: string | null;
+  verified_transcription: string | null;
+  verified_translation_ms: string | null;
+  topic_tags: string[] | null;
+};
+
+function buildScenes(row: PublishedRow): StoryScene[] {
+  const rawText = row.verified_transcription ?? row.transcription ?? '';
+  const paragraphs = rawText
+    .split(/\n\n+/)
+    .map((p) => p.trim())
+    .filter(Boolean);
+  const translations = (row.verified_translation_ms ?? '')
+    .split(/\n\n+/)
+    .map((p) => p.trim())
+    .filter(Boolean);
+  return paragraphs.map((para, i) => ({
+    image: row.bg_url,
+    text: para,
+    subtitle: translations[i] ?? undefined,
+  }));
+}
+
+function rowToStory(row: PublishedRow): Story {
+  const mins = row.duration_seconds ? Math.max(1, Math.ceil(row.duration_seconds / 60)) : null;
+  const scenes = buildScenes(row);
+  return {
+    id: row.id,
+    title: row.title,
+    author: 'Elder Story',
+    cover: row.cover_url,
+    bg: row.bg_url,
+    duration: mins ? `${mins} min` : '—',
+    pages: Math.max(1, scenes.length),
+    genre: row.topic_tags?.[0] ?? 'Semai Story',
+    synopsis:
+      row.description ??
+      row.verified_transcription ??
+      row.transcription ??
+      'A recorded Semai story.',
+    lastChapter: 'Chapter 1',
+    lastPage: 1,
+    totalPages: Math.max(1, scenes.length),
+    progress: 0,
+    scenes,
+  };
+}
 
 // ── Icons ────────────────────────────────────────────────────────────────────
 
@@ -65,7 +122,37 @@ export function StoryDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
-  const story = STORIES.find((s) => s.id === id);
+  const staticStory = STORIES.find((s) => s.id === id);
+  const [story, setStory] = useState<Story | null>(staticStory ?? null);
+  const [isLoading, setIsLoading] = useState(!staticStory);
+
+  useEffect(() => {
+    if (staticStory || !id) return;
+    setIsLoading(true);
+    void (async () => {
+      const { data } = await supabase
+        .from('recordings')
+        .select(
+          'id, title, description, cover_url, bg_url, duration_seconds, transcription, verified_transcription, verified_translation_ms, topic_tags',
+        )
+        .eq('id', id)
+        .eq('is_published', true)
+        .single();
+      if (data) setStory(rowToStory(data as PublishedRow));
+      setIsLoading(false);
+    })();
+  }, [id, staticStory]);
+
+  if (isLoading) {
+    return (
+      <div className="story-detail-page story-detail-not-found">
+        <button type="button" className="story-detail-back-btn" onClick={() => navigate(-1)}>
+          <BackIcon />
+        </button>
+        <p>Loading…</p>
+      </div>
+    );
+  }
 
   if (!story) {
     return (
@@ -93,6 +180,7 @@ export function StoryDetailPage() {
   }
 
   const progressPct = Math.min(100, Math.max(0, story.progress));
+  const storyTypeLabel = 'Story';
 
   return (
     <div className="story-detail-page">
@@ -141,10 +229,10 @@ export function StoryDetailPage() {
           </div>
         </div>
         <div className="story-detail-stat-card">
-          <div className="story-detail-stat-label">Genre</div>
+          <div className="story-detail-stat-label">Type</div>
           <div className="story-detail-stat-value">
             <GenreIcon />
-            <span>{story.genre}</span>
+            <span>{storyTypeLabel}</span>
           </div>
         </div>
       </div>

@@ -1,9 +1,65 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { triggerHapticFeedback } from '../lib/feedback';
-import { STORIES } from '../lib/storyData';
+import { supabase } from '../lib/supabase';
+import { STORIES, type Story, type StoryScene } from '../lib/storyData';
 import cloudOverlayUp from '../../assets/story/cloud-overlay-up.png';
 import cloudOverlayDown from '../../assets/story/cloud-overlay-down.png';
+
+type PublishedRow = {
+  id: string;
+  title: string;
+  description: string | null;
+  cover_url: string;
+  bg_url: string;
+  duration_seconds: number | null;
+  transcription: string | null;
+  verified_transcription: string | null;
+  verified_translation_ms: string | null;
+  topic_tags: string[] | null;
+};
+
+function buildScenes(row: PublishedRow): StoryScene[] {
+  const rawText = row.verified_transcription ?? row.transcription ?? '';
+  const paragraphs = rawText
+    .split(/\n\n+/)
+    .map((p) => p.trim())
+    .filter(Boolean);
+  const translations = (row.verified_translation_ms ?? '')
+    .split(/\n\n+/)
+    .map((p) => p.trim())
+    .filter(Boolean);
+  return paragraphs.map((para, i) => ({
+    image: row.bg_url,
+    text: para,
+    subtitle: translations[i] ?? undefined,
+  }));
+}
+
+function rowToStory(row: PublishedRow): Story {
+  const mins = row.duration_seconds ? Math.max(1, Math.ceil(row.duration_seconds / 60)) : null;
+  const scenes = buildScenes(row);
+  return {
+    id: row.id,
+    title: row.title,
+    author: 'Elder Story',
+    cover: row.cover_url,
+    bg: row.bg_url,
+    duration: mins ? `${mins} min` : '—',
+    pages: Math.max(1, scenes.length),
+    genre: row.topic_tags?.[0] ?? 'Semai Story',
+    synopsis:
+      row.description ??
+      row.verified_transcription ??
+      row.transcription ??
+      'A recorded Semai story.',
+    lastChapter: 'Chapter 1',
+    lastPage: 1,
+    totalPages: Math.max(1, scenes.length),
+    progress: 0,
+    scenes,
+  };
+}
 
 import './StoryReadPage.css';
 
@@ -97,7 +153,27 @@ function StoryText({ text, highlightWord }: { text: string; highlightWord?: stri
 export function StoryReadPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const story = STORIES.find((s) => s.id === id);
+
+  const staticStory = STORIES.find((s) => s.id === id);
+  const [story, setStory] = useState<Story | null>(staticStory ?? null);
+  const [isLoading, setIsLoading] = useState(!staticStory);
+
+  useEffect(() => {
+    if (staticStory || !id) return;
+    setIsLoading(true);
+    void (async () => {
+      const { data } = await supabase
+        .from('recordings')
+        .select(
+          'id, title, description, cover_url, bg_url, duration_seconds, transcription, verified_transcription, verified_translation_ms, topic_tags',
+        )
+        .eq('id', id)
+        .eq('is_published', true)
+        .single();
+      if (data) setStory(rowToStory(data as PublishedRow));
+      setIsLoading(false);
+    })();
+  }, [id, staticStory]);
 
   const [currentScene, setCurrentScene] = useState(0);
 
@@ -116,6 +192,17 @@ export function StoryReadPage() {
     return () => window.removeEventListener('keydown', handleKey);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentScene, story]);
+
+  if (isLoading) {
+    return (
+      <div className="story-read-missing">
+        <button type="button" onClick={() => navigate(-1)} className="story-read-back-btn">
+          <BackIcon />
+        </button>
+        <p>Loading…</p>
+      </div>
+    );
+  }
 
   if (!story || !story.scenes || story.scenes.length === 0) {
     return (
