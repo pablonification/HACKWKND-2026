@@ -34,9 +34,6 @@ import {
 import { AppSkeleton } from '../components/ui';
 import { triggerHapticFeedback } from '../lib/feedback';
 import { useAuthStore } from '../stores/authStore';
-import { generateStoryVisuals, publishRecordingAsStory } from '../lib/storyImages';
-import type { GeneratedStoryVisuals } from '../lib/storyImages';
-import './SoundArchiveTab.css';
 
 type ToastState = {
   message: string;
@@ -114,11 +111,6 @@ export function SoundArchiveTab() {
     typeof navigator === 'undefined' ? true : navigator.onLine,
   );
   const [toast, setToast] = useState<ToastState | null>(null);
-  const [publishFlowRecordingId, setPublishFlowRecordingId] = useState<string | null>(null);
-  const [publishStep, setPublishStep] = useState<'generate' | 'confirm'>('generate');
-  const [generatedVisuals, setGeneratedVisuals] = useState<GeneratedStoryVisuals | null>(null);
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [isPublishing, setIsPublishing] = useState(false);
   const isSyncingRef = useRef(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const playbackSourceCacheRef = useRef<Map<string, { url: string; expiresAt: number }>>(new Map());
@@ -325,74 +317,6 @@ export function SoundArchiveTab() {
       });
     } finally {
       setTranscribingRecordingId(null);
-    }
-  };
-
-  const handleOpenPublishFlow = (recording: StudioRecording) => {
-    triggerHapticFeedback('light');
-    setPublishFlowRecordingId(recording.id);
-    setPublishStep('generate');
-    setGeneratedVisuals(null);
-  };
-
-  const handleClosePublishFlow = () => {
-    setPublishFlowRecordingId(null);
-    setPublishStep('generate');
-    setGeneratedVisuals(null);
-  };
-
-  const handleGenerateVisuals = async (recording: StudioRecording) => {
-    setIsGenerating(true);
-    try {
-      const visuals = await generateStoryVisuals(
-        recording.id,
-        recording.title,
-        recording.description ?? '',
-      );
-      setGeneratedVisuals(visuals);
-      setPublishStep('confirm');
-      triggerHapticFeedback('success');
-    } catch (error) {
-      setToast({
-        color: 'danger',
-        message: error instanceof Error ? error.message : 'Image generation failed.',
-      });
-      triggerHapticFeedback('error');
-    } finally {
-      setIsGenerating(false);
-    }
-  };
-
-  const handlePublishStory = async (recording: StudioRecording) => {
-    if (!generatedVisuals) {
-      return;
-    }
-    setIsPublishing(true);
-    try {
-      await publishRecordingAsStory(
-        recording.id,
-        generatedVisuals.coverUrl,
-        generatedVisuals.bgUrl,
-      );
-      setRecordings((current) =>
-        upsertStudioRecordingInList(current, {
-          ...recording,
-          coverUrl: generatedVisuals.coverUrl,
-          bgUrl: generatedVisuals.bgUrl,
-          isPublished: true,
-        }),
-      );
-      setToast({ color: 'success', message: 'Story published.' });
-      handleClosePublishFlow();
-      triggerHapticFeedback('success');
-    } catch (error) {
-      setToast({
-        color: 'danger',
-        message: error instanceof Error ? error.message : 'Failed to publish story.',
-      });
-      triggerHapticFeedback('error');
-    } finally {
-      setIsPublishing(false);
     }
   };
 
@@ -630,23 +554,6 @@ export function SoundArchiveTab() {
                           Review
                         </button>
                       ) : null}
-
-                      {recording.syncStatus === 'synced' &&
-                      recording.isVerified &&
-                      !recording.isPublished &&
-                      recording.recordingType === 'story' ? (
-                        <button
-                          type="button"
-                          className="studio-recording-action-button is-primary"
-                          onClick={() => handleOpenPublishFlow(recording)}
-                        >
-                          Publish as Story
-                        </button>
-                      ) : null}
-
-                      {recording.isPublished ? (
-                        <span className="studio-published-badge">Published</span>
-                      ) : null}
                     </footer>
                   ) : null}
                 </li>
@@ -684,110 +591,6 @@ export function SoundArchiveTab() {
           ) : null}
         </section>
       </div>
-
-      {publishFlowRecordingId
-        ? (() => {
-            const rec = recordings.find((r) => r.id === publishFlowRecordingId);
-            if (!rec) {
-              return null;
-            }
-            return (
-              <div className="studio-flow-screen" role="dialog" aria-modal="true">
-                <div className="studio-flow-shell studio-flow-shell--details">
-                  <header className="studio-flow-header">
-                    <button
-                      type="button"
-                      className="studio-flow-back-button"
-                      onClick={handleClosePublishFlow}
-                    >
-                      <IonIcon aria-hidden icon={arrowBackOutline} />
-                    </button>
-                    <h2>{publishStep === 'generate' ? 'Generate Visuals' : 'Confirm & Publish'}</h2>
-                    <span className="studio-flow-header-spacer" aria-hidden="true" />
-                  </header>
-
-                  {publishStep === 'generate' ? (
-                    <div className="studio-publish-generate">
-                      <p className="studio-publish-title">{rec.title}</p>
-                      {resolveStudioRecordingTranscription(rec) ? (
-                        <p className="studio-publish-excerpt">
-                          {toPreviewText(resolveStudioRecordingTranscription(rec) ?? '', 200)}
-                        </p>
-                      ) : null}
-                      <button
-                        type="button"
-                        className="studio-save-button"
-                        onClick={() => void handleGenerateVisuals(rec)}
-                        disabled={isGenerating}
-                      >
-                        {isGenerating ? (
-                          <>
-                            <IonSpinner name="crescent" />
-                            <span>Generating visuals…</span>
-                          </>
-                        ) : (
-                          'Generate Cover & Background'
-                        )}
-                      </button>
-                      <button
-                        type="button"
-                        className="studio-discard-link"
-                        onClick={handleClosePublishFlow}
-                      >
-                        Cancel
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="studio-publish-confirm">
-                      {generatedVisuals ? (
-                        <div className="studio-publish-previews">
-                          <div className="studio-publish-preview-item">
-                            <span>Cover</span>
-                            <img src={generatedVisuals.coverUrl} alt="Generated story cover" />
-                          </div>
-                          <div className="studio-publish-preview-item">
-                            <span>Background</span>
-                            <img src={generatedVisuals.bgUrl} alt="Generated story background" />
-                          </div>
-                        </div>
-                      ) : null}
-                      <button
-                        type="button"
-                        className="studio-recording-action-button"
-                        onClick={() => void handleGenerateVisuals(rec)}
-                        disabled={isGenerating}
-                      >
-                        {isGenerating ? 'Regenerating…' : 'Regenerate'}
-                      </button>
-                      <button
-                        type="button"
-                        className="studio-save-button"
-                        onClick={() => void handlePublishStory(rec)}
-                        disabled={isPublishing || !generatedVisuals}
-                      >
-                        {isPublishing ? (
-                          <>
-                            <IonSpinner name="crescent" />
-                            <span>Publishing…</span>
-                          </>
-                        ) : (
-                          'Publish Story'
-                        )}
-                      </button>
-                      <button
-                        type="button"
-                        className="studio-discard-link"
-                        onClick={handleClosePublishFlow}
-                      >
-                        Cancel
-                      </button>
-                    </div>
-                  )}
-                </div>
-              </div>
-            );
-          })()
-        : null}
 
       <IonToast
         isOpen={Boolean(toast)}
