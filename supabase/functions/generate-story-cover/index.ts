@@ -26,15 +26,61 @@ type RecordingAccess = {
   is_verified: boolean;
 };
 
-type ContentPart =
-  | { type: 'image_url'; image_url: { url: string } }
-  | { type: string; [key: string]: unknown };
-
 function buildPrompt(type: ImageType, title: string, descriptionPart: string): string {
   if (type === 'cover') {
     return `Create a beautiful illustrated children's storybook cover titled "${title}" inspired by Southeast Asian indigenous folklore and the Semai oral tradition.${descriptionPart} The cover design should closely reference a fantasy children's book aesthetic similar to classic Disney-style storybooks, with rich decorative borders made of tropical leaves, flowers, vines, and forest elements surrounding the frame. In the center foreground, feature a young Semai child standing beside a glowing river in an ancient rainforest while listening to a wise elder storyteller sitting near a warm campfire. Include magical floating particles, misty mountains, giant rainforest trees, and a peaceful indigenous village hut. Add a subtle mythical presence of Nyenang, the creator spirit, appearing softly in the sky made of glowing nature energy and mist. The title should appear in large bold fantasy typography at the top, with warm golden-yellow gradient letters and soft shadowing, similar to premium animated storybook covers. Under the title, include a smaller subtitle ribbon saying: "A Semai Creation Tale". Style: highly detailed 2D cartoon illustration, Disney Pixar inspired, vibrant tropical palette, cinematic warm lighting, magical folklore atmosphere, emotional and educational children's book cover, glossy illustrated storybook aesthetic, rich textures, whimsical fantasy vibe, mobile-app-friendly composition. Color palette: warm greens, golden sunlight, earthy browns, river blues, tropical flower colors, soft magical glow.`;
   }
   return `Create a colorful 2D storybook cartoon illustration inspired by Southeast Asian indigenous culture, especially the Semai community in Malaysia.${descriptionPart} Environment: lush tropical forest, traditional village houses, warm sunset lighting, rivers, mountains, nature elements, indigenous cultural motifs. Art style: Disney-style children's storybook illustration mixed with modern mobile app visuals, soft shading, expressive characters, cinematic composition, highly detailed, warm emotional atmosphere. Clothing and accessories inspired by Orang Asli / indigenous Southeast Asian traditions. Make the scene feel magical, educational, emotional, and culturally rich. Vibrant colors, immersive environment, kid-friendly, fantasy folklore vibes, high quality digital art.`;
+}
+
+function findImageUrl(node: unknown): string | null {
+  if (typeof node === 'string') {
+    if (
+      node.startsWith('data:image') ||
+      node.startsWith('https://') ||
+      node.startsWith('http://')
+    ) {
+      return node;
+    }
+    return null;
+  }
+
+  if (Array.isArray(node)) {
+    for (const item of node) {
+      const found = findImageUrl(item);
+      if (found) return found;
+    }
+    return null;
+  }
+
+  if (node && typeof node === 'object') {
+    const record = node as Record<string, unknown>;
+    for (const key of ['url', 'image_url', 'data', 'b64_json']) {
+      const found = findImageUrl(record[key]);
+      if (found) return found;
+    }
+
+    for (const value of Object.values(record)) {
+      const found = findImageUrl(value);
+      if (found) return found;
+    }
+  }
+
+  return null;
+}
+
+function dataUrlToArrayBuffer(dataUrl: string): ArrayBuffer {
+  const b64 = dataUrl.split(',')[1];
+  if (!b64) {
+    throw new Error('Image data URL is missing base64 payload');
+  }
+
+  const binary = atob(b64);
+  const bytes = new Uint8Array(binary.length);
+  for (let index = 0; index < binary.length; index++) {
+    bytes[index] = binary.charCodeAt(index);
+  }
+  return bytes.buffer;
 }
 
 async function generateImage(prompt: string): Promise<ArrayBuffer> {
@@ -57,32 +103,24 @@ async function generateImage(prompt: string): Promise<ArrayBuffer> {
     throw new Error(`OpenRouter error ${response.status}: ${text}`);
   }
 
-  const json = (await response.json()) as {
-    choices: Array<{ message: { content: ContentPart[] | string } }>;
-  };
+  const json = await response.json();
+  const imageUrl = findImageUrl((json as { choices?: unknown[] }).choices?.[0]);
 
-  const content = json.choices[0]?.message?.content;
-  const parts: ContentPart[] = Array.isArray(content)
-    ? content
-    : [{ type: 'image_url', image_url: { url: content as string } }];
-
-  const imagePart = parts.find(
-    (p): p is { type: 'image_url'; image_url: { url: string } } => p.type === 'image_url',
-  );
-  const dataUrl = imagePart?.image_url?.url ?? '';
-
-  if (!dataUrl.startsWith('data:')) {
-    console.error('OpenRouter returned no image data URL:', JSON.stringify(json).slice(0, 300));
+  if (!imageUrl) {
+    console.error('OpenRouter returned no image data:', JSON.stringify(json).slice(0, 300));
     throw new Error('OpenRouter returned no image data');
   }
 
-  const b64 = dataUrl.split(',')[1];
-  const binary = atob(b64);
-  const bytes = new Uint8Array(binary.length);
-  for (let index = 0; index < binary.length; index++) {
-    bytes[index] = binary.charCodeAt(index);
+  if (imageUrl.startsWith('data:')) {
+    return dataUrlToArrayBuffer(imageUrl);
   }
-  return bytes.buffer;
+
+  const imageResponse = await fetch(imageUrl);
+  if (!imageResponse.ok) {
+    throw new Error(`Generated image fetch failed (${imageResponse.status})`);
+  }
+
+  return imageResponse.arrayBuffer();
 }
 
 async function uploadToStorage(path: string, data: ArrayBuffer): Promise<string> {
