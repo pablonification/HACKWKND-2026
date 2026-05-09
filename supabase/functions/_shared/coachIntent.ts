@@ -120,6 +120,11 @@ const LEARNING_ONBOARD_PATTERNS = [
   /\b(help me|can you help)\b/i,
 ];
 
+const SPECIFIC_PRACTICE_PATTERNS = [
+  /\b(greeting|greetings|hello|daily conversation|conversation|sentence|phrase|pronunciation|vocabulary|word)\b/i,
+  /\b(sapaan|ayat|frasa|sebutan|kosa kata|perkataan|perbualan)\b/i,
+];
+
 const removeLeadIn = (value: string, patterns: RegExp[]): string => {
   let next = value.trim();
 
@@ -270,8 +275,8 @@ export const classifyCoachIntent = (message: string): CoachIntentResult => {
   }
 
   if (
-    hasAnyPattern(normalized, SCENARIO_START_PATTERNS) ||
-    (hasLearningLanguage && hasAnyPattern(normalized, LEARNING_ONBOARD_PATTERNS))
+    hasAnyPattern(normalized, SCENARIO_START_PATTERNS) &&
+    hasAnyPattern(normalized, SPECIFIC_PRACTICE_PATTERNS)
   ) {
     return {
       mode: 'learning',
@@ -286,17 +291,30 @@ export const classifyCoachIntent = (message: string): CoachIntentResult => {
     };
   }
 
+  if (
+    hasAnyPattern(normalized, SCENARIO_START_PATTERNS) ||
+    (hasLearningLanguage && hasAnyPattern(normalized, LEARNING_ONBOARD_PATTERNS))
+  ) {
+    return {
+      mode: 'direct_help',
+      turnType: 'direct_answer',
+      responseMode: 'direct_answer',
+      answerLanguage,
+      needsClarification: false,
+      confidence: 'high',
+      reason: 'Detected broad Semai learning intent; offer coaching options first.',
+    };
+  }
+
   if (hasLearningLanguage) {
     return {
-      mode: 'learning',
-      turnType: 'scenario_start',
-      responseMode: 'scenario',
+      mode: 'direct_help',
+      turnType: 'direct_answer',
+      responseMode: 'direct_answer',
       answerLanguage,
-      sourceLanguage: answerLanguage,
-      targetLanguage: 'semai',
       needsClarification: false,
       confidence: 'low',
-      reason: 'Detected Semai learning intent and defaulted to coach onboarding.',
+      reason: 'Detected Semai mention and defaulted to coach onboarding.',
     };
   }
 

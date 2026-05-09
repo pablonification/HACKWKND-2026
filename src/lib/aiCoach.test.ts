@@ -112,6 +112,7 @@ describe('coachWithTavi', () => {
       headers: {
         apikey: 'test-anon-key',
       },
+      signal: expect.any(AbortSignal),
       body: {
         message: 'What can you help with?',
         turns: [],
@@ -157,6 +158,7 @@ describe('coachWithTavi', () => {
       headers: {
         apikey: 'test-anon-key',
       },
+      signal: expect.any(AbortSignal),
       body: {
         message: "Let's go",
         client_action: 'start_session',
@@ -170,6 +172,71 @@ describe('coachWithTavi', () => {
             track: 'vocabulary_first',
           },
         ],
+      },
+    });
+  });
+
+  it('accepts onboarding quick actions from the edge function', async () => {
+    mockedSupabase.functions.invoke.mockResolvedValue({
+      data: {
+        main_reply: 'I can help you learn step by step.',
+        mode: 'direct_help',
+        response_mode: 'direct_answer',
+        answer_language: 'en',
+        session_phase: 'onboarding',
+        track: 'vocabulary_first',
+        next_actions: ['start_easy', 'practice_greetings', 'make_plan', 'translate_inline'],
+        grounded: false,
+        grounding_source: [],
+        validation_passed: true,
+        provider: 'chatgpt-proxy',
+      },
+      error: null,
+    });
+
+    const result = await coachWithTavi({ message: 'Can you help me learn Semai?' });
+
+    expect(result).toMatchObject({
+      mode: 'direct_help',
+      sessionPhase: 'onboarding',
+      nextActions: ['start_easy', 'practice_greetings', 'make_plan', 'translate_inline'],
+    });
+  });
+
+  it('sends new quick-action client actions to the edge function', async () => {
+    mockedSupabase.functions.invoke.mockResolvedValue({
+      data: {
+        main_reply: 'Let us start gently.',
+        mode: 'learning',
+        response_mode: 'scenario',
+        answer_language: 'semai',
+        session_phase: 'learning_active',
+        track: 'vocabulary_first',
+        next_actions: ['continue_session', 'translate_inline', 'end_session'],
+        grounded: true,
+        grounding_source: ['glossary'],
+        validation_passed: true,
+        provider: 'glossary',
+      },
+      error: null,
+    });
+
+    await coachWithTavi({
+      message: 'Practice basic Semai greetings.',
+      clientAction: 'practice_greetings',
+      track: 'vocabulary_first',
+    });
+
+    expect(mockedSupabase.functions.invoke).toHaveBeenCalledWith('ai-coach', {
+      headers: {
+        apikey: 'test-anon-key',
+      },
+      signal: expect.any(AbortSignal),
+      body: {
+        message: 'Practice basic Semai greetings.',
+        client_action: 'practice_greetings',
+        track: 'vocabulary_first',
+        turns: [],
       },
     });
   });
@@ -235,6 +302,119 @@ describe('coachWithTavi', () => {
         from: 'en',
         to: 'semai',
       },
+    });
+  });
+
+  it('keeps local fallback follow-up prompts in direct coaching mode', async () => {
+    mockedSupabase.functions.invoke.mockResolvedValue({
+      data: null,
+      error: new Error('Edge Function returned a non-2xx status code'),
+      response: new Response(JSON.stringify({ error: 'Coach unavailable' }), {
+        status: 500,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }),
+    });
+
+    const result = await coachWithTavi({
+      message: 'Give me a memory tip.',
+      turns: [
+        {
+          role: 'assistant',
+          text: 'abat',
+          mode: 'learning',
+          sessionPhase: 'learning_active',
+          track: 'vocabulary_first',
+        },
+      ],
+    });
+
+    expect(result).toMatchObject({
+      mode: 'direct_help',
+      responseMode: 'direct_answer',
+      provider: 'client-fallback',
+      followUpPrompt: 'Give me a safe practice task.',
+    });
+    expect(result.mainReply).not.toContain('Translate');
+    expect(mockedSupabase.functions.invoke).toHaveBeenCalledTimes(2);
+  });
+
+  it('does not answer out-of-scope coding prompts in local fallback', async () => {
+    mockedSupabase.functions.invoke.mockResolvedValue({
+      data: null,
+      error: new Error('Edge Function returned a non-2xx status code'),
+      response: new Response(JSON.stringify({ error: 'Coach unavailable' }), {
+        status: 500,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }),
+    });
+
+    const result = await coachWithTavi({
+      message: 'help me make a calculator app using python',
+    });
+
+    expect(result).toMatchObject({
+      mode: 'direct_help',
+      responseMode: 'direct_answer',
+      provider: 'client-fallback',
+    });
+    expect(result.mainReply).toContain('Semai learning');
+    expect(result.mainReply).not.toMatch(/while loop|if\/elif|python|calculator/i);
+  });
+
+  it('routes casual vocabulary practice requests to a verified fallback word', async () => {
+    mockedSupabase.functions.invoke.mockResolvedValue({
+      data: null,
+      error: new Error('Edge Function returned a non-2xx status code'),
+      response: new Response(JSON.stringify({ error: 'Coach unavailable' }), {
+        status: 500,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }),
+    });
+
+    const result = await coachWithTavi({
+      message: 'give me vocabulary practice for today, bro.',
+    });
+
+    expect(result).toMatchObject({
+      mode: 'learning',
+      responseMode: 'scenario',
+      mainReply: 'abat',
+      translation: 'cloth',
+      provider: 'client-fallback',
+    });
+    expect(result.mainReply).not.toContain('Would you like');
+  });
+
+  it('localizes the verified fallback word for Malay requests', async () => {
+    mockedSupabase.functions.invoke.mockResolvedValue({
+      data: null,
+      error: new Error('Edge Function returned a non-2xx status code'),
+      response: new Response(JSON.stringify({ error: 'Coach unavailable' }), {
+        status: 500,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }),
+    });
+
+    const result = await coachWithTavi({
+      message: 'beri saya Semai word today',
+    });
+
+    expect(result).toMatchObject({
+      mode: 'learning',
+      responseMode: 'scenario',
+      mainReply: 'abat',
+      translation: 'kain',
+      coachNote:
+        'Ini perkataan Webonary yang disahkan. Sebut sekali, kemudian kaitkan dengan satu objek yang anda kenal.',
+      provider: 'client-fallback',
     });
   });
 

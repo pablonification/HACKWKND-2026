@@ -20,6 +20,11 @@ const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '
 const IMAGE_MODEL = 'openai/gpt-5.4-image-2';
 
 type ImageType = 'cover' | 'bg';
+type AuthenticatedUser = { id: string };
+type RecordingAccess = {
+  uploader_id: string;
+  is_verified: boolean;
+};
 
 type ContentPart =
   | { type: 'image_url'; image_url: { url: string } }
@@ -101,14 +106,71 @@ async function uploadToStorage(path: string, data: ArrayBuffer): Promise<string>
   return `${SUPABASE_URL}/storage/v1/object/public/stories/${path}`;
 }
 
+function extractBearerToken(authorization: string | null): string | null {
+  const match = authorization?.trim().match(/^Bearer\s+(.+)$/i);
+  return match?.[1]?.trim() || null;
+}
+
+async function authenticateRequest(
+  authorization: string | null,
+): Promise<AuthenticatedUser | null> {
+  const bearerToken = extractBearerToken(authorization);
+  if (!bearerToken || !SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
+    return null;
+  }
+
+  const response = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${bearerToken}`,
+      apikey: SUPABASE_SERVICE_ROLE_KEY,
+    },
+  });
+
+  if (!response.ok) {
+    return null;
+  }
+
+  const user = (await response.json()) as { id?: unknown };
+  return typeof user.id === 'string' && user.id.trim() ? { id: user.id } : null;
+}
+
+async function canGenerateForRecording(recordingId: string, userId: string): Promise<boolean> {
+  if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
+    return false;
+  }
+
+  const url = new URL(`${SUPABASE_URL}/rest/v1/recordings`);
+  url.searchParams.set('select', 'uploader_id,is_verified');
+  url.searchParams.set('id', `eq.${recordingId}`);
+  url.searchParams.set('limit', '1');
+
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
+      apikey: SUPABASE_SERVICE_ROLE_KEY,
+      Accept: 'application/json',
+    },
+  });
+
+  if (!response.ok) {
+    return false;
+  }
+
+  const rows = (await response.json()) as RecordingAccess[];
+  const recording = rows[0];
+  return recording?.uploader_id === userId && recording.is_verified === true;
+}
+
 Deno.serve(async (request: Request) => {
   if (request.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders });
   }
 
-  const authHeader = request.headers.get('Authorization');
-  if (!authHeader?.startsWith('Bearer ')) {
-    return jsonResponse(401, { error: 'Missing authorization' });
+  const user = await authenticateRequest(request.headers.get('Authorization'));
+  if (!user) {
+    return jsonResponse(401, { error: 'Valid authorization is required' });
   }
 
   let body: { recordingId?: string; title?: string; description?: string; type?: ImageType };
@@ -128,10 +190,16 @@ Deno.serve(async (request: Request) => {
     return jsonResponse(400, { error: 'recordingId is required' });
   }
 
+  const trimmedRecordingId = recordingId.trim();
+  const hasRecordingAccess = await canGenerateForRecording(trimmedRecordingId, user.id);
+  if (!hasRecordingAccess) {
+    return jsonResponse(403, { error: 'Recording is not eligible for story image generation' });
+  }
+
   const imageType: ImageType = type === 'bg' ? 'bg' : 'cover';
   const descriptionPart = description?.trim() ? ` ${description.trim()}.` : '';
   const prompt = buildPrompt(imageType, title.trim(), descriptionPart);
-  const storagePath = `${recordingId}-${imageType}.png`;
+  const storagePath = `${trimmedRecordingId}-${imageType}.png`;
 
   let imageData: ArrayBuffer;
   try {

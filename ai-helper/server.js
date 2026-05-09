@@ -11,7 +11,7 @@ import { CURATED_SEMAI_TERMS } from './semaiLexicon.js';
 const DEFAULT_PORT = 8787;
 const DEFAULT_TIMEOUT_MS = 120_000;
 const IMAGE_GEN_TIMEOUT_MS = 300_000;
-const DEFAULT_OMNIASR_BASE_URL = 'https://facebook-omniasr-transcriptions.hf.space';
+const DEFAULT_OMNIASR_BASE_URL = 'https://pablonification-omniasr-transcriptions.hf.space';
 const DEFAULT_OMNIASR_LANGUAGE = 'sea_Latn';
 const DEFAULT_RECORDINGS_BUCKET = 'recordings';
 const MAX_JSON_BODY_BYTES = 1024 * 1024;

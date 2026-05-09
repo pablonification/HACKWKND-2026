@@ -3,6 +3,8 @@
   display: flex;
   flex-direction: column;
   flex: 1;
+  height: 100dvh;
+  max-height: 100dvh;
   min-height: 100dvh;
   background: #fff9e9;
   overflow: hidden;
@@ -213,6 +215,8 @@
   display: flex;
   flex-direction: column;
   flex: 1;
+  height: 100dvh;
+  max-height: 100dvh;
   min-height: 100dvh;
   position: relative;
   padding: 0 calc(var(--safe-area-right) + 24px) calc(var(--safe-area-bottom) + 120px)
@@ -244,8 +248,213 @@
   line-height: 1;
 }
 
+.tavi-thread-menu-button {
+  align-items: center;
+  background: rgba(203, 64, 60, 0.1);
+  border: 1px solid rgba(203, 64, 60, 0.18);
+  border-radius: 999px;
+  cursor: pointer;
+  display: inline-flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  gap: 3px;
+  height: 36px;
+  justify-content: center;
+  padding: 0;
+  transition:
+    background-color 140ms ease,
+    transform 120ms ease;
+  width: 36px;
+}
+
+.tavi-thread-menu-button span {
+  background: #8f2723;
+  border-radius: 999px;
+  display: block;
+  height: 2px;
+  width: 14px;
+}
+
+.tavi-thread-menu-button:active {
+  transform: scale(0.93);
+}
+
+.tavi-thread-drawer {
+  inset: 0;
+  position: fixed;
+  z-index: 50;
+}
+
+.tavi-thread-drawer-backdrop {
+  background: rgba(26, 26, 26, 0.22);
+  border: 0;
+  cursor: pointer;
+  inset: 0;
+  padding: 0;
+  position: absolute;
+}
+
+.tavi-thread-panel {
+  background: #fff9e9;
+  border-left: 1px solid rgba(203, 64, 60, 0.16);
+  bottom: 0;
+  box-shadow: -18px 0 36px rgba(26, 26, 26, 0.12);
+  display: flex;
+  flex-direction: column;
+  max-width: min(86vw, 360px);
+  padding: calc(var(--safe-area-top) + 18px) 18px calc(var(--safe-area-bottom) + 18px);
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 100%;
+}
+
+.tavi-thread-panel-header {
+  align-items: flex-start;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.tavi-thread-panel-kicker {
+  color: #9a3e38;
+  font-family: 'Satoshi', 'Poppins', ui-sans-serif, system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0 0 3px;
+}
+
+.tavi-thread-panel h2 {
+  color: #1a1a1a;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 1;
+  margin: 0;
+}
+
+.tavi-thread-close {
+  align-items: center;
+  background: rgba(203, 64, 60, 0.12);
+  border: 0;
+  border-radius: 999px;
+  color: #8f2723;
+  cursor: pointer;
+  display: inline-flex;
+  flex-shrink: 0;
+  font-size: 22px;
+  height: 34px;
+  justify-content: center;
+  line-height: 1;
+  padding: 0 0 2px;
+  width: 34px;
+}
+
+.tavi-thread-new {
+  background: #cb403c;
+  border: 0;
+  border-radius: 999px;
+  color: #fff;
+  cursor: pointer;
+  font-family: 'Satoshi', 'Poppins', ui-sans-serif, system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  margin: 22px 0 12px;
+  padding: 12px 14px;
+  transition:
+    opacity 120ms ease,
+    transform 120ms ease;
+}
+
+.tavi-thread-new:active,
+.tavi-thread-close:active {
+  transform: scale(0.96);
+}
+
+.tavi-thread-list {
+  display: grid;
+  gap: 10px;
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: 2px;
+}
+
+.tavi-thread-empty {
+  color: #8f8178;
+  font-family: 'Satoshi', 'Poppins', ui-sans-serif, system-ui, sans-serif;
+  font-size: 13px;
+  line-height: 1.4;
+  margin: 12px 0;
+}
+
+.tavi-thread-item {
+  background: rgba(255, 255, 255, 0.58);
+  border: 1px solid rgba(203, 64, 60, 0.14);
+  border-radius: 16px;
+  display: grid;
+  gap: 8px;
+  padding: 10px;
+}
+
+.tavi-thread-item.is-active {
+  background: rgba(203, 64, 60, 0.1);
+  border-color: rgba(203, 64, 60, 0.36);
+}
+
+.tavi-thread-select {
+  background: transparent;
+  border: 0;
+  color: #1a1a1a;
+  cursor: pointer;
+  display: grid;
+  font-family: 'Satoshi', 'Poppins', ui-sans-serif, system-ui, sans-serif;
+  gap: 4px;
+  padding: 0;
+  text-align: left;
+}
+
+.tavi-thread-select span {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.tavi-thread-select small {
+  color: #8f8178;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.tavi-thread-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.tavi-thread-actions button {
+  background: rgba(203, 64, 60, 0.1);
+  border: 1px solid rgba(203, 64, 60, 0.16);
+  border-radius: 999px;
+  color: #8f2723;
+  cursor: pointer;
+  font-family: 'Satoshi', 'Poppins', ui-sans-serif, system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  padding: 7px 10px;
+}
+
 .tavi-chat-greeting {
   padding: 28px 0px 0;
+}
+
+.tavi-chat-history-loading {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  min-height: 180px;
 }
 
 .tavi-chat-greeting-title {
@@ -292,6 +501,12 @@
 
 .tavi-bubble-row--tavi {
   flex-direction: row;
+}
+
+.tavi-bubble-row--suggestion {
+  justify-content: flex-end;
+  margin-top: -4px;
+  padding-left: 52px;
 }
 
 .tavi-bubble-avatar {
@@ -440,26 +655,48 @@
   color: #fff;
 }
 
+.tavi-suggested-reply {
+  display: grid;
+  gap: 3px;
+  margin-left: auto;
+  max-width: min(78%, 320px);
+}
+
+.tavi-suggested-reply-label {
+  color: rgba(143, 39, 35, 0.52);
+  font-family: 'Satoshi', 'Poppins', ui-sans-serif, system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1.2;
+  padding-right: 12px;
+  text-align: right;
+}
+
 .tavi-bubble-chip {
   align-items: center;
-  align-self: flex-start;
-  background: rgba(203, 64, 60, 0.12);
-  border: 1px solid rgba(203, 64, 60, 0.16);
-  border-radius: 999px;
-  color: #8f2723;
+  background: rgba(255, 255, 255, 0.42);
+  border: 1.5px dashed rgba(203, 64, 60, 0.42);
+  border-radius: 18px 18px 6px;
+  color: rgba(143, 39, 35, 0.78);
   cursor: pointer;
-  display: inline-flex;
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
   font-family: 'Satoshi', 'Poppins', ui-sans-serif, system-ui, sans-serif;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
-  line-height: 1.25;
-  margin-top: 2px;
+  line-height: 1.3;
   max-width: 100%;
-  padding: 8px 12px;
+  min-height: 46px;
+  padding: 10px 10px 10px 13px;
   text-align: left;
   transition:
+    border-color 140ms ease,
+    box-shadow 140ms ease,
     transform 120ms ease,
     background-color 140ms ease;
+  width: 100%;
 }
 
 .tavi-bubble-chip:active {
@@ -467,7 +704,29 @@
 }
 
 .tavi-bubble-chip:hover {
-  background: rgba(203, 64, 60, 0.16);
+  background: rgba(255, 248, 244, 0.74);
+  border-color: rgba(203, 64, 60, 0.58);
+  box-shadow: 0 6px 14px rgba(143, 39, 35, 0.08);
+}
+
+.tavi-bubble-chip:disabled {
+  cursor: wait;
+  opacity: 0.62;
+}
+
+.tavi-bubble-chip-arrow {
+  align-items: center;
+  background: rgba(203, 64, 60, 0.1);
+  border-radius: 999px;
+  display: inline-flex;
+  flex: 0 0 auto;
+  font-size: 15px;
+  font-weight: 700;
+  height: 22px;
+  justify-content: center;
+  line-height: 1;
+  margin-top: -1px;
+  width: 22px;
 }
 
 .tavi-bubble-warning {

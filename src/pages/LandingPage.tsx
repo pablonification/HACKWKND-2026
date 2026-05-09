@@ -2,7 +2,9 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { AppSkeleton } from '../components/ui';
+import { LearningLanguageBadge } from '../components/LearningLanguageBadge';
 import { triggerHapticFeedback } from '../lib/feedback';
+import { DEFAULT_LEARNING_LANGUAGE, resolveLearningLanguage } from '../lib/learningLanguages';
 import { addExploreEntry } from '../lib/navigationEntry';
 import { fetchProfileDashboard } from '../lib/profile';
 import { STORIES } from '../lib/storyData';
@@ -12,13 +14,10 @@ import aiTaviCardImg from '../../assets/home-revised/ai-tavi.png';
 import ajengAvatarImg from '../../assets/home-revised/ajeng.png';
 import bayuAvatarImg from '../../assets/home-revised/bayu.png';
 import defaultLeaderboardImg from '../../assets/home-revised/default-leaderboard.png';
-import elderStudioCardImg from '../../assets/home-revised/elder-studio.png';
 import gardenCardImg from '../../assets/home-revised/lang-garden.png';
 import translateCardImg from '../../assets/home-revised/translate.png';
 import bgLearner from '../../assets/landing/background-learner.png';
 import bgElder from '../../assets/landing/background-elder.png';
-import imgRecordCard from '../../assets/landing/record-card.png';
-import imgTranslateCard from '../../assets/landing/translate-card.png';
 
 import './LandingPage.css';
 
@@ -33,6 +32,43 @@ function SearchIcon() {
   );
 }
 
+function RecordStoryIcon() {
+  return (
+    <svg className="landing-elder-action-icon" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+      <path
+        d="M16 4.5a5.25 5.25 0 0 1 5.25 5.25v5.5a5.25 5.25 0 1 1-10.5 0v-5.5A5.25 5.25 0 0 1 16 4.5Z"
+        stroke="currentColor"
+        strokeWidth="2.4"
+      />
+      <path
+        d="M7.5 14.5a8.5 8.5 0 0 0 17 0M16 23v4.5M12.25 27.5h7.5"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeWidth="2.4"
+      />
+    </svg>
+  );
+}
+
+function ReadStoriesIcon() {
+  return (
+    <svg className="landing-elder-action-icon" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+      <path
+        d="M5.5 7.5c0-1.1.9-2 2-2h7.25c1.05 0 2.05.42 2.8 1.16L18 7.1l.45-.44a3.96 3.96 0 0 1 2.8-1.16h3.25c1.1 0 2 .9 2 2v17c0 1.1-.9 2-2 2h-4.25c-.83 0-1.62.33-2.2.91L18 27.46l-.05-.05a3.11 3.11 0 0 0-2.2-.91H7.5c-1.1 0-2-.9-2-2v-17Z"
+        stroke="currentColor"
+        strokeLinejoin="round"
+        strokeWidth="2.2"
+      />
+      <path
+        d="M18 7.1v20.35M10 11h4M10 15h4M22 11h1.5M22 15h1.5"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeWidth="2.2"
+      />
+    </svg>
+  );
+}
+
 const BOOKS = STORIES.slice(0, 4).map((story) => ({
   id: story.id,
   title: story.title,
@@ -42,21 +78,6 @@ const BOOKS = STORIES.slice(0, 4).map((story) => ({
 
 const FEATURED_STORY =
   [...STORIES].sort((first, second) => second.progress - first.progress)[0] ?? STORIES[0];
-
-const ELDER_PULSE = [
-  {
-    label: 'Archive-ready stories',
-    value: String(STORIES.length),
-  },
-  {
-    label: 'Featured folk tales',
-    value: String(BOOKS.length),
-  },
-  {
-    label: 'Translation tools',
-    value: '2',
-  },
-] as const;
 
 function LandingPageSkeleton({ isElder }: { isElder: boolean }) {
   return (
@@ -95,7 +116,7 @@ function LandingPageSkeleton({ isElder }: { isElder: boolean }) {
 function BookRow({ label, onSelect }: { label: string; onSelect: (storyId: string) => void }) {
   return (
     <div className="landing-section">
-      <h2 className="landing-section-title">{label}</h2>
+      {label ? <h2 className="landing-section-title">{label}</h2> : null}
       <div className="landing-books-wrap">
         <div className="landing-books-bg" />
         <div className="landing-books-row">
@@ -227,14 +248,6 @@ function ExploreTalekaCards({ onNavigate }: { onNavigate: (href: string) => void
         <button
           type="button"
           className="landing-action-card"
-          onClick={() => onNavigate(addExploreEntry('/home/studio'))}
-        >
-          <img src={elderStudioCardImg} alt="" className="landing-action-card-img" />
-        </button>
-
-        <button
-          type="button"
-          className="landing-action-card"
           onClick={() => onNavigate(addExploreEntry('/home/translation'))}
         >
           <img src={translateCardImg} alt="" className="landing-action-card-img" />
@@ -249,12 +262,14 @@ function ExploreTalekaCards({ onNavigate }: { onNavigate: (href: string) => void
 function LearnerLanding({
   firstName,
   onNavigate,
+  learningLanguage,
   leaderName,
   leaderAvatarSrc,
   leaderHasCustomPhoto,
 }: {
   firstName: string;
   onNavigate: (h: string) => void;
+  learningLanguage: string;
   leaderName: string;
   leaderAvatarSrc: string;
   leaderHasCustomPhoto: boolean;
@@ -262,11 +277,17 @@ function LearnerLanding({
   return (
     <section className="landing-shell landing-shell--learner">
       {/* Hero */}
-      <div className="landing-hero" aria-hidden="true">
+      <div className="landing-hero">
         <img src={bgLearner} alt="" draggable={false} />
         <div className="landing-hero-greeting">
           <span>Hello, {firstName}</span>
         </div>
+        <LearningLanguageBadge
+          language={learningLanguage}
+          variant="home"
+          className="landing-learning-language-badge"
+          onClick={() => onNavigate('/home/profile/settings/language')}
+        />
       </div>
 
       {/* Floating search */}
@@ -332,7 +353,7 @@ function LearnerLanding({
 // ── Elder Landing ───────────────────────────────────────────────────────────
 
 function ElderLanding({
-  firstName: _firstName,
+  firstName,
   onNavigate,
 }: {
   firstName: string;
@@ -340,60 +361,50 @@ function ElderLanding({
 }) {
   return (
     <section className="landing-shell landing-shell--elder">
-      {/* Hero */}
       <div className="landing-hero landing-hero--elder" aria-hidden="true">
         <img src={bgElder} alt="" draggable={false} />
       </div>
 
-      {/* Floating search */}
-      <div className="landing-search-wrap ">
-        <button
-          type="button"
-          className="landing-search-bar"
-          onClick={() => onNavigate('/home/ai')}
-          aria-label="Search"
-        >
-          <SearchIcon />
-          <span className="landing-search-placeholder">What would you like to record today?</span>
-        </button>
-      </div>
+      <div className="landing-card landing-card--elder-simple">
+        <header className="landing-elder-welcome">
+          <span>Welcome, {firstName}</span>
+          <h1>What would you like to do today?</h1>
+          <p>Choose one clear step. You can record a story or read stories from Taleka.</p>
+        </header>
 
-      <div className="landing-card">
-        <BookRow
-          label="Story Archive Highlights"
-          onSelect={(storyId) => onNavigate(`/home/stories/${storyId}`)}
-        />
+        <div className="landing-elder-actions" role="list">
+          <button
+            type="button"
+            className="landing-elder-action landing-elder-action--record"
+            onClick={() => onNavigate('/home/studio')}
+          >
+            <span className="landing-elder-action-icon-wrap">
+              <RecordStoryIcon />
+            </span>
+            <span className="landing-elder-action-copy">
+              <strong>Record a Story</strong>
+              <span>Save your voice for the next generation.</span>
+            </span>
+          </button>
 
-        <div className="landing-section">
-          <h2 className="landing-section-title">Studio readiness</h2>
-          <div className="landing-metrics" role="list">
-            {ELDER_PULSE.map((item) => (
-              <article key={item.label} className="landing-metric-card" role="listitem">
-                <strong>{item.value}</strong>
-                <span>{item.label}</span>
-              </article>
-            ))}
-          </div>
+          <button
+            type="button"
+            className="landing-elder-action landing-elder-action--story"
+            onClick={() => onNavigate('/home/stories')}
+          >
+            <span className="landing-elder-action-icon-wrap">
+              <ReadStoriesIcon />
+            </span>
+            <span className="landing-elder-action-copy">
+              <strong>Read Stories</strong>
+              <span>Open the Taleka story collection.</span>
+            </span>
+          </button>
         </div>
 
         <div className="landing-section">
-          <h2 className="landing-section-title">Create in Taleka</h2>
-          <div className="landing-action-cards">
-            <button
-              type="button"
-              className="landing-action-card"
-              onClick={() => onNavigate('/home/studio')}
-            >
-              <img src={imgRecordCard} alt="" className="landing-action-card-img" />
-            </button>
-            <button
-              type="button"
-              className="landing-action-card"
-              onClick={() => onNavigate('/home/translation')}
-            >
-              <img src={imgTranslateCard} alt="" className="landing-action-card-img" />
-            </button>
-          </div>
+          <h2 className="landing-section-title landing-section-title--elder">Story Highlights</h2>
+          <BookRow onSelect={(storyId) => onNavigate(`/home/stories/${storyId}`)} label="" />
         </div>
       </div>
     </section>
@@ -408,6 +419,7 @@ export function LandingPage() {
   const [leaderName, setLeaderName] = useState('You');
   const [leaderAvatarSrc, setLeaderAvatarSrc] = useState(defaultLeaderboardImg);
   const [leaderHasCustomPhoto, setLeaderHasCustomPhoto] = useState(false);
+  const [learningLanguage, setLearningLanguage] = useState(DEFAULT_LEARNING_LANGUAGE);
   const [isProfileLoading, setIsProfileLoading] = useState(true);
 
   const meta = user?.user_metadata as Record<string, unknown> | undefined;
@@ -431,6 +443,7 @@ export function LandingPage() {
     setLeaderName(metadataName ?? firstName);
     setLeaderAvatarSrc(metadataAvatar ?? defaultLeaderboardImg);
     setLeaderHasCustomPhoto(Boolean(metadataAvatar));
+    setLearningLanguage(DEFAULT_LEARNING_LANGUAGE);
 
     if (!user?.id) {
       setIsProfileLoading(false);
@@ -455,6 +468,7 @@ export function LandingPage() {
           setLeaderAvatarSrc(dashboard.profile.avatarUrl);
           setLeaderHasCustomPhoto(true);
         }
+        setLearningLanguage(resolveLearningLanguage(dashboard.profile.indigenousLanguage));
       })
       .catch(() => {
         // Keep the landing screen usable even if profile lookup fails.
@@ -485,6 +499,7 @@ export function LandingPage() {
     <LearnerLanding
       firstName={firstName}
       onNavigate={onNavigate}
+      learningLanguage={learningLanguage}
       leaderName={leaderName}
       leaderAvatarSrc={leaderAvatarSrc}
       leaderHasCustomPhoto={leaderHasCustomPhoto}
