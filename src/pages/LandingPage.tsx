@@ -5,7 +5,12 @@ import { AppSkeleton } from '../components/ui';
 import { LearningLanguageBadge } from '../components/LearningLanguageBadge';
 import { withTimeout } from '../lib/asyncTimeout';
 import { triggerHapticFeedback } from '../lib/feedback';
-import { DEFAULT_LEARNING_LANGUAGE, resolveLearningLanguage } from '../lib/learningLanguages';
+import {
+  DEFAULT_LEARNING_LANGUAGE,
+  LANGUAGE_BG,
+  type LearningLanguage,
+  resolveLearningLanguage,
+} from '../lib/learningLanguages';
 import { addExploreEntry } from '../lib/navigationEntry';
 import { fetchProfileDashboard } from '../lib/profile';
 import { STORIES, type Story } from '../lib/storyData';
@@ -18,8 +23,6 @@ import bayuAvatarImg from '../../assets/home-revised/bayu.png';
 import defaultLeaderboardImg from '../../assets/home-revised/default-leaderboard.png';
 import gardenCardImg from '../../assets/home-revised/lang-garden.png';
 import translateCardImg from '../../assets/home-revised/translate.png';
-import bgLearner from '../../assets/landing/background-learner.png';
-import bgElder from '../../assets/landing/background-elder.png';
 
 import './LandingPage.css';
 
@@ -280,7 +283,7 @@ function LearnerLanding({
   firstName: string;
   onNavigate: (h: string) => void;
   onOpenLanguageSettings: () => void;
-  learningLanguage: string;
+  learningLanguage: LearningLanguage;
   leaderName: string;
   leaderAvatarSrc: string;
   leaderHasCustomPhoto: boolean;
@@ -290,7 +293,7 @@ function LearnerLanding({
     <section className="landing-shell landing-shell--learner">
       {/* Hero */}
       <div className="landing-hero">
-        <img src={bgLearner} alt="" draggable={false} />
+        <img src={LANGUAGE_BG[learningLanguage].learner} alt="" draggable={false} />
         <div className="landing-hero-greeting">
           <span>Hello, {firstName}</span>
         </div>
@@ -365,14 +368,16 @@ function LearnerLanding({
 function ElderLanding({
   firstName,
   onNavigate,
+  learningLanguage,
 }: {
   firstName: string;
   onNavigate: (h: string) => void;
+  learningLanguage: LearningLanguage;
 }) {
   return (
     <section className="landing-shell landing-shell--elder">
       <div className="landing-hero landing-hero--elder" aria-hidden="true">
-        <img src={bgElder} alt="" draggable={false} />
+        <img src={LANGUAGE_BG[learningLanguage].elder} alt="" draggable={false} />
       </div>
 
       <div className="landing-card landing-card--elder-simple">
@@ -532,7 +537,11 @@ export function LandingPage() {
   const lastReadStory = getLastReadStory(STORIES, storyProgress);
 
   return isElder ? (
-    <ElderLanding firstName={firstName} onNavigate={onNavigate} />
+    <ElderLanding
+      firstName={firstName}
+      onNavigate={onNavigate}
+      learningLanguage={learningLanguage}
+    />
   ) : (
     <LearnerLanding
       firstName={firstName}

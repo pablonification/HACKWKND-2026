@@ -20,6 +20,52 @@ export const LEARNING_LANGUAGE_OPTIONS = [
 
 export type LearningLanguage = (typeof LEARNING_LANGUAGE_OPTIONS)[number];
 
+// Eagerly bundle all landing background images so Vite resolves them at build time.
+const backgroundModules = import.meta.glob<string>('../../assets/landing/background/*.png', {
+  eager: true,
+  import: 'default',
+});
+
+function getLandingBackground(country: string, role: 'learner' | 'elder'): string {
+  const key = `../../assets/landing/background/${country.toLowerCase()}-${role}.png`;
+  return backgroundModules[key] ?? '';
+}
+
+export const LANGUAGE_BG: Record<LearningLanguage, { learner: string; elder: string }> = {
+  Tandia: {
+    learner: getLandingBackground('indonesia', 'learner'),
+    elder: getLandingBackground('indonesia', 'elder'),
+  },
+  Semai: {
+    learner: getLandingBackground('malaysia', 'learner'),
+    elder: getLandingBackground('malaysia', 'elder'),
+  },
+  Mlabri: {
+    learner: getLandingBackground('thailand', 'learner'),
+    elder: getLandingBackground('thailand', 'elder'),
+  },
+  Chong: {
+    learner: getLandingBackground('cambodia', 'learner'),
+    elder: getLandingBackground('cambodia', 'elder'),
+  },
+  Arta: {
+    learner: getLandingBackground('philippines', 'learner'),
+    elder: getLandingBackground('philippines', 'elder'),
+  },
+  Arem: {
+    learner: getLandingBackground('vietnam', 'learner'),
+    elder: getLandingBackground('vietnam', 'elder'),
+  },
+  Kristang: {
+    learner: getLandingBackground('singapore', 'learner'),
+    elder: getLandingBackground('singapore', 'elder'),
+  },
+  Moken: {
+    learner: getLandingBackground('myanmar', 'learner'),
+    elder: getLandingBackground('myanmar', 'elder'),
+  },
+};
+
 export const DEFAULT_LEARNING_LANGUAGE: LearningLanguage = 'Semai';
 
 export type LearningLanguageMetadata = {
