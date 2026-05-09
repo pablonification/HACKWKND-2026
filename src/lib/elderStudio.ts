@@ -1,6 +1,7 @@
 import { Directory, Filesystem } from '@capacitor/filesystem';
 
 import type { Database } from '../types/database';
+import { withTimeout } from './asyncTimeout';
 import { normalizeSemaiKey } from './semaiText';
 import { getJSON, setJSON, STORAGE_KEYS } from './storage';
 import { supabase } from './supabase';
@@ -11,6 +12,10 @@ const LOCAL_AUDIO_DIRECTORY = 'studio-recordings';
 const AI_BASE_URL = (import.meta.env.VITE_AI_BASE_URL as string | undefined)?.replace(/\/$/, '');
 const RECORDINGS_BUCKET = 'recordings';
 const PRONUNCIATIONS_BUCKET = 'pronunciations';
+const LOCAL_AUDIO_READ_TIMEOUT_MS = 20_000;
+const STORAGE_UPLOAD_TIMEOUT_MS = 45_000;
+const RECORDING_UPSERT_TIMEOUT_MS = 20_000;
+const AI_TRANSCRIPTION_SYNC_TIMEOUT_MS = 45_000;
 
 export const STUDIO_CULTURAL_TAGS = [
   'forest',
@@ -615,10 +620,14 @@ const enqueueForSync = async (recordingId: string): Promise<void> => {
 };
 
 const readLocalAudioBlob = async (recording: StudioRecording): Promise<Blob> => {
-  const { data } = await Filesystem.readFile({
-    path: recording.localFilePath,
-    directory: Directory.Data,
-  });
+  const { data } = await withTimeout(
+    Filesystem.readFile({
+      path: recording.localFilePath,
+      directory: Directory.Data,
+    }),
+    LOCAL_AUDIO_READ_TIMEOUT_MS,
+    'Unable to read the local audio file. Reopen Elder Studio and retry sync.',
+  );
 
   if (typeof data !== 'string') {
     return data;
@@ -1001,24 +1010,38 @@ const uploadRecordingToSupabase = async (
   const storagePath = `${recording.uploaderId}/${recording.id}.${extension}`;
   const audioBlob = await readLocalAudioBlob(recording);
 
-  const { error: uploadError } = await supabase.storage
-    .from('recordings')
-    .upload(storagePath, audioBlob, {
+  const { error: uploadError } = await withTimeout(
+    supabase.storage.from('recordings').upload(storagePath, audioBlob, {
       upsert: true,
       contentType: recording.mimeType,
-    });
+    }),
+    STORAGE_UPLOAD_TIMEOUT_MS,
+    'Storage upload timed out. Keep the app open and retry sync.',
+  );
 
   if (uploadError) {
     throw new Error(`Storage upload failed: ${uploadError.message}`);
   }
 
-  const aiDraft = await requestAiTranscription(storagePath, {
-    recordingType: recording.recordingType,
-  });
+  let aiDraft: StudioAiDraft | null = null;
+  try {
+    aiDraft = await withTimeout(
+      requestAiTranscription(storagePath, {
+        recordingType: recording.recordingType,
+      }),
+      AI_TRANSCRIPTION_SYNC_TIMEOUT_MS,
+      'AI transcription timed out.',
+    );
+  } catch (error) {
+    console.warn('AI transcription skipped during studio sync:', error);
+  }
+
   const payload = toRecordingInsertPayload(recording, storagePath, aiDraft, null);
-  const { error: insertError } = await supabase
-    .from('recordings')
-    .upsert(payload, { onConflict: 'id' });
+  const { error: insertError } = await withTimeout(
+    supabase.from('recordings').upsert(payload, { onConflict: 'id' }),
+    RECORDING_UPSERT_TIMEOUT_MS,
+    'Recording metadata sync timed out. Retry sync from Elder Studio.',
+  );
 
   if (insertError) {
     throw new Error(`Recordings upsert failed: ${insertError.message}`);
