@@ -485,6 +485,7 @@ export function HomePage() {
               <Routes>
                 <Route path="studio" element={<ElderStudioTab />} />
                 <Route path="archive/review" element={<ArchiveReviewPage />} />
+                <Route path="archive/publish/:recordingId" element={<SoundArchiveTab />} />
                 <Route path="archive" element={<SoundArchiveTab />} />
                 <Route path="ai" element={<AiHelperPage />} />
                 <Route path="translation" element={<TranslatePage showBackButton={false} />} />
