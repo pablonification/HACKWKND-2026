@@ -80,6 +80,9 @@ export type Database = {
           is_verified: boolean;
           verified_at: string | null;
           verified_by: string | null;
+          cover_url: string | null;
+          bg_url: string | null;
+          is_published: boolean;
           created_at: string;
           updated_at: string | null;
         };
@@ -107,6 +110,9 @@ export type Database = {
           is_verified?: boolean;
           verified_at?: string | null;
           verified_by?: string | null;
+          cover_url?: string | null;
+          bg_url?: string | null;
+          is_published?: boolean;
           created_at?: string;
           updated_at?: string | null;
         };
@@ -132,6 +138,9 @@ export type Database = {
           is_verified?: boolean;
           verified_at?: string | null;
           verified_by?: string | null;
+          cover_url?: string | null;
+          bg_url?: string | null;
+          is_published?: boolean;
           updated_at?: string | null;
         };
         Relationships: [
