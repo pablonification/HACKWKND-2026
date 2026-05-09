@@ -122,6 +122,10 @@ type RuntimeState = {
   cpuGuardTriggered: boolean;
 };
 
+type AuthenticatedCoachUser = {
+  id: string;
+};
+
 type CoachPayload = {
   mode: string;
   response_mode: string;
@@ -510,6 +514,46 @@ const sleep = (ms: number): Promise<void> =>
   new Promise((resolve) => {
     setTimeout(resolve, ms);
   });
+
+const extractBearerToken = (authorization?: string): string | null => {
+  const match = authorization?.trim().match(/^Bearer\s+(.+)$/i);
+  return match?.[1]?.trim() || null;
+};
+
+const authenticateCoachRequest = async ({
+  baseUrl,
+  authorization,
+  apiKey,
+}: {
+  baseUrl: string;
+  authorization?: string;
+  apiKey?: string;
+}): Promise<AuthenticatedCoachUser | null> => {
+  const bearerToken = extractBearerToken(authorization);
+  if (!bearerToken || !apiKey) {
+    return null;
+  }
+
+  const response = await fetchWithTimeout(
+    `${baseUrl}/auth/v1/user`,
+    {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${bearerToken}`,
+        apikey: apiKey,
+      },
+    },
+    5000,
+    'Supabase auth validation',
+  );
+
+  if (!response.ok) {
+    return null;
+  }
+
+  const user = (await response.json()) as { id?: unknown };
+  return typeof user.id === 'string' && user.id.trim() ? { id: user.id } : null;
+};
 
 const parseRequest = async (request: Request): Promise<CoachRequest> => {
   const body = (await request.json()) as {
@@ -3504,6 +3548,22 @@ Deno.serve(async (request) => {
   }
   if (request.method !== 'POST') {
     return jsonResponse(405, { error: 'Method not allowed.' });
+  }
+
+  let authenticatedUser: AuthenticatedCoachUser | null = null;
+  try {
+    authenticatedUser = await authenticateCoachRequest({
+      baseUrl: requestBaseUrl,
+      authorization: requestAuthorization,
+      apiKey: requestApiKey,
+    });
+  } catch (authError) {
+    console.error('ai-coach auth validation failed:', authError);
+    return jsonResponse(503, { error: 'Unable to validate the active session.' });
+  }
+
+  if (!authenticatedUser) {
+    return jsonResponse(401, { error: 'Coach requires an active session.' });
   }
 
   let payload: CoachRequest;
