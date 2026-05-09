@@ -1998,7 +1998,7 @@ const handleHealth = async (request, response, config, requestUrl) => {
   sendJson(response, payload.status === 'ok' ? 200 : 503, payload, request, config);
 };
 
-// In-memory per-user rate limiter for /ai/transcribe.
+// In-memory per-user rate limiter for billable AI helper routes.
 // Allows RATE_LIMIT_MAX requests per RATE_LIMIT_WINDOW_MS sliding window per user.
 const RATE_LIMIT_MAX = 10;
 const RATE_LIMIT_WINDOW_MS = 60_000;
@@ -2024,18 +2024,18 @@ setInterval(() => {
     else rateLimitMap.set(uid, active);
   }
 }, RATE_LIMIT_WINDOW_MS);
+
 /**
  * @param {import('node:http').IncomingMessage} request
- * @param {import('node:http').ServerResponse} response
  * @param {ReturnType<typeof buildRuntimeConfig>} config
  */
-const handleTranscribe = async (request, response, config) => {
-  // Require a valid Supabase session JWT in Authorization header.
+const authenticateRequest = async (request, config) => {
   const authHeader = request.headers['authorization'] ?? '';
   const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7).trim() : '';
   if (!token) {
     throw new HttpError(401, 'Authorization header with Bearer token is required.', 'unauthorized');
   }
+
   const supabaseAuth = createSupabaseServiceClient(config);
   const {
     data: { user },
@@ -2044,6 +2044,17 @@ const handleTranscribe = async (request, response, config) => {
   if (authError || !user) {
     throw new HttpError(401, 'Invalid or expired authentication token.', 'unauthorized');
   }
+
+  return user;
+};
+
+/**
+ * @param {import('node:http').IncomingMessage} request
+ * @param {import('node:http').ServerResponse} response
+ * @param {ReturnType<typeof buildRuntimeConfig>} config
+ */
+const handleTranscribe = async (request, response, config) => {
+  const user = await authenticateRequest(request, config);
 
   if (!checkRateLimit(user.id)) {
     throw new HttpError(429, 'Rate limit exceeded. Please wait before retrying.', 'rate_limited');
@@ -2174,34 +2185,42 @@ const OPENROUTER_IMAGE_MODEL = 'openai/gpt-5.4-image-2';
 const STORIES_BUCKET = 'stories';
 
 /**
- * Fetches description and verified_transcription from Supabase for a recording.
- * Falls back gracefully if credentials are missing or the row isn't found.
+ * Fetches prompt context only when the authenticated user owns a verified recording.
  * @param {string} recordingId
+ * @param {string} userId
  * @param {ReturnType<typeof buildRuntimeConfig>} config
  * @returns {Promise<string>} trimmed context string, or '' if unavailable
  */
-const fetchRecordingContext = async (recordingId, config) => {
-  if (!config.supabaseUrl || !config.supabaseServiceRoleKey) return '';
-  try {
-    const url = `${config.supabaseUrl}/rest/v1/recordings?select=description,verified_transcription&id=eq.${encodeURIComponent(recordingId)}&limit=1`;
-    const res = await fetch(url, {
-      headers: {
-        apikey: config.supabaseServiceRoleKey,
-        Authorization: `Bearer ${config.supabaseServiceRoleKey}`,
-      },
+const fetchOwnedVerifiedRecordingContext = async (recordingId, userId, config) => {
+  const supabase = createSupabaseServiceClient(config);
+  const { data, error } = await supabase
+    .from('recordings')
+    .select('description,verified_transcription,transcription')
+    .eq('id', recordingId)
+    .eq('uploader_id', userId)
+    .eq('is_verified', true)
+    .maybeSingle();
+
+  if (error) {
+    throw new HttpError(502, 'Unable to verify recording ownership.', 'recording_lookup_failed', {
+      message: error.message,
     });
-    if (!res.ok) return '';
-    const rows =
-      /** @type {{ description?: string | null; verified_transcription?: string | null }[]} */ (
-        await res.json()
-      );
-    const row = rows?.[0];
-    const raw = row?.description?.trim() || row?.verified_transcription?.trim() || '';
-    // Cap at 300 chars so it stays within a single prompt sentence
-    return raw.length > 300 ? `${raw.slice(0, 297)}…` : raw;
-  } catch {
-    return '';
   }
+
+  if (!data) {
+    throw new HttpError(
+      403,
+      'Only the uploader can generate images for their verified recordings.',
+      'forbidden',
+    );
+  }
+
+  const raw =
+    data.description?.trim() ||
+    data.verified_transcription?.trim() ||
+    data.transcription?.trim() ||
+    '';
+  return raw.length > 300 ? `${raw.slice(0, 297)}...` : raw;
 };
 
 /**
@@ -2365,24 +2384,31 @@ const uploadImageToStoragePublic = async (storagePath, imageBuffer, config) => {
  * @param {ReturnType<typeof buildRuntimeConfig>} config
  */
 const handleGenerateImage = async (request, response, config) => {
+  const user = await authenticateRequest(request, config);
+  if (!checkRateLimit(user.id)) {
+    throw new HttpError(429, 'Rate limit exceeded. Please wait before retrying.', 'rate_limited');
+  }
+
   const body = await readJsonBody(request);
   const { recordingId, title, description, type } = body ?? {};
+  const trimmedRecordingId = recordingId?.trim();
+  const trimmedTitle = title?.trim();
 
-  if (!title?.trim()) {
+  if (!trimmedTitle) {
     throw new HttpError(400, 'title is required', 'missing_title');
   }
-  if (!recordingId?.trim()) {
+  if (!trimmedRecordingId) {
     throw new HttpError(400, 'recordingId is required', 'missing_recording_id');
   }
 
   const imageType = type === 'bg' ? 'bg' : 'cover';
-  const dbContext = await fetchRecordingContext(recordingId, config);
+  const dbContext = await fetchOwnedVerifiedRecordingContext(trimmedRecordingId, user.id, config);
   const rawDesc = dbContext || description?.trim() || '';
   const descriptionPart = rawDesc ? ` ${rawDesc}.` : '';
-  const prompt = buildImagePrompt(imageType, title.trim(), descriptionPart);
-  const storagePath = `${recordingId}-${imageType}.png`;
+  const prompt = buildImagePrompt(imageType, trimmedTitle, descriptionPart);
+  const storagePath = `${trimmedRecordingId}-${imageType}.png`;
 
-  console.log(`[ai-helper] generating ${imageType} image for recording ${recordingId}`);
+  console.log(`[ai-helper] generating ${imageType} image for recording ${trimmedRecordingId}`);
   const imageBuffer = await generateImageViaOpenRouter(prompt, config);
 
   const publicUrl = await uploadImageToStoragePublic(storagePath, imageBuffer, config);

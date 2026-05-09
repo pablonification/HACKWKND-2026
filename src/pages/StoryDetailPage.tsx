@@ -85,12 +85,18 @@ export function StoryDetailPage() {
         .select(PUBLISHED_STORY_SELECT)
         .eq('id', id)
         .eq('is_published', true)
+        .not('cover_url', 'is', null)
+        .not('bg_url', 'is', null)
         .single();
 
       if (error) {
         console.warn('Failed to load published story:', error.message);
       } else if (data) {
-        setStory(publishedStoryRowToStory(data as PublishedStoryRow));
+        try {
+          setStory(publishedStoryRowToStory(data as PublishedStoryRow));
+        } catch (storyError) {
+          console.warn('Published story is missing required media:', storyError);
+        }
       }
       setIsLoading(false);
     })();

@@ -7,8 +7,8 @@ export type PublishedStoryRow = {
   id: string;
   title: string;
   description: string | null;
-  cover_url: string;
-  bg_url: string;
+  cover_url: string | null;
+  bg_url: string | null;
   duration_seconds: number | null;
   transcription: string | null;
   verified_transcription: string | null;
@@ -16,7 +16,7 @@ export type PublishedStoryRow = {
   topic_tags: string[] | null;
 };
 
-const buildPublishedStoryScenes = (row: PublishedStoryRow): StoryScene[] => {
+const buildPublishedStoryScenes = (row: PublishedStoryRow, bgUrl: string): StoryScene[] => {
   const rawText = row.verified_transcription ?? row.transcription ?? '';
   const paragraphs = rawText
     .split(/\n\n+/)
@@ -28,7 +28,7 @@ const buildPublishedStoryScenes = (row: PublishedStoryRow): StoryScene[] => {
     .filter(Boolean);
 
   return paragraphs.map((paragraph, index) => ({
-    image: row.bg_url,
+    image: bgUrl,
     text: paragraph,
     subtitle: translations[index] ?? undefined,
   }));
@@ -36,14 +36,20 @@ const buildPublishedStoryScenes = (row: PublishedStoryRow): StoryScene[] => {
 
 export const publishedStoryRowToStory = (row: PublishedStoryRow): Story => {
   const mins = row.duration_seconds ? Math.max(1, Math.ceil(row.duration_seconds / 60)) : null;
-  const scenes = buildPublishedStoryScenes(row);
+  const coverUrl = row.cover_url;
+  const bgUrl = row.bg_url;
+  if (!coverUrl || !bgUrl) {
+    throw new Error('Published stories require cover and background images.');
+  }
+
+  const scenes = buildPublishedStoryScenes(row, bgUrl);
 
   return {
     id: row.id,
     title: row.title,
     author: 'Elder Story',
-    cover: row.cover_url,
-    bg: row.bg_url,
+    cover: coverUrl,
+    bg: bgUrl,
     duration: mins ? `${mins} min` : '-',
     pages: Math.max(1, scenes.length),
     genre: row.topic_tags?.[0] ?? 'Semai Story',
