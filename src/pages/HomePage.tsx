@@ -263,7 +263,7 @@ function LearnerNavBar({
 
 // ── Elder NavBar ───────────────────────────────────────────────────────────
 
-type ElderTab = 'home' | 'record' | 'profile';
+type ElderTab = 'home' | 'record' | 'story' | 'profile';
 
 const IconMic = ({ active }: { active: boolean }) => (
   <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -284,6 +284,8 @@ const IconMic = ({ active }: { active: boolean }) => (
 
 function resolveElderTab(pathname: string): ElderTab {
   if (pathname.startsWith('/home/studio')) return 'record';
+  if (pathname.startsWith('/home/archive')) return 'record';
+  if (pathname.startsWith('/home/stories')) return 'story';
   if (pathname.startsWith('/home/profile')) return 'profile';
   if (pathname.startsWith('/home/landing')) return 'home';
   return 'home';
@@ -310,6 +312,15 @@ function ElderNavBar({
         >
           <IconHome active={activeTab === 'home'} />
           <span className="learner-nav-label">Home</span>
+        </button>
+        <button
+          type="button"
+          className={`learner-nav-item ${activeTab === 'story' ? 'is-active' : ''}`}
+          onClick={() => onNavigate('/home/stories')}
+          aria-current={activeTab === 'story' ? 'page' : undefined}
+        >
+          <IconStory active={activeTab === 'story'} />
+          <span className="learner-nav-label">Story</span>
         </button>
       </div>
 
@@ -355,6 +366,18 @@ function resolveUserRole(
   return null;
 }
 
+function isStudioRoute(pathname: string): boolean {
+  return pathname.startsWith('/home/studio') || pathname.startsWith('/home/archive');
+}
+
+function isLearnerOnlyRoute(pathname: string): boolean {
+  return (
+    pathname.startsWith('/home/garden') ||
+    pathname.startsWith('/home/translation') ||
+    pathname.startsWith('/home/levelup')
+  );
+}
+
 function resolveLearnerTab(pathname: string): LearnerTab | null {
   if (pathname.startsWith('/home/landing')) return 'home';
   if (pathname.startsWith('/home/garden')) return 'garden';
@@ -372,12 +395,19 @@ export function HomePage() {
 
   const userRole = resolveUserRole(user);
   const isLearner = userRole === 'learner' || userRole === null; // default to learner
-  const isElder = userRole === 'elder';
+  const isElder = userRole === 'elder' || userRole === 'admin';
 
   const profileWarningFromState =
     (location.state as { profileWarning?: string } | null)?.profileWarning ?? null;
   const [profileWarning, setProfileWarning] = useState<string | null>(profileWarningFromState);
   const isTranslateRoute = location.pathname.startsWith('/home/translation');
+
+  const roleRedirectTarget =
+    isLearner && isStudioRoute(location.pathname)
+      ? '/home/landing'
+      : isElder && isLearnerOnlyRoute(location.pathname)
+        ? '/home/landing'
+        : null;
 
   useEffect(() => {
     if (profileWarningFromState) {
@@ -447,6 +477,10 @@ export function HomePage() {
   const routeFrameClassName = ['home-route-frame', !isProfileRoute ? 'home-route-frame-enter' : '']
     .filter(Boolean)
     .join(' ');
+
+  if (roleRedirectTarget) {
+    return <Navigate to={roleRedirectTarget} replace />;
+  }
 
   return (
     <IonPage>

@@ -371,6 +371,111 @@ export type Database = {
           },
         ];
       };
+      tavi_threads: {
+        Row: {
+          id: string;
+          user_id: string;
+          title: string;
+          session_phase: string;
+          track: string;
+          last_message_at: string;
+          deleted_at: string | null;
+          created_at: string;
+          updated_at: string | null;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          title?: string;
+          session_phase?: string;
+          track?: string;
+          last_message_at?: string;
+          deleted_at?: string | null;
+          created_at?: string;
+          updated_at?: string | null;
+        };
+        Update: {
+          title?: string;
+          session_phase?: string;
+          track?: string;
+          last_message_at?: string;
+          deleted_at?: string | null;
+          updated_at?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'tavi_threads_user_id_fkey';
+            columns: ['user_id'];
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      tavi_messages: {
+        Row: {
+          id: string;
+          thread_id: string;
+          user_id: string;
+          role: 'user' | 'tavi';
+          text: string;
+          package_eligible: boolean;
+          translation: string | null;
+          translation_label: string | null;
+          coach_note: string | null;
+          follow_up_prompt: string | null;
+          warning: string | null;
+          mode: string | null;
+          answer_language: string | null;
+          session_phase: string | null;
+          track: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          thread_id: string;
+          user_id: string;
+          role: 'user' | 'tavi';
+          text: string;
+          package_eligible?: boolean;
+          translation?: string | null;
+          translation_label?: string | null;
+          coach_note?: string | null;
+          follow_up_prompt?: string | null;
+          warning?: string | null;
+          mode?: string | null;
+          answer_language?: string | null;
+          session_phase?: string | null;
+          track?: string | null;
+          created_at?: string;
+        };
+        Update: {
+          text?: string;
+          package_eligible?: boolean;
+          translation?: string | null;
+          translation_label?: string | null;
+          coach_note?: string | null;
+          follow_up_prompt?: string | null;
+          warning?: string | null;
+          mode?: string | null;
+          answer_language?: string | null;
+          session_phase?: string | null;
+          track?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'tavi_messages_thread_id_fkey';
+            columns: ['thread_id'];
+            referencedRelation: 'tavi_threads';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'tavi_messages_user_id_fkey';
+            columns: ['user_id'];
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
       follows: {
         Row: {
           id: string;

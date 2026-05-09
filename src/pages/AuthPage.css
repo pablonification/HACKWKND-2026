@@ -463,6 +463,18 @@
   font-weight: 500;
 }
 
+.auth-inline-alert {
+  background: #fff0ef;
+  border: 1px solid rgba(203, 64, 60, 0.28);
+  border-radius: 10px;
+  color: #9d2f2c;
+  font-family: 'Satoshi', 'Poppins', ui-sans-serif, system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.35;
+  padding: 10px 12px;
+}
+
 .auth-submit {
   align-items: center;
   background: #cb403c;

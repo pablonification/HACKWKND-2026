@@ -1475,9 +1475,17 @@
   color: #b14602;
 }
 
-/* Elder nav — single item per side, centred */
+/* Elder nav, larger tap targets with fewer choices */
 .elder-nav .learner-nav-side {
   justify-content: center;
+}
+
+.elder-nav .learner-nav-side {
+  gap: 4px;
+}
+
+.elder-nav .learner-nav-item {
+  min-width: 56px;
 }
 
 @media (min-width: 1200px) {

@@ -72,6 +72,7 @@ export function AuthPage() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [roleMenuOpen, setRoleMenuOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [errorToastOpen, setErrorToastOpen] = useState(false);
   const [notice, setNotice] = useState<Notice | null>(null);
   const [loading, setLoading] = useState(false);
   const [isResettingPassword, setIsResettingPassword] = useState(false);
@@ -111,6 +112,16 @@ export function AuthPage() {
   const isSignUp = mode === 'signup';
   const isAuthFormMode = mode === 'signin' || mode === 'signup';
 
+  const showError = (message: string) => {
+    setError(message);
+    setErrorToastOpen(true);
+  };
+
+  const clearAuthError = () => {
+    setError(null);
+    setErrorToastOpen(false);
+  };
+
   const setModeWithFeedback = (nextMode: AuthMode) => {
     if (mode !== nextMode) {
       triggerHapticFeedback('light');
@@ -118,20 +129,20 @@ export function AuthPage() {
 
     setMode(nextMode);
     setRoleMenuOpen(false);
-    setError(null);
+    clearAuthError();
     setNotice(null);
   };
 
   const handleSignIn = async () => {
     const validationError = validateLoginForm(email, password);
     if (validationError) {
-      setError(validationError);
+      showError(validationError);
       triggerHapticFeedback('error');
       return;
     }
 
     setLoading(true);
-    setError(null);
+    clearAuthError();
     setNotice(null);
 
     try {
@@ -154,7 +165,7 @@ export function AuthPage() {
       triggerHapticFeedback('success');
       navigate('/home', { replace: true });
     } catch (err) {
-      setError(toAuthErrorMessage(err));
+      showError(toAuthErrorMessage(err));
       triggerHapticFeedback('error');
     } finally {
       setLoading(false);
@@ -164,13 +175,13 @@ export function AuthPage() {
   const handleSignUp = async () => {
     const validationError = validateSignUpForm(fullName, email, password, role);
     if (validationError) {
-      setError(validationError);
+      showError(validationError);
       triggerHapticFeedback('error');
       return;
     }
 
     setLoading(true);
-    setError(null);
+    clearAuthError();
     setNotice(null);
 
     try {
@@ -205,7 +216,7 @@ export function AuthPage() {
       }
       triggerHapticFeedback('success');
     } catch (err) {
-      setError(toAuthErrorMessage(err));
+      showError(toAuthErrorMessage(err));
       triggerHapticFeedback('error');
     } finally {
       setLoading(false);
@@ -228,13 +239,13 @@ export function AuthPage() {
   const handleForgotPassword = async () => {
     const validationError = validateEmail(email);
     if (validationError) {
-      setError('Enter a valid email first so we can send your reset link.');
+      showError('Enter a valid email first so we can send your reset link.');
       triggerHapticFeedback('error');
       return;
     }
 
     setIsResettingPassword(true);
-    setError(null);
+    clearAuthError();
     setNotice(null);
 
     try {
@@ -245,7 +256,7 @@ export function AuthPage() {
       });
       triggerHapticFeedback('success');
     } catch (err) {
-      setError(toAuthErrorMessage(err));
+      showError(toAuthErrorMessage(err));
       triggerHapticFeedback('error');
     } finally {
       setIsResettingPassword(false);
@@ -441,6 +452,12 @@ export function AuthPage() {
                         </div>
                       )}
 
+                      {error ? (
+                        <div className="auth-inline-alert" role="alert" aria-live="polite">
+                          {error}
+                        </div>
+                      ) : null}
+
                       <button type="submit" className="auth-submit" disabled={loading}>
                         {loading
                           ? isSignUp
@@ -533,11 +550,11 @@ export function AuthPage() {
       </IonContent>
 
       <IonToast
-        isOpen={Boolean(error)}
+        isOpen={errorToastOpen}
         message={error ?? ''}
-        duration={3500}
+        duration={5000}
         color="danger"
-        onDidDismiss={() => setError(null)}
+        onDidDismiss={() => setErrorToastOpen(false)}
       />
 
       <IonToast

@@ -12,13 +12,11 @@ import aiTaviCardImg from '../../assets/home-revised/ai-tavi.png';
 import ajengAvatarImg from '../../assets/home-revised/ajeng.png';
 import bayuAvatarImg from '../../assets/home-revised/bayu.png';
 import defaultLeaderboardImg from '../../assets/home-revised/default-leaderboard.png';
-import elderStudioCardImg from '../../assets/home-revised/elder-studio.png';
 import gardenCardImg from '../../assets/home-revised/lang-garden.png';
 import translateCardImg from '../../assets/home-revised/translate.png';
 import bgLearner from '../../assets/landing/background-learner.png';
 import bgElder from '../../assets/landing/background-elder.png';
 import imgRecordCard from '../../assets/landing/record-card.png';
-import imgTranslateCard from '../../assets/landing/translate-card.png';
 
 import './LandingPage.css';
 
@@ -95,7 +93,7 @@ function LandingPageSkeleton({ isElder }: { isElder: boolean }) {
 function BookRow({ label, onSelect }: { label: string; onSelect: (storyId: string) => void }) {
   return (
     <div className="landing-section">
-      <h2 className="landing-section-title">{label}</h2>
+      {label ? <h2 className="landing-section-title">{label}</h2> : null}
       <div className="landing-books-wrap">
         <div className="landing-books-bg" />
         <div className="landing-books-row">
@@ -227,14 +225,6 @@ function ExploreTalekaCards({ onNavigate }: { onNavigate: (href: string) => void
         <button
           type="button"
           className="landing-action-card"
-          onClick={() => onNavigate(addExploreEntry('/home/studio'))}
-        >
-          <img src={elderStudioCardImg} alt="" className="landing-action-card-img" />
-        </button>
-
-        <button
-          type="button"
-          className="landing-action-card"
           onClick={() => onNavigate(addExploreEntry('/home/translation'))}
         >
           <img src={translateCardImg} alt="" className="landing-action-card-img" />
@@ -332,7 +322,7 @@ function LearnerLanding({
 // ── Elder Landing ───────────────────────────────────────────────────────────
 
 function ElderLanding({
-  firstName: _firstName,
+  firstName,
   onNavigate,
 }: {
   firstName: string;
@@ -340,60 +330,58 @@ function ElderLanding({
 }) {
   return (
     <section className="landing-shell landing-shell--elder">
-      {/* Hero */}
       <div className="landing-hero landing-hero--elder" aria-hidden="true">
         <img src={bgElder} alt="" draggable={false} />
       </div>
 
-      {/* Floating search */}
-      <div className="landing-search-wrap ">
-        <button
-          type="button"
-          className="landing-search-bar"
-          onClick={() => onNavigate('/home/ai')}
-          aria-label="Search"
-        >
-          <SearchIcon />
-          <span className="landing-search-placeholder">What would you like to record today?</span>
-        </button>
-      </div>
+      <div className="landing-card landing-card--elder-simple">
+        <header className="landing-elder-welcome">
+          <span>Welcome, {firstName}</span>
+          <h1>What would you like to do today?</h1>
+          <p>Choose one clear step. You can record a story or read stories from Taleka.</p>
+        </header>
 
-      <div className="landing-card">
-        <BookRow
-          label="Story Archive Highlights"
-          onSelect={(storyId) => onNavigate(`/home/stories/${storyId}`)}
-        />
+        <div className="landing-elder-actions" role="list">
+          <button
+            type="button"
+            className="landing-elder-action landing-elder-action--record"
+            onClick={() => onNavigate('/home/studio')}
+          >
+            <img src={imgRecordCard} alt="" className="landing-elder-action-image" />
+            <span className="landing-elder-action-copy">
+              <strong>Record a Story</strong>
+              <span>Save your voice for the next generation.</span>
+            </span>
+          </button>
 
-        <div className="landing-section">
-          <h2 className="landing-section-title">Studio readiness</h2>
-          <div className="landing-metrics" role="list">
-            {ELDER_PULSE.map((item) => (
+          <button
+            type="button"
+            className="landing-elder-action landing-elder-action--story"
+            onClick={() => onNavigate('/home/stories')}
+          >
+            <img src={FEATURED_STORY.cover} alt="" className="landing-elder-action-image" />
+            <span className="landing-elder-action-copy">
+              <strong>Read Stories</strong>
+              <span>Open the Taleka story collection.</span>
+            </span>
+          </button>
+        </div>
+
+        <section className="landing-elder-status" aria-label="Taleka status">
+          <h2>Today on Taleka</h2>
+          <div className="landing-metrics landing-metrics--elder" role="list">
+            {ELDER_PULSE.slice(0, 2).map((item) => (
               <article key={item.label} className="landing-metric-card" role="listitem">
                 <strong>{item.value}</strong>
                 <span>{item.label}</span>
               </article>
             ))}
           </div>
-        </div>
+        </section>
 
         <div className="landing-section">
-          <h2 className="landing-section-title">Create in Taleka</h2>
-          <div className="landing-action-cards">
-            <button
-              type="button"
-              className="landing-action-card"
-              onClick={() => onNavigate('/home/studio')}
-            >
-              <img src={imgRecordCard} alt="" className="landing-action-card-img" />
-            </button>
-            <button
-              type="button"
-              className="landing-action-card"
-              onClick={() => onNavigate('/home/translation')}
-            >
-              <img src={imgTranslateCard} alt="" className="landing-action-card-img" />
-            </button>
-          </div>
+          <h2 className="landing-section-title landing-section-title--elder">Story Highlights</h2>
+          <BookRow onSelect={(storyId) => onNavigate(`/home/stories/${storyId}`)} label="" />
         </div>
       </div>
     </section>
