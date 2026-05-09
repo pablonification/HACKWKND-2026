@@ -48,9 +48,6 @@ const createRecording = (overrides: Partial<StudioRecording> = {}): StudioRecord
   syncStatus: overrides.syncStatus ?? 'local_only',
   syncAttempts: overrides.syncAttempts ?? 0,
   lastSyncError: overrides.lastSyncError ?? null,
-  coverUrl: overrides.coverUrl ?? null,
-  bgUrl: overrides.bgUrl ?? null,
-  isPublished: overrides.isPublished ?? false,
   createdAt: overrides.createdAt ?? '2026-03-05T10:00:00.000Z',
   updatedAt: overrides.updatedAt ?? '2026-03-05T10:00:00.000Z',
 });
