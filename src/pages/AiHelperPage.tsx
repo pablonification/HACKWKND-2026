@@ -332,11 +332,13 @@ function ChatBubble({
           <img src={taviImg} alt="Tavi" className="tavi-bubble-avatar" />
 
           <div className="tavi-bubble-tavi-stack">
-            <div className="tavi-bubble tavi-bubble--tavi-reply">
+            <div
+              className={`tavi-bubble tavi-bubble--tavi-reply${message.loading ? ' tavi-bubble--loading-reply' : ''}`}
+            >
               {message.loading ? (
                 <div className="tavi-bubble-loading" aria-label="Tavi is preparing a reply">
-                  <AppSkeleton className="app-skeleton--pill" width="82%" height={12} />
-                  <AppSkeleton className="app-skeleton--pill" width="54%" height={12} />
+                  <span className="tavi-bubble-loading-line tavi-bubble-loading-line--long" />
+                  <span className="tavi-bubble-loading-line tavi-bubble-loading-line--short" />
                 </div>
               ) : (
                 <div className="tavi-bubble-text">

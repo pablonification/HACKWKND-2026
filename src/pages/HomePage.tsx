@@ -448,6 +448,7 @@ export function HomePage() {
       isGardenRoute ? 'home-content-garden-mode' : '',
       isQuizRoute ? 'home-content-quiz-mode' : '',
       isLandingRoute ? 'home-content-landing-mode' : '',
+      isAiChatRoute ? 'home-content-ai-chat-mode' : '',
     ]
       .filter(Boolean)
       .join(' ') || undefined;
@@ -478,7 +479,7 @@ export function HomePage() {
 
   return (
     <IonPage>
-      <IonContent fullscreen className={ionContentClassName}>
+      <IonContent fullscreen className={ionContentClassName} scrollY={!isAiChatRoute}>
         <div className={homeShellClassName}>
           <div className={`home-content ${usesStudioSurface ? 'is-studio-surface' : ''}`}>
             <div key={routeAnimationKey} className={routeFrameClassName}>

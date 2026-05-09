@@ -226,13 +226,15 @@
 
 .tavi-chat-header {
   align-items: center;
-  display: flex;
-  justify-content: space-between;
-  position: sticky;
-  top: 0;
-  z-index: 30;
   background: #fff9e9;
-  padding: calc(var(--safe-area-top) + 12px) 0px 0;
+  display: flex;
+  flex-shrink: 0;
+  justify-content: space-between;
+  margin: 0 calc((var(--safe-area-right) + 24px) * -1) 0 calc((var(--safe-area-left) + 24px) * -1);
+  padding: calc(var(--safe-area-top) + 30px) calc(var(--safe-area-right) + 24px) 14px
+    calc(var(--safe-area-left) + 24px);
+  position: relative;
+  z-index: 30;
 }
 
 .tavi-chat-header-pill {
@@ -541,7 +543,7 @@
   flex: 1;
   min-height: 0;
   overflow-y: auto;
-  padding: 16px 0px;
+  padding: 2px 0px 16px;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -589,7 +591,9 @@
 
 .tavi-bubble {
   border-radius: 18px;
+  box-sizing: border-box;
   max-width: 72%;
+  min-width: 0;
   padding: 10px 14px;
 }
 
@@ -598,11 +602,22 @@
   flex-direction: column;
   gap: 6px;
   max-width: 72%;
+  min-width: 0;
+}
+
+.tavi-bubble-tavi-stack .tavi-bubble {
+  max-width: 100%;
 }
 
 .tavi-bubble--tavi-reply {
   background: #f5c0be;
   border-bottom-left-radius: 4px;
+}
+
+.tavi-bubble--loading-reply {
+  max-width: calc(100vw - 120px);
+  min-width: 186px;
+  width: 186px;
 }
 
 .tavi-bubble--translation {
@@ -825,8 +840,42 @@
 .tavi-bubble-loading {
   display: grid;
   gap: 8px;
-  min-width: 172px;
+  max-width: 100%;
+  min-width: 0;
+  overflow: hidden;
   padding: 3px 0;
+  width: 100%;
+}
+
+.tavi-bubble-loading-line {
+  background: rgba(137, 88, 61, 0.18);
+  border-radius: 999px;
+  display: block;
+  height: 12px;
+  overflow: hidden;
+  position: relative;
+}
+
+.tavi-bubble-loading-line::after {
+  animation: app-skeleton-shimmer 1400ms ease-in-out infinite;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 249, 233, 0.58) 48%,
+    transparent 100%
+  );
+  content: '';
+  inset: 0;
+  position: absolute;
+  transform: translateX(-100%);
+}
+
+.tavi-bubble-loading-line--long {
+  width: 82%;
+}
+
+.tavi-bubble-loading-line--short {
+  width: 54%;
 }
 
 .tavi-chat-inputbar {

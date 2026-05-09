@@ -49,6 +49,10 @@
   background: #fff9e9;
 }
 
+.home-content-ai-chat-mode::part(scroll) {
+  overflow: hidden;
+}
+
 .home-shell.is-landing {
   background: transparent;
 }
