@@ -233,6 +233,9 @@ function ExploreTalekaCards({ onNavigate }: { onNavigate: (href: string) => void
           className="landing-action-card"
           onClick={() => onNavigate(addExploreEntry('/home/garden'))}
         >
+          <span className="landing-action-card-fallback" aria-hidden="true">
+            Garden
+          </span>
           <img src={gardenCardImg} alt="" className="landing-action-card-img" />
         </button>
 
@@ -241,6 +244,9 @@ function ExploreTalekaCards({ onNavigate }: { onNavigate: (href: string) => void
           className="landing-action-card"
           onClick={() => onNavigate(addExploreEntry('/home/ai'))}
         >
+          <span className="landing-action-card-fallback" aria-hidden="true">
+            AI Helper
+          </span>
           <img src={aiTaviCardImg} alt="" className="landing-action-card-img" />
         </button>
 
@@ -249,6 +255,9 @@ function ExploreTalekaCards({ onNavigate }: { onNavigate: (href: string) => void
           className="landing-action-card"
           onClick={() => onNavigate(addExploreEntry('/home/translation'))}
         >
+          <span className="landing-action-card-fallback" aria-hidden="true">
+            Translate
+          </span>
           <img src={translateCardImg} alt="" className="landing-action-card-img" />
         </button>
       </div>

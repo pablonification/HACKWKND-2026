@@ -160,6 +160,7 @@
 }
 
 .story-card-cover {
+  background: linear-gradient(135deg, rgba(175, 126, 167, 0.2), rgba(203, 64, 60, 0.16));
   width: 100%;
   aspect-ratio: 2 / 3;
   border-radius: 8px;

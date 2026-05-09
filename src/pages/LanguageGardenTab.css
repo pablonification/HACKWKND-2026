@@ -85,18 +85,53 @@
 }
 
 .garden-card {
+  aspect-ratio: 345 / 124;
   background: transparent;
   border: none;
   border-radius: 18px;
   cursor: pointer;
   display: block;
+  min-height: 118px;
   overflow: hidden;
   padding: 0;
+  position: relative;
   transition:
     transform 120ms ease,
     box-shadow 120ms ease;
   width: 100%;
   -webkit-tap-highlight-color: transparent;
+}
+
+.garden-card-fallback {
+  align-items: center;
+  background:
+    radial-gradient(circle at 18% 42%, rgba(255, 255, 255, 0.28) 0 24%, transparent 25%),
+    linear-gradient(135deg, #a8c85b 0%, #c6df7d 100%);
+  border-radius: inherit;
+  color: rgba(54, 38, 24, 0.72);
+  display: flex;
+  font-size: 28px;
+  font-weight: 800;
+  inset: 0;
+  justify-content: center;
+  letter-spacing: 0;
+  line-height: 1;
+  padding: 20px;
+  position: absolute;
+  text-align: center;
+  z-index: 0;
+}
+
+.garden-cards li:nth-child(2) .garden-card-fallback {
+  background:
+    radial-gradient(circle at 18% 42%, rgba(255, 255, 255, 0.24) 0 24%, transparent 25%),
+    linear-gradient(135deg, #ad82b6 0%, #d3a0ce 100%);
+}
+
+.garden-cards li:nth-child(3) .garden-card-fallback {
+  background:
+    radial-gradient(circle at 18% 42%, rgba(255, 255, 255, 0.22) 0 24%, transparent 25%),
+    linear-gradient(135deg, #4e9add 0%, #7eb6e2 100%);
 }
 
 .garden-card:active {
@@ -106,12 +141,15 @@
 
 .garden-card-image {
   border-radius: 20px;
-  display: flex;
-  height: auto;
+  display: block;
+  height: 100%;
+  inset: 0;
   object-fit: cover;
   pointer-events: none;
+  position: absolute;
   user-select: none;
   width: 100%;
+  z-index: 1;
 }
 
 /* ─── Background Illustration ───────────────────────────────────────────────── */
@@ -162,11 +200,11 @@
 
   .garden-card {
     height: 100%;
+    min-height: 180px;
   }
 
   .garden-card-image {
     height: 100%;
-    min-height: 180px;
   }
 
   .garden-bg-illustration {
