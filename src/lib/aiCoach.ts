@@ -201,15 +201,25 @@ const sleep = async (ms: number): Promise<void> =>
     setTimeout(resolve, ms);
   });
 
-const withTimeout = async <T>(promise: Promise<T>, timeoutMs: number, label: string): Promise<T> =>
-  Promise.race([
-    promise,
-    new Promise<never>((_, reject) => {
-      setTimeout(() => {
-        reject(new Error(`${label} timed out after ${timeoutMs}ms.`));
-      }, timeoutMs);
-    }),
-  ]);
+const withTimeout = async <T>(
+  fn: (signal: AbortSignal) => Promise<T>,
+  timeoutMs: number,
+  label: string,
+): Promise<T> => {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
+  try {
+    return await fn(controller.signal);
+  } catch (error) {
+    if (controller.signal.aborted) {
+      throw new Error(`${label} timed out after ${timeoutMs}ms.`);
+    }
+    throw error;
+  } finally {
+    clearTimeout(timeoutId);
+  }
+};
 
 const shouldRetryTransientFailure = (statusCode: number, message: string): boolean => {
   if (statusCode >= 500) {
@@ -223,23 +233,25 @@ const shouldRetryTransientFailure = (statusCode: number, message: string): boole
 
 const invokeCoachFunction = async (body: CoachRequest) =>
   withTimeout(
-    supabase.functions.invoke<RawCoachResponse>('ai-coach', {
-      headers: {
-        apikey: supabasePublicAnonKey,
-      },
-      body: {
-        message: body.message,
-        turns: (body.turns ?? []).map((turn) => ({
-          role: turn.role,
-          text: turn.text,
-          mode: turn.mode,
-          session_phase: turn.sessionPhase,
-          track: turn.track,
-        })),
-        ...(body.clientAction ? { client_action: body.clientAction } : {}),
-        ...(body.track ? { track: body.track } : {}),
-      },
-    }),
+    (signal) =>
+      supabase.functions.invoke<RawCoachResponse>('ai-coach', {
+        headers: {
+          apikey: supabasePublicAnonKey,
+        },
+        body: {
+          message: body.message,
+          turns: (body.turns ?? []).map((turn) => ({
+            role: turn.role,
+            text: turn.text,
+            mode: turn.mode,
+            session_phase: turn.sessionPhase,
+            track: turn.track,
+          })),
+          ...(body.clientAction ? { client_action: body.clientAction } : {}),
+          ...(body.track ? { track: body.track } : {}),
+        },
+        signal,
+      }),
     COACH_FUNCTION_TIMEOUT_MS,
     'Tavi request',
   );
@@ -326,6 +338,7 @@ type FallbackCoachIntent = {
   nextActions: CoachClientAction[];
   text: string;
   verifiedFallbackWord?: boolean;
+  translationLanguage?: CoachAnswerLanguage;
   translate?: TranslateInput;
 };
 
@@ -347,36 +360,41 @@ const mapFallbackSemaiSource = (
 const buildVerifiedClientFallbackWord = (
   intent: FallbackCoachIntent,
   warning: string,
-): CoachResponse => ({
-  mode: 'learning',
-  responseMode: 'scenario',
-  answerLanguage: 'semai',
-  sessionPhase: 'learning_active',
-  track: intent.track,
-  nextActions: defaultFallbackNextActions('learning_active'),
-  mainReply: 'abat',
-  translation: 'cloth',
-  coachNote:
-    'This is a verified Webonary word. Say it once, then connect it to one object you know.',
-  followUpPrompt: pickClientFollowUpPrompt('learning_active', 'scenario', intent.answerLanguage),
-  followUpTranslation: null,
-  pronunciationTip: null,
-  relatedExample: null,
-  warning,
-  grounded: true,
-  groundingSource: ['glossary', 'client-fallback'],
-  validationPassed: true,
-  provider: 'client-fallback',
-  model: 'abat-cloth',
-  meta: {
-    reason: 'edge_unavailable_verified_word_fallback',
-    semai_verified: true,
-    semai_source: 'glossary',
-    package_eligible: true,
-    selected_id: 'abat-cloth',
-    selected_source: 'glossary',
-  },
-});
+): CoachResponse => {
+  const useMalay = intent.translationLanguage === 'ms' || intent.answerLanguage === 'ms';
+
+  return {
+    mode: 'learning',
+    responseMode: 'scenario',
+    answerLanguage: 'semai',
+    sessionPhase: 'learning_active',
+    track: intent.track,
+    nextActions: defaultFallbackNextActions('learning_active'),
+    mainReply: 'abat',
+    translation: useMalay ? 'kain' : 'cloth',
+    coachNote: useMalay
+      ? 'Ini perkataan Webonary yang disahkan. Sebut sekali, kemudian kaitkan dengan satu objek yang anda kenal.'
+      : 'This is a verified Webonary word. Say it once, then connect it to one object you know.',
+    followUpPrompt: pickClientFollowUpPrompt('learning_active', 'scenario', intent.answerLanguage),
+    followUpTranslation: null,
+    pronunciationTip: null,
+    relatedExample: null,
+    warning,
+    grounded: true,
+    groundingSource: ['glossary', 'client-fallback'],
+    validationPassed: true,
+    provider: 'client-fallback',
+    model: 'abat-cloth',
+    meta: {
+      reason: 'edge_unavailable_verified_word_fallback',
+      semai_verified: true,
+      semai_source: 'glossary',
+      package_eligible: true,
+      selected_id: 'abat-cloth',
+      selected_source: 'glossary',
+    },
+  };
+};
 
 const extractPromptFocus = (message: string, patterns: RegExp[]): string => {
   let next = message.trim();
@@ -587,6 +605,7 @@ const classifyFallbackIntent = (request: CoachRequest): FallbackCoachIntent => {
       nextActions: defaultFallbackNextActions('learning_active'),
       text: 'verified Semai vocabulary word',
       verifiedFallbackWord: true,
+      translationLanguage: answerLanguage,
       translate: {
         text: 'verified Semai vocabulary word',
         from: answerLanguage === 'ms' ? 'ms' : 'en',

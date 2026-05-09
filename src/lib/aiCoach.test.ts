@@ -112,6 +112,7 @@ describe('coachWithTavi', () => {
       headers: {
         apikey: 'test-anon-key',
       },
+      signal: expect.any(AbortSignal),
       body: {
         message: 'What can you help with?',
         turns: [],
@@ -157,6 +158,7 @@ describe('coachWithTavi', () => {
       headers: {
         apikey: 'test-anon-key',
       },
+      signal: expect.any(AbortSignal),
       body: {
         message: "Let's go",
         client_action: 'start_session',
@@ -229,6 +231,7 @@ describe('coachWithTavi', () => {
       headers: {
         apikey: 'test-anon-key',
       },
+      signal: expect.any(AbortSignal),
       body: {
         message: 'Practice basic Semai greetings.',
         client_action: 'practice_greetings',
@@ -386,6 +389,33 @@ describe('coachWithTavi', () => {
       provider: 'client-fallback',
     });
     expect(result.mainReply).not.toContain('Would you like');
+  });
+
+  it('localizes the verified fallback word for Malay requests', async () => {
+    mockedSupabase.functions.invoke.mockResolvedValue({
+      data: null,
+      error: new Error('Edge Function returned a non-2xx status code'),
+      response: new Response(JSON.stringify({ error: 'Coach unavailable' }), {
+        status: 500,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }),
+    });
+
+    const result = await coachWithTavi({
+      message: 'beri saya Semai word today',
+    });
+
+    expect(result).toMatchObject({
+      mode: 'learning',
+      responseMode: 'scenario',
+      mainReply: 'abat',
+      translation: 'kain',
+      coachNote:
+        'Ini perkataan Webonary yang disahkan. Sebut sekali, kemudian kaitkan dengan satu objek yang anda kenal.',
+      provider: 'client-fallback',
+    });
   });
 
   it('throws when auth is rejected and refresh cannot recover', async () => {

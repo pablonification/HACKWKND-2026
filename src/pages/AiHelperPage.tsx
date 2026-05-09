@@ -1,4 +1,4 @@
-import { IonSpinner, IonToast } from '@ionic/react';
+import { IonAlert, IonSpinner, IonToast } from '@ionic/react';
 import type { CSSProperties, ReactNode } from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -487,6 +487,7 @@ export function AiHelperPage() {
   const [threads, setThreads] = useState<TaviThreadSummary[]>([]);
   const [activeThreadId, setActiveThreadId] = useState<string | null>(null);
   const [isThreadDrawerOpen, setIsThreadDrawerOpen] = useState(false);
+  const [threadPendingRename, setThreadPendingRename] = useState<TaviThreadSummary | null>(null);
   const [isThreadLoading, setIsThreadLoading] = useState(false);
   const [inputText, setInputText] = useState('');
   const [isSending, setIsSending] = useState(false);
@@ -864,8 +865,15 @@ export function AiHelperPage() {
   };
 
   const handleRenameThread = (thread: TaviThreadSummary) => {
-    const title = window.prompt('Rename chat', thread.title);
-    if (title === null) {
+    triggerHapticFeedback('light');
+    setThreadPendingRename(thread);
+  };
+
+  const handleRenameThreadConfirm = (title: string) => {
+    const thread = threadPendingRename;
+    setThreadPendingRename(null);
+
+    if (!thread) {
       return;
     }
 
@@ -1253,6 +1261,32 @@ export function AiHelperPage() {
           onSelectThread={handleSelectThread}
           onRenameThread={handleRenameThread}
           onDeleteThread={handleDeleteThread}
+        />
+        <IonAlert
+          isOpen={Boolean(threadPendingRename)}
+          header="Rename chat"
+          inputs={[
+            {
+              name: 'title',
+              type: 'text',
+              value: threadPendingRename?.title ?? '',
+              placeholder: 'Chat title',
+            },
+          ]}
+          buttons={[
+            {
+              text: 'Cancel',
+              role: 'cancel',
+            },
+            {
+              text: 'Save',
+              role: 'confirm',
+              handler: (value: { title?: string }) => {
+                handleRenameThreadConfirm(value.title ?? '');
+              },
+            },
+          ]}
+          onDidDismiss={() => setThreadPendingRename(null)}
         />
 
         {isThreadLoading && messages.length === 0 ? (
