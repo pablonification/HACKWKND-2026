@@ -1,6 +1,6 @@
-import { IonSpinner, IonToast } from '@ionic/react';
+import { IonAlert, IonSpinner, IonToast } from '@ionic/react';
 import type { CSSProperties, ReactNode } from 'react';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import cameraImg from '../../assets/camera.png';
@@ -17,6 +17,18 @@ import {
 import { triggerHapticFeedback } from '../lib/feedback';
 import { buildAiSearchParams, isExploreEntry } from '../lib/navigationEntry';
 import { getJSON, setJSON } from '../lib/storage';
+import {
+  appendTaviMessage,
+  buildThreadTitle,
+  createTaviThread,
+  isTaviPersistenceUnavailable,
+  listTaviThreads,
+  loadTaviMessages,
+  renameTaviThread,
+  softDeleteTaviThread,
+  updateTaviThreadState,
+  type TaviThreadSummary,
+} from '../lib/taviThreads';
 import { useEdgeSwipeBack } from '../lib/useEdgeSwipeBack';
 import { useAuthStore } from '../stores/authStore';
 
@@ -59,6 +71,12 @@ const ACTION_LABEL: Record<CoachClientAction, string> = {
   continue_session: 'Continue',
   end_session: 'End Session',
   translate_inline: 'Translate Phrase',
+  start_easy: 'Start Easy',
+  practice_greetings: 'Practice Greetings',
+  make_plan: 'Make a Plan',
+  slow_down: 'Slow Down',
+  explain_first: 'Explain First',
+  try_again: 'Try Again',
 };
 
 const createId = () => {
@@ -297,70 +315,77 @@ function TaviIntro({
 function ChatBubble({
   message,
   onUseFollowUp,
+  isSending,
 }: {
   message: Message;
-  onUseFollowUp: (prompt: string) => void;
+  onUseFollowUp: (messageId: string, prompt: string) => void;
+  isSending: boolean;
 }) {
   const isTavi = message.role === 'tavi';
 
   if (isTavi) {
     const shouldRenderPackage = Boolean(message.packageEligible);
     return (
-      <div className="tavi-bubble-row tavi-bubble-row--tavi">
-        <img src={taviImg} alt="Tavi" className="tavi-bubble-avatar" />
+      <>
+        <div className="tavi-bubble-row tavi-bubble-row--tavi">
+          <img src={taviImg} alt="Tavi" className="tavi-bubble-avatar" />
 
-        <div className="tavi-bubble-tavi-stack">
-          <div className="tavi-bubble tavi-bubble--tavi-reply">
-            {message.loading ? (
-              <div className="tavi-bubble-loading">
-                <span />
-                <span />
-                <span />
+          <div className="tavi-bubble-tavi-stack">
+            <div className="tavi-bubble tavi-bubble--tavi-reply">
+              {message.loading ? (
+                <div className="tavi-bubble-loading">
+                  <span />
+                  <span />
+                  <span />
+                </div>
+              ) : (
+                <div className="tavi-bubble-text">
+                  {renderMarkdown(message.text, `${message.id}-main`)}
+                </div>
+              )}
+            </div>
+
+            {!message.loading && shouldRenderPackage && message.translation ? (
+              <div className="tavi-bubble tavi-bubble--translation">
+                <p className="tavi-bubble-translation-label">
+                  {message.translationLabel ?? 'Translation'}
+                </p>
+                <div className="tavi-bubble-text">
+                  {renderMarkdown(message.translation, `${message.id}-translation`)}
+                </div>
               </div>
-            ) : (
-              <div className="tavi-bubble-text">
-                {renderMarkdown(message.text, `${message.id}-main`)}
+            ) : null}
+
+            {!message.loading && shouldRenderPackage && message.coachNote ? (
+              <div className="tavi-bubble tavi-bubble--meta">
+                <p className="tavi-bubble-meta-label">Coach note</p>
+                <div className="tavi-bubble-text">
+                  {renderMarkdown(message.coachNote, `${message.id}-coach-note`)}
+                </div>
               </div>
-            )}
+            ) : null}
           </div>
-
-          {!message.loading && shouldRenderPackage && message.translation ? (
-            <div className="tavi-bubble tavi-bubble--translation">
-              <p className="tavi-bubble-translation-label">
-                {message.translationLabel ?? 'Translation'}
-              </p>
-              <div className="tavi-bubble-text">
-                {renderMarkdown(message.translation, `${message.id}-translation`)}
-              </div>
-            </div>
-          ) : null}
-
-          {!message.loading && shouldRenderPackage && message.coachNote ? (
-            <div className="tavi-bubble tavi-bubble--meta">
-              <p className="tavi-bubble-meta-label">Coach note</p>
-              <div className="tavi-bubble-text">
-                {renderMarkdown(message.coachNote, `${message.id}-coach-note`)}
-              </div>
-            </div>
-          ) : null}
-
-          {!message.loading && shouldRenderPackage && message.followUpPrompt ? (
-            <button
-              type="button"
-              className="tavi-bubble-chip"
-              onClick={() => onUseFollowUp(message.followUpPrompt ?? '')}
-            >
-              {message.followUpPrompt}
-            </button>
-          ) : null}
-
-          {!message.loading && message.warning ? (
-            <div className="tavi-bubble-warning">
-              {renderMarkdown(message.warning, `${message.id}-warning`)}
-            </div>
-          ) : null}
         </div>
-      </div>
+
+        {!message.loading && message.followUpPrompt ? (
+          <div className="tavi-bubble-row tavi-bubble-row--suggestion">
+            <div className="tavi-suggested-reply">
+              <span className="tavi-suggested-reply-label">Tap to send</span>
+              <button
+                type="button"
+                className="tavi-bubble-chip"
+                disabled={isSending}
+                onClick={() => onUseFollowUp(message.id, message.followUpPrompt ?? '')}
+              >
+                <span>{message.followUpPrompt}</span>
+                <span className="tavi-bubble-chip-arrow" aria-hidden="true">
+                  +
+                </span>
+              </button>
+            </div>
+          </div>
+        ) : null}
+      </>
     );
   }
 
@@ -373,11 +398,97 @@ function ChatBubble({
   );
 }
 
+function ThreadDrawer({
+  isOpen,
+  threads,
+  activeThreadId,
+  isLoading,
+  onClose,
+  onNewThread,
+  onSelectThread,
+  onRenameThread,
+  onDeleteThread,
+}: {
+  isOpen: boolean;
+  threads: TaviThreadSummary[];
+  activeThreadId: string | null;
+  isLoading: boolean;
+  onClose: () => void;
+  onNewThread: () => void;
+  onSelectThread: (threadId: string) => void;
+  onRenameThread: (thread: TaviThreadSummary) => void;
+  onDeleteThread: (thread: TaviThreadSummary) => void;
+}) {
+  if (!isOpen) {
+    return null;
+  }
+
+  return (
+    <div className="tavi-thread-drawer" role="dialog" aria-modal="true" aria-label="Chat history">
+      <button
+        className="tavi-thread-drawer-backdrop"
+        aria-label="Close history"
+        onClick={onClose}
+      />
+      <section className="tavi-thread-panel">
+        <div className="tavi-thread-panel-header">
+          <div>
+            <p className="tavi-thread-panel-kicker">Tavi chats</p>
+            <h2>History</h2>
+          </div>
+          <button type="button" className="tavi-thread-close" aria-label="Close" onClick={onClose}>
+            x
+          </button>
+        </div>
+
+        <button type="button" className="tavi-thread-new" onClick={onNewThread}>
+          New chat
+        </button>
+
+        <div className="tavi-thread-list">
+          {isLoading ? <p className="tavi-thread-empty">Loading chats...</p> : null}
+          {!isLoading && threads.length === 0 ? (
+            <p className="tavi-thread-empty">No saved chats yet.</p>
+          ) : null}
+          {threads.map((thread) => (
+            <div
+              key={thread.id}
+              className={`tavi-thread-item${thread.id === activeThreadId ? ' is-active' : ''}`}
+            >
+              <button
+                type="button"
+                className="tavi-thread-select"
+                onClick={() => onSelectThread(thread.id)}
+              >
+                <span>{thread.title}</span>
+                <small>{new Date(thread.lastMessageAt).toLocaleDateString()}</small>
+              </button>
+              <div className="tavi-thread-actions">
+                <button type="button" onClick={() => onRenameThread(thread)}>
+                  Rename
+                </button>
+                <button type="button" onClick={() => onDeleteThread(thread)}>
+                  Delete
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    </div>
+  );
+}
+
 export function AiHelperPage() {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const { user } = useAuthStore();
   const [messages, setMessages] = useState<Message[]>([]);
+  const [threads, setThreads] = useState<TaviThreadSummary[]>([]);
+  const [activeThreadId, setActiveThreadId] = useState<string | null>(null);
+  const [isThreadDrawerOpen, setIsThreadDrawerOpen] = useState(false);
+  const [threadPendingRename, setThreadPendingRename] = useState<TaviThreadSummary | null>(null);
+  const [isThreadLoading, setIsThreadLoading] = useState(false);
   const [inputText, setInputText] = useState('');
   const [isSending, setIsSending] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
@@ -386,16 +497,20 @@ export function AiHelperPage() {
   const [sessionPhase, setSessionPhase] = useState<CoachSessionPhase>('idle');
   const [track, setTrack] = useState<LearningTrack>('vocabulary_first');
   const [nextActions, setNextActions] = useState<CoachClientAction[]>([
-    'start_session',
+    'start_easy',
+    'practice_greetings',
+    'make_plan',
     'translate_inline',
   ]);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
+  const activeThreadIdRef = useRef<string | null>(null);
   const hasAutoFocusedChatRef = useRef(false);
   const [isInitialFocusLockActive, setIsInitialFocusLockActive] = useState(true);
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
   const [keyboardInset, setKeyboardInset] = useState(0);
   const [isInputFocused, setIsInputFocused] = useState(false);
+  const isSendingRef = useRef(false);
 
   const displayName = useMemo(
     () => getDisplayName(user?.email, user?.user_metadata?.full_name),
@@ -406,6 +521,95 @@ export function AiHelperPage() {
   const chatOuterStyle: CSSProperties & Record<'--tavi-keyboard-offset', string> = {
     '--tavi-keyboard-offset': `${keyboardInset}px`,
   };
+
+  useEffect(() => {
+    isSendingRef.current = isSending;
+  }, [isSending]);
+
+  useEffect(() => {
+    activeThreadIdRef.current = activeThreadId;
+  }, [activeThreadId]);
+
+  const refreshThreads = useCallback(async () => {
+    if (!user?.id) {
+      setThreads([]);
+      return [];
+    }
+
+    const nextThreads = await listTaviThreads();
+    setThreads(nextThreads);
+    return nextThreads;
+  }, [user?.id]);
+
+  const updateThreadParam = useCallback(
+    (threadId: string | null, replace = true) => {
+      const nextParams = buildAiSearchParams({ chat: '1' }, searchParams);
+      nextParams.delete('new');
+      if (threadId) {
+        nextParams.set('thread', threadId);
+      } else {
+        nextParams.delete('thread');
+      }
+      if (nextParams.toString() === searchParams.toString()) {
+        return;
+      }
+      setSearchParams(nextParams, { replace });
+    },
+    [searchParams, setSearchParams],
+  );
+
+  const updateNewThreadParam = useCallback(() => {
+    const nextParams = buildAiSearchParams({ chat: '1' }, searchParams);
+    nextParams.delete('thread');
+    nextParams.set('new', '1');
+    setSearchParams(nextParams, { replace: true });
+  }, [searchParams, setSearchParams]);
+
+  const hydrateThread = useCallback(
+    async (thread: TaviThreadSummary) => {
+      setIsThreadLoading(true);
+      setSendError(null);
+      setRetryPayload(null);
+      setNotice(null);
+
+      try {
+        const persistedMessages = await loadTaviMessages(thread.id);
+        setActiveThreadId(thread.id);
+        setMessages(
+          persistedMessages.map((message) => ({
+            id: message.id,
+            role: message.role,
+            text: message.text,
+            packageEligible: message.packageEligible,
+            translation: message.translation,
+            translationLabel: message.translationLabel ?? undefined,
+            coachNote: message.coachNote,
+            followUpPrompt: message.followUpPrompt,
+            warning: message.warning,
+            mode: message.mode ?? undefined,
+            answerLanguage: message.answerLanguage ?? undefined,
+            sessionPhase: message.sessionPhase ?? undefined,
+            track: message.track ?? undefined,
+          })),
+        );
+        setSessionPhase(thread.sessionPhase);
+        setTrack(thread.track);
+        updateThreadParam(thread.id);
+      } catch (error) {
+        if (isTaviPersistenceUnavailable(error)) {
+          setActiveThreadId(null);
+          setMessages([]);
+          return;
+        }
+
+        const message = error instanceof Error ? error.message : 'Could not load this chat.';
+        setNotice(message);
+      } finally {
+        setIsThreadLoading(false);
+      }
+    },
+    [updateThreadParam],
+  );
 
   const navigateBackFromExplore = () => {
     if (window.history.length > 1) {
@@ -430,6 +634,104 @@ export function AiHelperPage() {
       setTrack(persisted.track);
     });
   }, []);
+
+  useEffect(() => {
+    if (showIntro || !user?.id) {
+      return;
+    }
+
+    let isCancelled = false;
+    setIsThreadLoading(true);
+
+    void listTaviThreads()
+      .then(async (nextThreads) => {
+        if (isCancelled) {
+          return;
+        }
+
+        if (isSendingRef.current) {
+          setThreads(nextThreads);
+          return;
+        }
+
+        setThreads(nextThreads);
+        const requestedThreadId = searchParams.get('thread');
+        if (requestedThreadId && requestedThreadId === activeThreadIdRef.current) {
+          return;
+        }
+
+        const isDraftThread = searchParams.get('new') === '1';
+        if (isDraftThread) {
+          setActiveThreadId(null);
+          setMessages([]);
+          setSessionPhase('idle');
+          setTrack('vocabulary_first');
+          setNextActions(['start_easy', 'practice_greetings', 'make_plan', 'translate_inline']);
+          return;
+        }
+
+        const requestedThread = requestedThreadId
+          ? nextThreads.find((thread) => thread.id === requestedThreadId)
+          : null;
+        const threadToLoad = requestedThread ?? nextThreads[0] ?? null;
+
+        if (!threadToLoad) {
+          setActiveThreadId(null);
+          setMessages([]);
+          updateThreadParam(null);
+          return;
+        }
+
+        const persistedMessages = await loadTaviMessages(threadToLoad.id);
+        if (isCancelled) {
+          return;
+        }
+
+        setActiveThreadId(threadToLoad.id);
+        setMessages(
+          persistedMessages.map((message) => ({
+            id: message.id,
+            role: message.role,
+            text: message.text,
+            packageEligible: message.packageEligible,
+            translation: message.translation,
+            translationLabel: message.translationLabel ?? undefined,
+            coachNote: message.coachNote,
+            followUpPrompt: message.followUpPrompt,
+            warning: message.warning,
+            mode: message.mode ?? undefined,
+            answerLanguage: message.answerLanguage ?? undefined,
+            sessionPhase: message.sessionPhase ?? undefined,
+            track: message.track ?? undefined,
+          })),
+        );
+        setSessionPhase(threadToLoad.sessionPhase);
+        setTrack(threadToLoad.track);
+        updateThreadParam(threadToLoad.id);
+      })
+      .catch((error: unknown) => {
+        if (isCancelled) {
+          return;
+        }
+        if (isTaviPersistenceUnavailable(error)) {
+          setActiveThreadId(null);
+          setMessages([]);
+          setThreads([]);
+          return;
+        }
+        const message = error instanceof Error ? error.message : 'Could not load chat history.';
+        setNotice(message);
+      })
+      .finally(() => {
+        if (!isCancelled) {
+          setIsThreadLoading(false);
+        }
+      });
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [showIntro, user?.id, searchParams, updateThreadParam]);
 
   useEffect(() => {
     void setJSON(TAVI_SESSION_STATE_KEY, {
@@ -530,10 +832,107 @@ export function AiHelperPage() {
     setSearchParams(buildAiSearchParams({ chat: '1' }, searchParams), { replace: true });
   };
 
-  const handleUseFollowUp = (prompt: string) => {
-    setInputText(prompt);
-    inputRef.current?.focus();
+  const handleOpenThreads = () => {
     triggerHapticFeedback('light');
+    setIsThreadDrawerOpen(true);
+    void refreshThreads().catch((error: unknown) => {
+      const message = error instanceof Error ? error.message : 'Could not refresh chats.';
+      setNotice(message);
+    });
+  };
+
+  const handleNewThread = () => {
+    triggerHapticFeedback('medium');
+    activeThreadIdRef.current = null;
+    setActiveThreadId(null);
+    setMessages([]);
+    setSessionPhase('idle');
+    setTrack('vocabulary_first');
+    setNextActions(['start_easy', 'practice_greetings', 'make_plan', 'translate_inline']);
+    setIsThreadDrawerOpen(false);
+    updateNewThreadParam();
+  };
+
+  const handleSelectThread = (threadId: string) => {
+    const thread = threads.find((item) => item.id === threadId);
+    if (!thread) {
+      return;
+    }
+
+    triggerHapticFeedback('light');
+    setIsThreadDrawerOpen(false);
+    void hydrateThread(thread);
+  };
+
+  const handleRenameThread = (thread: TaviThreadSummary) => {
+    triggerHapticFeedback('light');
+    setThreadPendingRename(thread);
+  };
+
+  const handleRenameThreadConfirm = (title: string) => {
+    const thread = threadPendingRename;
+    setThreadPendingRename(null);
+
+    if (!thread) {
+      return;
+    }
+
+    const nextTitle = buildThreadTitle(title);
+    if (!nextTitle || nextTitle === thread.title) {
+      return;
+    }
+
+    triggerHapticFeedback('light');
+    void renameTaviThread(thread.id, nextTitle)
+      .then(async () => {
+        await refreshThreads();
+      })
+      .catch((error: unknown) => {
+        const message = error instanceof Error ? error.message : 'Could not rename chat.';
+        setNotice(message);
+      });
+  };
+
+  const handleDeleteThread = (thread: TaviThreadSummary) => {
+    const shouldDelete = window.confirm(`Delete "${thread.title}" from your chat history?`);
+    if (!shouldDelete) {
+      return;
+    }
+
+    triggerHapticFeedback('medium');
+    void softDeleteTaviThread(thread.id)
+      .then(async () => {
+        const nextThreads = await refreshThreads();
+        if (activeThreadId !== thread.id) {
+          return;
+        }
+
+        const nextThread = nextThreads.find((item) => item.id !== thread.id) ?? null;
+        if (nextThread) {
+          await hydrateThread(nextThread);
+          return;
+        }
+
+        handleNewThread();
+      })
+      .catch((error: unknown) => {
+        const message = error instanceof Error ? error.message : 'Could not delete chat.';
+        setNotice(message);
+      });
+  };
+
+  const handleUseFollowUp = (messageId: string, prompt: string) => {
+    if (isSending) {
+      return;
+    }
+
+    setMessages((prev) =>
+      prev.map((message) =>
+        message.id === messageId ? { ...message, followUpPrompt: null } : message,
+      ),
+    );
+    triggerHapticFeedback('light');
+    void handleSend({ textOverride: prompt });
   };
 
   const buildSessionStartMarker = (
@@ -544,8 +943,8 @@ export function AiHelperPage() {
     role: 'tavi',
     text:
       answerLanguage === 'ms'
-        ? 'Baik, sesi pembelajaran bermula sekarang.'
-        : 'Great. Your learning session starts now.',
+        ? 'Baik, kita mula perlahan-lahan dengan satu item sahaja.'
+        : "Great, let's start gently with just one item.",
     mode: 'direct_help',
     sessionPhase: 'learning_active',
     track: markerTrack,
@@ -584,13 +983,27 @@ export function AiHelperPage() {
       continue_session: 'Continue.',
       end_session: 'I want to end this session.',
       translate_inline: text,
+      start_easy: 'Start with a very easy Semai practice item.',
+      practice_greetings: 'Practice basic Semai greetings.',
+      make_plan: 'Make me a simple Semai learning plan.',
+      slow_down: 'Slow down and guide me gently.',
+      explain_first: 'Explain the basics first before practice.',
+      try_again: 'Try again, but do not start too fast.',
     };
     const textForRequest = text || (action ? actionMessage[action] : '');
-    const shouldRenderUserMessage = Boolean(text);
+    const renderedUserText =
+      text || (action && action !== 'translate_inline' ? ACTION_LABEL[action] : '');
+    const shouldRenderUserMessage = Boolean(renderedUserText);
     const previousPhase = sessionPhase;
+    const historyForRequest = [
+      ...buildCoachTurns(messages),
+      ...(shouldRenderUserMessage
+        ? [{ role: 'user', text: renderedUserText } as CoachTurnInput]
+        : []),
+    ];
 
     const userMessage: Message | null = shouldRenderUserMessage
-      ? { id: createId(), role: 'user', text }
+      ? { id: createId(), role: 'user', text: renderedUserText }
       : null;
     const loadingMessage: Message = {
       id: createId(),
@@ -612,19 +1025,52 @@ export function AiHelperPage() {
     }
 
     setIsSending(true);
+    isSendingRef.current = true;
     setSendError(null);
     setRetryPayload(null);
     setNotice(null);
     triggerHapticFeedback('light');
-    setMessages((prev) => [...prev, ...(userMessage ? [userMessage] : []), loadingMessage]);
+    setMessages((prev) => [
+      ...prev.map((message) => ({ ...message, followUpPrompt: null })),
+      ...(userMessage ? [userMessage] : []),
+      loadingMessage,
+    ]);
 
     try {
+      let threadIdForSend = activeThreadId;
+      if (user?.id) {
+        try {
+          if (!threadIdForSend) {
+            const newThread = await createTaviThread({
+              userId: user.id,
+              title: renderedUserText ? buildThreadTitle(renderedUserText) : 'New chat',
+              sessionPhase,
+              track: requestedTrack,
+            });
+            threadIdForSend = newThread.id;
+            activeThreadIdRef.current = newThread.id;
+            setActiveThreadId(newThread.id);
+            setThreads((prev) => [newThread, ...prev]);
+          }
+
+          if (threadIdForSend && userMessage) {
+            await appendTaviMessage({
+              threadId: threadIdForSend,
+              userId: user.id,
+              message: userMessage,
+            });
+          }
+        } catch (error) {
+          if (!isTaviPersistenceUnavailable(error)) {
+            console.warn('Could not persist Tavi user message:', error);
+          }
+          threadIdForSend = null;
+        }
+      }
+
       const response = await coachWithTavi({
         message: textForRequest,
-        turns: [
-          ...buildCoachTurns(messages),
-          ...(shouldRenderUserMessage ? [{ role: 'user', text } as CoachTurnInput] : []),
-        ],
+        turns: historyForRequest,
         clientAction: action,
         track: requestedTrack,
       });
@@ -636,6 +1082,24 @@ export function AiHelperPage() {
       const semaiVerified = response.meta?.semai_verified === true;
       const serverPackageEligible = response.meta?.package_eligible === true;
       const packageEligible = semaiVerified && serverPackageEligible;
+      const markerMessage = didStartSession
+        ? buildSessionStartMarker(response.answerLanguage, response.track)
+        : null;
+      const taviMessage: Message = {
+        ...loadingMessage,
+        text: response.mainReply,
+        packageEligible,
+        translation: response.translation,
+        translationLabel,
+        coachNote: response.coachNote,
+        followUpPrompt: response.followUpPrompt,
+        warning: response.warning ?? null,
+        answerLanguage: response.answerLanguage,
+        mode: response.mode,
+        sessionPhase: response.sessionPhase,
+        track: response.track,
+        loading: false,
+      };
 
       setMessages((prev) => {
         const next: Message[] = [];
@@ -645,25 +1109,11 @@ export function AiHelperPage() {
             continue;
           }
 
-          if (didStartSession) {
-            next.push(buildSessionStartMarker(response.answerLanguage, response.track));
+          if (markerMessage) {
+            next.push(markerMessage);
           }
 
-          next.push({
-            ...message,
-            text: response.mainReply,
-            packageEligible,
-            translation: response.translation,
-            translationLabel,
-            coachNote: response.coachNote,
-            followUpPrompt: response.followUpPrompt,
-            warning: response.warning ?? null,
-            answerLanguage: response.answerLanguage,
-            mode: response.mode,
-            sessionPhase: response.sessionPhase,
-            track: response.track,
-            loading: false,
-          });
+          next.push(taviMessage);
         }
         return next;
       });
@@ -671,9 +1121,40 @@ export function AiHelperPage() {
       setTrack(response.track);
       setNextActions(response.nextActions);
 
-      if (response.warning) {
-        setNotice(response.warning);
-      } else if (response.provider === 'client-fallback') {
+      if (user?.id && threadIdForSend) {
+        try {
+          if (markerMessage) {
+            await appendTaviMessage({
+              threadId: threadIdForSend,
+              userId: user.id,
+              message: markerMessage,
+            });
+          }
+
+          await appendTaviMessage({
+            threadId: threadIdForSend,
+            userId: user.id,
+            message: taviMessage,
+          });
+          await updateTaviThreadState({
+            threadId: threadIdForSend,
+            sessionPhase: response.sessionPhase,
+            track: response.track,
+            title:
+              messages.length === 0 && renderedUserText
+                ? buildThreadTitle(renderedUserText)
+                : undefined,
+          });
+          updateThreadParam(threadIdForSend);
+          await refreshThreads();
+        } catch (error) {
+          if (!isTaviPersistenceUnavailable(error)) {
+            console.warn('Could not persist Tavi response:', error);
+          }
+        }
+      }
+
+      if (response.provider === 'client-fallback') {
         setNotice('Tavi used grounded fallback content for this reply.');
       }
 
@@ -697,6 +1178,7 @@ export function AiHelperPage() {
       triggerHapticFeedback('error');
     } finally {
       setIsSending(false);
+      isSendingRef.current = false;
     }
   };
 
@@ -757,10 +1239,63 @@ export function AiHelperPage() {
             <span className="tavi-back-chevron" aria-hidden="true" />
           </button>
           <span className="tavi-intro-header-pill">Personal AI Buddy</span>
-          <div style={{ width: 36 }}></div>
+          <button
+            type="button"
+            className="tavi-thread-menu-button"
+            aria-label="Open chat history"
+            onClick={handleOpenThreads}
+          >
+            <span />
+            <span />
+            <span />
+          </button>
         </header>
 
-        {messages.length === 0 ? (
+        <ThreadDrawer
+          isOpen={isThreadDrawerOpen}
+          threads={threads}
+          activeThreadId={activeThreadId}
+          isLoading={isThreadLoading}
+          onClose={() => setIsThreadDrawerOpen(false)}
+          onNewThread={handleNewThread}
+          onSelectThread={handleSelectThread}
+          onRenameThread={handleRenameThread}
+          onDeleteThread={handleDeleteThread}
+        />
+        <IonAlert
+          isOpen={Boolean(threadPendingRename)}
+          header="Rename chat"
+          inputs={[
+            {
+              name: 'title',
+              type: 'text',
+              value: threadPendingRename?.title ?? '',
+              placeholder: 'Chat title',
+            },
+          ]}
+          buttons={[
+            {
+              text: 'Cancel',
+              role: 'cancel',
+            },
+            {
+              text: 'Save',
+              role: 'confirm',
+              handler: (value: { title?: string }) => {
+                handleRenameThreadConfirm(value.title ?? '');
+              },
+            },
+          ]}
+          onDidDismiss={() => setThreadPendingRename(null)}
+        />
+
+        {isThreadLoading && messages.length === 0 ? (
+          <div className="tavi-chat-history-loading">
+            <IonSpinner name="crescent" style={{ width: 22, height: 22, color: '#cb403c' }} />
+          </div>
+        ) : null}
+
+        {!isThreadLoading && messages.length === 0 ? (
           <div className="tavi-chat-greeting">
             <h2 className="tavi-chat-greeting-title">
               Hello, <br />
@@ -786,7 +1321,12 @@ export function AiHelperPage() {
           }}
         >
           {messages.map((message) => (
-            <ChatBubble key={message.id} message={message} onUseFollowUp={handleUseFollowUp} />
+            <ChatBubble
+              key={message.id}
+              message={message}
+              onUseFollowUp={handleUseFollowUp}
+              isSending={isSending}
+            />
           ))}
           <div ref={messagesEndRef} />
         </div>
