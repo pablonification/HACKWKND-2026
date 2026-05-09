@@ -1,6 +1,7 @@
 import type { Database } from '../types/database';
 import { deriveProfileProgress } from '../utils/profileProgress';
 import { updateAuthProfile } from './auth';
+import { DEFAULT_LEARNING_LANGUAGE, resolveLearningLanguage } from './learningLanguages';
 import { supabase } from './supabase';
 
 type ProfileRow = Database['public']['Tables']['profiles']['Row'];
@@ -17,7 +18,7 @@ const MAX_AVATAR_BYTES = 5 * 1024 * 1024;
 const ALLOWED_AVATAR_MIME_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp']);
 
 const PROFILE_SELECT =
-  'id,email,full_name,role,avatar_url,bio,village,age,specialty,app_language,indigenous_language,push_notifications_enabled' as const;
+  'id,email,full_name,role,avatar_url,bio,village,age,specialty,app_language,indigenous_language,onboarding_completed,onboarding_completed_at,onboarding_responses,push_notifications_enabled' as const;
 
 const toCount = (count: number | null): number => count ?? 0;
 
@@ -102,6 +103,9 @@ export type ProfileDashboard = {
     specialty: string | null;
     appLanguage: string;
     indigenousLanguage: string;
+    onboardingCompleted: boolean;
+    onboardingCompletedAt: string | null;
+    onboardingResponses: unknown | null;
     pushNotificationsEnabled: boolean;
   };
   level: {
@@ -116,6 +120,57 @@ export type ProfileDashboard = {
     followingCount: number;
   };
 };
+
+export type OnboardingStatus = {
+  completed: boolean;
+  role: ProfileRole;
+};
+
+export type OnboardingResponses = {
+  purpose: string[];
+  cultureConnection: string[];
+  familiarity: string | null;
+  country: string | null;
+  languageCommunity: string | null;
+};
+
+const buildProfileDashboardProfile = (
+  profile: Pick<
+    ProfileRow,
+    | 'id'
+    | 'email'
+    | 'full_name'
+    | 'role'
+    | 'avatar_url'
+    | 'bio'
+    | 'village'
+    | 'age'
+    | 'specialty'
+    | 'app_language'
+    | 'indigenous_language'
+    | 'onboarding_completed'
+    | 'onboarding_completed_at'
+    | 'onboarding_responses'
+    | 'push_notifications_enabled'
+  >,
+  role: ProfileRole,
+): ProfileDashboard['profile'] => ({
+  id: profile.id,
+  fullName: profile.full_name ?? 'Taleka User',
+  email: profile.email ?? '',
+  role,
+  avatarUrl: profile.avatar_url,
+  bio: profile.bio,
+  village: profile.village,
+  age: profile.age,
+  specialty: profile.specialty,
+  appLanguage: profile.app_language,
+  indigenousLanguage: resolveLearningLanguage(profile.indigenous_language),
+  onboardingCompleted: profile.onboarding_completed,
+  onboardingCompletedAt: profile.onboarding_completed_at,
+  onboardingResponses: profile.onboarding_responses,
+  pushNotificationsEnabled: profile.push_notifications_enabled,
+});
 
 export const fetchProfileDashboard = async ({
   userId,
@@ -184,20 +239,7 @@ export const fetchProfileDashboard = async ({
       followerCount: 0,
     });
     return {
-      profile: {
-        id: newProfile.id,
-        fullName: newProfile.full_name ?? 'Taleka User',
-        email: newProfile.email ?? '',
-        role: newRole,
-        avatarUrl: newProfile.avatar_url,
-        bio: newProfile.bio,
-        village: newProfile.village,
-        age: newProfile.age,
-        specialty: newProfile.specialty,
-        appLanguage: newProfile.app_language,
-        indigenousLanguage: newProfile.indigenous_language,
-        pushNotificationsEnabled: newProfile.push_notifications_enabled,
-      },
+      profile: buildProfileDashboardProfile(newProfile, newRole),
       level: {
         label: newProgress.label,
         progressPercent: newProgress.percentToNextLevel,
@@ -269,20 +311,7 @@ export const fetchProfileDashboard = async ({
   });
 
   return {
-    profile: {
-      id: profile.id,
-      fullName: profile.full_name ?? 'Taleka User',
-      email: profile.email ?? '',
-      role,
-      avatarUrl: profile.avatar_url,
-      bio: profile.bio,
-      village: profile.village,
-      age: profile.age,
-      specialty: profile.specialty,
-      appLanguage: profile.app_language,
-      indigenousLanguage: profile.indigenous_language,
-      pushNotificationsEnabled: profile.push_notifications_enabled,
-    },
+    profile: buildProfileDashboardProfile(profile, role),
     level: {
       label: level.label,
       progressPercent: level.percentToNextLevel,
@@ -295,6 +324,61 @@ export const fetchProfileDashboard = async ({
       followingCount,
     },
   };
+};
+
+export const fetchOnboardingStatus = async ({
+  userId,
+  fallbackRole,
+}: {
+  userId: string;
+  fallbackRole?: ProfileRole;
+}): Promise<OnboardingStatus> => {
+  const { data: profile, error } = await supabase
+    .from('profiles')
+    .select('id,role,onboarding_completed')
+    .eq('id', userId)
+    .maybeSingle();
+
+  if (error) {
+    throw error;
+  }
+
+  if (!profile) {
+    const dashboard = await fetchProfileDashboard({ userId, fallbackRole });
+    return {
+      completed: dashboard.profile.onboardingCompleted,
+      role: dashboard.profile.role,
+    };
+  }
+
+  return {
+    completed: profile.onboarding_completed,
+    role: resolveRole(profile.role, fallbackRole),
+  };
+};
+
+export const completeProfileOnboarding = async ({
+  userId,
+  responses,
+}: {
+  userId: string;
+  responses: OnboardingResponses;
+}): Promise<void> => {
+  const language = resolveLearningLanguage(
+    responses.languageCommunity ?? DEFAULT_LEARNING_LANGUAGE,
+  );
+  const payload: ProfileUpdate = {
+    onboarding_completed: true,
+    onboarding_completed_at: new Date().toISOString(),
+    onboarding_responses: responses,
+    indigenous_language: language,
+  };
+
+  const { error } = await supabase.from('profiles').update(payload).eq('id', userId);
+
+  if (error) {
+    throw error;
+  }
 };
 
 export const updateProfileDetails = async ({

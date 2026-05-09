@@ -15,6 +15,7 @@ import {
   findExactGlossaryTranslation,
   findExactSentenceExampleTranslation,
   findAllGlossaryTranslations,
+  findFirstGlossaryTranslation,
   hasGlossaryEntry,
   SEMAI_GLOSSARY,
   SEMAI_SENTENCE_EXAMPLES,
@@ -31,7 +32,17 @@ import { inferScenarioTopic } from '../_shared/coachTopic.ts';
 type TranslationLanguage = 'semai' | 'ms' | 'en';
 type SessionPhase = 'idle' | 'onboarding' | 'learning_active';
 type LearningTrack = 'vocabulary_first' | 'daily_conversation' | 'pronunciation';
-type ClientAction = 'start_session' | 'continue_session' | 'end_session' | 'translate_inline';
+type ClientAction =
+  | 'start_session'
+  | 'continue_session'
+  | 'end_session'
+  | 'translate_inline'
+  | 'start_easy'
+  | 'practice_greetings'
+  | 'make_plan'
+  | 'slow_down'
+  | 'explain_first'
+  | 'try_again';
 
 type CoachTurn = {
   role?: unknown;
@@ -54,16 +65,26 @@ type CoachRequest = {
   track?: LearningTrack;
 };
 
-type GeminiUsage = {
+type CoachLlmProvider = 'claude-agent' | 'openrouter' | 'chatgpt-proxy' | 'openai' | 'gemini';
+
+type CoachLlmUsage = {
   promptTokenCount?: number;
   candidatesTokenCount?: number;
   totalTokenCount?: number;
+  input_tokens?: number;
+  output_tokens?: number;
+  total_tokens?: number;
+  prompt_tokens?: number;
+  completion_tokens?: number;
 };
 
-type GeminiResult = {
+type CoachLlmResult = {
   text: string;
-  usage?: GeminiUsage;
+  usage?: CoachLlmUsage;
   latencyMs: number;
+  provider: string;
+  model: string;
+  attemptedProviders: string[];
 };
 
 type GroundedTranslationResult = {
@@ -101,6 +122,10 @@ type RuntimeState = {
   cpuGuardTriggered: boolean;
 };
 
+type AuthenticatedCoachUser = {
+  id: string;
+};
+
 type CoachPayload = {
   mode: string;
   response_mode: string;
@@ -133,6 +158,40 @@ type OrchestrationResult = {
   model: string;
 };
 
+type VerifiedContext = {
+  kind: 'word' | 'sentence';
+  semai: string;
+  translation: string;
+  source: 'glossary' | 'sentence_memory';
+};
+
+const sanitizeCoachOutputText = (value: string | null): string | null =>
+  value === null ? null : value.replace(/[—–]/g, ',');
+
+const sanitizeCoachPayloadOutput = (payload: CoachPayload): CoachPayload => ({
+  ...payload,
+  main_reply: sanitizeCoachOutputText(payload.main_reply) ?? '',
+  translation: sanitizeCoachOutputText(payload.translation),
+  coach_note: sanitizeCoachOutputText(payload.coach_note),
+  follow_up_prompt: sanitizeCoachOutputText(payload.follow_up_prompt),
+  follow_up_translation: sanitizeCoachOutputText(payload.follow_up_translation),
+  pronunciation_tip: sanitizeCoachOutputText(payload.pronunciation_tip),
+  related_example: sanitizeCoachOutputText(payload.related_example),
+  warning: sanitizeCoachOutputText(payload.warning ?? null) ?? undefined,
+});
+
+type FollowUpContext =
+  | 'onboarding'
+  | 'verified_vocab'
+  | 'verified_sentence'
+  | 'translation'
+  | 'recovery'
+  | 'scope_guard'
+  | 'end_session'
+  | 'direct_help'
+  | 'grounding_unavailable'
+  | 'safe_practice';
+
 type LlmIntentPayload = {
   mode: 'learning' | 'direct_help' | 'clarification';
   turn_type?:
@@ -150,17 +209,99 @@ type LlmIntentPayload = {
   reason?: string;
 };
 
+const normalizeCoachProvider = (value: string): CoachLlmProvider | null => {
+  const normalized = value.trim().toLowerCase();
+  if (normalized === 'claude-agent' || normalized === 'claude' || normalized === 'claude-sdk') {
+    return 'claude-agent';
+  }
+  if (normalized === 'openrouter' || normalized === 'open-router') {
+    return 'openrouter';
+  }
+  if (normalized === 'chatgpt-proxy' || normalized === 'chatgpt' || normalized === 'codex') {
+    return 'chatgpt-proxy';
+  }
+  if (normalized === 'openai' || normalized === 'openai-api') {
+    return 'openai';
+  }
+  if (normalized === 'gemini' || normalized === 'google' || normalized === 'google-ai-studio') {
+    return 'gemini';
+  }
+  return null;
+};
+
+const parseCoachProviderOrder = (value?: string): CoachLlmProvider[] => {
+  const providers = (value ?? 'claude-agent,gemini')
+    .split(',')
+    .map(normalizeCoachProvider)
+    .filter((provider): provider is CoachLlmProvider => Boolean(provider));
+  return providers.length > 0 ? Array.from(new Set(providers)) : ['claude-agent', 'gemini'];
+};
+
+const isClientAction = (value: unknown): value is ClientAction =>
+  value === 'start_session' ||
+  value === 'continue_session' ||
+  value === 'end_session' ||
+  value === 'translate_inline' ||
+  value === 'start_easy' ||
+  value === 'practice_greetings' ||
+  value === 'make_plan' ||
+  value === 'slow_down' ||
+  value === 'explain_first' ||
+  value === 'try_again';
+
+const OPENAI_COMPAT_API_KEY =
+  Deno.env.get('AI_COACH_OPENROUTER_API_KEY') ??
+  Deno.env.get('OPENROUTER_API_KEY') ??
+  Deno.env.get('AI_COACH_OPENAI_API_KEY') ??
+  Deno.env.get('OPENAI_API_KEY') ??
+  '';
+const OPENAI_COMPAT_MODEL =
+  Deno.env.get('AI_COACH_OPENROUTER_MODEL') ??
+  Deno.env.get('OPENROUTER_MODEL') ??
+  Deno.env.get('AI_COACH_OPENAI_MODEL') ??
+  Deno.env.get('OPENAI_MODEL') ??
+  'openai/gpt-5.5';
+const OPENAI_COMPAT_BASE_URL = (
+  Deno.env.get('AI_COACH_OPENROUTER_BASE_URL') ??
+  Deno.env.get('OPENROUTER_BASE_URL') ??
+  Deno.env.get('AI_COACH_OPENAI_BASE_URL') ??
+  Deno.env.get('OPENAI_BASE_URL') ??
+  'https://openrouter.ai/api/v1'
+).replace(/\/$/, '');
+const OPENROUTER_SITE_URL =
+  Deno.env.get('AI_COACH_OPENROUTER_SITE_URL') ?? 'https://taleka.tstradio.wtf';
+const OPENROUTER_APP_NAME = Deno.env.get('AI_COACH_OPENROUTER_APP_NAME') ?? 'Taleka AI Coach';
+const CLAUDE_AGENT_API_KEY =
+  Deno.env.get('AI_COACH_CLAUDE_AGENT_API_KEY') ??
+  Deno.env.get('CLAUDE_AGENT_GATEWAY_API_KEY') ??
+  '';
+const CLAUDE_AGENT_MODEL =
+  Deno.env.get('AI_COACH_CLAUDE_AGENT_MODEL') ?? Deno.env.get('CLAUDE_AGENT_MODEL') ?? 'sonnet';
+const CLAUDE_AGENT_BASE_URL = (
+  Deno.env.get('AI_COACH_CLAUDE_AGENT_BASE_URL') ??
+  Deno.env.get('CLAUDE_AGENT_GATEWAY_BASE_URL') ??
+  ''
+).replace(/\/$/, '');
 const GEMINI_API_KEY =
   Deno.env.get('GOOGLE_AI_STUDIO_API_KEY') ?? Deno.env.get('GEMINI_API_KEY') ?? '';
 const GEMINI_MODEL = Deno.env.get('AI_COACH_GEMINI_MODEL') ?? 'gemini-3.1-flash-lite-preview';
 const GEMINI_BASE_URL =
   Deno.env.get('GOOGLE_AI_STUDIO_BASE_URL') ?? 'https://generativelanguage.googleapis.com/v1beta';
+const COACH_PROVIDER_ORDER = parseCoachProviderOrder(Deno.env.get('AI_COACH_PROVIDER_ORDER'));
 const SUPABASE_ANON_KEY =
   Deno.env.get('SUPABASE_ANON_KEY') ??
   Deno.env.get('SUPABASE_PUBLIC_ANON_KEY') ??
   Deno.env.get('ANON_KEY') ??
   '';
 const PROVIDER_TIMEOUT_MS = Number.parseInt(Deno.env.get('AI_COACH_TIMEOUT_MS') ?? '12000', 10);
+const PROVIDER_RETRY_COUNT = Math.max(
+  0,
+  Number.parseInt(Deno.env.get('AI_COACH_PROVIDER_RETRY_COUNT') ?? '1', 10),
+);
+const PROVIDER_RETRY_DELAY_MS = Math.max(
+  0,
+  Number.parseInt(Deno.env.get('AI_COACH_PROVIDER_RETRY_DELAY_MS') ?? '900', 10),
+);
 const AI_TRANSLATE_TIMEOUT_MS = Number.parseInt(
   Deno.env.get('AI_COACH_TRANSLATE_TIMEOUT_MS') ?? '12000',
   10,
@@ -187,16 +328,22 @@ const PEDAGOGY_CONTEXT_TURNS = Number.parseInt(
   Deno.env.get('AI_COACH_PEDAGOGY_CONTEXT_TURNS') ?? '2',
   10,
 );
-const GEMINI_DIRECT_MAX_OUTPUT_TOKENS = Number.parseInt(
-  Deno.env.get('AI_COACH_GEMINI_DIRECT_MAX_TOKENS') ?? '220',
+const COACH_DIRECT_MAX_OUTPUT_TOKENS = Number.parseInt(
+  Deno.env.get('AI_COACH_DIRECT_MAX_OUTPUT_TOKENS') ??
+    Deno.env.get('AI_COACH_GEMINI_DIRECT_MAX_TOKENS') ??
+    '220',
   10,
 );
-const GEMINI_PEDAGOGY_MAX_OUTPUT_TOKENS = Number.parseInt(
-  Deno.env.get('AI_COACH_GEMINI_PEDAGOGY_MAX_TOKENS') ?? '150',
+const COACH_PEDAGOGY_MAX_OUTPUT_TOKENS = Number.parseInt(
+  Deno.env.get('AI_COACH_PEDAGOGY_MAX_OUTPUT_TOKENS') ??
+    Deno.env.get('AI_COACH_GEMINI_PEDAGOGY_MAX_TOKENS') ??
+    '150',
   10,
 );
-const GEMINI_INTENT_MAX_OUTPUT_TOKENS = Number.parseInt(
-  Deno.env.get('AI_COACH_GEMINI_INTENT_MAX_TOKENS') ?? '96',
+const COACH_INTENT_MAX_OUTPUT_TOKENS = Number.parseInt(
+  Deno.env.get('AI_COACH_INTENT_MAX_OUTPUT_TOKENS') ??
+    Deno.env.get('AI_COACH_GEMINI_INTENT_MAX_TOKENS') ??
+    '96',
   10,
 );
 
@@ -214,6 +361,22 @@ const LEARNING_START_CONFIRM_PATTERNS = [
 const LEARNING_GOAL_PATTERNS = [
   /\b(i want to learn|learn semai|help me learn|teach me semai)\b/i,
   /\b(saya mahu belajar|belajar semai|ajar saya)\b/i,
+];
+
+const SPECIFIC_PRACTICE_PATTERNS = [
+  /\b(greeting|greetings|hello|daily conversation|conversation|sentence|phrase|pronunciation|vocabulary|word)\b/i,
+  /\b(sapaan|ayat|frasa|sebutan|kosa kata|perkataan|perbualan)\b/i,
+];
+
+const FRUSTRATION_PATTERNS = [
+  /\b(bruh|huh|confus(?:ed|ing)|don'?t understand|i do not understand)\b/i,
+  /\b(don'?t start|do not start|too fast|slow down|explain first|not immediately)\b/i,
+  /\b(tak faham|keliru|jangan mula|perlahan|terangkan dulu)\b/i,
+];
+
+const LEARNING_ADVICE_PATTERNS = [
+  /\b(advice|tips?|plan|roadmap|how to get better|how can i improve|where should i start)\b/i,
+  /\b(nasihat|petua|rancangan|cara.*baik|mula dari mana)\b/i,
 ];
 
 const VERIFIED_SEMAI_PROVIDERS = new Set([
@@ -347,6 +510,51 @@ const fetchWithTimeout = async (
   }
 };
 
+const sleep = (ms: number): Promise<void> =>
+  new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+
+const extractBearerToken = (authorization?: string): string | null => {
+  const match = authorization?.trim().match(/^Bearer\s+(.+)$/i);
+  return match?.[1]?.trim() || null;
+};
+
+const authenticateCoachRequest = async ({
+  baseUrl,
+  authorization,
+  apiKey,
+}: {
+  baseUrl: string;
+  authorization?: string;
+  apiKey?: string;
+}): Promise<AuthenticatedCoachUser | null> => {
+  const bearerToken = extractBearerToken(authorization);
+  if (!bearerToken || !apiKey) {
+    return null;
+  }
+
+  const response = await fetchWithTimeout(
+    `${baseUrl}/auth/v1/user`,
+    {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${bearerToken}`,
+        apikey: apiKey,
+      },
+    },
+    5000,
+    'Supabase auth validation',
+  );
+
+  if (!response.ok) {
+    return null;
+  }
+
+  const user = (await response.json()) as { id?: unknown };
+  return typeof user.id === 'string' && user.id.trim() ? { id: user.id } : null;
+};
+
 const parseRequest = async (request: Request): Promise<CoachRequest> => {
   const body = (await request.json()) as {
     message?: unknown;
@@ -394,13 +602,7 @@ const parseRequest = async (request: Request): Promise<CoachRequest> => {
   return {
     message,
     turns: parsedTurns.slice(-MAX_TURNS),
-    clientAction:
-      body.client_action === 'start_session' ||
-      body.client_action === 'continue_session' ||
-      body.client_action === 'end_session' ||
-      body.client_action === 'translate_inline'
-        ? body.client_action
-        : undefined,
+    clientAction: isClientAction(body.client_action) ? body.client_action : undefined,
     track:
       body.track === 'vocabulary_first' ||
       body.track === 'daily_conversation' ||
@@ -461,8 +663,192 @@ const buildConversationContext = (
     )
     .join('\n');
 
+const findLatestVerifiedContext = (
+  turns: CoachRequest['turns'],
+  answerLanguage: 'en' | 'ms',
+): VerifiedContext | null => {
+  for (let index = turns.length - 1; index >= 0; index -= 1) {
+    const turn = turns[index];
+    if (turn.role !== 'assistant') {
+      continue;
+    }
+
+    const text = normalizeTranslationText(turn.text);
+    if (!text) {
+      continue;
+    }
+
+    const glossaryTranslation =
+      findExactGlossaryTranslation(text, 'semai', answerLanguage) ??
+      findFirstGlossaryTranslation(text, 'semai', answerLanguage);
+    if (glossaryTranslation) {
+      return {
+        kind: 'word',
+        semai: text,
+        translation: glossaryTranslation,
+        source: 'glossary',
+      };
+    }
+
+    const sentenceTranslation = findExactSentenceExampleTranslation(text, 'semai', answerLanguage);
+    if (sentenceTranslation) {
+      return {
+        kind: 'sentence',
+        semai: text,
+        translation: sentenceTranslation,
+        source: 'sentence_memory',
+      };
+    }
+  }
+
+  return null;
+};
+
+const pickPrompt = (prompts: string[], request: CoachRequest): string => {
+  const seed = request.turns.reduce((total, turn, index) => {
+    const text = normalizeTranslationText(turn.text);
+    return total + text.length + index * 11;
+  }, normalizeTranslationText(request.message).length);
+  const selected = prompts[Math.abs(seed) % prompts.length] ?? prompts[0] ?? '';
+
+  if (
+    prompts.length > 1 &&
+    normalizeTranslationText(selected).toLowerCase() ===
+      normalizeTranslationText(request.message).toLowerCase()
+  ) {
+    return prompts[(Math.abs(seed) + 1) % prompts.length] ?? selected;
+  }
+
+  return selected;
+};
+
+const buildContextualFollowUpPrompt = (
+  context: FollowUpContext,
+  answerLanguage: 'en' | 'ms',
+  request: CoachRequest,
+  verifiedContext?: VerifiedContext | null,
+): string | null => {
+  const en: Record<FollowUpContext, string[]> = {
+    onboarding: [
+      'Make me a simple learning plan.',
+      'Start with greetings.',
+      'Teach me one easy word.',
+    ],
+    verified_vocab: [
+      'Explain this word more simply.',
+      'Give me a memory tip.',
+      'Give me a safe practice task.',
+      'Show me another easy word.',
+    ],
+    verified_sentence: [
+      'Break this down simply.',
+      'Help me understand the meaning.',
+      'Show me another verified item.',
+    ],
+    translation: [
+      'Break this down simply.',
+      'Help me understand the meaning.',
+      'Show me another verified item.',
+    ],
+    recovery: ['Explain it slower.', 'Start over with one word.', 'Just give me the basics.'],
+    scope_guard: [
+      'Show me something verified instead.',
+      'Try a shorter phrase.',
+      'Help me choose a safe practice.',
+    ],
+    end_session: ['Continue learning later.'],
+    direct_help: [
+      'Start with one easy word.',
+      'Make me a simple learning plan.',
+      'Help me choose what to learn next.',
+    ],
+    grounding_unavailable: [
+      'Show me something verified instead.',
+      'Try a shorter phrase.',
+      'Help me choose a safe practice.',
+    ],
+    safe_practice: [
+      'Show me another easy word.',
+      'Explain this word more simply.',
+      'Help me choose what to learn next.',
+    ],
+  };
+  const ms: Record<FollowUpContext, string[]> = {
+    onboarding: [
+      'Buatkan saya pelan belajar yang ringkas.',
+      'Mula dengan sapaan.',
+      'Ajar saya satu perkataan mudah.',
+    ],
+    verified_vocab: [
+      'Terangkan perkataan ini dengan lebih mudah.',
+      'Beri saya tip ingatan.',
+      'Beri saya latihan yang selamat.',
+      'Tunjukkan satu lagi perkataan mudah.',
+    ],
+    verified_sentence: [
+      'Terangkan ini dengan ringkas.',
+      'Bantu saya faham maksudnya.',
+      'Tunjukkan satu lagi item yang disahkan.',
+    ],
+    translation: [
+      'Terangkan ini dengan ringkas.',
+      'Bantu saya faham maksudnya.',
+      'Tunjukkan satu lagi item yang disahkan.',
+    ],
+    recovery: [
+      'Terangkan dengan lebih perlahan.',
+      'Mula semula dengan satu perkataan.',
+      'Beri saya asas sahaja.',
+    ],
+    scope_guard: [
+      'Tunjukkan sesuatu yang disahkan.',
+      'Cuba frasa yang lebih ringkas.',
+      'Bantu saya pilih latihan selamat.',
+    ],
+    end_session: ['Sambung belajar nanti.'],
+    direct_help: [
+      'Mula dengan satu perkataan mudah.',
+      'Buatkan saya pelan belajar yang ringkas.',
+      'Bantu saya pilih topik seterusnya.',
+    ],
+    grounding_unavailable: [
+      'Tunjukkan sesuatu yang disahkan.',
+      'Cuba frasa yang lebih ringkas.',
+      'Bantu saya pilih latihan selamat.',
+    ],
+    safe_practice: [
+      'Tunjukkan satu lagi perkataan mudah.',
+      'Terangkan perkataan ini dengan lebih mudah.',
+      'Bantu saya pilih topik seterusnya.',
+    ],
+  };
+
+  const promptSet = answerLanguage === 'ms' ? ms : en;
+  void verifiedContext;
+  return pickPrompt([...promptSet[context]], request);
+};
+
 const isGreetingOnlyPrompt = (message: string): boolean =>
   /^(hi+|hello+|hey+|hai+|helo+|hye|yo+|salam|assalamualaikum)[\s!,.?]*$/i.test(message.trim());
+
+const isOutOfScopeNonLanguageRequest = (message: string): boolean => {
+  const normalized = normalizeComparable(message);
+  const asksForExternalTask =
+    /\b(help|make|build|create|write|code|implement|generate|solve|calculate|debug|fix|design|explain|tutorial)\b/.test(
+      normalized,
+    );
+  const externalDomain =
+    /\b(python|javascript|typescript|java|html|css|react|calculator|app|website|api|server|database|sql|math|homework|essay|email|resume|business|marketing)\b/.test(
+      normalized,
+    );
+  const promptInjection =
+    /\b(ignore|forget|override|bypass|disregard|reveal|show|print|dump|leak)\b/.test(normalized) &&
+    /\b(instruction|instructions|prompt|system|developer|policy|rules|secret|secrets|hidden|previous)\b/.test(
+      normalized,
+    );
+
+  return promptInjection || (asksForExternalTask && externalDomain);
+};
 
 const isLearningExitIntent = (message: string): boolean =>
   LEARNING_END_PATTERNS.some((pattern) => pattern.test(message));
@@ -473,9 +859,66 @@ const isLearningStartConfirmation = (message: string): boolean =>
 const isLearningGoalIntent = (message: string): boolean =>
   LEARNING_GOAL_PATTERNS.some((pattern) => pattern.test(message));
 
+const isSpecificPracticeIntent = (message: string): boolean =>
+  SPECIFIC_PRACTICE_PATTERNS.some((pattern) => pattern.test(message));
+
+const isInterestingWordPracticeIntent = (message: string): boolean =>
+  /\b(interesting|random|simple|easy|new|some|another|verified)\b/i.test(message) &&
+  /\b(semai\s+)?(word|vocabulary|vocab|perkataan|kosa kata)\b/i.test(message);
+
+const isVocabularyPracticeIntent = (message: string): boolean =>
+  /\b(semai\s+)?(word|words|vocabulary|vocab|perkataan|kosa kata)\b/i.test(message) &&
+  /\b(give|start|practice|drill|today|daily|basic|basics|focus|throw|ajar|latih|mula|hari ini)\b/i.test(
+    message,
+  );
+
+const isSpecificPracticeStartIntent = (message: string): boolean =>
+  isSpecificPracticeIntent(message) &&
+  /\b(teach|practice|start|learn|try|ajar|latih|mula|belajar)\b/i.test(message);
+
+const isLearningAdviceIntent = (message: string): boolean =>
+  LEARNING_ADVICE_PATTERNS.some((pattern) => pattern.test(message));
+
+const isFrustrationIntent = (message: string): boolean =>
+  FRUSTRATION_PATTERNS.some((pattern) => pattern.test(message));
+
 const isLearningNextStepIntent = (message: string): boolean =>
   /\b(next|another|more|new)\b/i.test(message) &&
   /\b(sentence|sentences|example|examples|phrase|phrases|practice)\b/i.test(message);
+
+const isUnsafeSentenceGenerationRequest = (message: string): boolean => {
+  const normalized = normalizeComparable(message);
+  return (
+    /\b(use|using|make|create|write|give|show)\b/.test(normalized) &&
+    /\b(word|this word|it|[a-z]+)\b/.test(normalized) &&
+    /\b(sentence|sentences|ayat)\b/.test(normalized)
+  );
+};
+
+const isUnsupportedExampleRequest = (message: string): boolean =>
+  /\b(more|another|many|list|examples?)\b/i.test(message) &&
+  /\b(greeting|greetings|hello|sapaan)\b/i.test(message);
+
+const isExplainCurrentFollowUpIntent = (message: string): boolean =>
+  /\b(explain|break\s+down|understand|meaning|simple|simply|jelaskan|terangkan|maksud)\b/i.test(
+    message,
+  ) && /\b(this|current|that|word|phrase|item|ini|itu|perkataan|frasa)\b/i.test(message);
+
+const isMemoryTipFollowUpIntent = (message: string): boolean =>
+  /\b(memory\s+tip|remember|memor(?:y|ize)|hafal|ingat)\b/i.test(message);
+
+const isSafePracticeFollowUpIntent = (message: string): boolean =>
+  /\b(safe\s+practice|practice\s+task|practice\s+safely|latihan\s+selamat|latihan\s+mudah)\b/i.test(
+    message,
+  );
+
+const isSafeAlternativeFollowUpIntent = (message: string): boolean =>
+  /\b(something\s+verified|verified\s+instead|choose\s+a\s+safe\s+practice|shorter\s+phrase|lebih\s+ringkas|disahkan)\b/i.test(
+    message,
+  );
+
+const isContinueLaterFollowUpIntent = (message: string): boolean =>
+  /\b(continue\s+learning\s+later|sambung\s+belajar)\b/i.test(message);
 
 // Deterministic check for generic sentence/example requests like "sentence please",
 // "give me a sentence in semai", "ayat contoh". Avoids relying on LLM classification.
@@ -516,12 +959,157 @@ const parseGeminiText = (payload: unknown): string => {
   return cleanModelOutput(text);
 };
 
-const parseGeminiUsage = (payload: unknown): GeminiUsage | undefined => {
+const parseGeminiUsage = (payload: unknown): CoachLlmUsage | undefined => {
   if (typeof payload !== 'object' || payload === null || !('usageMetadata' in payload)) {
     return undefined;
   }
-  const usage = (payload as { usageMetadata?: GeminiUsage }).usageMetadata;
+  const usage = (payload as { usageMetadata?: CoachLlmUsage }).usageMetadata;
   return usage && typeof usage === 'object' ? usage : undefined;
+};
+
+const parseOpenAICompatibleText = (payload: unknown): string => {
+  if (typeof payload !== 'object' || payload === null) {
+    return '';
+  }
+
+  if ('output_text' in payload && typeof payload.output_text === 'string') {
+    return cleanModelOutput(payload.output_text);
+  }
+
+  const responsesOutput = (
+    payload as {
+      output?: Array<{
+        content?: Array<{
+          text?: unknown;
+          type?: unknown;
+        }>;
+      }>;
+    }
+  ).output;
+  const responseText =
+    responsesOutput
+      ?.flatMap((item) => item.content ?? [])
+      .map((content) => (typeof content.text === 'string' ? content.text : ''))
+      .filter(Boolean)
+      .join('\n') ?? '';
+  if (responseText) {
+    return cleanModelOutput(responseText);
+  }
+
+  const chatChoices = (
+    payload as {
+      choices?: Array<{
+        message?: {
+          content?: unknown;
+        };
+      }>;
+    }
+  ).choices;
+  const chatText =
+    chatChoices
+      ?.map((choice) => (typeof choice.message?.content === 'string' ? choice.message.content : ''))
+      .filter(Boolean)
+      .join('\n') ?? '';
+  return cleanModelOutput(chatText);
+};
+
+const parseOpenAICompatibleUsage = (payload: unknown): CoachLlmUsage | undefined => {
+  if (typeof payload !== 'object' || payload === null || !('usage' in payload)) {
+    return undefined;
+  }
+  const usage = (payload as { usage?: CoachLlmUsage }).usage;
+  return usage && typeof usage === 'object' ? usage : undefined;
+};
+
+const getCoachLlmDefaultMaxOutputTokens = (responseMimeType?: 'application/json'): number =>
+  responseMimeType ? COACH_PEDAGOGY_MAX_OUTPUT_TOKENS : COACH_DIRECT_MAX_OUTPUT_TOKENS;
+
+const callOpenAICompatibleProvider = async (
+  provider: 'claude-agent' | 'openrouter' | 'chatgpt-proxy' | 'openai',
+  prompt: string,
+  systemInstruction: string,
+  responseMimeType?: 'application/json',
+  maxOutputTokens?: number,
+): Promise<CoachLlmResult | null> => {
+  const apiKey = provider === 'claude-agent' ? CLAUDE_AGENT_API_KEY : OPENAI_COMPAT_API_KEY;
+  const model = provider === 'claude-agent' ? CLAUDE_AGENT_MODEL : OPENAI_COMPAT_MODEL;
+  const baseUrl = provider === 'claude-agent' ? CLAUDE_AGENT_BASE_URL : OPENAI_COMPAT_BASE_URL;
+  if (!apiKey || !baseUrl) {
+    return null;
+  }
+
+  const promptText = responseMimeType
+    ? `${prompt}\n\nReturn only valid compact JSON. Do not wrap it in Markdown.`
+    : prompt;
+  const tokenBudget = maxOutputTokens ?? getCoachLlmDefaultMaxOutputTokens(responseMimeType);
+  const usesChatCompletions =
+    provider === 'claude-agent' || provider === 'openrouter' || provider === 'chatgpt-proxy';
+  const endpoint = usesChatCompletions ? 'chat/completions' : 'responses';
+  const requestBody = usesChatCompletions
+    ? {
+        model,
+        messages: [
+          { role: 'system', content: systemInstruction },
+          { role: 'user', content: promptText },
+        ],
+        max_tokens: tokenBudget,
+      }
+    : {
+        model,
+        instructions: systemInstruction,
+        input: [
+          {
+            role: 'user',
+            content: [{ type: 'input_text', text: promptText }],
+          },
+        ],
+        max_output_tokens: tokenBudget,
+      };
+
+  const startedAt = Date.now();
+  const response = await fetchWithTimeout(
+    `${baseUrl}/${endpoint}`,
+    {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+        ...(provider === 'openrouter'
+          ? {
+              'HTTP-Referer': OPENROUTER_SITE_URL,
+              'X-Title': OPENROUTER_APP_NAME,
+            }
+          : {}),
+      },
+      body: JSON.stringify(requestBody),
+    },
+    PROVIDER_TIMEOUT_MS,
+    provider === 'claude-agent'
+      ? 'Claude Agent SDK gateway request'
+      : provider === 'openrouter'
+        ? 'OpenRouter request'
+        : provider === 'chatgpt-proxy'
+          ? 'ChatGPT proxy request'
+          : 'OpenAI request',
+  );
+
+  const payload = (await response.json().catch(() => null)) as unknown;
+  if (!response.ok) {
+    const message =
+      typeof payload === 'object' && payload !== null && 'error' in payload
+        ? JSON.stringify((payload as { error?: unknown }).error)
+        : `${provider === 'claude-agent' ? 'Claude Agent SDK gateway' : provider === 'openrouter' ? 'OpenRouter' : provider === 'chatgpt-proxy' ? 'ChatGPT proxy' : 'OpenAI'} request failed (${response.status})`;
+    throw new Error(message);
+  }
+
+  return {
+    text: parseOpenAICompatibleText(payload),
+    usage: parseOpenAICompatibleUsage(payload),
+    latencyMs: Date.now() - startedAt,
+    provider,
+    model,
+    attemptedProviders: [],
+  };
 };
 
 const callGemini = async (
@@ -529,7 +1117,7 @@ const callGemini = async (
   systemInstruction: string,
   responseMimeType?: 'application/json',
   maxOutputTokens?: number,
-): Promise<GeminiResult | null> => {
+): Promise<CoachLlmResult | null> => {
   if (!GEMINI_API_KEY) {
     return null;
   }
@@ -555,11 +1143,7 @@ const callGemini = async (
         generationConfig: {
           temperature: responseMimeType ? 0.2 : 0.45,
           topP: 0.9,
-          maxOutputTokens:
-            maxOutputTokens ??
-            (responseMimeType
-              ? GEMINI_PEDAGOGY_MAX_OUTPUT_TOKENS
-              : GEMINI_DIRECT_MAX_OUTPUT_TOKENS),
+          maxOutputTokens: maxOutputTokens ?? getCoachLlmDefaultMaxOutputTokens(responseMimeType),
           ...(responseMimeType ? { responseMimeType } : {}),
         },
       }),
@@ -581,7 +1165,83 @@ const callGemini = async (
     text: parseGeminiText(payload),
     usage: parseGeminiUsage(payload),
     latencyMs: Date.now() - startedAt,
+    provider: 'google-ai-studio',
+    model: GEMINI_MODEL,
+    attemptedProviders: [],
   };
+};
+
+const callCoachLlm = async (
+  prompt: string,
+  systemInstruction: string,
+  responseMimeType?: 'application/json',
+  maxOutputTokens?: number,
+  isUsableText?: (text: string) => boolean,
+): Promise<CoachLlmResult | null> => {
+  const attemptedProviders: string[] = [];
+  const errors: string[] = [];
+
+  for (const provider of COACH_PROVIDER_ORDER) {
+    const hasKey =
+      provider === 'gemini'
+        ? Boolean(GEMINI_API_KEY)
+        : provider === 'claude-agent'
+          ? Boolean(CLAUDE_AGENT_API_KEY && CLAUDE_AGENT_BASE_URL)
+          : Boolean(OPENAI_COMPAT_API_KEY);
+    if (!hasKey) {
+      continue;
+    }
+
+    const providerLabel = provider === 'gemini' ? 'google-ai-studio' : provider;
+    const maxAttempts = PROVIDER_RETRY_COUNT + 1;
+
+    for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+      const attemptLabel = attempt === 1 ? providerLabel : `${providerLabel} retry ${attempt - 1}`;
+      attemptedProviders.push(attemptLabel);
+
+      try {
+        const result =
+          provider === 'gemini'
+            ? await callGemini(prompt, systemInstruction, responseMimeType, maxOutputTokens)
+            : await callOpenAICompatibleProvider(
+                provider,
+                prompt,
+                systemInstruction,
+                responseMimeType,
+                maxOutputTokens,
+              );
+        if (!result?.text) {
+          errors.push(`${attemptLabel}: empty response`);
+          if (attempt < maxAttempts && PROVIDER_RETRY_DELAY_MS > 0) {
+            await sleep(PROVIDER_RETRY_DELAY_MS);
+          }
+          continue;
+        }
+        if (isUsableText && !isUsableText(result.text)) {
+          errors.push(`${attemptLabel}: unusable response`);
+          if (attempt < maxAttempts && PROVIDER_RETRY_DELAY_MS > 0) {
+            await sleep(PROVIDER_RETRY_DELAY_MS);
+          }
+          continue;
+        }
+        return {
+          ...result,
+          attemptedProviders,
+        };
+      } catch (error) {
+        errors.push(`${attemptLabel}: ${String(error)}`);
+        if (attempt < maxAttempts && PROVIDER_RETRY_DELAY_MS > 0) {
+          await sleep(PROVIDER_RETRY_DELAY_MS);
+        }
+      }
+    }
+  }
+
+  if (errors.length > 0) {
+    throw new Error(`Coach LLM providers failed: ${errors.join(' | ')}`);
+  }
+
+  return null;
 };
 
 const translateGroundedText = async ({
@@ -767,6 +1427,44 @@ type VerifiedLearningCandidate = {
   score: number;
 };
 
+const BEGINNER_GLOSSARY_PRIORITY: Record<string, number> = {
+  'abat-cloth': 90,
+  'abei-mother': 88,
+  'abek-father': 86,
+  'darat-forest': 82,
+  'jeres-jungle': 80,
+  'abor-expression-for-greetings-meaning-be-well-or-be-safe': 76,
+  'teal-raise-a-hand-as-a-sign-of-greetings-from-afar': 70,
+};
+
+const GREETING_GLOSSARY_PRIORITY: Record<string, number> = {
+  'abor-expression-for-greetings-meaning-be-well-or-be-safe': 95,
+  'teal-raise-a-hand-as-a-sign-of-greetings-from-afar': 86,
+};
+
+const isCleanBeginnerGlossaryText = (entry: {
+  semai: string;
+  translation: string;
+  category?: string;
+}): boolean => {
+  const semai = normalizeComparable(entry.semai);
+  const translation = normalizeComparable(entry.translation);
+
+  if (!semai || !translation) {
+    return false;
+  }
+
+  if (semai.length > 18 || semai.split(/\s+/).length > 2) {
+    return false;
+  }
+
+  if (translation.length > 64 || /[()[\];]/.test(entry.translation)) {
+    return false;
+  }
+
+  return true;
+};
+
 const DEFAULT_TRACK_CATEGORIES: Record<LearningTrack, string[]> = {
   vocabulary_first: ['nature', 'family', 'food', 'phrase'],
   daily_conversation: ['phrase', 'family', 'person'],
@@ -802,7 +1500,9 @@ const inferLearningCategories = (
   if (/\bfood|makan|drink|rice|eat\b/i.test(normalized)) {
     categories.add('food');
   }
-  if (/\bgreet|hello|morning|night|apa khabar|terima kasih\b/i.test(normalized)) {
+  if (
+    /\bgreet|greeting|greetings|hello|morning|night|apa khabar|terima kasih\b/i.test(normalized)
+  ) {
     categories.add('phrase');
   }
   if (/\bpronunciation|sebutan|repeat\b/i.test(normalized)) {
@@ -829,11 +1529,13 @@ const buildGlossaryCandidates = (
 ): VerifiedLearningCandidate[] => {
   const tokens = tokenizeComparable(message);
   const categorySet = new Set(categories.map((value) => value.toLowerCase()));
+  const wantsGreeting = /\b(greet|greeting|greetings|hello|morning|night|thank|sapaan)\b/i.test(
+    message,
+  );
 
   return SEMAI_GLOSSARY.filter((entry) => normalizeComparable(entry.semai).length > 0)
     .map((entry) => {
       let score = 0;
-      const normalizedSource = entry.source.toLowerCase();
       const mappedCategories = mapGrammarToSemanticCategory(entry.category);
       const categoryMatch =
         categorySet.has(entry.category.toLowerCase()) ||
@@ -841,26 +1543,45 @@ const buildGlossaryCandidates = (
       if (categoryMatch) {
         score += 4;
       }
-      if (normalizedSource.includes('translation mvp')) {
-        score += 1;
-      } else if (normalizedSource.includes('webonary')) {
-        score += 2;
-      } else if (normalizedSource.includes('appendix b')) {
-        score -= 1;
-      } else if (normalizedSource.includes('tuyang')) {
-        score += 2;
-      }
-      // Reward genuine Semai vocabulary (words distinct from their Malay equivalent)
+
       const semaiNorm = normalizeComparable(entry.semai);
       const msNorm = normalizeComparable(entry.ms);
+      const meaningNorm = normalizeComparable(`${entry.id} ${entry.en} ${entry.ms}`);
+      if (
+        wantsGreeting &&
+        /\b(greet|greeting|greetings|good morning|good night|thank you|apa khabar|selamat pagi|selamat malam|terima kasih)\b/i.test(
+          meaningNorm,
+        )
+      ) {
+        score += 24;
+      }
       if (semaiNorm.length > 0 && msNorm.length > 0 && semaiNorm !== msNorm) {
         score += 3;
+      }
+
+      const translation = answerLanguage === 'ms' ? entry.ms : entry.en;
+      const cleanBeginnerText = isCleanBeginnerGlossaryText({
+        semai: entry.semai,
+        translation,
+        category: entry.category,
+      });
+      if (cleanBeginnerText) {
+        score += 12;
+      } else {
+        score -= 14;
+      }
+      if (entry.category.toLowerCase() === 'kata nama') {
+        score += 6;
+      }
+      score += BEGINNER_GLOSSARY_PRIORITY[entry.id] ?? 0;
+      if (wantsGreeting) {
+        score += GREETING_GLOSSARY_PRIORITY[entry.id] ?? 0;
       }
       score += countTokenOverlap(`${entry.semai} ${entry.en} ${entry.ms}`, tokens) * 3;
       return {
         id: entry.id,
         semai: entry.semai,
-        translation: answerLanguage === 'ms' ? entry.ms : entry.en,
+        translation,
         source: 'glossary' as const,
         score,
       };
@@ -892,15 +1613,6 @@ const buildSentenceCandidates = (
     .sort((a, b) => b.score - a.score);
 };
 
-const shuffleArray = <T>(array: T[]): T[] => {
-  const result = [...array];
-  for (let i = result.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [result[i], result[j]] = [result[j], result[i]];
-  }
-  return result;
-};
-
 const pickVerifiedLearningCandidate = (
   intent: CoachIntentResult,
   message: string,
@@ -918,12 +1630,12 @@ const pickVerifiedLearningCandidate = (
   });
   const categories = inferLearningCategories(contextMessage, track, topicHint);
   const recentAssistantSemai = collectRecentAssistantSemaiTexts(turns);
-  const glossaryCandidates = shuffleArray(
-    buildGlossaryCandidates(contextMessage, answerLanguage, categories),
+  const glossaryCandidates = buildGlossaryCandidates(
+    contextMessage,
+    answerLanguage,
+    categories,
   ).slice(0, 20);
-  const sentenceCandidates = shuffleArray(
-    buildSentenceCandidates(contextMessage, answerLanguage),
-  ).slice(0, 20);
+  const sentenceCandidates = buildSentenceCandidates(contextMessage, answerLanguage).slice(0, 20);
 
   const normalizedTopicHint = normalizeComparable(topicHint ?? '');
   const topicRequestsConversation = /\bconversation\b/.test(normalizedTopicHint);
@@ -1000,8 +1712,15 @@ const defaultNextActions = (phase: SessionPhase): ClientAction[] => {
   if (phase === 'learning_active') {
     return ['continue_session', 'translate_inline', 'end_session'];
   }
-  return ['start_session', 'translate_inline'];
+  return ['start_easy', 'practice_greetings', 'make_plan', 'translate_inline'];
 };
+
+const recoveryNextActions = (): ClientAction[] => [
+  'slow_down',
+  'explain_first',
+  'try_again',
+  'end_session',
+];
 
 const parseLlmIntentJson = (value: string): LlmIntentPayload | null => {
   if (!value) return null;
@@ -1075,7 +1794,9 @@ const buildPrimaryIntentPrompt = (
     'Policy: learning mode for Semai-learning goals, direct_help for broad help/product questions, clarification only when prompt is too vague.',
     `Hard rule: explicit_translation_intent=${explicitTranslationIntent}. If false, do NOT output turn_type=how_to_say.`,
     request.clientAction ? `Client action: ${request.clientAction}` : '',
-    'If phase=idle and user shows desire to learn, return mode=learning turn_type=scenario_start.',
+    'If phase=idle and user broadly asks to learn Semai, return mode=direct_help turn_type=direct_answer so Tavi can offer options first.',
+    'Use learning scenario_start only when the user asks for a specific practice topic or chose a practice action.',
+    'If the user seems frustrated, confused, or asks to slow down, return mode=direct_help turn_type=direct_answer.',
     'If user asks for a sentence example, return mode=learning turn_type=sentence_help.',
     'If phase=learning_active and user keeps practicing, prefer conversation_continue/sentence_help/word_help.',
     request.turns.length > 0
@@ -1113,6 +1834,26 @@ const resolveIntentWithPlanner = async (
     };
   }
 
+  if (isOutOfScopeNonLanguageRequest(request.message)) {
+    return {
+      intent: {
+        ...baseIntent,
+        mode: 'direct_help',
+        turnType: 'direct_answer',
+        responseMode: 'direct_answer',
+        answerLanguage,
+        needsClarification: false,
+        confidence: 'high',
+        reason: 'scope_guard_out_of_scope: User asked for a non-Semai task or prompt injection.',
+      },
+      sessionPhase: currentPhase === 'idle' ? 'onboarding' : currentPhase,
+      track,
+      nextActions: defaultNextActions(currentPhase === 'idle' ? 'onboarding' : currentPhase),
+      provider,
+      model,
+    };
+  }
+
   if (request.clientAction === 'end_session' || isLearningExitIntent(request.message)) {
     return {
       intent: {
@@ -1123,6 +1864,260 @@ const resolveIntentWithPlanner = async (
       sessionPhase: 'idle',
       track,
       nextActions: defaultNextActions('idle'),
+      provider,
+      model,
+    };
+  }
+
+  const explicitRecoveryRequested =
+    request.clientAction === 'slow_down' ||
+    request.clientAction === 'explain_first' ||
+    request.clientAction === 'try_again' ||
+    isFrustrationIntent(request.message);
+  if (explicitRecoveryRequested && !isVocabularyPracticeIntent(request.message)) {
+    return {
+      intent: {
+        ...baseIntent,
+        mode: 'direct_help',
+        turnType: 'direct_answer',
+        responseMode: 'direct_answer',
+        answerLanguage,
+        needsClarification: false,
+        confidence: 'high',
+        reason: 'recovery: User is confused or wants the coach to slow down.',
+      },
+      sessionPhase: 'onboarding',
+      track,
+      nextActions: recoveryNextActions(),
+      provider,
+      model,
+    };
+  }
+
+  if (isContinueLaterFollowUpIntent(request.message)) {
+    return {
+      intent: {
+        ...baseIntent,
+        mode: 'direct_help',
+        turnType: 'direct_answer',
+        responseMode: 'direct_answer',
+        answerLanguage,
+        needsClarification: false,
+        confidence: 'high',
+        reason: 'onboarding: User wants to continue learning later.',
+      },
+      sessionPhase: 'onboarding',
+      track,
+      nextActions: defaultNextActions('onboarding'),
+      provider,
+      model,
+    };
+  }
+
+  if (isExplainCurrentFollowUpIntent(request.message)) {
+    const verifiedContext = findLatestVerifiedContext(
+      request.turns,
+      answerLanguage === 'ms' ? 'ms' : 'en',
+    );
+    return {
+      intent: {
+        ...baseIntent,
+        mode: 'direct_help',
+        turnType: 'direct_answer',
+        responseMode: 'direct_answer',
+        answerLanguage,
+        needsClarification: false,
+        confidence: 'high',
+        reason:
+          verifiedContext?.kind === 'sentence'
+            ? 'follow_up_translation_help'
+            : 'follow_up_explain_current',
+      },
+      sessionPhase: currentPhase === 'idle' ? 'onboarding' : currentPhase,
+      track,
+      nextActions: defaultNextActions(currentPhase === 'idle' ? 'onboarding' : currentPhase),
+      provider,
+      model,
+    };
+  }
+
+  if (isMemoryTipFollowUpIntent(request.message)) {
+    return {
+      intent: {
+        ...baseIntent,
+        mode: 'direct_help',
+        turnType: 'direct_answer',
+        responseMode: 'direct_answer',
+        answerLanguage,
+        needsClarification: false,
+        confidence: 'high',
+        reason: 'follow_up_memory_tip',
+      },
+      sessionPhase: currentPhase === 'idle' ? 'onboarding' : currentPhase,
+      track,
+      nextActions: defaultNextActions(currentPhase === 'idle' ? 'onboarding' : currentPhase),
+      provider,
+      model,
+    };
+  }
+
+  if (isSafePracticeFollowUpIntent(request.message)) {
+    return {
+      intent: {
+        ...baseIntent,
+        mode: 'direct_help',
+        turnType: 'direct_answer',
+        responseMode: 'direct_answer',
+        answerLanguage,
+        needsClarification: false,
+        confidence: 'high',
+        reason: 'follow_up_safe_practice',
+      },
+      sessionPhase: currentPhase === 'idle' ? 'onboarding' : currentPhase,
+      track,
+      nextActions: defaultNextActions(currentPhase === 'idle' ? 'onboarding' : currentPhase),
+      provider,
+      model,
+    };
+  }
+
+  if (isSafeAlternativeFollowUpIntent(request.message)) {
+    if (/\b(something\s+verified|verified\s+instead|disahkan)\b/i.test(request.message)) {
+      return {
+        intent: {
+          mode: 'learning',
+          turnType: 'scenario_start',
+          responseMode: 'scenario',
+          answerLanguage,
+          sourceLanguage: answerLanguage,
+          targetLanguage: 'semai',
+          extractedText: 'safe verified Semai vocabulary item',
+          needsClarification: false,
+          confidence: 'high',
+          reason: 'User chose a safe verified alternative.',
+        },
+        sessionPhase: 'learning_active',
+        track,
+        nextActions: defaultNextActions('learning_active'),
+        provider,
+        model,
+      };
+    }
+
+    return {
+      intent: {
+        ...baseIntent,
+        mode: 'direct_help',
+        turnType: 'direct_answer',
+        responseMode: 'direct_answer',
+        answerLanguage,
+        needsClarification: false,
+        confidence: 'high',
+        reason: 'scope_guard: User chose a safer verified alternative.',
+      },
+      sessionPhase: currentPhase === 'idle' ? 'onboarding' : currentPhase,
+      track,
+      nextActions: defaultNextActions(currentPhase === 'idle' ? 'onboarding' : currentPhase),
+      provider,
+      model,
+    };
+  }
+
+  if (request.clientAction === 'make_plan' || isLearningAdviceIntent(request.message)) {
+    return {
+      intent: {
+        ...baseIntent,
+        mode: 'direct_help',
+        turnType: 'direct_answer',
+        responseMode: 'direct_answer',
+        answerLanguage,
+        needsClarification: false,
+        confidence: 'high',
+        reason: 'onboarding_plan: User asked for Semai learning advice or a plan.',
+      },
+      sessionPhase: 'onboarding',
+      track,
+      nextActions: defaultNextActions('onboarding'),
+      provider,
+      model,
+    };
+  }
+
+  const sentenceExampleRequested = isSentenceRequestIntent(request.message);
+  if (
+    (isUnsafeSentenceGenerationRequest(request.message) && !sentenceExampleRequested) ||
+    (isUnsupportedExampleRequest(request.message) && !sentenceExampleRequested)
+  ) {
+    return {
+      intent: {
+        ...baseIntent,
+        mode: 'direct_help',
+        turnType: 'direct_answer',
+        responseMode: 'direct_answer',
+        answerLanguage,
+        needsClarification: false,
+        confidence: 'high',
+        reason: isUnsupportedExampleRequest(request.message)
+          ? 'scope_guard: User asked for more greeting examples than the verified set supports.'
+          : 'scope_guard: User asked Tavi to construct a Semai sentence from a word.',
+      },
+      sessionPhase: currentPhase === 'idle' ? 'onboarding' : currentPhase,
+      track,
+      nextActions:
+        currentPhase === 'learning_active'
+          ? defaultNextActions('learning_active')
+          : defaultNextActions('onboarding'),
+      provider,
+      model,
+    };
+  }
+
+  if (
+    isInterestingWordPracticeIntent(request.message) ||
+    isVocabularyPracticeIntent(request.message)
+  ) {
+    return {
+      intent: {
+        mode: 'learning',
+        turnType: 'scenario_start',
+        responseMode: 'scenario',
+        answerLanguage,
+        sourceLanguage: answerLanguage,
+        targetLanguage: 'semai',
+        extractedText: 'easy interesting Semai vocabulary word',
+        needsClarification: false,
+        confidence: 'high',
+        reason: 'User explicitly asked for verified Semai vocabulary practice.',
+      },
+      sessionPhase: 'learning_active',
+      track,
+      nextActions: defaultNextActions('learning_active'),
+      provider,
+      model,
+    };
+  }
+
+  if (request.clientAction === 'start_easy' || request.clientAction === 'practice_greetings') {
+    return {
+      intent: {
+        mode: 'learning',
+        turnType: 'scenario_start',
+        responseMode: 'scenario',
+        answerLanguage,
+        sourceLanguage: answerLanguage,
+        targetLanguage: 'semai',
+        extractedText:
+          request.clientAction === 'practice_greetings' ? 'basic greetings' : 'easy beginner item',
+        needsClarification: false,
+        confidence: 'high',
+        reason:
+          request.clientAction === 'practice_greetings'
+            ? 'User explicitly chose greeting practice.'
+            : 'User explicitly chose an easy practice start.',
+      },
+      sessionPhase: 'learning_active',
+      track,
+      nextActions: defaultNextActions('learning_active'),
       provider,
       model,
     };
@@ -1197,6 +2192,55 @@ const resolveIntentWithPlanner = async (
       sessionPhase: 'learning_active',
       track,
       nextActions: defaultNextActions('learning_active'),
+      provider,
+      model,
+    };
+  }
+
+  if (
+    (currentPhase === 'idle' || currentPhase === 'onboarding') &&
+    isSpecificPracticeStartIntent(request.message)
+  ) {
+    return {
+      intent: {
+        mode: 'learning',
+        turnType: 'scenario_start',
+        responseMode: 'scenario',
+        answerLanguage,
+        sourceLanguage: answerLanguage,
+        targetLanguage: 'semai',
+        extractedText: request.message,
+        needsClarification: false,
+        confidence: 'high',
+        reason: 'Detected specific practice topic; starting grounded lesson.',
+      },
+      sessionPhase: 'learning_active',
+      track,
+      nextActions: defaultNextActions('learning_active'),
+      provider,
+      model,
+    };
+  }
+
+  if (
+    (currentPhase === 'idle' || currentPhase === 'onboarding') &&
+    isLearningGoalIntent(request.message) &&
+    !isSpecificPracticeIntent(request.message)
+  ) {
+    return {
+      intent: {
+        ...baseIntent,
+        mode: 'direct_help',
+        turnType: 'direct_answer',
+        responseMode: 'direct_answer',
+        answerLanguage,
+        needsClarification: false,
+        confidence: 'high',
+        reason: 'onboarding: Broad Semai learning goal needs coaching options before practice.',
+      },
+      sessionPhase: 'onboarding',
+      track,
+      nextActions: defaultNextActions('onboarding'),
       provider,
       model,
     };
@@ -1291,16 +2335,17 @@ const resolveIntentWithPlanner = async (
 
   const plannerStartedAtMs = Date.now();
   try {
-    const generated = await callGemini(
+    const generated = await callCoachLlm(
       buildPrimaryIntentPrompt(request, currentPhase, track, explicitTranslationIntent),
       'You are the intent orchestrator for a Semai language coach. Return compact JSON only.',
       'application/json',
-      GEMINI_INTENT_MAX_OUTPUT_TOKENS,
+      COACH_INTENT_MAX_OUTPUT_TOKENS,
+      (text) => Boolean(parseLlmIntentJson(text)),
     );
     markStageTiming(runtime, 'planner', Date.now() - plannerStartedAtMs);
 
-    const plannerProvider = generated?.text ? 'google-ai-studio' : provider;
-    const plannerModel = generated?.text ? GEMINI_MODEL : model;
+    const plannerProvider = generated?.text ? generated.provider : provider;
+    const plannerModel = generated?.text ? generated.model : model;
     const parsed = parseLlmIntentJson(generated?.text ?? '');
     if (!parsed) {
       setDegraded(runtime, 'planner_invalid_json');
@@ -1355,6 +2400,27 @@ const resolveIntentWithPlanner = async (
       resolvedMode === 'learning' &&
       resolvedTurnType !== 'how_to_say'
     ) {
+      if (resolvedTurnType !== 'sentence_help' && !isSpecificPracticeIntent(request.message)) {
+        return {
+          intent: {
+            ...baseIntent,
+            mode: 'direct_help',
+            turnType: 'direct_answer',
+            responseMode: 'direct_answer',
+            answerLanguage: plannedLanguage,
+            needsClarification: false,
+            confidence,
+            reason:
+              'onboarding: Planner saw broad learning intent; offering choices before practice.',
+          },
+          sessionPhase: 'onboarding',
+          track,
+          nextActions: defaultNextActions('onboarding'),
+          provider: plannerProvider,
+          model: plannerModel,
+        };
+      }
+
       return {
         intent: {
           ...baseIntent,
@@ -1526,6 +2592,7 @@ const applySessionPolicy = (
 
 const buildPedagogyFallback = (
   intent: CoachIntentResult,
+  request: CoachRequest,
 ): Pick<
   CoachPayload,
   | 'coach_note'
@@ -1534,13 +2601,25 @@ const buildPedagogyFallback = (
   | 'pronunciation_tip'
   | 'related_example'
 > => {
+  const answerLanguage = intent.answerLanguage === 'ms' ? 'ms' : 'en';
+  const followUpContext: FollowUpContext =
+    intent.responseMode === 'translation' || intent.turnType === 'how_to_say'
+      ? 'translation'
+      : intent.turnType === 'sentence_help' || intent.responseMode === 'sentence_help'
+        ? 'verified_sentence'
+        : 'verified_vocab';
+  const fallbackFollowUpPrompt = buildContextualFollowUpPrompt(
+    followUpContext,
+    answerLanguage,
+    request,
+    findLatestVerifiedContext(request.turns, answerLanguage),
+  );
+
   if (intent.turnType === 'scenario_start') {
     return {
-      coach_note: 'Start with this line as your opener and repeat it aloud once before moving on.',
-      follow_up_prompt:
-        intent.answerLanguage === 'ms'
-          ? 'Cuba balas dengan satu ayat mudah tentang diri anda.'
-          : 'Try replying with one short sentence about yourself.',
+      coach_note:
+        'Start with the meaning and sound. Do not make a sentence until we have a verified example.',
+      follow_up_prompt: fallbackFollowUpPrompt,
       follow_up_translation: null,
       pronunciation_tip: null,
       related_example: null,
@@ -1549,11 +2628,9 @@ const buildPedagogyFallback = (
 
   if (intent.turnType === 'word_help') {
     return {
-      coach_note: 'Focus on the key meaning first, then use the word in one short sentence.',
-      follow_up_prompt:
-        intent.answerLanguage === 'ms'
-          ? 'Sekarang cuba guna perkataan ini dalam satu ayat ringkas.'
-          : 'Now try using this word in one short sentence.',
+      coach_note:
+        'Focus on the key meaning first. I will not invent a sentence unless we have a verified example.',
+      follow_up_prompt: fallbackFollowUpPrompt,
       follow_up_translation: null,
       pronunciation_tip: null,
       related_example: null,
@@ -1561,11 +2638,8 @@ const buildPedagogyFallback = (
   }
 
   return {
-    coach_note: 'Read the line once, then rewrite a slightly different version as practice.',
-    follow_up_prompt:
-      intent.answerLanguage === 'ms'
-        ? 'Mahukan satu lagi contoh yang hampir sama?'
-        : 'Want one more similar example?',
+    coach_note: 'Read the verified line once. Do not rewrite it as a new Semai sentence.',
+    follow_up_prompt: fallbackFollowUpPrompt,
     follow_up_translation: null,
     pronunciation_tip: null,
     related_example: null,
@@ -1621,6 +2695,10 @@ const buildPedagogyPrompt = (
     'Return valid JSON only with keys: coach_note, follow_up_prompt, follow_up_translation, pronunciation_tip, related_example.',
     'Keep each field short and practical for a beginner.',
     'Do not generate or invent any Semai words in these fields.',
+    'Do not ask the user to create, rewrite, or use a Semai word in a new sentence.',
+    'Do not use em dashes or en dashes. Use commas, periods, or parentheses instead.',
+    'For follow_up_prompt, write a varied complete user message that is safe to paste into the input, such as "Show me one more verified Semai vocabulary word" or "Give me a different easy Semai vocabulary word."',
+    'Do not write follow_up_prompt as a question like "Want one more...?" because the UI copies it into the user input.',
     `If you mention Semai at all, you may only use this exact verified surface form: ${verifiedSemaiSurface}`,
     'Use only the explanation language requested for the rest of the text.',
     `User message: ${message}`,
@@ -1668,23 +2746,12 @@ const containsUnexpectedSemaiInPedagogy = (
   return false;
 };
 
-const containsMarkedSemaiOutsideVerifiedSet = (
-  value: string,
-  allowedSemaiPhrases: string[],
-): boolean => {
-  const allowed = new Set(
-    allowedSemaiPhrases.map((item) => normalizeTranslationText(item)).filter(Boolean),
+const isUnsafePedagogyFollowUp = (value: string | null): boolean =>
+  Boolean(
+    value &&
+    /\b(use|using|write|make|create|try|reply|rewrite|construct)\b/i.test(value) &&
+    /\b(sentence|phrase|ayat|frasa|word|perkataan)\b/i.test(value),
   );
-
-  for (const phrase of extractMarkedPhrases(value)) {
-    if (allowed.has(phrase) || isExactVerifiedSemaiInput(phrase)) {
-      continue;
-    }
-    return true;
-  }
-
-  return false;
-};
 
 const parsePedagogyJson = (
   value: string,
@@ -1698,15 +2765,16 @@ const parsePedagogyJson = (
   if (!value) return null;
   try {
     const parsed = JSON.parse(value) as Record<string, unknown>;
+    const followUpPrompt =
+      typeof parsed.follow_up_prompt === 'string' && parsed.follow_up_prompt.trim()
+        ? parsed.follow_up_prompt.trim()
+        : null;
     return {
       coach_note:
         typeof parsed.coach_note === 'string' && parsed.coach_note.trim()
           ? parsed.coach_note.trim()
           : null,
-      follow_up_prompt:
-        typeof parsed.follow_up_prompt === 'string' && parsed.follow_up_prompt.trim()
-          ? parsed.follow_up_prompt.trim()
-          : null,
+      follow_up_prompt: isUnsafePedagogyFollowUp(followUpPrompt) ? null : followUpPrompt,
       follow_up_translation:
         typeof parsed.follow_up_translation === 'string' && parsed.follow_up_translation.trim()
           ? parsed.follow_up_translation.trim()
@@ -1727,7 +2795,7 @@ const parsePedagogyJson = (
 
 const buildDirectHelpFallback = (
   answerLanguage: 'en' | 'ms',
-  requestMessage: string,
+  request: CoachRequest,
   reason: string,
   sessionPhase: SessionPhase,
   track: LearningTrack,
@@ -1735,13 +2803,61 @@ const buildDirectHelpFallback = (
   orchestration: { provider: string; model: string },
   runtime: RuntimeState,
 ): CoachPayload => {
+  const verifiedContext = findLatestVerifiedContext(request.turns, answerLanguage);
   const mainReply = reason.includes('close the current learning session')
     ? answerLanguage === 'ms'
-      ? 'Baik, kita tamatkan sesi belajar sekarang. Bila-bila anda mahu sambung, beritahu saya.'
-      : 'Great, we can end the study session here. Whenever you want to continue, just tell me.'
-    : answerLanguage === 'ms'
-      ? 'Hai! Saya boleh bantu pembelajaran Semai, terjemahan berasas, dan latihan ayat ringkas.'
-      : 'Hi. I can help with Semai coaching, grounded translation, and short practice turns.';
+      ? '**Baik.** Kita tamatkan sesi belajar sekarang. Bila-bila mahu sambung, beritahu saya.'
+      : '**Great.** We can end here. Whenever you want to continue, just tell me.'
+    : reason.includes('follow_up_explain_current') && verifiedContext?.kind === 'word'
+      ? answerLanguage === 'ms'
+        ? `Perkataan terakhir bermaksud **"${verifiedContext.translation}"**. Fokus pada maksud dahulu, kemudian sebut perlahan sekali.`
+        : `That last word means **"${verifiedContext.translation}"**. Focus on the meaning first, then say it slowly once.`
+      : reason.includes('follow_up_translation_help') && verifiedContext
+        ? answerLanguage === 'ms'
+          ? `Maksud item terakhir ialah **"${verifiedContext.translation}"**. Semak satu bahagian kecil pada satu masa.`
+          : `The last verified item means **"${verifiedContext.translation}"**. Check one small part at a time.`
+        : reason.includes('follow_up_memory_tip') && verifiedContext
+          ? answerLanguage === 'ms'
+            ? `**Tip ingatan:** kaitkan maksud "${verifiedContext.translation}" dengan satu gambar sebenar. Semak maksud dahulu, bukan ayat baharu.`
+            : `**Memory tip:** connect "${verifiedContext.translation}" to one real image. Check the meaning first, not a new sentence.`
+          : reason.includes('follow_up_safe_practice')
+            ? answerLanguage === 'ms'
+              ? '**Latihan selamat:** tutup terjemahan, cuba ingat maksudnya, kemudian semak semula.'
+              : '**Safe practice:** cover the translation, recall the meaning, then check it again.'
+            : reason.includes('recovery:')
+              ? answerLanguage === 'ms'
+                ? '**Maaf, saya terlalu cepat.** Kita boleh perlahan: asas dulu, pelan ringkas, atau latihan mudah.'
+                : '**Sorry, I moved too fast.** We can slow down: basics first, a simple plan, or one easy practice.'
+              : reason.includes('onboarding_plan')
+                ? answerLanguage === 'ms'
+                  ? '**Pelan ringkas:** pilih satu fokus kecil, ulang sedikit setiap hari, dan semak makna sebelum berlatih.'
+                  : '**Simple plan:** pick one small focus, practice a little daily, and check meaning before speaking.'
+                : reason.includes('scope_guard_out_of_scope')
+                  ? answerLanguage === 'ms'
+                    ? 'Saya tidak boleh bantu tugasan itu di sini. Saya boleh bantu dengan **pembelajaran Semai**, terjemahan berasas, atau latihan ringkas.'
+                    : 'I cannot help with that task here. I can help with **Semai learning**, grounded translation, or short practice.'
+                  : reason.includes('scope_guard')
+                    ? answerLanguage === 'ms'
+                      ? 'Saya boleh bantu, tetapi hanya dengan **kandungan Semai yang disahkan**. Pilih item kamus atau frasa yang lebih ringkas.'
+                      : 'I can help, but only with **verified Semai content**. Choose a dictionary item or try a shorter phrase.'
+                    : reason.includes('onboarding:')
+                      ? answerLanguage === 'ms'
+                        ? '**Boleh.** Mahu mula dengan sapaan, frasa harian, sebutan, atau kosa kata mudah?'
+                        : '**Absolutely.** Want to start with greetings, daily phrases, pronunciation, or simple vocabulary?'
+                      : answerLanguage === 'ms'
+                        ? '**Hai!** Saya boleh bantu pembelajaran Semai, terjemahan berasas, dan latihan ringkas.'
+                        : '**Hi.** I can help with Semai coaching, grounded translation, and short practice.';
+  const followUpContext: FollowUpContext = reason.includes('close the current learning session')
+    ? 'end_session'
+    : reason.includes('scope_guard')
+      ? 'scope_guard'
+      : reason.includes('recovery:')
+        ? 'recovery'
+        : reason.includes('follow_up_safe_practice') || reason.includes('follow_up_')
+          ? 'safe_practice'
+          : reason.includes('onboarding:') || reason.includes('onboarding_plan')
+            ? 'onboarding'
+            : 'direct_help';
 
   return {
     mode: 'direct_help',
@@ -1753,10 +2869,12 @@ const buildDirectHelpFallback = (
     main_reply: mainReply,
     translation: null,
     coach_note: null,
-    follow_up_prompt:
-      answerLanguage === 'ms'
-        ? 'Contoh: "Ajar saya satu ayat Semai yang mudah."'
-        : 'Example: "Teach me one simple Semai sentence."',
+    follow_up_prompt: buildContextualFollowUpPrompt(
+      followUpContext,
+      answerLanguage,
+      request,
+      verifiedContext,
+    ),
     follow_up_translation: null,
     pronunciation_tip: null,
     related_example: null,
@@ -1788,11 +2906,50 @@ const buildDirectHelpPayload = async (
   const answerLanguage = intent.answerLanguage === 'ms' ? 'ms' : 'en';
   const context = buildConversationContext(request.turns, 4, 110);
 
+  if (intent.reason.includes('follow_up_')) {
+    return buildDirectHelpFallback(
+      answerLanguage,
+      request,
+      intent.reason,
+      sessionPhase,
+      track,
+      nextActions,
+      orchestration,
+      runtime,
+    );
+  }
+
+  if (intent.reason.includes('Greeting-only prompt')) {
+    return buildDirectHelpFallback(
+      answerLanguage,
+      request,
+      intent.reason,
+      sessionPhase,
+      track,
+      nextActions,
+      orchestration,
+      runtime,
+    );
+  }
+
+  if (intent.reason.includes('scope_guard_out_of_scope')) {
+    return buildDirectHelpFallback(
+      answerLanguage,
+      request,
+      intent.reason,
+      sessionPhase,
+      track,
+      nextActions,
+      orchestration,
+      runtime,
+    );
+  }
+
   if (remainingBudgetMs(requestStartedAtMs) <= CPU_GUARD_DIRECT_MIN_MS) {
     setDegraded(runtime, 'cpu_guard_direct_skip', { cpuGuard: true });
     return buildDirectHelpFallback(
       answerLanguage,
-      request.message,
+      request,
       intent.reason,
       sessionPhase,
       track,
@@ -1803,24 +2960,42 @@ const buildDirectHelpPayload = async (
   }
 
   const directStartedAtMs = Date.now();
-  const followUpPrompt = intent.reason.includes('close the current learning session')
-    ? answerLanguage === 'ms'
-      ? 'Jika mahu sambung nanti, taip: "Sambung belajar."'
-      : 'If you want to continue later, type: "Continue learning."'
-    : intent.reason.includes('close the current learning session')
-      ? answerLanguage === 'ms'
-        ? 'Jika mahu sambung nanti, taip: "Sambung belajar."'
-        : 'If you want to continue later, type: "Continue learning."'
-      : null;
+  const directFollowUpContext: FollowUpContext = intent.reason.includes(
+    'close the current learning session',
+  )
+    ? 'end_session'
+    : intent.reason.includes('scope_guard')
+      ? 'scope_guard'
+      : intent.reason.includes('recovery:')
+        ? 'recovery'
+        : intent.reason.includes('onboarding:') || intent.reason.includes('onboarding_plan')
+          ? 'onboarding'
+          : 'direct_help';
+  const followUpPrompt = buildContextualFollowUpPrompt(
+    directFollowUpContext,
+    answerLanguage,
+    request,
+    findLatestVerifiedContext(request.turns, answerLanguage),
+  );
 
   const prompt = [
     `Answer in ${answerLanguage === 'ms' ? 'Malay' : 'English'}.`,
-    'Use warm and concise coaching tone.',
+    'Use a warm, concise coaching tone.',
+    'Keep it to 1 short paragraph, or 2 very short paragraphs only when needed.',
+    'Use lightweight Markdown when helpful: **bold** for the key idea and *italic* for gentle emphasis.',
+    'You may use a short bullet list only for options or a plan. Use at most 3 bullets.',
+    'Do not use emoji or Markdown headings.',
+    'Do not use em dashes or en dashes. Use commas, periods, or parentheses instead.',
     'Do not auto-translate user input unless explicit translation intent exists.',
     'Do not write, quote, validate, or invent any Semai words or Semai sentences in this reply.',
-    'If the user wants Semai content, ask them to use Translate Phrase or request a grounded practice item explicitly.',
-    'For out-of-scope prompts, give one short helpful answer and redirect to coach capabilities naturally.',
+    'For broad learning requests, act like a buddy: orient the user, explain useful options, and ask what they want to try before teaching a word.',
+    'For advice or plan requests, give practical study guidance without Semai words.',
+    'For frustration or correction, apologize briefly, slow down, and offer a calmer next step.',
+    'If Routing reason starts with scope_guard, explain that Tavi cannot invent Semai sentences or list examples unless they are verified; offer a verified dictionary item or translation instead.',
+    'If the user wants Semai content, ask them to choose a practice action or request a grounded practice item explicitly.',
+    'For out-of-scope prompts, do not answer the external task at all. State the boundary briefly and redirect to Semai coaching.',
     answerLanguage === 'ms' ? 'Use Malay Malaysia register. Avoid Indonesian wording.' : '',
+    `Routing reason: ${intent.reason}`,
     context ? `Recent context:\n${context}` : '',
     `User message: ${request.message}`,
   ]
@@ -1828,32 +3003,18 @@ const buildDirectHelpPayload = async (
     .join('\n\n');
 
   try {
-    const generated = await callGemini(
+    const generated = await callCoachLlm(
       prompt,
       'You are Tavi, a helpful Semai coach inside a language-learning app.',
       undefined,
       sessionPhase === 'learning_active'
-        ? Math.min(210, GEMINI_DIRECT_MAX_OUTPUT_TOKENS)
-        : Math.min(180, GEMINI_DIRECT_MAX_OUTPUT_TOKENS),
+        ? Math.min(150, COACH_DIRECT_MAX_OUTPUT_TOKENS)
+        : Math.min(135, COACH_DIRECT_MAX_OUTPUT_TOKENS),
     );
     markStageTiming(runtime, 'direct_help', Date.now() - directStartedAtMs);
 
     if (generated?.text) {
       const normalizedReply = withLanguageNormalization(answerLanguage, generated.text);
-      if (containsMarkedSemaiOutsideVerifiedSet(normalizedReply, [])) {
-        setDegraded(runtime, 'direct_help_contains_semai');
-        return buildDirectHelpFallback(
-          answerLanguage,
-          request.message,
-          intent.reason,
-          sessionPhase,
-          track,
-          nextActions,
-          orchestration,
-          runtime,
-        );
-      }
-
       const policyReason = isSemaiVerificationQuestion(request.message)
         ? `${intent.reason} User asked to verify Semai; use safe fallback unless grounded.`
         : intent.reason;
@@ -1874,11 +3035,12 @@ const buildDirectHelpPayload = async (
         grounded: false,
         grounding_source: [],
         validation_passed: true,
-        provider: 'google-ai-studio',
-        model: GEMINI_MODEL,
+        provider: generated.provider,
+        model: generated.model,
         meta: buildRuntimeMeta(runtime, {
           latency_ms: generated.latencyMs,
           usage: generated.usage,
+          attempted_providers: generated.attemptedProviders,
           reason: policyReason,
           orchestration_provider: orchestration.provider,
           orchestration_model: orchestration.model,
@@ -1893,7 +3055,7 @@ const buildDirectHelpPayload = async (
 
   return buildDirectHelpFallback(
     answerLanguage,
-    request.message,
+    request,
     intent.reason,
     sessionPhase,
     track,
@@ -1928,10 +3090,7 @@ const buildClarificationPayload = async (
           : 'Could you clarify your focus: daily conversation, vocabulary, or pronunciation?',
       translation: null,
       coach_note: null,
-      follow_up_prompt:
-        answerLanguage === 'ms'
-          ? 'Contoh: "Saya mahu mula dengan dialog harian."'
-          : 'Example: "I want to start with daily conversation."',
+      follow_up_prompt: buildContextualFollowUpPrompt('onboarding', answerLanguage, request, null),
       follow_up_translation: null,
       pronunciation_tip: null,
       related_example: normalizeTranslationText(request.message),
@@ -1961,7 +3120,7 @@ const buildClarificationPayload = async (
     .join('\n\n');
 
   try {
-    const generated = await callGemini(
+    const generated = await callCoachLlm(
       prompt,
       'You are Tavi, a conversational Semai coach. Return one concise question only.',
       undefined,
@@ -1980,22 +3139,25 @@ const buildClarificationPayload = async (
         main_reply: withLanguageNormalization(answerLanguage, generated.text),
         translation: null,
         coach_note: null,
-        follow_up_prompt:
-          answerLanguage === 'ms'
-            ? 'Contoh: "Saya mahu belajar sapaan asas dulu."'
-            : 'Example: "I want to start with basic greetings."',
+        follow_up_prompt: buildContextualFollowUpPrompt(
+          'onboarding',
+          answerLanguage,
+          request,
+          null,
+        ),
         follow_up_translation: null,
         pronunciation_tip: null,
         related_example: normalizeTranslationText(request.message),
         grounded: false,
         grounding_source: [],
         validation_passed: true,
-        provider: 'google-ai-studio',
-        model: GEMINI_MODEL,
+        provider: generated.provider,
+        model: generated.model,
         meta: buildRuntimeMeta(runtime, {
           reason: 'ambiguous_prompt',
           latency_ms: generated.latencyMs,
           usage: generated.usage,
+          attempted_providers: generated.attemptedProviders,
           orchestration_provider: orchestration.provider,
           orchestration_model: orchestration.model,
           package_eligible: false,
@@ -2020,10 +3182,7 @@ const buildClarificationPayload = async (
         : 'Sure, where do you want to begin: daily conversation, vocabulary, or pronunciation?',
     translation: null,
     coach_note: null,
-    follow_up_prompt:
-      answerLanguage === 'ms'
-        ? 'Contoh: "Saya mahu mula dengan kosa kata alam."'
-        : 'Example: "I want to start with nature vocabulary."',
+    follow_up_prompt: buildContextualFollowUpPrompt('onboarding', answerLanguage, request, null),
     follow_up_translation: null,
     pronunciation_tip: null,
     related_example: normalizeTranslationText(request.message),
@@ -2067,10 +3226,12 @@ const buildGroundingUnavailablePayload = (
     main_reply: baseReply,
     translation: null,
     coach_note: null,
-    follow_up_prompt:
-      answerLanguage === 'ms'
-        ? 'Contoh: "Terjemah frasa ini ke Semai: saya makan nasi."'
-        : 'Example: "Translate this phrase to Semai: I eat rice."',
+    follow_up_prompt: buildContextualFollowUpPrompt(
+      'grounding_unavailable',
+      answerLanguage,
+      request,
+      null,
+    ),
     follow_up_translation: null,
     pronunciation_tip: null,
     related_example: null,
@@ -2269,10 +3430,11 @@ const buildLearningPayload = async (
     );
   }
 
-  const fallbackPedagogy = buildPedagogyFallback(intent);
+  const fallbackPedagogy = buildPedagogyFallback(intent, request);
   let pedagogy = fallbackPedagogy;
   let coachProvider = 'rules-fallback';
   let coachModel = 'pedagogy-fallback';
+  let coachAttemptedProviders: string[] = [];
 
   const isInlineTranslationTurn =
     request.clientAction === 'translate_inline' || intent.turnType === 'how_to_say';
@@ -2282,19 +3444,20 @@ const buildLearningPayload = async (
   } else if (remainingBudgetMs(requestStartedAtMs) > CPU_GUARD_PEDAGOGY_MIN_MS) {
     const pedagogyStartedAtMs = Date.now();
     try {
-      const generated = await callGemini(
+      const generated = await callCoachLlm(
         buildPedagogyPrompt(intent, request.message, translationResult, request.turns),
         'You are Tavi, a patient Semai learning coach. Return compact JSON only.',
         'application/json',
-        GEMINI_PEDAGOGY_MAX_OUTPUT_TOKENS,
+        COACH_PEDAGOGY_MAX_OUTPUT_TOKENS,
+        (text) => Boolean(parsePedagogyJson(text)),
       );
       markStageTiming(runtime, 'pedagogy', Date.now() - pedagogyStartedAtMs);
 
       const parsed = parsePedagogyJson(generated?.text ?? '');
-      if (parsed) {
+      if (parsed && generated) {
         const nextPedagogy = {
-          coach_note: parsed.coach_note ?? fallbackPedagogy.coach_note,
-          follow_up_prompt: parsed.follow_up_prompt ?? fallbackPedagogy.follow_up_prompt,
+          coach_note: fallbackPedagogy.coach_note,
+          follow_up_prompt: fallbackPedagogy.follow_up_prompt,
           follow_up_translation: parsed.follow_up_translation,
           pronunciation_tip: parsed.pronunciation_tip,
           related_example: parsed.related_example,
@@ -2305,8 +3468,9 @@ const buildLearningPayload = async (
             translationResult.sourceText,
           ])
         ) {
-          coachProvider = 'google-ai-studio';
-          coachModel = GEMINI_MODEL;
+          coachProvider = generated.provider;
+          coachModel = generated.model;
+          coachAttemptedProviders = generated.attemptedProviders;
           pedagogy = nextPedagogy;
         } else {
           setDegraded(runtime, 'pedagogy_unverified_semai');
@@ -2353,6 +3517,7 @@ const buildLearningPayload = async (
       turn_type: intent.turnType,
       coach_provider: coachProvider,
       coach_model: coachModel,
+      coach_attempted_providers: coachAttemptedProviders,
       orchestration_provider: orchestration.provider,
       orchestration_model: orchestration.model,
       semai_verified: translationResult.semaiVerified,
@@ -2383,6 +3548,22 @@ Deno.serve(async (request) => {
   }
   if (request.method !== 'POST') {
     return jsonResponse(405, { error: 'Method not allowed.' });
+  }
+
+  let authenticatedUser: AuthenticatedCoachUser | null = null;
+  try {
+    authenticatedUser = await authenticateCoachRequest({
+      baseUrl: requestBaseUrl,
+      authorization: requestAuthorization,
+      apiKey: requestApiKey,
+    });
+  } catch (authError) {
+    console.error('ai-coach auth validation failed:', authError);
+    return jsonResponse(503, { error: 'Unable to validate the active session.' });
+  }
+
+  if (!authenticatedUser) {
+    return jsonResponse(401, { error: 'Coach requires an active session.' });
   }
 
   let payload: CoachRequest;
@@ -2491,7 +3672,7 @@ Deno.serve(async (request) => {
         payloadResponse.answer_language = intent.answerLanguage === 'ms' ? 'ms' : 'en';
       }
     }
-    return jsonResponse(200, payloadResponse);
+    return jsonResponse(200, sanitizeCoachPayloadOutput(payloadResponse));
   } catch (error) {
     markStageTiming(runtime, 'total', Date.now() - requestStartedAtMs);
     const message = error instanceof Error ? error.message : 'Unexpected coach error.';

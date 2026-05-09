@@ -392,6 +392,12 @@
   position: absolute;
 }
 
+.profile-stat-svg {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
 .profile-stat-art-words {
   height: 49px;
   width: 55px;
@@ -417,28 +423,13 @@
 }
 
 .profile-stat-art-elderStories {
-  height: 60.059px;
-  transform: rotate(8.48deg);
-  width: 44.463px;
-}
-
-.profile-stat-art-elderStories img {
-  height: 149.17%;
-  left: -41.23%;
-  top: -23.9%;
-  width: 358.21%;
+  height: 48px;
+  width: 48px;
 }
 
 .profile-stat-art-elderLearners {
-  height: 49px;
-  width: 49px;
-}
-
-.profile-stat-art-elderLearners img {
-  height: 123.15%;
-  left: -104.98%;
-  top: -14.03%;
-  width: 222.48%;
+  height: 48px;
+  width: 48px;
 }
 
 .profile-stat-copy {
@@ -497,6 +488,44 @@
   line-height: 1;
 }
 
+.profile-learning-language-row {
+  min-height: 52px;
+}
+
+.profile-learning-language-left {
+  min-width: 0;
+}
+
+.profile-learning-language-icon {
+  height: 15px;
+  width: 15px;
+}
+
+.profile-learning-language-left > span {
+  color: #604828;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.profile-learning-language-right {
+  align-items: center;
+  display: inline-flex;
+  gap: 4px;
+  justify-content: flex-end;
+  min-width: 0;
+}
+
+.profile-learning-language-right strong {
+  color: #604828;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  max-width: 110px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .profile-menu-icon {
   flex-shrink: 0;
   height: 16px;
@@ -511,6 +540,11 @@
 
 .profile-menu-item:nth-child(3) .profile-menu-icon,
 .profile-menu-item:nth-child(4) .profile-menu-icon {
+  height: 15px;
+  width: 15px;
+}
+
+.profile-menu-item.profile-learning-language-row .profile-learning-language-icon {
   height: 15px;
   width: 15px;
 }

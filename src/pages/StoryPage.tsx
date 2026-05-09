@@ -1,7 +1,13 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { triggerHapticFeedback } from '../lib/feedback';
-import { STORIES } from '../lib/storyData';
+import {
+  PUBLISHED_STORY_SELECT,
+  publishedStoryRowToStory,
+  type PublishedStoryRow,
+} from '../lib/publishedStory';
+import { supabase } from '../lib/supabase';
+import { STORIES, type Story } from '../lib/storyData';
 
 import './StoryPage.css';
 
@@ -19,8 +25,34 @@ function SearchIcon() {
 export function StoryPage() {
   const navigate = useNavigate();
   const [query, setQuery] = useState('');
+  const [publishedStories, setPublishedStories] = useState<Story[]>([]);
+  const [publishedStoryError, setPublishedStoryError] = useState<string | null>(null);
 
-  const filtered = STORIES.filter(
+  useEffect(() => {
+    supabase
+      .from('recordings')
+      .select(PUBLISHED_STORY_SELECT)
+      .eq('is_published', true)
+      .not('cover_url', 'is', null)
+      .not('bg_url', 'is', null)
+      .order('created_at', { ascending: false })
+      .then(({ data, error }) => {
+        if (error) {
+          console.warn('Failed to load published stories:', error.message);
+          setPublishedStoryError('Published stories could not be loaded right now.');
+          return;
+        }
+
+        if (data) {
+          setPublishedStoryError(null);
+          setPublishedStories((data as PublishedStoryRow[]).map(publishedStoryRowToStory));
+        }
+      });
+  }, []);
+
+  const allStories = [...STORIES, ...publishedStories];
+
+  const filtered = allStories.filter(
     (s) =>
       s.title.toLowerCase().includes(query.toLowerCase()) ||
       s.author.toLowerCase().includes(query.toLowerCase()),
@@ -60,6 +92,7 @@ export function StoryPage() {
 
       {/* ── Grid ── */}
       <div className="story-grid">
+        {publishedStoryError ? <p className="story-empty">{publishedStoryError}</p> : null}
         {filtered.length === 0 ? (
           <p className="story-empty">No stories found for "{query}"</p>
         ) : (

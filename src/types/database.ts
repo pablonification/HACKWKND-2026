@@ -17,6 +17,9 @@ export type Database = {
           specialty: string | null;
           app_language: string;
           indigenous_language: string;
+          onboarding_completed: boolean;
+          onboarding_completed_at: string | null;
+          onboarding_responses: unknown | null;
           push_notifications_enabled: boolean;
           created_at: string | null;
           updated_at: string | null;
@@ -34,6 +37,9 @@ export type Database = {
           specialty?: string | null;
           app_language?: string;
           indigenous_language?: string;
+          onboarding_completed?: boolean;
+          onboarding_completed_at?: string | null;
+          onboarding_responses?: unknown | null;
           push_notifications_enabled?: boolean;
           created_at?: string | null;
           updated_at?: string | null;
@@ -50,6 +56,9 @@ export type Database = {
           specialty?: string | null;
           app_language?: string;
           indigenous_language?: string;
+          onboarding_completed?: boolean;
+          onboarding_completed_at?: string | null;
+          onboarding_responses?: unknown | null;
           push_notifications_enabled?: boolean;
           updated_at?: string | null;
         };
@@ -80,6 +89,9 @@ export type Database = {
           is_verified: boolean;
           verified_at: string | null;
           verified_by: string | null;
+          cover_url: string | null;
+          bg_url: string | null;
+          is_published: boolean;
           created_at: string;
           updated_at: string | null;
         };
@@ -107,6 +119,9 @@ export type Database = {
           is_verified?: boolean;
           verified_at?: string | null;
           verified_by?: string | null;
+          cover_url?: string | null;
+          bg_url?: string | null;
+          is_published?: boolean;
           created_at?: string;
           updated_at?: string | null;
         };
@@ -132,6 +147,9 @@ export type Database = {
           is_verified?: boolean;
           verified_at?: string | null;
           verified_by?: string | null;
+          cover_url?: string | null;
+          bg_url?: string | null;
+          is_published?: boolean;
           updated_at?: string | null;
         };
         Relationships: [
@@ -366,6 +384,111 @@ export type Database = {
           {
             foreignKeyName: 'requests_requester_id_fkey';
             columns: ['requester_id'];
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      tavi_threads: {
+        Row: {
+          id: string;
+          user_id: string;
+          title: string;
+          session_phase: string;
+          track: string;
+          last_message_at: string;
+          deleted_at: string | null;
+          created_at: string;
+          updated_at: string | null;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          title?: string;
+          session_phase?: string;
+          track?: string;
+          last_message_at?: string;
+          deleted_at?: string | null;
+          created_at?: string;
+          updated_at?: string | null;
+        };
+        Update: {
+          title?: string;
+          session_phase?: string;
+          track?: string;
+          last_message_at?: string;
+          deleted_at?: string | null;
+          updated_at?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'tavi_threads_user_id_fkey';
+            columns: ['user_id'];
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      tavi_messages: {
+        Row: {
+          id: string;
+          thread_id: string;
+          user_id: string;
+          role: 'user' | 'tavi';
+          text: string;
+          package_eligible: boolean;
+          translation: string | null;
+          translation_label: string | null;
+          coach_note: string | null;
+          follow_up_prompt: string | null;
+          warning: string | null;
+          mode: string | null;
+          answer_language: string | null;
+          session_phase: string | null;
+          track: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          thread_id: string;
+          user_id: string;
+          role: 'user' | 'tavi';
+          text: string;
+          package_eligible?: boolean;
+          translation?: string | null;
+          translation_label?: string | null;
+          coach_note?: string | null;
+          follow_up_prompt?: string | null;
+          warning?: string | null;
+          mode?: string | null;
+          answer_language?: string | null;
+          session_phase?: string | null;
+          track?: string | null;
+          created_at?: string;
+        };
+        Update: {
+          text?: string;
+          package_eligible?: boolean;
+          translation?: string | null;
+          translation_label?: string | null;
+          coach_note?: string | null;
+          follow_up_prompt?: string | null;
+          warning?: string | null;
+          mode?: string | null;
+          answer_language?: string | null;
+          session_phase?: string | null;
+          track?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'tavi_messages_thread_id_fkey';
+            columns: ['thread_id'];
+            referencedRelation: 'tavi_threads';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'tavi_messages_user_id_fkey';
+            columns: ['user_id'];
             referencedRelation: 'profiles';
             referencedColumns: ['id'];
           },

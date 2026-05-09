@@ -12,12 +12,12 @@ describe('coachIntent', () => {
     });
   });
 
-  it('routes learning-journey onboarding prompts to scenario mode, not translation', () => {
+  it('routes broad learning-journey prompts to coach onboarding, not immediate practice', () => {
     expect(classifyCoachIntent('I want to learn Semai, can you help me doing that?')).toMatchObject(
       {
-        mode: 'learning',
-        turnType: 'scenario_start',
-        responseMode: 'scenario',
+        mode: 'direct_help',
+        turnType: 'direct_answer',
+        responseMode: 'direct_answer',
       },
     );
   });
@@ -55,11 +55,11 @@ describe('coachIntent', () => {
     });
   });
 
-  it('uses scenario onboarding for generic Semai mentions instead of sentence translation', () => {
+  it('keeps generic Semai mentions in coach onboarding instead of sentence practice', () => {
     expect(classifyCoachIntent('I am interested in Semai language.')).toMatchObject({
-      mode: 'learning',
-      turnType: 'scenario_start',
-      responseMode: 'scenario',
+      mode: 'direct_help',
+      turnType: 'direct_answer',
+      responseMode: 'direct_answer',
     });
   });
 

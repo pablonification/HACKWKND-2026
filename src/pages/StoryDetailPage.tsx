@@ -1,6 +1,13 @@
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { triggerHapticFeedback } from '../lib/feedback';
-import { STORIES } from '../lib/storyData';
+import {
+  PUBLISHED_STORY_SELECT,
+  publishedStoryRowToStory,
+  type PublishedStoryRow,
+} from '../lib/publishedStory';
+import { supabase } from '../lib/supabase';
+import { STORIES, type Story } from '../lib/storyData';
 
 import './StoryDetailPage.css';
 
@@ -65,7 +72,46 @@ export function StoryDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
-  const story = STORIES.find((s) => s.id === id);
+  const staticStory = STORIES.find((s) => s.id === id);
+  const [story, setStory] = useState<Story | null>(staticStory ?? null);
+  const [isLoading, setIsLoading] = useState(!staticStory);
+
+  useEffect(() => {
+    if (staticStory || !id) return;
+    setIsLoading(true);
+    void (async () => {
+      const { data, error } = await supabase
+        .from('recordings')
+        .select(PUBLISHED_STORY_SELECT)
+        .eq('id', id)
+        .eq('is_published', true)
+        .not('cover_url', 'is', null)
+        .not('bg_url', 'is', null)
+        .single();
+
+      if (error) {
+        console.warn('Failed to load published story:', error.message);
+      } else if (data) {
+        try {
+          setStory(publishedStoryRowToStory(data as PublishedStoryRow));
+        } catch (storyError) {
+          console.warn('Published story is missing required media:', storyError);
+        }
+      }
+      setIsLoading(false);
+    })();
+  }, [id, staticStory]);
+
+  if (isLoading) {
+    return (
+      <div className="story-detail-page story-detail-not-found">
+        <button type="button" className="story-detail-back-btn" onClick={() => navigate(-1)}>
+          <BackIcon />
+        </button>
+        <p>Loading…</p>
+      </div>
+    );
+  }
 
   if (!story) {
     return (
@@ -141,7 +187,7 @@ export function StoryDetailPage() {
           </div>
         </div>
         <div className="story-detail-stat-card">
-          <div className="story-detail-stat-label">Genre</div>
+          <div className="story-detail-stat-label">Type</div>
           <div className="story-detail-stat-value">
             <GenreIcon />
             <span>{story.genre}</span>

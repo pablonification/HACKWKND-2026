@@ -7,6 +7,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     host: '0.0.0.0', // Binds to all interfaces for Capacitor device testing
+    allowedHosts: ['ae41-182-0-96-94.ngrok-free.app'],
   },
   define: {
     'import.meta.env.VITE_APP_VERSION': JSON.stringify(pkg.version),

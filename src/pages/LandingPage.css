@@ -15,6 +15,10 @@
   overflow: hidden;
 }
 
+.landing-shell--elder {
+  background: #fff8ec;
+}
+
 .landing-skeleton-hero {
   height: 310px;
   overflow: hidden;
@@ -135,6 +139,28 @@
   text-shadow: 0 1px 4px rgba(255, 255, 255, 0.5);
 }
 
+.landing-learning-language-badge {
+  pointer-events: auto;
+  position: absolute;
+  right: calc(var(--safe-area-right) + 24px);
+  top: calc(var(--safe-area-top) + 35px);
+  z-index: 3;
+}
+
+@media (max-width: 374px) {
+  .landing-hero-greeting {
+    right: calc(var(--safe-area-right) + 150px);
+  }
+
+  .landing-hero-greeting span {
+    font-size: 29px;
+  }
+
+  .landing-learning-language-badge {
+    right: calc(var(--safe-area-right) + 18px);
+  }
+}
+
 /* ─── Search bar — floats on the seam ──────────────────────────────────────── */
 
 .landing-search-wrap {
@@ -205,6 +231,12 @@
   gap: 32px;
 }
 
+.landing-card--elder-simple {
+  gap: 28px;
+  margin-top: -46px;
+  padding-top: 34px;
+}
+
 /* ─── Section headings ──────────────────────────────────────────────────────── */
 
 .landing-section {
@@ -219,6 +251,12 @@
   font-weight: 700;
   letter-spacing: -0.5px;
   margin: 0;
+}
+
+.landing-section-title--elder {
+  color: #604828;
+  font-size: 22px;
+  letter-spacing: 0;
 }
 
 /* ─── Last Read card (learner) ──────────────────────────────────────────────── */
@@ -402,37 +440,123 @@
   width: 100%;
 }
 
-.landing-metrics {
-  display: grid;
-  gap: 14px;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
+/* Elder landing */
 
-.landing-metric-card {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 244, 224, 0.92));
-  border: 1px solid rgba(96, 72, 40, 0.08);
-  border-radius: 18px;
-  box-shadow: 0 10px 24px rgba(96, 72, 40, 0.08);
+.landing-elder-welcome {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  min-height: 110px;
-  padding: 18px 14px;
+  gap: 10px;
 }
 
-.landing-metric-card strong {
-  color: #604828;
-  font-size: 28px;
-  font-weight: 700;
-  letter-spacing: -0.8px;
-  line-height: 1;
+.landing-elder-welcome > span {
+  color: #b14602;
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1.2;
 }
 
-.landing-metric-card span {
-  color: rgba(96, 72, 40, 0.78);
-  font-size: 12px;
+.landing-elder-welcome h1 {
+  color: #3f2f1f;
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: 0;
+  line-height: 1.12;
+  margin: 0;
+}
+
+.landing-elder-welcome p {
+  color: rgba(63, 47, 31, 0.76);
+  font-size: 18px;
   font-weight: 600;
-  line-height: 1.4;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.landing-elder-actions {
+  display: grid;
+  gap: 16px;
+}
+
+.landing-elder-action {
+  align-items: center;
+  background: #ffffff;
+  border: 2px solid rgba(177, 70, 2, 0.12);
+  border-radius: 24px;
+  box-shadow: 0 14px 28px rgba(96, 72, 40, 0.12);
+  color: #3f2f1f;
+  cursor: pointer;
+  display: flex;
+  gap: 20px;
+  min-height: 132px;
+  padding: 20px;
+  text-align: left;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease;
+  width: 100%;
+}
+
+.landing-elder-action:active {
+  box-shadow: 0 10px 20px rgba(96, 72, 40, 0.1);
+  transform: scale(0.98);
+}
+
+.landing-elder-action--record {
+  background: #fff5e8;
+  border-color: rgba(177, 70, 2, 0.2);
+}
+
+.landing-elder-action--story {
+  background: #ffffff;
+}
+
+.landing-elder-action-icon-wrap {
+  align-items: center;
+  background: #ffffff;
+  border-radius: 24px;
+  box-shadow: inset 0 0 0 1px rgba(177, 70, 2, 0.12);
+  color: #b14602;
+  display: flex;
+  flex: 0 0 92px;
+  height: 92px;
+  justify-content: center;
+  width: 92px;
+}
+
+.landing-elder-action--record .landing-elder-action-icon-wrap {
+  background: #b14602;
+  box-shadow: none;
+  color: #ffffff;
+}
+
+.landing-elder-action-icon {
+  display: block;
+  height: 44px;
+  width: 44px;
+}
+
+.landing-elder-action-copy {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.landing-elder-action-copy strong {
+  color: #b14602;
+  font-size: 25px;
+  font-weight: 800;
+  letter-spacing: 0;
+  line-height: 1.12;
+}
+
+.landing-elder-action-copy span {
+  color: rgba(63, 47, 31, 0.75);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.35;
 }
 
 /* ─── Weekly ranking ───────────────────────────────────────────────────────── */
@@ -692,10 +816,6 @@
 }
 
 @media (max-width: 640px) {
-  .landing-metrics {
-    grid-template-columns: 1fr;
-  }
-
   .landing-skeleton-card {
     min-height: 108px;
   }

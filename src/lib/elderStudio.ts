@@ -77,6 +77,9 @@ export type StudioRecording = {
   syncStatus: StudioSyncStatus;
   syncAttempts: number;
   lastSyncError: string | null;
+  coverUrl: string | null;
+  bgUrl: string | null;
+  isPublished: boolean;
   createdAt: string;
   updatedAt: string;
 };
@@ -392,6 +395,9 @@ const coerceStudioRecording = (recording: Partial<StudioRecording>): StudioRecor
   syncStatus: recording.syncStatus ?? 'local_only',
   syncAttempts: recording.syncAttempts ?? 0,
   lastSyncError: recording.lastSyncError ?? null,
+  coverUrl: recording.coverUrl ?? null,
+  bgUrl: recording.bgUrl ?? null,
+  isPublished: recording.isPublished ?? false,
   createdAt: recording.createdAt ?? new Date().toISOString(),
   updatedAt: recording.updatedAt ?? recording.createdAt ?? new Date().toISOString(),
 });
@@ -799,6 +805,9 @@ const fromRemoteRow = (row: RecordingRow): StudioRecording =>
     syncStatus: 'synced',
     syncAttempts: 0,
     lastSyncError: null,
+    coverUrl: row.cover_url ?? null,
+    bgUrl: row.bg_url ?? null,
+    isPublished: row.is_published ?? false,
     createdAt: row.created_at,
     updatedAt: row.updated_at ?? row.created_at,
   });
