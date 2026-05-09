@@ -98,7 +98,7 @@
   justify-items: center;
 }
 
-.landing-hero img {
+.landing-hero > img {
   height: 110%;
   left: 0;
   max-width: none;
@@ -143,21 +143,23 @@
   pointer-events: auto;
   position: absolute;
   right: calc(var(--safe-area-right) + 24px);
-  top: calc(var(--safe-area-top) + 35px);
+  top: calc(var(--safe-area-top) + 30px);
   z-index: 3;
 }
 
 @media (max-width: 374px) {
   .landing-hero-greeting {
-    right: calc(var(--safe-area-right) + 150px);
+    left: calc(var(--safe-area-left) + 18px);
   }
 
   .landing-hero-greeting span {
-    font-size: 29px;
+    font-size: 27px;
   }
 
   .landing-learning-language-badge {
     right: calc(var(--safe-area-right) + 18px);
+    top: calc(var(--safe-area-top) + 28px);
+    width: 142px;
   }
 }
 
@@ -287,6 +289,7 @@
 }
 
 .landing-last-read-cover {
+  background: linear-gradient(135deg, rgba(175, 126, 167, 0.22), rgba(203, 64, 60, 0.18));
   border-radius: 10px;
   flex-shrink: 0;
   height: 88px;
@@ -405,6 +408,7 @@
 }
 
 .landing-book-cover {
+  background: linear-gradient(135deg, rgba(175, 126, 167, 0.22), rgba(203, 64, 60, 0.18));
   border-radius: 8px;
   height: 96px;
   overflow: hidden;
@@ -715,6 +719,7 @@
 
 .landing-action-card {
   align-items: stretch;
+  background: linear-gradient(135deg, #a8c85b 0%, #cfe590 100%);
   border: none;
   border-radius: 20px;
   cursor: pointer;
@@ -730,6 +735,30 @@
     box-shadow 120ms ease;
 }
 
+.landing-action-card:nth-child(2) {
+  background: linear-gradient(135deg, #78aee8 0%, #a9cfef 100%);
+}
+
+.landing-action-card:nth-child(3) {
+  background: linear-gradient(135deg, #d196b7 0%, #f2c7d6 100%);
+}
+
+.landing-action-card-fallback {
+  align-items: center;
+  color: rgba(54, 38, 24, 0.72);
+  display: flex;
+  font-size: 26px;
+  font-weight: 800;
+  inset: 0;
+  justify-content: center;
+  letter-spacing: 0;
+  line-height: 1;
+  padding: 18px;
+  position: absolute;
+  text-align: center;
+  z-index: 0;
+}
+
 .landing-action-card:active {
   transform: scale(0.97);
 }
@@ -739,7 +768,9 @@
   height: 100%;
   object-fit: cover;
   pointer-events: none;
+  position: relative;
   width: 100%;
+  z-index: 1;
 }
 
 @media (min-width: 768px) {

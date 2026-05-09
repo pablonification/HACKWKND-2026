@@ -1,4 +1,5 @@
 import { IonButton, IonToast } from '@ionic/react';
+import type { User } from '@supabase/supabase-js';
 import {
   useCallback,
   useEffect,
@@ -11,8 +12,9 @@ import {
 import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 
 import { updatePassword } from '../lib/auth';
+import { withTimeout } from '../lib/asyncTimeout';
 import { triggerHapticFeedback } from '../lib/feedback';
-import { LEARNING_LANGUAGE_OPTIONS } from '../lib/learningLanguages';
+import { getLearningLanguageMetadata, LEARNING_LANGUAGE_OPTIONS } from '../lib/learningLanguages';
 import {
   fetchProfileDashboard,
   type ProfileDashboard,
@@ -98,6 +100,10 @@ const PROFILE_UI_ASSETS = {
 type ToastState = {
   message: string;
   color: 'danger' | 'success' | 'warning';
+};
+
+type ProfileRouteState = {
+  languageSettingsEntry?: 'home';
 };
 
 type ProfileRole = ProfileDashboard['profile']['role'];
@@ -333,17 +339,38 @@ const BackButton = ({ onBack, tone = 'dark' }: BackButtonProps) => {
   );
 };
 
-const ProfileLoadingSkeleton = () => (
-  <section
-    className="profile-screen profile-loading-shell profile-screen-enter"
-    aria-label="Loading profile"
-  >
+type ProfileSkeletonVariant = 'overview' | 'edit' | 'settings' | 'password' | 'language' | 'info';
+
+const resolveProfileSkeletonVariant = (pathname: string): ProfileSkeletonVariant => {
+  if (pathname.endsWith('/profile/edit')) return 'edit';
+  if (pathname.endsWith('/profile/settings/password')) return 'password';
+  if (pathname.endsWith('/profile/settings/language')) return 'language';
+  if (
+    pathname.endsWith('/profile/settings/about') ||
+    pathname.endsWith('/profile/settings/privacy')
+  ) {
+    return 'info';
+  }
+  if (pathname.endsWith('/profile/settings')) return 'settings';
+  return 'overview';
+};
+
+const ProfileLoadingSubHeader = ({ title }: { title: string }) => (
+  <header className="profile-subheader profile-loading-subheader">
+    <AppSkeleton className="profile-loading-back" />
+    <AppSkeleton className="profile-loading-subpage-title" />
+    <span className="profile-loading-subpage-title-text">{title}</span>
+  </header>
+);
+
+const ProfileOverviewLoadingSkeleton = () => (
+  <>
     <div className="profile-hero">
       <div className="profile-avatar-block">
-        <div className="profile-loading-avatar profile-loading-shimmer" />
+        <AppSkeleton className="profile-loading-avatar" />
       </div>
-      <div className="profile-loading-line profile-loading-name profile-loading-shimmer" />
-      <div className="profile-loading-line profile-loading-subtitle profile-loading-shimmer" />
+      <AppSkeleton className="profile-loading-line profile-loading-name" />
+      <AppSkeleton className="profile-loading-line profile-loading-subtitle" />
     </div>
 
     <div className="profile-cards">
@@ -363,6 +390,81 @@ const ProfileLoadingSkeleton = () => (
         ))}
       </div>
     </div>
+  </>
+);
+
+const ProfileEditLoadingSkeleton = () => (
+  <>
+    <ProfileLoadingSubHeader title="Edit Profile" />
+    <div className="profile-loading-edit-avatar-wrap">
+      <AppSkeleton className="profile-loading-edit-avatar" />
+      <AppSkeleton className="profile-loading-edit-badge" />
+    </div>
+    <div className="profile-loading-form">
+      {Array.from({ length: 4 }).map((_, index) => (
+        <div className="profile-loading-field" key={index}>
+          <AppSkeleton className="profile-loading-field-label" />
+          <AppSkeleton className="profile-loading-field-input" />
+        </div>
+      ))}
+      <AppSkeleton className="profile-loading-primary-button" />
+    </div>
+  </>
+);
+
+const ProfileSettingsLoadingSkeleton = () => (
+  <>
+    <div className="profile-settings-hero profile-loading-settings-hero">
+      <AppSkeleton className="profile-loading-back profile-loading-back-light" />
+      <AppSkeleton className="profile-loading-settings-title" />
+    </div>
+    <div className="profile-settings-card profile-loading-settings-card">
+      <div className="profile-loading-menu" aria-hidden="true">
+        {Array.from({ length: 5 }).map((_, index) => (
+          <AppSkeleton key={index} className="profile-loading-menu-item" />
+        ))}
+      </div>
+    </div>
+  </>
+);
+
+const ProfileFormSubpageLoadingSkeleton = ({ title }: { title: string }) => (
+  <>
+    <ProfileLoadingSubHeader title={title} />
+    <div className="profile-loading-form profile-loading-form-subpage">
+      {Array.from({ length: title === 'Change Language' ? 2 : 3 }).map((_, index) => (
+        <div className="profile-loading-field" key={index}>
+          <AppSkeleton className="profile-loading-field-label" />
+          <AppSkeleton className="profile-loading-field-input" />
+        </div>
+      ))}
+      <AppSkeleton className="profile-loading-primary-button" />
+    </div>
+  </>
+);
+
+const ProfileInfoLoadingSkeleton = () => (
+  <>
+    <ProfileLoadingSubHeader title="About Us" />
+    <article className="profile-info-content profile-loading-info-content">
+      {Array.from({ length: 5 }).map((_, index) => (
+        <AppSkeleton key={index} className="profile-loading-info-line" />
+      ))}
+    </article>
+  </>
+);
+
+const ProfileLoadingSkeleton = ({ variant }: { variant: ProfileSkeletonVariant }) => (
+  <section
+    className={`profile-screen profile-loading-shell profile-loading-shell-${variant} profile-screen-enter`}
+    aria-label="Loading profile"
+  >
+    {variant === 'overview' ? <ProfileOverviewLoadingSkeleton /> : null}
+    {variant === 'edit' ? <ProfileEditLoadingSkeleton /> : null}
+    {variant === 'settings' ? <ProfileSettingsLoadingSkeleton /> : null}
+    {variant === 'password' ? <ProfileFormSubpageLoadingSkeleton title="Change Password" /> : null}
+    {variant === 'language' ? <ProfileFormSubpageLoadingSkeleton title="Change Language" /> : null}
+    {variant === 'info' ? <ProfileInfoLoadingSkeleton /> : null}
   </section>
 );
 
@@ -384,6 +486,7 @@ const ProfileOverviewScreen = ({
   onSignOut,
   isSigningOut,
 }: OverviewProps) => {
+  const learningLanguage = getLearningLanguageMetadata(dashboard.profile.indigenousLanguage);
   const roleLabel = toRoleLabel(dashboard.profile.role);
   const visualRole = toVisualRole(dashboard.profile.role);
   const statCards = getStatCards(dashboard);
@@ -475,26 +578,23 @@ const ProfileOverviewScreen = ({
             type="button"
             className="profile-menu-item profile-learning-language-row"
             onClick={onOpenChangeLanguage}
-            aria-label={`Learning language: ${dashboard.profile.indigenousLanguage}`}
+            aria-label={`Learning language: ${learningLanguage.language}, ${learningLanguage.country}`}
           >
             <span className="profile-menu-left profile-learning-language-left">
-              <img
-                className="profile-menu-icon profile-learning-language-icon"
-                src={PROFILE_UI_ASSETS.settingsGlobe}
-                alt=""
-                aria-hidden="true"
-              />
-              <span>Learning language</span>
+              <span className="profile-learning-language-flag" aria-hidden="true">
+                <img src={learningLanguage.flagSrc} alt="" draggable={false} />
+              </span>
+              <span className="profile-learning-language-copy">
+                <strong>Learning {learningLanguage.language}</strong>
+                <span>Language from {learningLanguage.country}</span>
+              </span>
             </span>
-            <span className="profile-learning-language-right">
-              <strong>{dashboard.profile.indigenousLanguage}</strong>
-              <img
-                className="profile-menu-chevron"
-                src={PROFILE_UI_ASSETS.chevron}
-                alt=""
-                aria-hidden="true"
-              />
-            </span>
+            <img
+              className="profile-menu-chevron"
+              src={PROFILE_UI_ASSETS.chevron}
+              alt=""
+              aria-hidden="true"
+            />
           </button>
           <MenuItem
             icon={PROFILE_UI_ASSETS.editMenu}
@@ -1116,6 +1216,75 @@ const parseMetadataRole = (value: unknown): ProfileRole | undefined => {
   return undefined;
 };
 
+const parseMetadataString = (metadata: Record<string, unknown> | undefined, key: string) => {
+  const value = metadata?.[key];
+  return typeof value === 'string' && value.trim() ? value.trim() : null;
+};
+
+const createFallbackDashboard = ({
+  user,
+  fallbackRole,
+}: {
+  user: User;
+  fallbackRole?: ProfileRole;
+}): ProfileDashboard => {
+  const metadata = user.user_metadata as Record<string, unknown> | undefined;
+  const role = fallbackRole ?? 'learner';
+  const fullName =
+    parseMetadataString(metadata, 'full_name') ??
+    parseMetadataString(metadata, 'name') ??
+    user.email?.split('@')[0] ??
+    'Taleka User';
+  const avatarUrl =
+    parseMetadataString(metadata, 'avatar_url') ?? parseMetadataString(metadata, 'picture');
+  const metadataLearningLanguage = parseMetadataString(metadata, 'indigenous_language');
+  const indigenousLanguage = LEARNING_LANGUAGE_OPTIONS.includes(
+    metadataLearningLanguage as (typeof LEARNING_LANGUAGE_OPTIONS)[number],
+  )
+    ? metadataLearningLanguage!
+    : LEARNING_LANGUAGE_OPTIONS[0];
+
+  return {
+    profile: {
+      id: user.id,
+      fullName,
+      email: user.email ?? '',
+      role,
+      avatarUrl,
+      bio: null,
+      village: null,
+      age: null,
+      specialty: null,
+      appLanguage: APP_LANGUAGE_OPTIONS[0],
+      indigenousLanguage,
+      onboardingCompleted: true,
+      onboardingCompletedAt: null,
+      onboardingResponses: null,
+      pushNotificationsEnabled: true,
+    },
+    level: {
+      label: 'Lv. Pending',
+      progressPercent: 0,
+    },
+    stats:
+      role === 'elder'
+        ? {
+            wordsLearned: 0,
+            storiesCompleted: 0,
+            storiesShared: 0,
+            followerCount: 0,
+            followingCount: 0,
+          }
+        : {
+            wordsLearned: 0,
+            storiesCompleted: 0,
+            storiesShared: 0,
+            followerCount: 0,
+            followingCount: 0,
+          },
+  };
+};
+
 export function ProfilePage() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -1129,6 +1298,15 @@ export function ProfilePage() {
     () => parseMetadataRole((user?.user_metadata as Record<string, unknown> | undefined)?.role),
     [user?.user_metadata],
   );
+  const profileRouteState = location.state as ProfileRouteState | null;
+  const languageSettingsReturnPath =
+    profileRouteState?.languageSettingsEntry === 'home'
+      ? '/home/landing'
+      : '/home/profile/settings';
+  const loadingSkeletonVariant = useMemo(
+    () => resolveProfileSkeletonVariant(location.pathname),
+    [location.pathname],
+  );
 
   const refreshProfile = useCallback(async () => {
     if (!user) {
@@ -1140,14 +1318,20 @@ export function ProfilePage() {
     setIsLoading(true);
 
     try {
-      const nextDashboard = await fetchProfileDashboard({
-        userId: user.id,
-        fallbackRole,
-      });
+      const nextDashboard = await withTimeout(
+        fetchProfileDashboard({
+          userId: user.id,
+          fallbackRole,
+        }),
+        8000,
+        'Timed out while loading your profile.',
+      );
       setDashboard(nextDashboard);
     } catch (error) {
-      setDashboard(null);
-      setToast({ message: toAuthErrorMessage(error), color: 'danger' });
+      setDashboard(
+        (currentDashboard) => currentDashboard ?? createFallbackDashboard({ user, fallbackRole }),
+      );
+      setToast({ message: toAuthErrorMessage(error), color: 'warning' });
     } finally {
       setIsLoading(false);
     }
@@ -1207,7 +1391,7 @@ export function ProfilePage() {
   }
 
   if (isLoading && !dashboard) {
-    return <ProfileLoadingSkeleton />;
+    return <ProfileLoadingSkeleton variant={loadingSkeletonVariant} />;
   }
 
   if (!dashboard) {
@@ -1318,7 +1502,7 @@ export function ProfilePage() {
               dashboard={dashboard}
               onBack={() => {
                 triggerHapticFeedback('light');
-                navigate('/home/profile/settings');
+                navigate(languageSettingsReturnPath);
               }}
               onSaved={async (appLanguage, indigenousLanguage) => {
                 await updateProfilePreferences({
@@ -1328,7 +1512,7 @@ export function ProfilePage() {
                   pushNotificationsEnabled: dashboard.profile.pushNotificationsEnabled,
                 });
                 await refreshProfile();
-                navigate('/home/profile/settings', { replace: true });
+                navigate(languageSettingsReturnPath, { replace: true });
               }}
               onToast={setToast}
             />

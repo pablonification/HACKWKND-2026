@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { AppSkeleton } from '../components/ui';
 import { triggerHapticFeedback } from '../lib/feedback';
 import {
   PUBLISHED_STORY_SELECT,
@@ -8,6 +9,7 @@ import {
 } from '../lib/publishedStory';
 import { supabase } from '../lib/supabase';
 import { STORIES, type Story } from '../lib/storyData';
+import { applyStoryProgress, getStoryProgressEntry } from '../lib/storyProgress';
 
 import './StoryDetailPage.css';
 
@@ -68,6 +70,60 @@ function GenreIcon() {
 
 // ── Page ─────────────────────────────────────────────────────────────────────
 
+function StoryDetailSkeleton({ onBack }: { onBack: () => void }) {
+  return (
+    <div className="story-detail-page story-detail-page--skeleton" aria-label="Loading story">
+      <div className="story-detail-hero-blur story-detail-hero-blur--skeleton" aria-hidden="true" />
+      <div className="story-detail-hero-fade" aria-hidden="true" />
+      <button type="button" className="story-detail-back-btn" onClick={onBack} aria-label="Go back">
+        <BackIcon />
+      </button>
+
+      <div className="story-detail-cover-wrap">
+        <div className="story-detail-cover-shadow" />
+        <AppSkeleton className="story-detail-cover story-detail-cover--skeleton" />
+        <div className="story-detail-cover-meta story-detail-cover-meta--skeleton">
+          <AppSkeleton className="app-skeleton--pill" width={150} height={16} />
+          <AppSkeleton className="app-skeleton--pill" width={92} height={13} />
+        </div>
+      </div>
+
+      <div className="story-detail-stats" aria-hidden="true">
+        {Array.from({ length: 3 }).map((_, index) => (
+          <div key={index} className="story-detail-stat-card">
+            <AppSkeleton className="app-skeleton--pill" width={48} height={11} />
+            <AppSkeleton className="app-skeleton--pill" width={70} height={17} />
+          </div>
+        ))}
+      </div>
+
+      <div className="story-detail-progress-card" aria-hidden="true">
+        <AppSkeleton
+          className="app-skeleton--pill story-detail-skeleton-centered"
+          width="52%"
+          height={14}
+        />
+        <div className="story-detail-progress-row">
+          <AppSkeleton className="app-skeleton--pill" width={96} height={10} />
+          <AppSkeleton className="app-skeleton--pill" width={34} height={10} />
+        </div>
+        <div className="story-detail-progress-track">
+          <AppSkeleton width="46%" height="100%" />
+        </div>
+      </div>
+
+      <div className="story-detail-synopsis-section" aria-hidden="true">
+        <AppSkeleton className="app-skeleton--pill" width={88} height={16} />
+        <div className="story-detail-skeleton-copy">
+          <AppSkeleton className="app-skeleton--pill" width="100%" height={12} />
+          <AppSkeleton className="app-skeleton--pill" width="92%" height={12} />
+          <AppSkeleton className="app-skeleton--pill" width="72%" height={12} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function StoryDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -75,6 +131,7 @@ export function StoryDetailPage() {
   const staticStory = STORIES.find((s) => s.id === id);
   const [story, setStory] = useState<Story | null>(staticStory ?? null);
   const [isLoading, setIsLoading] = useState(!staticStory);
+  const storyId = story?.id;
 
   useEffect(() => {
     if (staticStory || !id) return;
@@ -102,15 +159,27 @@ export function StoryDetailPage() {
     })();
   }, [id, staticStory]);
 
+  useEffect(() => {
+    if (!storyId) return;
+    let cancelled = false;
+
+    void getStoryProgressEntry(storyId).then((progress) => {
+      if (!cancelled) {
+        setStory((currentStory) =>
+          currentStory && currentStory.id === storyId
+            ? applyStoryProgress(currentStory, progress)
+            : currentStory,
+        );
+      }
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [storyId]);
+
   if (isLoading) {
-    return (
-      <div className="story-detail-page story-detail-not-found">
-        <button type="button" className="story-detail-back-btn" onClick={() => navigate(-1)}>
-          <BackIcon />
-        </button>
-        <p>Loading…</p>
-      </div>
-    );
+    return <StoryDetailSkeleton onBack={() => navigate(-1)} />;
   }
 
   if (!story) {

@@ -375,6 +375,7 @@ function isLearnerOnlyRoute(pathname: string): boolean {
 function resolveLearnerTab(pathname: string): LearnerTab | null {
   if (pathname.startsWith('/home/landing')) return 'home';
   if (pathname.startsWith('/home/garden')) return 'garden';
+  if (pathname.startsWith('/home/translation')) return null;
   if (pathname.startsWith('/home/stories')) return 'story';
   if (pathname.startsWith('/home/archive')) return null;
   if (pathname.startsWith('/home/ai')) return 'ai';
@@ -435,7 +436,6 @@ export function HomePage() {
     new URLSearchParams(location.search).get('chat') === '1';
 
   const shouldShowTabMenu =
-    !isTranslateRoute &&
     !location.pathname.startsWith('/home/profile/') &&
     !isQuizRoute &&
     !isStoryDetailRoute &&

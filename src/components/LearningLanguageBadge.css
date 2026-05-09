@@ -1,19 +1,18 @@
 .learning-language-badge {
   align-items: center;
-  background: rgba(255, 249, 233, 0.86);
-  border: 1px solid rgba(96, 72, 40, 0.1);
+  background: rgba(255, 249, 233, 0.9);
+  border: 1px solid rgba(96, 72, 40, 0.08);
   border-radius: 999px;
   box-shadow:
-    0 6px 16px rgba(68, 46, 24, 0.14),
-    inset 0 1px 0 rgba(255, 255, 255, 0.78);
+    0 5px 14px rgba(68, 46, 24, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.68);
   color: #604828;
   cursor: pointer;
   display: inline-flex;
   font-family: 'Satoshi', 'Poppins', ui-sans-serif, system-ui, sans-serif;
-  font-weight: 700;
-  gap: 5px;
-  justify-content: center;
-  line-height: 1;
+  gap: 8px;
+  justify-content: flex-start;
+  line-height: 1.1;
   max-width: 100%;
   min-width: 0;
   -webkit-tap-highlight-color: transparent;
@@ -28,46 +27,105 @@
   outline-offset: 2px;
 }
 
-.learning-language-badge span {
+.learning-language-badge-copy {
+  display: grid;
+  gap: 1px;
+  justify-items: start;
   min-width: 0;
+}
+
+.learning-language-badge-name,
+.learning-language-badge-country {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.learning-language-badge-icon {
+.learning-language-badge-name {
+  color: #3d291c;
+  font-weight: 800;
+  line-height: 1.18;
+}
+
+.learning-language-badge-country {
+  color: rgba(61, 41, 28, 0.72);
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.learning-language-badge-flag {
+  align-items: center;
+  border-radius: 999px;
+  box-shadow: 0 1px 4px rgba(68, 46, 24, 0.12);
+  display: inline-flex;
   flex-shrink: 0;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.learning-language-badge-flag img {
+  border-radius: 999px;
+  display: block;
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
 }
 
 .learning-language-badge-chevron {
   flex-shrink: 0;
-  opacity: 0.72;
+  margin-left: auto;
+  opacity: 0.9;
 }
 
 .learning-language-badge--home {
+  align-items: center;
   font-size: 12px;
-  min-height: 30px;
-  padding: 0 10px;
+  min-height: 48px;
+  padding: 0 12px 0 8px;
+  width: 148px;
 }
 
-.learning-language-badge--home .learning-language-badge-icon {
-  font-size: 14px;
+.learning-language-badge--home .learning-language-badge-copy {
+  align-content: center;
+  min-height: 32px;
+}
+
+.learning-language-badge--home .learning-language-badge-flag {
+  height: 32px;
+  width: 32px;
+}
+
+.learning-language-badge--home .learning-language-badge-country {
+  font-size: 11px;
 }
 
 .learning-language-badge--home .learning-language-badge-chevron {
-  font-size: 13px;
+  color: #3d291c;
+  font-size: 19px;
 }
 
 .learning-language-badge--compact {
-  font-size: 12px;
-  min-height: 28px;
+  font-size: 11px;
+  gap: 7px;
+  min-height: 38px;
   padding: 0 9px;
+  width: 130px;
 }
 
-.learning-language-badge--compact .learning-language-badge-icon {
-  font-size: 13px;
+.learning-language-badge--compact .learning-language-badge-flag {
+  height: 24px;
+  width: 24px;
+}
+
+.learning-language-badge--compact .learning-language-badge-copy {
+  align-content: center;
+  min-height: 24px;
+}
+
+.learning-language-badge--compact .learning-language-badge-country {
+  font-size: 10px;
 }
 
 .learning-language-badge--compact .learning-language-badge-chevron {
-  font-size: 12px;
+  font-size: 14px;
 }

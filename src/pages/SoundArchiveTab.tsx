@@ -1,4 +1,4 @@
-import { IonIcon, IonSpinner, IonToast } from '@ionic/react';
+import { IonIcon, IonToast } from '@ionic/react';
 import {
   arrowBackOutline,
   cloudDoneOutline,
@@ -500,7 +500,7 @@ export function SoundArchiveTab() {
           <h2>Sound Archive</h2>
           <div className={`studio-sync-badge is-${syncBadge.tone}`}>
             {isSyncing ? (
-              <IonSpinner name="crescent" />
+              <AppSkeleton className="app-skeleton--circle" width={16} height={16} />
             ) : (
               <IonIcon aria-hidden icon={syncBadge.icon} />
             )}
@@ -623,7 +623,7 @@ export function SoundArchiveTab() {
                         disabled={Boolean(loadingPlaybackRecordingId)}
                       >
                         {loadingPlaybackRecordingId === recording.id ? (
-                          'Loading...'
+                          <AppSkeleton className="app-skeleton--pill" width={70} height={14} />
                         ) : (
                           <>
                             <IonIcon
@@ -764,8 +764,8 @@ export function SoundArchiveTab() {
                       >
                         {isGeneratingCover || isGeneratingBg ? (
                           <>
-                            <IonSpinner name="crescent" />
-                            <span>Generating…</span>
+                            <AppSkeleton className="app-skeleton--circle" width={16} height={16} />
+                            <AppSkeleton className="app-skeleton--pill" width={92} height={14} />
                           </>
                         ) : !generatedCoverUrl ? (
                           'Generate Cover'
@@ -783,8 +783,8 @@ export function SoundArchiveTab() {
                     >
                       {isPublishing ? (
                         <>
-                          <IonSpinner name="crescent" />
-                          <span>Publishing…</span>
+                          <AppSkeleton className="app-skeleton--circle" width={16} height={16} />
+                          <AppSkeleton className="app-skeleton--pill" width={82} height={14} />
                         </>
                       ) : (
                         'Publish Story'

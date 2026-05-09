@@ -71,7 +71,7 @@
 .translate-panel {
   margin: 24px auto 0;
   max-width: 354px;
-  padding: 0 7px calc(var(--safe-area-bottom) + 28px);
+  padding: 0 7px calc(var(--safe-area-bottom) + 128px);
 }
 
 .translate-card {
