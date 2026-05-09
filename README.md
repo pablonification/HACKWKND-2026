@@ -45,7 +45,7 @@ These features and improvements were added after the original BorNEO HackWknd 20
 | ------------------ | -------------------------------------------------------------- |
 | YouTube Submission | https://youtu.be/bcL9RvYezy4                                   |
 | Figma Hi-Fi Design | https://www.figma.com/design/eUx2kJ3dssfOGgNwyiCoaz/HackWeeknd |
-| Final Report       | [Report_Taleka_HACKWKND.pdf](Report_Taleka_HACKWKND.pdf)       |
+| Final Report       | [FinalPresentation_Taleka.pdf](FinalPresentation_Taleka.pdf)   |
 
 ---
 
