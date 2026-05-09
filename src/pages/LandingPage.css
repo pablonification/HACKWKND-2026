@@ -98,6 +98,15 @@
   justify-items: center;
 }
 
+.landing-hero::after {
+  background: rgba(0, 0, 0, 0.32);
+  content: '';
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: 1;
+}
+
 .landing-hero > img {
   height: 110%;
   left: 0;
@@ -130,13 +139,12 @@
 }
 
 .landing-hero-greeting span {
+  color: #ffedd6;
   font-family: 'Playfair Display', 'Playfair', Georgia, serif;
+  font-size: 32px;
   font-style: italic;
   font-weight: 700;
-  font-size: 32px;
-  color: #604828;
   letter-spacing: 1px;
-  text-shadow: 0 1px 4px rgba(255, 255, 255, 0.5);
 }
 
 .landing-learning-language-badge {
