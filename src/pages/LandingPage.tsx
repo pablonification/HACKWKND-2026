@@ -261,6 +261,7 @@ function ExploreTalekaCards({ onNavigate }: { onNavigate: (href: string) => void
 function LearnerLanding({
   firstName,
   onNavigate,
+  onOpenLanguageSettings,
   learningLanguage,
   leaderName,
   leaderAvatarSrc,
@@ -269,6 +270,7 @@ function LearnerLanding({
 }: {
   firstName: string;
   onNavigate: (h: string) => void;
+  onOpenLanguageSettings: () => void;
   learningLanguage: string;
   leaderName: string;
   leaderAvatarSrc: string;
@@ -287,7 +289,7 @@ function LearnerLanding({
           language={learningLanguage}
           variant="home"
           className="landing-learning-language-badge"
-          onClick={() => onNavigate('/home/profile/settings/language')}
+          onClick={onOpenLanguageSettings}
         />
       </div>
 
@@ -507,6 +509,13 @@ export function LandingPage() {
     navigate(href);
   };
 
+  const openLanguageSettingsFromHome = () => {
+    triggerHapticFeedback('light');
+    navigate('/home/profile/settings/language', {
+      state: { languageSettingsEntry: 'home' },
+    });
+  };
+
   if (isProfileLoading) {
     return <LandingPageSkeleton isElder={isElder} />;
   }
@@ -519,6 +528,7 @@ export function LandingPage() {
     <LearnerLanding
       firstName={firstName}
       onNavigate={onNavigate}
+      onOpenLanguageSettings={openLanguageSettingsFromHome}
       learningLanguage={learningLanguage}
       leaderName={leaderName}
       leaderAvatarSrc={leaderAvatarSrc}

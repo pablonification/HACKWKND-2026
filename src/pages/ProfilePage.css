@@ -116,6 +116,143 @@
   width: 100%;
 }
 
+.profile-loading-shell-edit,
+.profile-loading-shell-password,
+.profile-loading-shell-language,
+.profile-loading-shell-info {
+  padding: 66px 27px calc(var(--safe-area-bottom) + 28px);
+}
+
+.profile-loading-subheader {
+  margin-bottom: 25px;
+}
+
+.profile-loading-back {
+  border-radius: 50%;
+  flex-shrink: 0;
+  height: 25px;
+  width: 25px;
+}
+
+.profile-loading-back-light {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.profile-loading-subpage-title {
+  border-radius: 999px;
+  height: 18px;
+  width: 168px;
+}
+
+.profile-loading-subpage-title-text {
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  width: 1px;
+}
+
+.profile-loading-edit-avatar-wrap {
+  align-self: center;
+  margin: 0 auto 18px;
+  position: relative;
+  width: 121px;
+}
+
+.profile-loading-edit-avatar {
+  border-radius: 23px;
+  height: 129px;
+  width: 121px;
+}
+
+.profile-loading-edit-badge {
+  border-radius: 50%;
+  height: 23px;
+  position: absolute;
+  right: -5px;
+  top: calc(100% - 21px);
+  width: 23px;
+}
+
+.profile-loading-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0 auto;
+  max-width: 333px;
+  width: 100%;
+}
+
+.profile-loading-form-subpage {
+  max-width: 340px;
+}
+
+.profile-loading-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.profile-loading-field-label {
+  border-radius: 999px;
+  height: 12px;
+  width: 92px;
+}
+
+.profile-loading-field-input {
+  border-radius: 10px;
+  height: 43px;
+  width: 100%;
+}
+
+.profile-loading-primary-button {
+  border-radius: 10px;
+  height: 39px;
+  margin-top: 8px;
+  width: 100%;
+}
+
+.profile-loading-settings-hero {
+  min-height: 293px;
+}
+
+.profile-loading-settings-title {
+  align-self: flex-end;
+  border-radius: 999px;
+  height: 40px;
+  width: 150px;
+}
+
+.profile-loading-settings-card {
+  min-height: 741px;
+}
+
+.profile-loading-info-content {
+  gap: 12px;
+  padding-top: 10px;
+}
+
+.profile-loading-info-line {
+  border-radius: 999px;
+  height: 12px;
+  width: 100%;
+}
+
+.profile-loading-info-line:nth-child(2) {
+  width: 92%;
+}
+
+.profile-loading-info-line:nth-child(3) {
+  width: 78%;
+}
+
+.profile-loading-info-line:nth-child(4) {
+  width: 96%;
+}
+
+.profile-loading-info-line:nth-child(5) {
+  width: 66%;
+}
+
 .profile-overview-screen {
   padding-bottom: calc(var(--safe-area-bottom) + 4px);
 }
