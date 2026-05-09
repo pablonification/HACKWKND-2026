@@ -36,6 +36,8 @@ Use the existing root `.env` file and add these keys there:
 
 ```bash
 VITE_AI_BASE_URL=http://localhost:8787
+OMNIASR_BASE_URL=https://pablonification-omniasr-transcriptions.hf.space
+OMNIASR_LANGUAGE=sea_Latn
 SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
 ```
 
@@ -49,6 +51,6 @@ npm run ai-helper:dev
 
 ## Notes
 
-- Default provider: `https://facebook-omniasr-transcriptions.hf.space`
+- Default provider: `https://pablonification-omniasr-transcriptions.hf.space`
 - Default language: `sea_Latn`
 - If OmniASR is busy/unavailable, this service returns a clear 5xx error.
