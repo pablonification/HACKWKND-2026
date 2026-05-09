@@ -5,9 +5,11 @@ import { Capacitor } from '@capacitor/core';
 import { SplashScreen } from '@capacitor/splash-screen';
 
 import { AppSplashScreen } from '../components/ui';
+import { fetchOnboardingStatus } from '../lib/profile';
 import { useAuthStore } from '../stores/authStore';
 import { AuthPage } from '../pages/AuthPage';
 import { HomePage } from '../pages/HomePage';
+import { OnboardingPage } from '../pages/OnboardingPage';
 import { ResetPasswordPage } from '../pages/ResetPasswordPage';
 
 const isNative = Capacitor.isNativePlatform();
@@ -47,6 +49,13 @@ export function AppRouter() {
   const [minTimePassed, setMinTimePassed] = useState(false);
   const [exiting, setExiting] = useState(false);
   const [showSplash, setShowSplash] = useState(true);
+  const [onboardingState, setOnboardingState] = useState<{
+    isLoading: boolean;
+    completed: boolean | null;
+  }>({
+    isLoading: false,
+    completed: null,
+  });
 
   useEffect(() => {
     const t = setTimeout(() => setMinTimePassed(true), SPLASH_MIN_MS);
@@ -91,6 +100,50 @@ export function AppRouter() {
     }
   }, [exiting, isLoading, minTimePassed, showSplash]);
 
+  useEffect(() => {
+    if (!session?.user.id) {
+      setOnboardingState({ isLoading: false, completed: null });
+      return;
+    }
+
+    let cancelled = false;
+    setOnboardingState((current) => ({
+      isLoading: true,
+      completed: current.completed,
+    }));
+
+    void fetchOnboardingStatus({
+      userId: session.user.id,
+      fallbackRole:
+        session.user.user_metadata?.role === 'elder' || session.user.user_metadata?.role === 'admin'
+          ? session.user.user_metadata.role
+          : 'learner',
+    })
+      .then((status) => {
+        if (!cancelled) {
+          setOnboardingState({ isLoading: false, completed: status.completed });
+        }
+      })
+      .catch((error) => {
+        console.warn('Failed to resolve onboarding status:', error);
+        if (!cancelled) {
+          setOnboardingState({ isLoading: false, completed: true });
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [session?.user.id, session?.user.user_metadata?.role]);
+
+  const needsOnboarding =
+    Boolean(session) && !onboardingState.isLoading && onboardingState.completed === false;
+  const hasResolvedProtectedState = !isLoading && (!session || !onboardingState.isLoading);
+
+  if (!hasResolvedProtectedState) {
+    return <>{showSplash && !isNative && <AppSplashScreen exiting={exiting} />}</>;
+  }
+
   return (
     <>
       <IonRouterOutlet>
@@ -105,18 +158,70 @@ export function AppRouter() {
               )
             }
           />
-          <Route path="/auth" element={session ? <Navigate to="/home" replace /> : <AuthPage />} />
+          <Route
+            path="/auth"
+            element={
+              session ? (
+                <Navigate to={needsOnboarding ? '/onboarding' : '/home'} replace />
+              ) : (
+                <AuthPage />
+              )
+            }
+          />
+          <Route
+            path="/onboarding"
+            element={
+              session ? (
+                needsOnboarding ? (
+                  <OnboardingPage
+                    onCompleted={() =>
+                      setOnboardingState({
+                        isLoading: false,
+                        completed: true,
+                      })
+                    }
+                  />
+                ) : (
+                  <Navigate to="/home" replace />
+                )
+              ) : (
+                <Navigate to="/auth" replace />
+              )
+            }
+          />
           <Route
             path="/home/*"
-            element={session ? <HomePage /> : <Navigate to="/auth" replace />}
+            element={
+              session ? (
+                needsOnboarding ? (
+                  <Navigate to="/onboarding" replace />
+                ) : (
+                  <HomePage />
+                )
+              ) : (
+                <Navigate to="/auth" replace />
+              )
+            }
           />
           <Route
             path="/"
-            element={session ? <Navigate to="/home" replace /> : <Navigate to="/auth" replace />}
+            element={
+              session ? (
+                <Navigate to={needsOnboarding ? '/onboarding' : '/home'} replace />
+              ) : (
+                <Navigate to="/auth" replace />
+              )
+            }
           />
           <Route
             path="*"
-            element={session ? <Navigate to="/home" replace /> : <Navigate to="/auth" replace />}
+            element={
+              session ? (
+                <Navigate to={needsOnboarding ? '/onboarding' : '/home'} replace />
+              ) : (
+                <Navigate to="/auth" replace />
+              )
+            }
           />
         </Routes>
       </IonRouterOutlet>

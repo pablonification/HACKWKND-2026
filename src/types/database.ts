@@ -17,6 +17,9 @@ export type Database = {
           specialty: string | null;
           app_language: string;
           indigenous_language: string;
+          onboarding_completed: boolean;
+          onboarding_completed_at: string | null;
+          onboarding_responses: unknown | null;
           push_notifications_enabled: boolean;
           created_at: string | null;
           updated_at: string | null;
@@ -34,6 +37,9 @@ export type Database = {
           specialty?: string | null;
           app_language?: string;
           indigenous_language?: string;
+          onboarding_completed?: boolean;
+          onboarding_completed_at?: string | null;
+          onboarding_responses?: unknown | null;
           push_notifications_enabled?: boolean;
           created_at?: string | null;
           updated_at?: string | null;
@@ -50,6 +56,9 @@ export type Database = {
           specialty?: string | null;
           app_language?: string;
           indigenous_language?: string;
+          onboarding_completed?: boolean;
+          onboarding_completed_at?: string | null;
+          onboarding_responses?: unknown | null;
           push_notifications_enabled?: boolean;
           updated_at?: string | null;
         };
