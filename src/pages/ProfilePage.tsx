@@ -288,12 +288,12 @@ const getStatCards = (dashboard: ProfileDashboard): StatCard[] => {
     return [
       {
         label: 'Stories Shared',
-        value: ELDER_PROFILE_SUMMARY.storiesShared,
+        value: dashboard.stats.storiesShared,
         visual: 'elderStories',
       },
       {
         label: 'Learners',
-        value: ELDER_PROFILE_SUMMARY.learners,
+        value: dashboard.stats.followerCount,
         visual: 'elderLearners',
       },
     ];
@@ -302,12 +302,12 @@ const getStatCards = (dashboard: ProfileDashboard): StatCard[] => {
   return [
     {
       label: 'Words Learned',
-      value: LEARNER_PROFILE_SUMMARY.wordsLearned,
+      value: dashboard.stats.wordsLearned,
       visual: 'words',
     },
     {
       label: 'Stories Completed',
-      value: LEARNER_PROFILE_SUMMARY.storiesCompleted,
+      value: dashboard.stats.storiesCompleted,
       visual: 'stories',
     },
   ];
@@ -504,10 +504,6 @@ const ProfileOverviewScreen = ({
   const roleLabel = toRoleLabel(dashboard.profile.role);
   const visualRole = toVisualRole(dashboard.profile.role);
   const statCards = getStatCards(dashboard);
-  const profileSummary =
-    dashboard.profile.role === 'elder' || dashboard.profile.role === 'admin'
-      ? ELDER_PROFILE_SUMMARY
-      : LEARNER_PROFILE_SUMMARY;
 
   return (
     <section className="profile-screen profile-overview-screen profile-screen-enter">
@@ -557,8 +553,8 @@ const ProfileOverviewScreen = ({
 
           <div className="profile-level-copy">
             <div className="profile-level-card-top">
-              <span>{profileSummary.levelLabel}</span>
-              <span>{profileSummary.progressPercent}%</span>
+              <span>{dashboard.level.label}</span>
+              <span>{dashboard.level.progressPercent}%</span>
             </div>
 
             <div
@@ -566,9 +562,9 @@ const ProfileOverviewScreen = ({
               role="progressbar"
               aria-valuemin={0}
               aria-valuemax={100}
-              aria-valuenow={profileSummary.progressPercent}
+              aria-valuenow={dashboard.level.progressPercent}
             >
-              <span style={{ width: `${profileSummary.progressPercent}%` }} />
+              <span style={{ width: `${dashboard.level.progressPercent}%` }} />
             </div>
           </div>
         </article>

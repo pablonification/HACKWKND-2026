@@ -138,6 +138,7 @@ export function StoryReadPage() {
   const [story, setStory] = useState<Story | null>(staticStory ?? null);
   const [isLoading, setIsLoading] = useState(!staticStory);
   const [currentScene, setCurrentScene] = useState(0);
+  const [hasLoadedProgress, setHasLoadedProgress] = useState(false);
 
   useEffect(() => {
     if (staticStory || !id) return;
@@ -168,12 +169,20 @@ export function StoryReadPage() {
   useEffect(() => {
     if (!story) return;
     let cancelled = false;
+    setHasLoadedProgress(false);
 
     void getStoryProgressEntry(story.id).then((progress) => {
-      if (cancelled || !progress) return;
-      setCurrentScene(
-        Math.min(progress.currentScene, Math.max(0, (story.scenes?.length ?? 1) - 1)),
-      );
+      if (cancelled) return;
+
+      if (progress) {
+        setCurrentScene(
+          Math.min(progress.currentScene, Math.max(0, (story.scenes?.length ?? 1) - 1)),
+        );
+      } else {
+        setCurrentScene(0);
+      }
+
+      setHasLoadedProgress(true);
     });
 
     return () => {
@@ -182,9 +191,9 @@ export function StoryReadPage() {
   }, [story]);
 
   useEffect(() => {
-    if (!story) return;
+    if (!story || !hasLoadedProgress) return;
     void saveStoryProgress(story, currentScene);
-  }, [currentScene, story]);
+  }, [currentScene, hasLoadedProgress, story]);
 
   // Touch swipe state
   const touchStartX = useRef<number | null>(null);
