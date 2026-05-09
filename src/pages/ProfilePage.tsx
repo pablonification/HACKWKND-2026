@@ -11,8 +11,9 @@ import {
 import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 
 import { updatePassword } from '../lib/auth';
+import { withTimeout } from '../lib/asyncTimeout';
 import { triggerHapticFeedback } from '../lib/feedback';
-import { LEARNING_LANGUAGE_OPTIONS } from '../lib/learningLanguages';
+import { getLearningLanguageMetadata, LEARNING_LANGUAGE_OPTIONS } from '../lib/learningLanguages';
 import {
   fetchProfileDashboard,
   type ProfileDashboard,
@@ -173,6 +174,20 @@ type StatCard = {
   visual: StatVisual;
 };
 
+const LEARNER_PROFILE_SUMMARY = {
+  levelLabel: 'Lv. Sprout',
+  progressPercent: 42,
+  wordsLearned: 128,
+  storiesCompleted: 7,
+} as const;
+
+const ELDER_PROFILE_SUMMARY = {
+  levelLabel: 'Lv. Story Keeper',
+  progressPercent: 64,
+  storiesShared: 12,
+  learners: 36,
+} as const;
+
 function ElderStoriesStatIcon() {
   return (
     <svg viewBox="0 0 48 48" aria-hidden="true" className="profile-stat-svg">
@@ -268,12 +283,12 @@ const getStatCards = (dashboard: ProfileDashboard): StatCard[] => {
     return [
       {
         label: 'Stories Shared',
-        value: dashboard.stats.storiesShared,
+        value: ELDER_PROFILE_SUMMARY.storiesShared,
         visual: 'elderStories',
       },
       {
         label: 'Learners',
-        value: dashboard.stats.followerCount,
+        value: ELDER_PROFILE_SUMMARY.learners,
         visual: 'elderLearners',
       },
     ];
@@ -282,12 +297,12 @@ const getStatCards = (dashboard: ProfileDashboard): StatCard[] => {
   return [
     {
       label: 'Words Learned',
-      value: dashboard.stats.wordsLearned,
+      value: LEARNER_PROFILE_SUMMARY.wordsLearned,
       visual: 'words',
     },
     {
       label: 'Stories Completed',
-      value: dashboard.stats.storiesCompleted,
+      value: LEARNER_PROFILE_SUMMARY.storiesCompleted,
       visual: 'stories',
     },
   ];
@@ -340,10 +355,10 @@ const ProfileLoadingSkeleton = () => (
   >
     <div className="profile-hero">
       <div className="profile-avatar-block">
-        <div className="profile-loading-avatar profile-loading-shimmer" />
+        <AppSkeleton className="profile-loading-avatar" />
       </div>
-      <div className="profile-loading-line profile-loading-name profile-loading-shimmer" />
-      <div className="profile-loading-line profile-loading-subtitle profile-loading-shimmer" />
+      <AppSkeleton className="profile-loading-line profile-loading-name" />
+      <AppSkeleton className="profile-loading-line profile-loading-subtitle" />
     </div>
 
     <div className="profile-cards">
@@ -384,9 +399,14 @@ const ProfileOverviewScreen = ({
   onSignOut,
   isSigningOut,
 }: OverviewProps) => {
+  const learningLanguage = getLearningLanguageMetadata(dashboard.profile.indigenousLanguage);
   const roleLabel = toRoleLabel(dashboard.profile.role);
   const visualRole = toVisualRole(dashboard.profile.role);
   const statCards = getStatCards(dashboard);
+  const profileSummary =
+    dashboard.profile.role === 'elder' || dashboard.profile.role === 'admin'
+      ? ELDER_PROFILE_SUMMARY
+      : LEARNER_PROFILE_SUMMARY;
 
   return (
     <section className="profile-screen profile-overview-screen profile-screen-enter">
@@ -436,8 +456,8 @@ const ProfileOverviewScreen = ({
 
           <div className="profile-level-copy">
             <div className="profile-level-card-top">
-              <span>{dashboard.level.label}</span>
-              <span>{dashboard.level.progressPercent}%</span>
+              <span>{profileSummary.levelLabel}</span>
+              <span>{profileSummary.progressPercent}%</span>
             </div>
 
             <div
@@ -445,9 +465,9 @@ const ProfileOverviewScreen = ({
               role="progressbar"
               aria-valuemin={0}
               aria-valuemax={100}
-              aria-valuenow={dashboard.level.progressPercent}
+              aria-valuenow={profileSummary.progressPercent}
             >
-              <span style={{ width: `${dashboard.level.progressPercent}%` }} />
+              <span style={{ width: `${profileSummary.progressPercent}%` }} />
             </div>
           </div>
         </article>
@@ -475,26 +495,23 @@ const ProfileOverviewScreen = ({
             type="button"
             className="profile-menu-item profile-learning-language-row"
             onClick={onOpenChangeLanguage}
-            aria-label={`Learning language: ${dashboard.profile.indigenousLanguage}`}
+            aria-label={`Learning language: ${learningLanguage.language}, ${learningLanguage.country}`}
           >
             <span className="profile-menu-left profile-learning-language-left">
-              <img
-                className="profile-menu-icon profile-learning-language-icon"
-                src={PROFILE_UI_ASSETS.settingsGlobe}
-                alt=""
-                aria-hidden="true"
-              />
-              <span>Learning language</span>
+              <span className="profile-learning-language-flag" aria-hidden="true">
+                <img src={learningLanguage.flagSrc} alt="" draggable={false} />
+              </span>
+              <span className="profile-learning-language-copy">
+                <strong>Learning {learningLanguage.language}</strong>
+                <span>Language from {learningLanguage.country}</span>
+              </span>
             </span>
-            <span className="profile-learning-language-right">
-              <strong>{dashboard.profile.indigenousLanguage}</strong>
-              <img
-                className="profile-menu-chevron"
-                src={PROFILE_UI_ASSETS.chevron}
-                alt=""
-                aria-hidden="true"
-              />
-            </span>
+            <img
+              className="profile-menu-chevron"
+              src={PROFILE_UI_ASSETS.chevron}
+              alt=""
+              aria-hidden="true"
+            />
           </button>
           <MenuItem
             icon={PROFILE_UI_ASSETS.editMenu}
@@ -1140,10 +1157,14 @@ export function ProfilePage() {
     setIsLoading(true);
 
     try {
-      const nextDashboard = await fetchProfileDashboard({
-        userId: user.id,
-        fallbackRole,
-      });
+      const nextDashboard = await withTimeout(
+        fetchProfileDashboard({
+          userId: user.id,
+          fallbackRole,
+        }),
+        8000,
+        'Timed out while loading your profile.',
+      );
       setDashboard(nextDashboard);
     } catch (error) {
       setDashboard(null);
