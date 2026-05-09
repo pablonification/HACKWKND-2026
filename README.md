@@ -6,7 +6,7 @@
 
 ---
 
-## What's New (Post-Submission Refinements)
+## What's New (Refinement Changelog)
 
 These features and improvements were added after the original BorNEO HackWknd 2026 submission on May 9th.
 
@@ -19,14 +19,15 @@ These features and improvements were added after the original BorNEO HackWknd 20
 
 ### Multi-Language Support & Dynamic Backgrounds
 
-- Users can now select any of 8 indigenous ASEAN languages (Tandia · Semai · Mlabri · Chong · Arta · Arem · Kristang · Moken) as their learning language
+- Users can select any of 8 indigenous ASEAN languages as their learning language: Tandia · Semai · Mlabri · Chong · Arta · Arem · Kristang · Moken
+- **Note:** language selection is UI-level for this hackathon — only **Semai** has a full implementation (dictionary, AI coaching, transcription, translation). The other 7 languages are placeholders ready for future corpus and model integration.
 - The home screen hero image updates dynamically based on the user's chosen language — both learner and elder variants, one per country
 - Country flag metadata added to each language option (`LEARNING_LANGUAGE_METADATA`)
 - 20 background images bundled via Vite `import.meta.glob`
 
 ### AI Coach Improvements
 
-- ChatGPT proxy added as primary provider with Gemini as fallback (previously Gemini-only)
+- Claude Agent SDK added as provider (previously using Gemini)
 - Conversation threads are **persisted across sessions** — the coach remembers prior turns
 - Authentication is now required for all coach requests
 - Improved reliability: coaching sessions recover gracefully from provider timeouts
@@ -34,7 +35,7 @@ These features and improvements were added after the original BorNEO HackWknd 20
 ### Profile Onboarding
 
 - New guided onboarding flow for first-time users: choose role (Learner / Elder), set display name, select learning language, and optionally upload an avatar
-- Language preference is stored in `user_metadata` and immediately reflected in the hero background and app routing
+- Language preference is stored in the `profiles` table (`indigenous_language` column) and immediately reflected in the hero background and app routing
 
 ---
 
@@ -56,7 +57,7 @@ Semai is an Aslian language spoken by approximately 30,000 people in Peninsular 
 
 ## Architecture
 
-![Architecture diagram](https://mermaid.ink/img/eyJjb2RlIjoiZ3JhcGggVERcbiAgICBzdWJncmFwaCBDbGllbnQgW01vYmlsZSBBcHAgLSBJb25pYyArIFJlYWN0ICsgQ2FwYWNpdG9yXVxuICAgICAgICBVSVtQYWdlcyBhbmQgQ29tcG9uZW50c11cbiAgICAgICAgTGliW3NyYy9saWIgLSBhdXRoLCB0cmFuc2xhdGUsIEFJIGNvYWNoLCBnYXJkZW5TeW5jLCBlbGRlclN0dWRpb11cbiAgICAgICAgU3RvcmVbWnVzdGFuZCBTdG9yZXMgLSBhdXRoIGFuZCBzZXNzaW9uXVxuICAgIGVuZFxuICAgIHN1YmdyYXBoIFN1cGFiYXNlIFtTdXBhYmFzZSBDbG91ZF1cbiAgICAgICAgQXV0aFtBdXRoIC0gZW1haWwvcGFzc3dvcmQsIEpXVF1cbiAgICAgICAgREJbKFBvc3RncmVzIERCIC0gcHJvZmlsZXMsIHJlY29yZGluZ3MsIHdvcmRzLCBwcm9ncmVzcywgc3RvcmllcyldXG4gICAgICAgIFN0b3JhZ2VbKFN0b3JhZ2UgLSByZWNvcmRpbmdzLCBhdmF0YXJzKV1cbiAgICAgICAgRm5Db2FjaFtFZGdlIEZuOiBhaS1jb2FjaCAtIEdlbWluaSAvIENoYXRHUFQgcHJveHldXG4gICAgICAgIEZuVHJhbnNsYXRlW0VkZ2UgRm46IGFpLXRyYW5zbGF0ZSAtIENlcmVicmFzIC8gU0VBLUxJT05dXG4gICAgICAgIEZuQ292ZXJbRWRnZSBGbjogZ2VuZXJhdGUtc3RvcnktY292ZXIgLSBHUFQgSW1hZ2UgMl1cbiAgICBlbmRcbiAgICBzdWJncmFwaCBBSUhlbHBlciBbYWktaGVscGVyIHByb3h5IC0gcG9ydCA4Nzg3XVxuICAgICAgICBPbW5pQVNSW09tbmlBU1IgdmlhIEh1Z2dpbmcgRmFjZSAtIDQtbGFuZ3VhZ2UgZW5zZW1ibGUgU1RUXVxuICAgICAgICBTY29yZXJbRGljdGlvbmFyeS1maXJzdCBzY29yaW5nIGFuZCBtZXJnZV1cbiAgICAgICAgTGV4aWNvbltSdW50aW1lIGxleGljb24gLSBzZW1haUxleGljb24gKyBXZWJvbmFyeSArIFN1cGFiYXNlIHdvcmRzXVxuICAgIGVuZFxuICAgIFVJIC0tPiBTdG9yZVxuICAgIFVJIC0tPiBMaWJcbiAgICBMaWIgLS0-IEF1dGhcbiAgICBMaWIgLS0-IERCXG4gICAgTGliIC0tPiBTdG9yYWdlXG4gICAgTGliIC0tPiBGbkNvYWNoXG4gICAgTGliIC0tPiBGblRyYW5zbGF0ZVxuICAgIExpYiAtLT4gRm5Db3ZlclxuICAgIExpYiAtLT4gQUlIZWxwZXJcbiAgICBBSUhlbHBlciAtLT4gT21uaUFTUlxuICAgIEFJSGVscGVyIC0tPiBTY29yZXJcbiAgICBTY29yZXIgLS0-IExleGljb25cbiAgICBMZXhpY29uIC0tPiBEQiIsIm1lcm1haWQiOnsidGhlbWUiOiJkZWZhdWx0In19)
+![Architecture diagram](https://mermaid.ink/img/eyJjb2RlIjoiZ3JhcGggVERcbiAgICBzdWJncmFwaCBDbGllbnQgW1wiTW9iaWxlIEFwcCAoSW9uaWMgKyBSZWFjdCArIENhcGFjaXRvcilcIl1cbiAgICAgICAgVUlbXCJQYWdlcyAmIENvbXBvbmVudHNcIl1cbiAgICAgICAgU3RvcmVbXCJadXN0YW5kIFN0b3Jlc1xuKGF1dGgsIHNlc3Npb24pXCJdXG4gICAgICAgIExpYltcInNyYy9saWIvXG4oYXV0aCwgdHJhbnNsYXRlLCBBSSBjb2FjaCxcbmdhcmRlblN5bmMsIGVsZGVyU3R1ZGlvKVwiXVxuICAgIGVuZFxuXG4gICAgc3ViZ3JhcGggU3VwYWJhc2UgW1wiU3VwYWJhc2UgQ2xvdWRcIl1cbiAgICAgICAgQXV0aFtcIkF1dGhcbihlbWFpbC9wYXNzd29yZCwgSldUKVwiXVxuICAgICAgICBEQltcIlN1cGFiYXNlIERCICYgU3RvcmFnZVxuKHByb2ZpbGVzLCByZWNvcmRpbmdzLFxud29yZHMsIHByb2dyZXNzLCBzdG9yaWVzKVwiXVxuICAgICAgICBGbkNvYWNoW1wiRWRnZSBGbjogYWktY29hY2hcbihDbGF1ZGUgQWdlbnQgU0RLKVwiXVxuICAgICAgICBGblRyYW5zbGF0ZVtcIkVkZ2UgRm46IGFpLXRyYW5zbGF0ZVxuKENlcmVicmFzIC8gU0VBLUxJT04pXCJdXG4gICAgICAgIEZuQ292ZXJbXCJFZGdlIEZuOiBnZW5lcmF0ZS1zdG9yeS1jb3ZlciAmIGJhY2tncm91bmRcbihHUFQgSW1hZ2UgMilcIl1cbiAgICBlbmRcblxuICAgIHN1YmdyYXBoIEFJSGVscGVyIFtcImFpLWhlbHBlciAobG9jYWwgcHJveHksIHBvcnQgODc4NylcIl1cbiAgICAgICAgT21uaUFTUltcIk9tbmlBU1JcbihIdWdnaW5nIEZhY2UpXG40LWxhbmd1YWdlIGVuc2VtYmxlIFNUVFwiXVxuICAgICAgICBTY29yZXJbXCJEaWN0aW9uYXJ5LWZpcnN0XG5zY29yaW5nICYgbWVyZ2VcIl1cbiAgICAgICAgTGV4aWNvbltcIlJ1bnRpbWUgbGV4aWNvblxuKHNlbWFpTGV4aWNvbiArIFdlYm9uYXJ5XG4rIFN1cGFiYXNlIHdvcmRzKVwiXVxuICAgIGVuZFxuXG4gICAgVUkgLS0-IFN0b3JlXG4gICAgVUkgLS0-IExpYlxuICAgIExpYiAtLT4gQXV0aFxuICAgIExpYiAtLT4gREJcbiAgICBMaWIgLS0-IEZuQ29hY2hcbiAgICBMaWIgLS0-IEZuVHJhbnNsYXRlXG4gICAgTGliIC0tPiBGbkNvdmVyXG4gICAgTGliIC0tPiBBSUhlbHBlclxuICAgIEFJSGVscGVyIC0tPiBPbW5pQVNSXG4gICAgT21uaUFTUiAtLT4gU2NvcmVyXG4gICAgU2NvcmVyIC0tPiBMZXhpY29uXG4gICAgTGV4aWNvbiAtLT4gREIiLCJtZXJtYWlkIjp7InRoZW1lIjoiZGVmYXVsdCJ9fQ)
 
 ### Data Flow: Elder Recording → Story
 
@@ -76,7 +77,7 @@ Verified recordings can be published as illustrated stories. The app generates a
 
 ### Language Garden
 
-Spaced-repetition vocabulary learning. Words sourced from the verified Semai dictionary, organized by category. Progress tracked in Supabase (`progress` table, `mastery_level > 0` = learned). Leveling system: Seed → Sprout (≥1 word) → Sapling (≥125) → Tree (≥300).
+Spaced-repetition vocabulary learning. Words sourced from the verified Semai dictionary, organized by category. Progress tracked in Supabase (`progress` table, `mastery_level > 0` = learned). Leveling system (XP = wordsLearned × 4): Seed (0 XP) → Sprout (500 XP) → Sapling (1,200 XP) → Flourish (2,500 XP) → Legacy (4,000 XP).
 
 ### Stories
 
@@ -84,7 +85,7 @@ Folk tales and stories contributed by community elders, now dynamically fetched 
 
 ### AI Coach (Tavi)
 
-Conversational Semai tutor. Uses a deterministic rule layer (greetings, translation requests, known words) before hitting the LLM, so verified Semai is never invented by the model. Providers: ChatGPT proxy (primary) → Gemini (fallback). Sessions persist across app restarts.
+Conversational Semai tutor. Uses a deterministic rule layer (greetings, translation requests, known words) before hitting the LLM, so verified Semai is never invented by the model. Providers: Claude Agent SDK (primary) → Gemini (fallback). Sessions persist across app restarts.
 
 ### Translation
 
@@ -102,7 +103,7 @@ Searchable library of all recorded Semai audio. Browse by category, search by ke
 
 ### Profile & Progress
 
-XP = `wordsLearned × 4`. Weekly leaderboard, avatar upload, role-based navigation (Learners get 5 tabs, Elders get 3).
+XP = `wordsLearned × 4`. Weekly leaderboard, avatar upload, role-based navigation (Learners get 5 tabs, Elders get 4 (Home · Story · Record · Profile)).
 
 ---
 
@@ -114,7 +115,7 @@ XP = `wordsLearned × 4`. Weekly leaderboard, avatar upload, role-based navigati
 | State       | Zustand                                            |
 | Backend     | Supabase (Postgres, Auth, Storage, Edge Functions) |
 | STT         | OmniASR via Hugging Face (4-language ensemble)     |
-| AI Coach    | ChatGPT proxy / Gemini (google-generativeai)       |
+| AI Coach    | Claude Agent SDK (primary), Gemini (fallback)      |
 | Translation | Cerebras (primary), SEA-LION (optional)            |
 | Image Gen   | OpenRouter / GPT Image 2 (story covers)            |
 | Testing     | Vitest + Testing Library                           |
