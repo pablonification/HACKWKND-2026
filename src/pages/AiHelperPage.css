@@ -294,6 +294,12 @@
   flex-direction: row;
 }
 
+.tavi-bubble-row--suggestion {
+  justify-content: flex-end;
+  margin-top: -4px;
+  padding-left: 52px;
+}
+
 .tavi-bubble-avatar {
   border-radius: 50%;
   flex-shrink: 0;
@@ -440,26 +446,48 @@
   color: #fff;
 }
 
+.tavi-suggested-reply {
+  display: grid;
+  gap: 3px;
+  margin-left: auto;
+  max-width: min(78%, 320px);
+}
+
+.tavi-suggested-reply-label {
+  color: rgba(143, 39, 35, 0.52);
+  font-family: 'Satoshi', 'Poppins', ui-sans-serif, system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1.2;
+  padding-right: 12px;
+  text-align: right;
+}
+
 .tavi-bubble-chip {
   align-items: center;
-  align-self: flex-start;
-  background: rgba(203, 64, 60, 0.12);
-  border: 1px solid rgba(203, 64, 60, 0.16);
-  border-radius: 999px;
-  color: #8f2723;
+  background: rgba(255, 255, 255, 0.42);
+  border: 1.5px dashed rgba(203, 64, 60, 0.42);
+  border-radius: 18px 18px 6px;
+  color: rgba(143, 39, 35, 0.78);
   cursor: pointer;
-  display: inline-flex;
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
   font-family: 'Satoshi', 'Poppins', ui-sans-serif, system-ui, sans-serif;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
-  line-height: 1.25;
-  margin-top: 2px;
+  line-height: 1.3;
   max-width: 100%;
-  padding: 8px 12px;
+  min-height: 46px;
+  padding: 10px 10px 10px 13px;
   text-align: left;
   transition:
+    border-color 140ms ease,
+    box-shadow 140ms ease,
     transform 120ms ease,
     background-color 140ms ease;
+  width: 100%;
 }
 
 .tavi-bubble-chip:active {
@@ -467,7 +495,29 @@
 }
 
 .tavi-bubble-chip:hover {
-  background: rgba(203, 64, 60, 0.16);
+  background: rgba(255, 248, 244, 0.74);
+  border-color: rgba(203, 64, 60, 0.58);
+  box-shadow: 0 6px 14px rgba(143, 39, 35, 0.08);
+}
+
+.tavi-bubble-chip:disabled {
+  cursor: wait;
+  opacity: 0.62;
+}
+
+.tavi-bubble-chip-arrow {
+  align-items: center;
+  background: rgba(203, 64, 60, 0.1);
+  border-radius: 999px;
+  display: inline-flex;
+  flex: 0 0 auto;
+  font-size: 15px;
+  font-weight: 700;
+  height: 22px;
+  justify-content: center;
+  line-height: 1;
+  margin-top: -1px;
+  width: 22px;
 }
 
 .tavi-bubble-warning {

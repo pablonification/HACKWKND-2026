@@ -18,7 +18,13 @@ export type CoachClientAction =
   | 'start_session'
   | 'continue_session'
   | 'end_session'
-  | 'translate_inline';
+  | 'translate_inline'
+  | 'start_easy'
+  | 'practice_greetings'
+  | 'make_plan'
+  | 'slow_down'
+  | 'explain_first'
+  | 'try_again';
 
 export type CoachTurnInput = {
   role: 'user' | 'assistant';
@@ -82,6 +88,7 @@ type RawCoachResponse = {
 };
 
 const GENERIC_EDGE_HTTP_ERROR = 'Edge Function returned a non-2xx status code';
+const COACH_FUNCTION_TIMEOUT_MS = 30_000;
 const TRANSIENT_RETRY_MAX = 1;
 const TRANSIENT_RETRY_BASE_DELAY_MS = 140;
 const TRANSIENT_RETRY_JITTER_MS = 160;
@@ -194,6 +201,16 @@ const sleep = async (ms: number): Promise<void> =>
     setTimeout(resolve, ms);
   });
 
+const withTimeout = async <T>(promise: Promise<T>, timeoutMs: number, label: string): Promise<T> =>
+  Promise.race([
+    promise,
+    new Promise<never>((_, reject) => {
+      setTimeout(() => {
+        reject(new Error(`${label} timed out after ${timeoutMs}ms.`));
+      }, timeoutMs);
+    }),
+  ]);
+
 const shouldRetryTransientFailure = (statusCode: number, message: string): boolean => {
   if (statusCode >= 500) {
     return true;
@@ -205,23 +222,27 @@ const shouldRetryTransientFailure = (statusCode: number, message: string): boole
 };
 
 const invokeCoachFunction = async (body: CoachRequest) =>
-  supabase.functions.invoke<RawCoachResponse>('ai-coach', {
-    headers: {
-      apikey: supabasePublicAnonKey,
-    },
-    body: {
-      message: body.message,
-      turns: (body.turns ?? []).map((turn) => ({
-        role: turn.role,
-        text: turn.text,
-        mode: turn.mode,
-        session_phase: turn.sessionPhase,
-        track: turn.track,
-      })),
-      ...(body.clientAction ? { client_action: body.clientAction } : {}),
-      ...(body.track ? { track: body.track } : {}),
-    },
-  });
+  withTimeout(
+    supabase.functions.invoke<RawCoachResponse>('ai-coach', {
+      headers: {
+        apikey: supabasePublicAnonKey,
+      },
+      body: {
+        message: body.message,
+        turns: (body.turns ?? []).map((turn) => ({
+          role: turn.role,
+          text: turn.text,
+          mode: turn.mode,
+          session_phase: turn.sessionPhase,
+          track: turn.track,
+        })),
+        ...(body.clientAction ? { client_action: body.clientAction } : {}),
+        ...(body.track ? { track: body.track } : {}),
+      },
+    }),
+    COACH_FUNCTION_TIMEOUT_MS,
+    'Tavi request',
+  );
 
 const normalizeNullableString = (value: unknown): string | null =>
   typeof value === 'string' && value.trim() ? value.trim() : null;
@@ -272,11 +293,41 @@ const defaultFallbackNextActions = (phase: CoachSessionPhase): CoachClientAction
     return ['continue_session', 'translate_inline', 'end_session'];
   }
 
-  return ['start_session', 'translate_inline'];
+  return ['start_easy', 'practice_greetings', 'make_plan', 'translate_inline'];
 };
 
 const defaultClientNextActions = (phase: CoachSessionPhase): CoachClientAction[] =>
   defaultFallbackNextActions(phase);
+
+const pickClientFollowUpPrompt = (
+  phase: CoachSessionPhase,
+  responseMode: CoachResponseMode,
+  answerLanguage: CoachAnswerLanguage,
+): string => {
+  const useMalay = answerLanguage === 'ms';
+  if (responseMode === 'scenario' || responseMode === 'word_help') {
+    return useMalay ? 'Beri saya tip ingatan.' : 'Give me a memory tip.';
+  }
+  if (responseMode === 'sentence_help' || responseMode === 'translation') {
+    return useMalay ? 'Terangkan ini dengan ringkas.' : 'Break this down simply.';
+  }
+  if (phase === 'learning_active') {
+    return useMalay ? 'Beri saya latihan yang selamat.' : 'Give me a safe practice task.';
+  }
+  return useMalay ? 'Buatkan saya pelan belajar yang ringkas.' : 'Make me a simple learning plan.';
+};
+
+type FallbackCoachIntent = {
+  mode: CoachMode;
+  responseMode: CoachResponseMode;
+  answerLanguage: CoachAnswerLanguage;
+  sessionPhase: CoachSessionPhase;
+  track: LearningTrack;
+  nextActions: CoachClientAction[];
+  text: string;
+  verifiedFallbackWord?: boolean;
+  translate?: TranslateInput;
+};
 
 const mapFallbackSemaiSource = (
   provider?: string,
@@ -292,6 +343,40 @@ const mapFallbackSemaiSource = (
   }
   return 'none';
 };
+
+const buildVerifiedClientFallbackWord = (
+  intent: FallbackCoachIntent,
+  warning: string,
+): CoachResponse => ({
+  mode: 'learning',
+  responseMode: 'scenario',
+  answerLanguage: 'semai',
+  sessionPhase: 'learning_active',
+  track: intent.track,
+  nextActions: defaultFallbackNextActions('learning_active'),
+  mainReply: 'abat',
+  translation: 'cloth',
+  coachNote:
+    'This is a verified Webonary word. Say it once, then connect it to one object you know.',
+  followUpPrompt: pickClientFollowUpPrompt('learning_active', 'scenario', intent.answerLanguage),
+  followUpTranslation: null,
+  pronunciationTip: null,
+  relatedExample: null,
+  warning,
+  grounded: true,
+  groundingSource: ['glossary', 'client-fallback'],
+  validationPassed: true,
+  provider: 'client-fallback',
+  model: 'abat-cloth',
+  meta: {
+    reason: 'edge_unavailable_verified_word_fallback',
+    semai_verified: true,
+    semai_source: 'glossary',
+    package_eligible: true,
+    selected_id: 'abat-cloth',
+    selected_source: 'glossary',
+  },
+});
 
 const extractPromptFocus = (message: string, patterns: RegExp[]): string => {
   let next = message.trim();
@@ -340,18 +425,50 @@ const FALLBACK_START_CONFIRM_PATTERNS = [
   /\b(jom|mula sekarang|saya sedia)\b/i,
 ];
 
-const classifyFallbackIntent = (
-  request: CoachRequest,
-): {
-  mode: CoachMode;
-  responseMode: CoachResponseMode;
-  answerLanguage: CoachAnswerLanguage;
-  sessionPhase: CoachSessionPhase;
-  track: LearningTrack;
-  nextActions: CoachClientAction[];
-  text: string;
-  translate?: TranslateInput;
-} => {
+const FALLBACK_FRUSTRATION_PATTERNS = [
+  /\b(bruh|huh|confus(?:ed|ing)|don'?t understand|i do not understand)\b/i,
+  /\b(don'?t start|do not start|too fast|slow down|explain first|not immediately)\b/i,
+  /\b(tak faham|keliru|jangan mula|perlahan|terangkan dulu)\b/i,
+];
+
+const FALLBACK_ADVICE_PATTERNS = [
+  /\b(advice|tips?|plan|roadmap|how to get better|how can i improve|where should i start)\b/i,
+  /\b(nasihat|petua|rancangan|cara.*baik|mula dari mana)\b/i,
+];
+
+const FALLBACK_VERIFIED_VOCAB_PATTERNS = [
+  /\b(interesting|random|simple|easy|new|some|another|verified)\b.*\b(semai\s+)?(word|vocabulary|vocab)\b/i,
+  /\b(semai\s+)?(word|vocabulary|vocab)\b.*\b(interesting|random|simple|easy|new|some|another|verified)\b/i,
+  /\b(semai\s+)?(word|words|vocabulary|vocab)\b.*\b(give|start|practice|drill|today|daily|basic|basics|focus|throw)\b/i,
+  /\b(give|start|practice|drill|today|daily|basic|basics|focus|throw)\b.*\b(semai\s+)?(word|words|vocabulary|vocab)\b/i,
+  /\b(show|give)\b.*\b(something\s+verified|verified\s+instead)\b/i,
+];
+
+const FALLBACK_CONTEXT_HELP_PATTERNS = [
+  /\b(explain|break\s+down|understand|meaning|memory\s+tip|remember|safe\s+practice|practice\s+task)\b/i,
+  /\b(jelaskan|terangkan|maksud|tip\s+ingatan|latihan\s+selamat)\b/i,
+];
+
+const isFallbackOutOfScopeRequest = (message: string): boolean => {
+  const normalized = message.toLowerCase().replace(/\s+/g, ' ');
+  const asksForExternalTask =
+    /\b(help|make|build|create|write|code|implement|generate|solve|calculate|debug|fix|design|explain|tutorial)\b/.test(
+      normalized,
+    );
+  const externalDomain =
+    /\b(python|javascript|typescript|java|html|css|react|calculator|app|website|api|server|database|sql|math|homework|essay|email|resume|business|marketing)\b/.test(
+      normalized,
+    );
+  const promptInjection =
+    /\b(ignore|forget|override|bypass|disregard|reveal|show|print|dump|leak)\b/.test(normalized) &&
+    /\b(instruction|instructions|prompt|system|developer|policy|rules|secret|secrets|hidden|previous)\b/.test(
+      normalized,
+    );
+
+  return promptInjection || (asksForExternalTask && externalDomain);
+};
+
+const classifyFallbackIntent = (request: CoachRequest): FallbackCoachIntent => {
   const normalized = request.message.trim();
   const answerLanguage = detectAnswerLanguage(normalized);
   const sessionPhase = inferFallbackPhase(request.turns);
@@ -390,6 +507,94 @@ const classifyFallbackIntent = (
     };
   }
 
+  if (isFallbackOutOfScopeRequest(normalized)) {
+    return {
+      mode: 'direct_help',
+      responseMode: 'direct_answer',
+      answerLanguage,
+      sessionPhase: sessionPhase === 'idle' ? 'onboarding' : sessionPhase,
+      track,
+      nextActions: defaultFallbackNextActions(
+        sessionPhase === 'idle' ? 'onboarding' : sessionPhase,
+      ),
+      text:
+        answerLanguage === 'ms'
+          ? 'Saya tidak boleh bantu tugasan itu di sini. Saya boleh bantu dengan **pembelajaran Semai**, terjemahan berasas, atau latihan ringkas.'
+          : 'I cannot help with that task here. I can help with **Semai learning**, grounded translation, or short practice.',
+    };
+  }
+
+  const recoveryRequested =
+    request.clientAction === 'slow_down' ||
+    request.clientAction === 'explain_first' ||
+    request.clientAction === 'try_again' ||
+    FALLBACK_FRUSTRATION_PATTERNS.some((pattern) => pattern.test(normalized));
+  if (recoveryRequested) {
+    return {
+      mode: 'direct_help',
+      responseMode: 'direct_answer',
+      answerLanguage,
+      sessionPhase: 'onboarding',
+      track,
+      nextActions: ['slow_down', 'explain_first', 'try_again', 'end_session'],
+      text:
+        answerLanguage === 'ms'
+          ? 'Maaf, saya mula terlalu cepat. Kita boleh perlahan: saya boleh terangkan asas dulu, buat pelan ringkas, atau mula dengan latihan yang sangat mudah.'
+          : 'Sorry, I moved too fast. We can slow down: I can explain the basics first, make a simple plan, or start with a very easy practice.',
+    };
+  }
+
+  if (FALLBACK_CONTEXT_HELP_PATTERNS.some((pattern) => pattern.test(normalized))) {
+    return {
+      mode: 'direct_help',
+      responseMode: 'direct_answer',
+      answerLanguage,
+      sessionPhase,
+      track,
+      nextActions: defaultFallbackNextActions(sessionPhase),
+      text:
+        answerLanguage === 'ms'
+          ? 'Kita boleh buat ini dengan selamat: semak maksud item terakhir, ulang perlahan, dan jangan bina ayat baharu tanpa contoh yang disahkan.'
+          : 'We can do this safely: review the last item meaning, repeat it slowly, and do not build a new sentence unless we have a verified example.',
+    };
+  }
+
+  if (
+    request.clientAction === 'make_plan' ||
+    FALLBACK_ADVICE_PATTERNS.some((pattern) => pattern.test(normalized))
+  ) {
+    return {
+      mode: 'direct_help',
+      responseMode: 'direct_answer',
+      answerLanguage,
+      sessionPhase: 'onboarding',
+      track,
+      nextActions: defaultFallbackNextActions('onboarding'),
+      text:
+        answerLanguage === 'ms'
+          ? 'Boleh. Pilih satu fokus kecil, ulang sedikit setiap hari, dan semak makna sebelum berlatih. Kita boleh mula dengan sapaan, frasa harian, sebutan, atau kosa kata.'
+          : 'Yes. Choose one small focus, practice a little daily, and check meaning before speaking. We can start with greetings, daily phrases, pronunciation, or vocabulary.',
+    };
+  }
+
+  if (FALLBACK_VERIFIED_VOCAB_PATTERNS.some((pattern) => pattern.test(normalized))) {
+    return {
+      mode: 'learning',
+      responseMode: 'scenario',
+      answerLanguage: 'semai',
+      sessionPhase: 'learning_active',
+      track,
+      nextActions: defaultFallbackNextActions('learning_active'),
+      text: 'verified Semai vocabulary word',
+      verifiedFallbackWord: true,
+      translate: {
+        text: 'verified Semai vocabulary word',
+        from: answerLanguage === 'ms' ? 'ms' : 'en',
+        to: 'semai',
+      },
+    };
+  }
+
   const explicitTranslate =
     request.clientAction === 'translate_inline' ||
     /how do i say|how to say|translate|bagaimana .*cakap|macam mana nak cakap|terjemah/i.test(
@@ -422,12 +627,18 @@ const classifyFallbackIntent = (
 
   const startRequested =
     request.clientAction === 'start_session' ||
+    request.clientAction === 'start_easy' ||
+    request.clientAction === 'practice_greetings' ||
     FALLBACK_START_CONFIRM_PATTERNS.some((pattern) => pattern.test(normalized));
   if (sessionPhase !== 'learning_active' && startRequested) {
     const scenarioSeed =
-      answerLanguage === 'ms'
-        ? 'Hai, saya mahu belajar bahasa Semai hari ini.'
-        : 'Hello, I want to learn Semai today.';
+      request.clientAction === 'practice_greetings'
+        ? answerLanguage === 'ms'
+          ? 'Hai, saya mahu belajar sapaan asas hari ini.'
+          : 'Hello, I want to learn a basic greeting today.'
+        : answerLanguage === 'ms'
+          ? 'Hai, saya mahu belajar bahasa Semai hari ini.'
+          : 'Hello, I want to learn Semai today.';
 
     return {
       mode: 'learning',
@@ -470,8 +681,9 @@ const classifyFallbackIntent = (
   }
 
   if (
-    /\b(sentence|phrase|ayat|frasa)\b/i.test(normalized) &&
-    /\b(semai|bahasa)\b/i.test(normalized) &&
+    /\b(sentence|sentences|phrase|phrases|example|examples|ayat|frasa|contoh)\b/i.test(
+      normalized,
+    ) &&
     !/\bhow do i say|how to say|translate|terjemah\b/i.test(normalized)
   ) {
     const sentenceSeed = buildFallbackSentenceSeed(normalized, answerLanguage);
@@ -498,13 +710,13 @@ const classifyFallbackIntent = (
       mode: 'direct_help',
       responseMode: 'direct_answer',
       answerLanguage,
-      sessionPhase: 'idle',
+      sessionPhase: 'onboarding',
       track,
-      nextActions: defaultFallbackNextActions('idle'),
+      nextActions: defaultFallbackNextActions('onboarding'),
       text:
         answerLanguage === 'ms'
-          ? 'Boleh. Saya boleh jadi coach Semai anda. Bila sedia, taip "Jom mula."'
-          : 'Absolutely. I can coach your Semai learning. When you are ready, type "Let\'s go."',
+          ? 'Boleh. Saya boleh bantu anda belajar Semai langkah demi langkah. Mahu mula dengan sapaan, frasa harian, sebutan, atau kosa kata mudah?'
+          : 'Absolutely. I can help you learn Semai step by step. Do you want to start with greetings, daily phrases, pronunciation, or simple vocabulary?',
     };
   }
 
@@ -546,7 +758,11 @@ const fallbackCoachWithTavi = async (request: CoachRequest): Promise<CoachRespon
       mainReply: intent.text,
       translation: null,
       coachNote: null,
-      followUpPrompt: 'Local fallback is active. When ready to start session, type: "Let\'s go."',
+      followUpPrompt: pickClientFollowUpPrompt(
+        intent.sessionPhase,
+        intent.responseMode,
+        intent.answerLanguage,
+      ),
       followUpTranslation: null,
       pronunciationTip: null,
       relatedExample: null,
@@ -565,10 +781,66 @@ const fallbackCoachWithTavi = async (request: CoachRequest): Promise<CoachRespon
     };
   }
 
+  if (intent.verifiedFallbackWord) {
+    return buildVerifiedClientFallbackWord(
+      intent,
+      'Using a verified Webonary fallback word because the ai-coach edge function is unavailable.',
+    );
+  }
+
   const translationResult = await translateText(intent.translate);
   const sourcePhrase = intent.translate.text.trim();
   const semaiSource = mapFallbackSemaiSource(translationResult.provider);
-  const semaiVerified = semaiSource !== 'none';
+  const semaiVerified = semaiSource !== 'none' || intent.responseMode === 'translation';
+
+  if (
+    semaiSource === 'none' &&
+    intent.responseMode !== 'translation' &&
+    intent.translate.to === 'semai'
+  ) {
+    if (intent.responseMode === 'scenario' || intent.responseMode === 'sentence_help') {
+      return buildVerifiedClientFallbackWord(
+        intent,
+        'Using a verified Webonary fallback word because model providers are unavailable.',
+      );
+    }
+
+    return {
+      mode: 'direct_help',
+      responseMode: 'direct_answer',
+      answerLanguage: intent.answerLanguage,
+      sessionPhase: intent.sessionPhase,
+      track: intent.track,
+      nextActions: defaultFallbackNextActions(intent.sessionPhase),
+      mainReply:
+        intent.answerLanguage === 'ms'
+          ? 'Saya belum dapat jumpa padanan Semai yang disahkan untuk permintaan itu. Cuba frasa yang lebih ringkas atau pilih Start Easy.'
+          : 'I could not find a verified Semai match for that request. Try a shorter phrase or choose Start Easy.',
+      translation: null,
+      coachNote: null,
+      followUpPrompt:
+        intent.answerLanguage === 'ms'
+          ? 'Tunjukkan sesuatu yang disahkan.'
+          : 'Show me something verified instead.',
+      followUpTranslation: null,
+      pronunciationTip: null,
+      relatedExample: null,
+      warning:
+        'Using local fallback because the ai-coach edge function is unavailable. No unverified Semai card was shown.',
+      grounded: false,
+      groundingSource: ['client-fallback'],
+      validationPassed: false,
+      provider: 'client-fallback',
+      model: translationResult.model ?? translationResult.provider,
+      meta: {
+        ...(translationResult.meta ?? {}),
+        reason: 'edge_unavailable_unverified_translation_blocked',
+        semai_verified: false,
+        semai_source: 'none',
+        package_eligible: false,
+      },
+    };
+  }
 
   return {
     mode: intent.mode,
@@ -581,12 +853,13 @@ const fallbackCoachWithTavi = async (request: CoachRequest): Promise<CoachRespon
     translation: sourcePhrase,
     coachNote:
       intent.responseMode === 'word_help'
-        ? 'Start with the meaning, then try using the word in one short sentence.'
+        ? 'Start with the meaning. Do not make a sentence until we have a verified example.'
         : 'Read this once, then try typing it again from memory.',
-    followUpPrompt:
-      intent.answerLanguage === 'ms'
-        ? 'Mahukan satu lagi contoh yang hampir sama?'
-        : 'Want one more similar example?',
+    followUpPrompt: pickClientFollowUpPrompt(
+      intent.sessionPhase,
+      intent.responseMode,
+      intent.answerLanguage,
+    ),
     followUpTranslation: null,
     pronunciationTip: null,
     relatedExample: null,
@@ -708,7 +981,13 @@ export const coachWithTavi = async ({
           value === 'start_session' ||
           value === 'continue_session' ||
           value === 'end_session' ||
-          value === 'translate_inline',
+          value === 'translate_inline' ||
+          value === 'start_easy' ||
+          value === 'practice_greetings' ||
+          value === 'make_plan' ||
+          value === 'slow_down' ||
+          value === 'explain_first' ||
+          value === 'try_again',
       )
     : [];
 

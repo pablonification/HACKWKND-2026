@@ -59,6 +59,12 @@ const ACTION_LABEL: Record<CoachClientAction, string> = {
   continue_session: 'Continue',
   end_session: 'End Session',
   translate_inline: 'Translate Phrase',
+  start_easy: 'Start Easy',
+  practice_greetings: 'Practice Greetings',
+  make_plan: 'Make a Plan',
+  slow_down: 'Slow Down',
+  explain_first: 'Explain First',
+  try_again: 'Try Again',
 };
 
 const createId = () => {
@@ -297,70 +303,77 @@ function TaviIntro({
 function ChatBubble({
   message,
   onUseFollowUp,
+  isSending,
 }: {
   message: Message;
-  onUseFollowUp: (prompt: string) => void;
+  onUseFollowUp: (messageId: string, prompt: string) => void;
+  isSending: boolean;
 }) {
   const isTavi = message.role === 'tavi';
 
   if (isTavi) {
     const shouldRenderPackage = Boolean(message.packageEligible);
     return (
-      <div className="tavi-bubble-row tavi-bubble-row--tavi">
-        <img src={taviImg} alt="Tavi" className="tavi-bubble-avatar" />
+      <>
+        <div className="tavi-bubble-row tavi-bubble-row--tavi">
+          <img src={taviImg} alt="Tavi" className="tavi-bubble-avatar" />
 
-        <div className="tavi-bubble-tavi-stack">
-          <div className="tavi-bubble tavi-bubble--tavi-reply">
-            {message.loading ? (
-              <div className="tavi-bubble-loading">
-                <span />
-                <span />
-                <span />
+          <div className="tavi-bubble-tavi-stack">
+            <div className="tavi-bubble tavi-bubble--tavi-reply">
+              {message.loading ? (
+                <div className="tavi-bubble-loading">
+                  <span />
+                  <span />
+                  <span />
+                </div>
+              ) : (
+                <div className="tavi-bubble-text">
+                  {renderMarkdown(message.text, `${message.id}-main`)}
+                </div>
+              )}
+            </div>
+
+            {!message.loading && shouldRenderPackage && message.translation ? (
+              <div className="tavi-bubble tavi-bubble--translation">
+                <p className="tavi-bubble-translation-label">
+                  {message.translationLabel ?? 'Translation'}
+                </p>
+                <div className="tavi-bubble-text">
+                  {renderMarkdown(message.translation, `${message.id}-translation`)}
+                </div>
               </div>
-            ) : (
-              <div className="tavi-bubble-text">
-                {renderMarkdown(message.text, `${message.id}-main`)}
+            ) : null}
+
+            {!message.loading && shouldRenderPackage && message.coachNote ? (
+              <div className="tavi-bubble tavi-bubble--meta">
+                <p className="tavi-bubble-meta-label">Coach note</p>
+                <div className="tavi-bubble-text">
+                  {renderMarkdown(message.coachNote, `${message.id}-coach-note`)}
+                </div>
               </div>
-            )}
+            ) : null}
           </div>
-
-          {!message.loading && shouldRenderPackage && message.translation ? (
-            <div className="tavi-bubble tavi-bubble--translation">
-              <p className="tavi-bubble-translation-label">
-                {message.translationLabel ?? 'Translation'}
-              </p>
-              <div className="tavi-bubble-text">
-                {renderMarkdown(message.translation, `${message.id}-translation`)}
-              </div>
-            </div>
-          ) : null}
-
-          {!message.loading && shouldRenderPackage && message.coachNote ? (
-            <div className="tavi-bubble tavi-bubble--meta">
-              <p className="tavi-bubble-meta-label">Coach note</p>
-              <div className="tavi-bubble-text">
-                {renderMarkdown(message.coachNote, `${message.id}-coach-note`)}
-              </div>
-            </div>
-          ) : null}
-
-          {!message.loading && shouldRenderPackage && message.followUpPrompt ? (
-            <button
-              type="button"
-              className="tavi-bubble-chip"
-              onClick={() => onUseFollowUp(message.followUpPrompt ?? '')}
-            >
-              {message.followUpPrompt}
-            </button>
-          ) : null}
-
-          {!message.loading && message.warning ? (
-            <div className="tavi-bubble-warning">
-              {renderMarkdown(message.warning, `${message.id}-warning`)}
-            </div>
-          ) : null}
         </div>
-      </div>
+
+        {!message.loading && message.followUpPrompt ? (
+          <div className="tavi-bubble-row tavi-bubble-row--suggestion">
+            <div className="tavi-suggested-reply">
+              <span className="tavi-suggested-reply-label">Tap to send</span>
+              <button
+                type="button"
+                className="tavi-bubble-chip"
+                disabled={isSending}
+                onClick={() => onUseFollowUp(message.id, message.followUpPrompt ?? '')}
+              >
+                <span>{message.followUpPrompt}</span>
+                <span className="tavi-bubble-chip-arrow" aria-hidden="true">
+                  +
+                </span>
+              </button>
+            </div>
+          </div>
+        ) : null}
+      </>
     );
   }
 
@@ -386,7 +399,9 @@ export function AiHelperPage() {
   const [sessionPhase, setSessionPhase] = useState<CoachSessionPhase>('idle');
   const [track, setTrack] = useState<LearningTrack>('vocabulary_first');
   const [nextActions, setNextActions] = useState<CoachClientAction[]>([
-    'start_session',
+    'start_easy',
+    'practice_greetings',
+    'make_plan',
     'translate_inline',
   ]);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
@@ -530,10 +545,18 @@ export function AiHelperPage() {
     setSearchParams(buildAiSearchParams({ chat: '1' }, searchParams), { replace: true });
   };
 
-  const handleUseFollowUp = (prompt: string) => {
-    setInputText(prompt);
-    inputRef.current?.focus();
+  const handleUseFollowUp = (messageId: string, prompt: string) => {
+    if (isSending) {
+      return;
+    }
+
+    setMessages((prev) =>
+      prev.map((message) =>
+        message.id === messageId ? { ...message, followUpPrompt: null } : message,
+      ),
+    );
     triggerHapticFeedback('light');
+    void handleSend({ textOverride: prompt });
   };
 
   const buildSessionStartMarker = (
@@ -544,8 +567,8 @@ export function AiHelperPage() {
     role: 'tavi',
     text:
       answerLanguage === 'ms'
-        ? 'Baik, sesi pembelajaran bermula sekarang.'
-        : 'Great. Your learning session starts now.',
+        ? 'Baik, kita mula perlahan-lahan dengan satu item sahaja.'
+        : "Great, let's start gently with just one item.",
     mode: 'direct_help',
     sessionPhase: 'learning_active',
     track: markerTrack,
@@ -584,13 +607,21 @@ export function AiHelperPage() {
       continue_session: 'Continue.',
       end_session: 'I want to end this session.',
       translate_inline: text,
+      start_easy: 'Start with a very easy Semai practice item.',
+      practice_greetings: 'Practice basic Semai greetings.',
+      make_plan: 'Make me a simple Semai learning plan.',
+      slow_down: 'Slow down and guide me gently.',
+      explain_first: 'Explain the basics first before practice.',
+      try_again: 'Try again, but do not start too fast.',
     };
     const textForRequest = text || (action ? actionMessage[action] : '');
-    const shouldRenderUserMessage = Boolean(text);
+    const renderedUserText =
+      text || (action && action !== 'translate_inline' ? ACTION_LABEL[action] : '');
+    const shouldRenderUserMessage = Boolean(renderedUserText);
     const previousPhase = sessionPhase;
 
     const userMessage: Message | null = shouldRenderUserMessage
-      ? { id: createId(), role: 'user', text }
+      ? { id: createId(), role: 'user', text: renderedUserText }
       : null;
     const loadingMessage: Message = {
       id: createId(),
@@ -616,14 +647,20 @@ export function AiHelperPage() {
     setRetryPayload(null);
     setNotice(null);
     triggerHapticFeedback('light');
-    setMessages((prev) => [...prev, ...(userMessage ? [userMessage] : []), loadingMessage]);
+    setMessages((prev) => [
+      ...prev.map((message) => ({ ...message, followUpPrompt: null })),
+      ...(userMessage ? [userMessage] : []),
+      loadingMessage,
+    ]);
 
     try {
       const response = await coachWithTavi({
         message: textForRequest,
         turns: [
           ...buildCoachTurns(messages),
-          ...(shouldRenderUserMessage ? [{ role: 'user', text } as CoachTurnInput] : []),
+          ...(shouldRenderUserMessage
+            ? [{ role: 'user', text: renderedUserText } as CoachTurnInput]
+            : []),
         ],
         clientAction: action,
         track: requestedTrack,
@@ -671,9 +708,7 @@ export function AiHelperPage() {
       setTrack(response.track);
       setNextActions(response.nextActions);
 
-      if (response.warning) {
-        setNotice(response.warning);
-      } else if (response.provider === 'client-fallback') {
+      if (response.provider === 'client-fallback') {
         setNotice('Tavi used grounded fallback content for this reply.');
       }
 
@@ -786,7 +821,12 @@ export function AiHelperPage() {
           }}
         >
           {messages.map((message) => (
-            <ChatBubble key={message.id} message={message} onUseFollowUp={handleUseFollowUp} />
+            <ChatBubble
+              key={message.id}
+              message={message}
+              onUseFollowUp={handleUseFollowUp}
+              isSending={isSending}
+            />
           ))}
           <div ref={messagesEndRef} />
         </div>

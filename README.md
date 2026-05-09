@@ -136,15 +136,15 @@ npm run check   # Full check (lint, format, typecheck, test)
 
 ### AI Coach (Supabase Edge Function)
 
-The personal AI coach uses the `ai-coach` edge function and reuses the project glossary and sentence-memory assets for grounded Semai responses. For the competition demo, it can use an OpenAI-compatible ChatGPT/Codex proxy as the primary provider and Gemini as fallback.
+The personal AI coach uses the `ai-coach` edge function and reuses the project glossary and sentence-memory assets for grounded Semai responses. For the competition demo, it can use a protected local Claude Agent SDK gateway as the primary provider with Gemini as fallback.
 
 Set these edge-function secrets for coach generation:
 
 ```bash
-AI_COACH_PROVIDER_ORDER=chatgpt-proxy,gemini
-AI_COACH_OPENAI_BASE_URL=https://your-cloudflare-tunnel.trycloudflare.com/v1
-AI_COACH_OPENAI_API_KEY=your_taleka_demo_proxy_key
-AI_COACH_OPENAI_MODEL=gpt-5.4
+AI_COACH_PROVIDER_ORDER=claude-agent,gemini
+AI_COACH_CLAUDE_AGENT_BASE_URL=https://your-claude-agent-gateway.example.com/v1
+AI_COACH_CLAUDE_AGENT_API_KEY=your_taleka_claude_agent_gateway_key
+AI_COACH_CLAUDE_AGENT_MODEL=sonnet
 GOOGLE_AI_STUDIO_API_KEY=your_google_ai_studio_key
 AI_COACH_GEMINI_MODEL=gemini-3.1-flash-lite-preview
 ```
@@ -157,16 +157,20 @@ AI_COACH_PEDAGOGY_MAX_OUTPUT_TOKENS=150
 AI_COACH_INTENT_MAX_OUTPUT_TOKENS=96
 GOOGLE_AI_STUDIO_BASE_URL=https://generativelanguage.googleapis.com/v1beta
 AI_COACH_TIMEOUT_MS=12000
+AI_COACH_PROVIDER_RETRY_COUNT=1
+AI_COACH_PROVIDER_RETRY_DELAY_MS=900
 ```
 
-Local demo gateway:
+Local Claude Agent SDK gateway:
 
 ```bash
-TALEKA_DEMO_PROXY_KEY=your_taleka_demo_proxy_key npm run demo:ai-gateway
-cloudflared tunnel --url http://127.0.0.1:10532
+TALEKA_CLAUDE_AGENT_KEY=your_taleka_claude_agent_gateway_key \
+TALEKA_CLAUDE_AGENT_RETRY_COUNT=2 \
+TALEKA_CLAUDE_AGENT_RETRY_DELAY_MS=900 \
+npm run demo:claude-agent-gateway
 ```
 
-The gateway forwards only `/v1/models`, `/v1/responses`, and `/v1/chat/completions` to a local `openai-oauth` proxy at `http://127.0.0.1:10531`.
+The gateway forwards only `/v1/models` and `/v1/chat/completions` into the Claude Agent SDK. It must run on a machine authenticated with Claude Code or configured with supported Claude credentials, then be exposed to Supabase through a protected HTTPS URL for demos.
 
 ## License
 

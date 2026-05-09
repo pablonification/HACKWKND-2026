@@ -7,6 +7,7 @@
     "dev": "vite",
     "ai-helper:dev": "node ai-helper/server.js",
     "demo:ai-gateway": "node scripts/taleka-demo-gateway.mjs",
+    "demo:claude-agent-gateway": "node scripts/taleka-claude-agent-gateway.mjs",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "lint": "eslint . --max-warnings=0",
@@ -40,6 +41,7 @@
     ]
   },
   "dependencies": {
+    "@anthropic-ai/claude-agent-sdk": "^0.2.137",
     "@capacitor/android": "^8.2.0",
     "@capacitor/core": "^8.2.0",
     "@capacitor/filesystem": "^8.1.2",

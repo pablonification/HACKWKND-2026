@@ -22,23 +22,22 @@ describe('translationGlossary', () => {
   });
 
   it('returns exact glossary translation for known term', () => {
-    expect(findExactGlossaryTranslation('bobolian', 'semai', 'en')).toBe('traditional healer');
-    expect(findExactGlossaryTranslation('BoboHiz', 'semai', 'en')).toBe('rice wine');
+    expect(findExactGlossaryTranslation('darat', 'semai', 'en')).toBe('forest');
+    expect(findExactGlossaryTranslation('Abat', 'semai', 'en')).toBe('cloth');
   });
 
   it('finds glossary terms in sentence', () => {
-    const matches = findGlossaryMatches('Saya jumpa bobolian di hutan', 'semai');
+    const matches = findGlossaryMatches('Ku jeres jeoi binatag liar', 'semai');
     const ids = matches.map((entry) => entry.id);
 
-    expect(ids).toContain('bobolian');
-    expect(ids).toContain('hutan');
+    expect(ids).toContain('jeres-jungle');
   });
 
   it('builds glossary prompt hints', () => {
-    const matches = findGlossaryMatches('bobolian', 'semai');
+    const matches = findGlossaryMatches('jeres', 'semai');
     const prompt = buildGlossaryPrompt(matches, 'semai', 'en');
 
-    expect(prompt).toContain('"bobolian" => "traditional healer"');
+    expect(prompt).toContain('"jeres" => "jungle"');
   });
 
   it('passes all glossary entries through without internal truncation', () => {
@@ -48,7 +47,7 @@ describe('translationGlossary', () => {
       ms: `ms-${index}`,
       en: `en-${index}`,
       category: 'test',
-      source: 'TUYANG translation MVP',
+      source: 'Test fixture',
     }));
 
     const prompt = buildGlossaryPrompt(matches, 'semai', 'en');
@@ -60,19 +59,17 @@ describe('translationGlossary', () => {
   });
 
   it('checks whether expected glossary terms exist in output', () => {
-    const matches = findGlossaryMatches('bobolian di hutan', 'semai');
+    const matches = findGlossaryMatches('jeres', 'semai');
 
-    expect(
-      areGlossaryTermsSatisfied('traditional healer in the forest', matches, 'semai', 'en'),
-    ).toBe(true);
-    expect(areGlossaryTermsSatisfied('dream in the forest', matches, 'semai', 'en')).toBe(false);
+    expect(areGlossaryTermsSatisfied('jungle', matches, 'semai', 'en')).toBe(true);
+    expect(areGlossaryTermsSatisfied('forest', matches, 'semai', 'en')).toBe(false);
   });
 
   it('does not allow substring false positives for glossary terms', () => {
-    const matches = findGlossaryMatches('api', 'semai');
+    const matches = findGlossaryMatches('abat', 'semai');
 
-    expect(areGlossaryTermsSatisfied('fire', matches, 'semai', 'en')).toBe(true);
-    expect(areGlossaryTermsSatisfied('firefly', matches, 'semai', 'en')).toBe(false);
+    expect(areGlossaryTermsSatisfied('cloth', matches, 'semai', 'en')).toBe(true);
+    expect(areGlossaryTermsSatisfied('clothesline', matches, 'semai', 'en')).toBe(false);
   });
 
   it('treats ambiguous source terms as satisfied when any valid target sense appears', () => {
@@ -83,7 +80,7 @@ describe('translationGlossary', () => {
         ms: 'mengajak',
         en: 'invite',
         category: 'verb',
-        source: 'TUYANG translation MVP',
+        source: 'Test fixture',
       },
       {
         id: 'ajak-grandmother',
@@ -91,7 +88,7 @@ describe('translationGlossary', () => {
         ms: 'nenek',
         en: 'grandmother',
         category: 'noun',
-        source: 'TUYANG translation MVP',
+        source: 'Test fixture',
       },
     ];
     const matches = findGlossaryMatches('ajak', 'semai', ambiguousGlossary);
@@ -109,7 +106,7 @@ describe('translationGlossary', () => {
         ms: 'mengajak',
         en: 'invite',
         category: 'verb',
-        source: 'TUYANG translation MVP',
+        source: 'Test fixture',
       },
       {
         id: 'ajak-grandmother',
@@ -117,21 +114,21 @@ describe('translationGlossary', () => {
         ms: 'nenek',
         en: 'grandmother',
         category: 'noun',
-        source: 'TUYANG translation MVP',
+        source: 'Test fixture',
       },
       {
-        id: 'hutan',
-        semai: 'hutan',
+        id: 'darat',
+        semai: 'darat',
         ms: 'hutan',
         en: 'forest',
         category: 'noun',
-        source: 'TUYANG translation MVP',
+        source: 'Webonary Cloud API',
       },
     ];
 
     const enforceable = selectEnforceableGlossaryMatches(matches, 'semai', 'en');
     const prompt = buildGlossaryPrompt(enforceable, 'semai', 'en');
-    expect(prompt).toContain('"hutan" => "forest"');
+    expect(prompt).toContain('"darat" => "forest"');
     expect(prompt).not.toContain('"ajak" =>');
   });
 
@@ -143,7 +140,7 @@ describe('translationGlossary', () => {
         ms: 'mengajak',
         en: 'invite',
         category: 'verb',
-        source: 'TUYANG translation MVP',
+        source: 'Test fixture',
       },
       {
         id: 'ajak-grandmother',
@@ -151,31 +148,31 @@ describe('translationGlossary', () => {
         ms: 'nenek',
         en: 'grandmother',
         category: 'noun',
-        source: 'TUYANG translation MVP',
+        source: 'Test fixture',
       },
       {
-        id: 'traditional-healer',
-        semai: 'dukun tradisional',
-        ms: 'dukun tradisional',
-        en: 'traditional healer',
+        id: 'abat-cloth',
+        semai: 'abat',
+        ms: 'kain',
+        en: 'cloth',
         category: 'noun',
-        source: 'TUYANG translation MVP',
+        source: 'Webonary Cloud API',
       },
       {
-        id: 'hutan',
-        semai: 'hutan',
+        id: 'darat',
+        semai: 'darat',
         ms: 'hutan',
         en: 'forest',
         category: 'noun',
-        source: 'TUYANG translation MVP',
+        source: 'Webonary Cloud API',
       },
     ];
 
     const selected = selectEnforceableGlossaryMatches(matches, 'semai', 'en');
     const ids = selected.map((entry) => entry.id);
 
-    expect(ids).toContain('traditional-healer');
-    expect(ids).toContain('hutan');
+    expect(ids).toContain('abat-cloth');
+    expect(ids).toContain('darat');
     expect(ids).not.toContain('ajak-invite');
     expect(ids).not.toContain('ajak-grandmother');
   });
@@ -188,7 +185,7 @@ describe('translationGlossary', () => {
         ms: 'hutan',
         en: 'forest',
         category: 'nature',
-        source: 'TUYANG translation MVP',
+        source: 'Test fixture',
       },
     ];
 
@@ -204,7 +201,7 @@ describe('translationGlossary', () => {
         ms: 'mengajak',
         en: 'invite',
         category: 'verb',
-        source: 'TUYANG translation MVP',
+        source: 'Test fixture',
       },
       {
         id: 'ajak-grandmother',
@@ -212,7 +209,7 @@ describe('translationGlossary', () => {
         ms: 'nenek',
         en: 'grandmother',
         category: 'noun',
-        source: 'TUYANG translation MVP',
+        source: 'Test fixture',
       },
     ];
 
@@ -227,7 +224,7 @@ describe('translationGlossary', () => {
         ms: 'mengajak',
         en: 'invite',
         category: 'verb',
-        source: 'TUYANG translation MVP',
+        source: 'Test fixture',
       },
       {
         id: 'ajak-grandmother',
@@ -235,7 +232,7 @@ describe('translationGlossary', () => {
         ms: 'nenek',
         en: 'grandmother',
         category: 'noun',
-        source: 'TUYANG translation MVP',
+        source: 'Test fixture',
       },
     ];
 
@@ -283,7 +280,7 @@ describe('translationGlossary', () => {
         ms: 'B',
         en: 'C',
         headword: 'x',
-        source: 'TUYANG translation MVP',
+        source: 'Test fixture',
       },
       {
         id: 'x-2',
@@ -291,7 +288,7 @@ describe('translationGlossary', () => {
         ms: 'B',
         en: 'D',
         headword: 'x',
-        source: 'TUYANG translation MVP',
+        source: 'Test fixture',
       },
     ];
 
