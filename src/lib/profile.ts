@@ -1,6 +1,7 @@
 import type { Database } from '../types/database';
 import { deriveProfileProgress } from '../utils/profileProgress';
 import { updateAuthProfile } from './auth';
+import { DEFAULT_LEARNING_LANGUAGE, resolveLearningLanguage } from './learningLanguages';
 import { supabase } from './supabase';
 
 type ProfileRow = Database['public']['Tables']['profiles']['Row'];
@@ -164,7 +165,7 @@ const buildProfileDashboardProfile = (
   age: profile.age,
   specialty: profile.specialty,
   appLanguage: profile.app_language,
-  indigenousLanguage: profile.indigenous_language,
+  indigenousLanguage: resolveLearningLanguage(profile.indigenous_language),
   onboardingCompleted: profile.onboarding_completed,
   onboardingCompletedAt: profile.onboarding_completed_at,
   onboardingResponses: profile.onboarding_responses,
@@ -363,7 +364,9 @@ export const completeProfileOnboarding = async ({
   userId: string;
   responses: OnboardingResponses;
 }): Promise<void> => {
-  const language = responses.languageCommunity ?? 'Semai';
+  const language = resolveLearningLanguage(
+    responses.languageCommunity ?? DEFAULT_LEARNING_LANGUAGE,
+  );
   const payload: ProfileUpdate = {
     onboarding_completed: true,
     onboarding_completed_at: new Date().toISOString(),

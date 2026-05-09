@@ -1,0 +1,73 @@
+.learning-language-badge {
+  align-items: center;
+  background: rgba(255, 249, 233, 0.86);
+  border: 1px solid rgba(96, 72, 40, 0.1);
+  border-radius: 999px;
+  box-shadow:
+    0 6px 16px rgba(68, 46, 24, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.78);
+  color: #604828;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: 'Satoshi', 'Poppins', ui-sans-serif, system-ui, sans-serif;
+  font-weight: 700;
+  gap: 5px;
+  justify-content: center;
+  line-height: 1;
+  max-width: 100%;
+  min-width: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.learning-language-badge:active {
+  transform: scale(0.97);
+}
+
+.learning-language-badge:focus-visible {
+  outline: 3px solid rgba(255, 249, 233, 0.54);
+  outline-offset: 2px;
+}
+
+.learning-language-badge span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.learning-language-badge-icon {
+  flex-shrink: 0;
+}
+
+.learning-language-badge-chevron {
+  flex-shrink: 0;
+  opacity: 0.72;
+}
+
+.learning-language-badge--home {
+  font-size: 12px;
+  min-height: 30px;
+  padding: 0 10px;
+}
+
+.learning-language-badge--home .learning-language-badge-icon {
+  font-size: 14px;
+}
+
+.learning-language-badge--home .learning-language-badge-chevron {
+  font-size: 13px;
+}
+
+.learning-language-badge--compact {
+  font-size: 12px;
+  min-height: 28px;
+  padding: 0 9px;
+}
+
+.learning-language-badge--compact .learning-language-badge-icon {
+  font-size: 13px;
+}
+
+.learning-language-badge--compact .learning-language-badge-chevron {
+  font-size: 12px;
+}

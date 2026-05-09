@@ -12,6 +12,7 @@ import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-
 
 import { updatePassword } from '../lib/auth';
 import { triggerHapticFeedback } from '../lib/feedback';
+import { LEARNING_LANGUAGE_OPTIONS } from '../lib/learningLanguages';
 import {
   fetchProfileDashboard,
   type ProfileDashboard,
@@ -53,7 +54,7 @@ import './ProfilePage.css';
 const APP_VERSION = `Taleka v${import.meta.env.VITE_APP_VERSION ?? '0.0.0'}`;
 
 const APP_LANGUAGE_OPTIONS = ['English', 'Bahasa Melayu', 'Bahasa Indonesia'] as const;
-const INDIGENOUS_LANGUAGE_OPTIONS = ['Semai', 'Temiar', 'Jahai', 'Semelai'] as const;
+const INDIGENOUS_LANGUAGE_OPTIONS = LEARNING_LANGUAGE_OPTIONS;
 
 const ABOUT_US_COPY = [
   'Taleka is a digital home for endangered languages.',
@@ -106,6 +107,7 @@ type OverviewProps = {
   dashboard: ProfileDashboard;
   onEditProfile: () => void;
   onOpenSettings: () => void;
+  onOpenChangeLanguage: () => void;
   onOpenSupport: () => void;
   onSignOut: () => Promise<void>;
   isSigningOut: boolean;
@@ -377,6 +379,7 @@ const ProfileOverviewScreen = ({
   dashboard,
   onEditProfile,
   onOpenSettings,
+  onOpenChangeLanguage,
   onOpenSupport,
   onSignOut,
   isSigningOut,
@@ -468,6 +471,31 @@ const ProfileOverviewScreen = ({
         </div>
 
         <div className="profile-menu" role="navigation" aria-label="Profile options">
+          <button
+            type="button"
+            className="profile-menu-item profile-learning-language-row"
+            onClick={onOpenChangeLanguage}
+            aria-label={`Learning language: ${dashboard.profile.indigenousLanguage}`}
+          >
+            <span className="profile-menu-left profile-learning-language-left">
+              <img
+                className="profile-menu-icon profile-learning-language-icon"
+                src={PROFILE_UI_ASSETS.settingsGlobe}
+                alt=""
+                aria-hidden="true"
+              />
+              <span>Learning language</span>
+            </span>
+            <span className="profile-learning-language-right">
+              <strong>{dashboard.profile.indigenousLanguage}</strong>
+              <img
+                className="profile-menu-chevron"
+                src={PROFILE_UI_ASSETS.chevron}
+                alt=""
+                aria-hidden="true"
+              />
+            </span>
+          </button>
           <MenuItem
             icon={PROFILE_UI_ASSETS.editMenu}
             label="Edit Profile"
@@ -1213,6 +1241,10 @@ export function ProfilePage() {
               onOpenSettings={() => {
                 triggerHapticFeedback('light');
                 navigate('/home/profile/settings');
+              }}
+              onOpenChangeLanguage={() => {
+                triggerHapticFeedback('light');
+                navigate('/home/profile/settings/language');
               }}
               onOpenSupport={openSupport}
               onSignOut={handleSignOut}

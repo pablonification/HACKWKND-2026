@@ -2,7 +2,9 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { AppSkeleton } from '../components/ui';
+import { LearningLanguageBadge } from '../components/LearningLanguageBadge';
 import { triggerHapticFeedback } from '../lib/feedback';
+import { DEFAULT_LEARNING_LANGUAGE, resolveLearningLanguage } from '../lib/learningLanguages';
 import { addExploreEntry } from '../lib/navigationEntry';
 import { fetchProfileDashboard } from '../lib/profile';
 import { STORIES } from '../lib/storyData';
@@ -260,12 +262,14 @@ function ExploreTalekaCards({ onNavigate }: { onNavigate: (href: string) => void
 function LearnerLanding({
   firstName,
   onNavigate,
+  learningLanguage,
   leaderName,
   leaderAvatarSrc,
   leaderHasCustomPhoto,
 }: {
   firstName: string;
   onNavigate: (h: string) => void;
+  learningLanguage: string;
   leaderName: string;
   leaderAvatarSrc: string;
   leaderHasCustomPhoto: boolean;
@@ -273,11 +277,17 @@ function LearnerLanding({
   return (
     <section className="landing-shell landing-shell--learner">
       {/* Hero */}
-      <div className="landing-hero" aria-hidden="true">
+      <div className="landing-hero">
         <img src={bgLearner} alt="" draggable={false} />
         <div className="landing-hero-greeting">
           <span>Hello, {firstName}</span>
         </div>
+        <LearningLanguageBadge
+          language={learningLanguage}
+          variant="home"
+          className="landing-learning-language-badge"
+          onClick={() => onNavigate('/home/profile/settings/language')}
+        />
       </div>
 
       {/* Floating search */}
@@ -409,6 +419,7 @@ export function LandingPage() {
   const [leaderName, setLeaderName] = useState('You');
   const [leaderAvatarSrc, setLeaderAvatarSrc] = useState(defaultLeaderboardImg);
   const [leaderHasCustomPhoto, setLeaderHasCustomPhoto] = useState(false);
+  const [learningLanguage, setLearningLanguage] = useState(DEFAULT_LEARNING_LANGUAGE);
   const [isProfileLoading, setIsProfileLoading] = useState(true);
 
   const meta = user?.user_metadata as Record<string, unknown> | undefined;
@@ -432,6 +443,7 @@ export function LandingPage() {
     setLeaderName(metadataName ?? firstName);
     setLeaderAvatarSrc(metadataAvatar ?? defaultLeaderboardImg);
     setLeaderHasCustomPhoto(Boolean(metadataAvatar));
+    setLearningLanguage(DEFAULT_LEARNING_LANGUAGE);
 
     if (!user?.id) {
       setIsProfileLoading(false);
@@ -456,6 +468,7 @@ export function LandingPage() {
           setLeaderAvatarSrc(dashboard.profile.avatarUrl);
           setLeaderHasCustomPhoto(true);
         }
+        setLearningLanguage(resolveLearningLanguage(dashboard.profile.indigenousLanguage));
       })
       .catch(() => {
         // Keep the landing screen usable even if profile lookup fails.
@@ -486,6 +499,7 @@ export function LandingPage() {
     <LearnerLanding
       firstName={firstName}
       onNavigate={onNavigate}
+      learningLanguage={learningLanguage}
       leaderName={leaderName}
       leaderAvatarSrc={leaderAvatarSrc}
       leaderHasCustomPhoto={leaderHasCustomPhoto}

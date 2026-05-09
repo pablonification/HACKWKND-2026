@@ -139,6 +139,28 @@
   text-shadow: 0 1px 4px rgba(255, 255, 255, 0.5);
 }
 
+.landing-learning-language-badge {
+  pointer-events: auto;
+  position: absolute;
+  right: calc(var(--safe-area-right) + 24px);
+  top: calc(var(--safe-area-top) + 35px);
+  z-index: 3;
+}
+
+@media (max-width: 374px) {
+  .landing-hero-greeting {
+    right: calc(var(--safe-area-right) + 150px);
+  }
+
+  .landing-hero-greeting span {
+    font-size: 29px;
+  }
+
+  .landing-learning-language-badge {
+    right: calc(var(--safe-area-right) + 18px);
+  }
+}
+
 /* ─── Search bar — floats on the seam ──────────────────────────────────────── */
 
 .landing-search-wrap {
