@@ -10,6 +10,7 @@ import { supabase } from '../lib/supabase';
 import { useAuthStore } from '../stores/authStore';
 import { toAuthErrorMessage } from '../utils/authErrors';
 import { validatePassword } from '../utils/authValidation';
+import { AppSkeleton } from '../components/ui';
 
 import './AuthPage.css';
 
@@ -164,7 +165,11 @@ export function ResetPasswordPage() {
                   </label>
 
                   <button type="submit" className="auth-submit" disabled={isSubmitting}>
-                    {isSubmitting ? 'Updating password...' : 'Update Password'}
+                    {isSubmitting ? (
+                      <AppSkeleton className="app-skeleton--pill auth-submit-skeleton" />
+                    ) : (
+                      'Update Password'
+                    )}
                   </button>
                 </form>
               </div>

@@ -5,6 +5,7 @@ import { Capacitor } from '@capacitor/core';
 import { SplashScreen } from '@capacitor/splash-screen';
 
 import { AppSplashScreen } from '../components/ui';
+import { withTimeout } from '../lib/asyncTimeout';
 import { fetchOnboardingStatus } from '../lib/profile';
 import { useAuthStore } from '../stores/authStore';
 import { AuthPage } from '../pages/AuthPage';
@@ -112,13 +113,18 @@ export function AppRouter() {
       completed: current.completed,
     }));
 
-    void fetchOnboardingStatus({
-      userId: session.user.id,
-      fallbackRole:
-        session.user.user_metadata?.role === 'elder' || session.user.user_metadata?.role === 'admin'
-          ? session.user.user_metadata.role
-          : 'learner',
-    })
+    void withTimeout(
+      fetchOnboardingStatus({
+        userId: session.user.id,
+        fallbackRole:
+          session.user.user_metadata?.role === 'elder' ||
+          session.user.user_metadata?.role === 'admin'
+            ? session.user.user_metadata.role
+            : 'learner',
+      }),
+      8000,
+      'Timed out while resolving onboarding status.',
+    )
       .then((status) => {
         if (!cancelled) {
           setOnboardingState({ isLoading: false, completed: status.completed });

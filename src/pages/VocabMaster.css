@@ -165,12 +165,13 @@
 
 /* ─── Deck area ───────────────────────────────────────────────────────────── */
 
-/* Vertical column — card4 at top, card1 front at bottom */
 .vocab-deck-area {
   align-items: center;
   display: flex;
-  flex-direction: column;
-  padding: 64px 0 8px;
+  height: 404px;
+  justify-content: center;
+  overflow: visible;
+  padding: 0;
   position: relative;
 }
 
@@ -220,96 +221,107 @@
 
 /* ─── Stacked background cards ────────────────────────────────────────────── */
 
-/* Each back card shows only its top edge peeking above the card in front */
 .vocab-card-stack {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0)),
+    linear-gradient(135deg, #d79ed1 0%, #e76573 100%);
   border-radius: 20px;
-  flex-shrink: 0;
-  overflow: hidden;
-  will-change: transform, width, height, margin-bottom;
-  transition:
-    transform 380ms cubic-bezier(0.22, 1, 0.36, 1),
-    width 380ms cubic-bezier(0.22, 1, 0.36, 1),
-    height 380ms cubic-bezier(0.22, 1, 0.36, 1),
-    margin-bottom 380ms cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 380ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-/* card4 — furthest back, topmost */
-.vocab-card-stack--back3 {
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-  opacity: 0.74;
-  transform: translateX(-7px);
-  z-index: 0;
-  height: 202px;
-  width: 228px;
-  margin-bottom: -174px; /* 202 - 28px peek */
-}
-/* back3 steps into back2's slot */
-.vocab-card-stack--back3.is-promoting {
-  opacity: 0.84;
-  height: 216px;
-  width: 244px;
-  transform: translateX(-4px) translateY(18px);
-  margin-bottom: -188px;
-}
-
-/* card3 */
-.vocab-card-stack--back2 {
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
-  opacity: 0.86;
-  transform: translateX(-4px);
-  z-index: 1;
-  height: 216px;
-  width: 244px;
-  margin-bottom: -188px; /* 216 - 28px peek */
-}
-/* back2 steps into back1's slot */
-.vocab-card-stack--back2.is-promoting {
-  opacity: 0.94;
-  height: 228px;
-  width: 258px;
-  transform: translateX(-2px) translateY(18px);
-  margin-bottom: -200px;
-}
-
-/* card2 */
-.vocab-card-stack--back1 {
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.14);
-  opacity: 0.94;
-  transform: translateX(-2px);
-  z-index: 2;
-  width: 258px;
-  height: 228px;
-  margin-bottom: -200px; /* 228 - 28px peek */
-}
-/* back1 steps into the front position */
-.vocab-card-stack--back1.is-promoting {
-  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.18);
   height: 237px;
-  margin-bottom: -209px;
-  opacity: 1;
-  transform: translateX(0px) translateY(18px) scale(1.02);
+  left: 50%;
+  overflow: hidden;
+  position: absolute;
+  transform-origin: center center;
   width: 267px;
+  will-change: top, transform, opacity;
+  transition:
+    top 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 260ms ease;
+}
+
+.vocab-card-stack::after {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+  background-size: 28px 28px;
+  border-radius: inherit;
+  content: '';
+  inset: 0;
+  opacity: 0.16;
+  position: absolute;
+}
+
+.vocab-card-stack .vocab-card-bg {
+  display: none;
+}
+
+.vocab-card-stack.is-resetting {
+  transition: none !important;
+}
+
+.vocab-card-stack--back3 {
+  box-shadow: 0 8px 20px rgba(96, 72, 40, 0.08);
+  opacity: 0.2;
+  top: 66px;
+  transform: translateX(-50%) scale(0.62) rotate(-0.5deg);
+  z-index: 0;
+}
+
+.vocab-card-stack--back3.is-promoting {
+  opacity: 0.34;
+  top: 94px;
+  transform: translateX(-50%) scale(0.7) rotate(0.3deg);
+}
+
+.vocab-card-stack--back2 {
+  box-shadow: 0 10px 24px rgba(96, 72, 40, 0.1);
+  opacity: 0.34;
+  top: 94px;
+  transform: translateX(-50%) scale(0.7) rotate(0.3deg);
+  z-index: 1;
+}
+
+.vocab-card-stack--back2.is-promoting {
+  opacity: 0.5;
+  top: 122px;
+  transform: translateX(-50%) scale(0.78) rotate(-0.15deg);
+}
+
+.vocab-card-stack--back1 {
+  box-shadow: 0 12px 28px rgba(96, 72, 40, 0.12);
+  opacity: 0;
+  top: 122px;
+  transform: translateX(-50%) scale(0.78) rotate(-0.15deg);
+  z-index: 2;
+}
+
+.vocab-card-stack--back1.is-promoting {
+  box-shadow: 0 18px 36px rgba(96, 72, 40, 0.17);
+  opacity: 1;
+  top: 146px;
+  transform: translateX(-50%) scale(1) rotate(4.277deg);
   z-index: 4;
 }
 
 /* ─── Front card (flipper) ────────────────────────────────────────────────── */
 
 .vocab-card-flipper {
-  transform: translateX(-6px);
   cursor: pointer;
-  flex-shrink: 0;
+  height: 237px;
+  left: 50%;
   perspective: 1000px;
-  position: relative;
+  position: absolute;
+  top: 146px;
+  transform: translateX(-50%) rotate(4.277deg);
+  transform-origin: center center;
+  transform-style: preserve-3d;
   transition:
     transform 220ms ease,
     opacity 300ms ease;
   touch-action: pan-y;
   user-select: none;
-  z-index: 3;
   width: 267px;
-  height: 237px;
-  will-change: transform, opacity;
+  z-index: 5;
   will-change: transform, opacity;
 }
 
@@ -332,6 +344,7 @@
 /* ─── Card faces ──────────────────────────────────────────────────────────── */
 
 .vocab-card-face {
+  -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   border-radius: 20px;
   bottom: 0;
@@ -345,19 +358,29 @@
 }
 
 .vocab-card-face--front {
+  opacity: 1;
   transform: rotateY(0deg);
+  visibility: visible;
   z-index: 2;
 }
 .vocab-card-face--back {
+  opacity: 0;
+  pointer-events: none;
   transform: rotateY(180deg);
+  visibility: hidden;
   z-index: 1;
 }
 
 .vocab-card-flipper.is-flipped .vocab-card-face--front {
+  opacity: 0;
   transform: rotateY(-180deg);
+  visibility: hidden;
 }
 .vocab-card-flipper.is-flipped .vocab-card-face--back {
+  opacity: 1;
+  pointer-events: auto;
   transform: rotateY(0deg);
+  visibility: visible;
 }
 
 /* ─── Card bg image ───────────────────────────────────────────────────────── */
@@ -369,6 +392,10 @@
   position: absolute;
   top: 0;
   width: 100%;
+}
+
+.vocab-card-face .vocab-card-bg {
+  transform: scale(1.015);
 }
 
 .vocab-card-bg--back {

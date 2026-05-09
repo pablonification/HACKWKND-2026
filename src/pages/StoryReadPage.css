@@ -39,6 +39,10 @@
   display: block;
 }
 
+.story-read-scene-img--skeleton {
+  background: #cbc3b8;
+}
+
 /* ── Cloud overlay layers ───────────────────────────────────────────────────── */
 .story-read-cloud-top {
   position: absolute;
@@ -137,6 +141,14 @@
   padding: min(124px, 15dvh) 22px 0px;
   pointer-events: auto;
   text-align: center;
+}
+
+.story-read-content-center--skeleton {
+  width: 100%;
+}
+
+.story-read-text-area--skeleton {
+  pointer-events: none;
 }
 
 /* Semai story text */

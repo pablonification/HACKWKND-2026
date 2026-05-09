@@ -18,6 +18,7 @@ const CARDS_PER_ROUND = 10;
 const SWIPE_THRESHOLD = 80;
 const CARD_TIMER = 20;
 const SWIPE_ANIMATION_MS = 380;
+const SWIPE_COOLDOWN_MS = 900;
 
 // card1 = front of deck, card4 = furthest back
 const CARD_ARTS = [card1Svg, card2Svg, card3Svg, card4Svg];
@@ -87,6 +88,8 @@ export function VocabMaster() {
   const mouseDownX = useRef(0);
   const mouseDown = useRef(false);
   const dragXRef = useRef(0);
+  const advancingRef = useRef(false);
+  const lastAdvanceAtRef = useRef(0);
 
   // Load deck
   useEffect(() => {
@@ -134,6 +137,11 @@ export function VocabMaster() {
 
   const advance = useCallback(
     (dir: 'left' | 'right') => {
+      const now = Date.now();
+      if (now - lastAdvanceAtRef.current < SWIPE_COOLDOWN_MS) return;
+      if (advancingRef.current) return;
+      advancingRef.current = true;
+      lastAdvanceAtRef.current = now;
       if (timerRef.current) clearInterval(timerRef.current);
       triggerHapticFeedback(dir === 'right' ? 'medium' : 'light');
       setDragging(false);
@@ -156,19 +164,26 @@ export function VocabMaster() {
         if (index + 1 >= deck.length) {
           if (timerRef.current) clearInterval(timerRef.current);
           void updateStreak();
-          void refreshLevel().then((newLevel) => {
-            if (newLevel) {
-              navigate(`/home/levelup`, { replace: true, state: { level: newLevel } });
-            } else {
-              setFinished(true);
-            }
-          });
+          void refreshLevel()
+            .then((newLevel) => {
+              if (newLevel) {
+                navigate(`/home/levelup`, { replace: true, state: { level: newLevel } });
+              } else {
+                setFinished(true);
+              }
+            })
+            .finally(() => {
+              advancingRef.current = false;
+            });
           setResetting(false);
         } else {
           setIndex((i) => i + 1);
           // Re-enable transitions on the next frame so future drags/swipes animate
           requestAnimationFrame(() => {
             setResetting(false);
+            setTimeout(() => {
+              advancingRef.current = false;
+            }, 260);
           });
         }
       }, SWIPE_ANIMATION_MS);
@@ -389,7 +404,7 @@ export function VocabMaster() {
             .filter(Boolean)
             .join(' ')}
           style={{
-            transform: `translateX(${flyX}px) rotate(${baseRotate + flyRotate}deg)`,
+            transform: `translateX(calc(-50% + ${flyX}px)) rotate(${baseRotate + flyRotate}deg)`,
           }}
           onTouchStart={onTouchStart}
           onTouchMove={onTouchMove}
@@ -438,12 +453,12 @@ export function VocabMaster() {
             <span
               className={`vocab-swipe-hint vocab-swipe-hint--know ${dragX > 30 ? 'is-visible' : ''}`}
             >
-              Know it âœ“
+              Got it
             </span>
             <span
               className={`vocab-swipe-hint vocab-swipe-hint--review ${dragX < -30 ? 'is-visible' : ''}`}
             >
-              Review ✗
+              Practice
             </span>
           </>
         )}
@@ -491,8 +506,8 @@ export function VocabMaster() {
             <p className="vocab-practice-eyebrow">Quick guide</p>
             <ul className="vocab-practice-list" role="list">
               <li>Tap the card to flip and reveal the meaning.</li>
-              <li>Swipe right if you know it.</li>
-              <li>Swipe left if you want to review it again.</li>
+              <li>Swipe right when you remember the word.</li>
+              <li>Swipe left when you want more practice.</li>
             </ul>
           </div>
         </div>

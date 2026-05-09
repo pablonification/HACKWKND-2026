@@ -3,6 +3,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { useEffect } from 'react';
 
 import { AppRouter } from './navigation/AppRouter';
+import { withTimeout } from './lib/asyncTimeout';
 import { supabase } from './lib/supabase';
 import { removeKey, STORAGE_KEYS } from './lib/storage';
 import { useAuthStore } from './stores/authStore';
@@ -18,7 +19,11 @@ export default function App() {
         const {
           data: { session: nextSession },
           error,
-        } = await supabase.auth.getSession();
+        } = await withTimeout(
+          supabase.auth.getSession(),
+          8000,
+          'Timed out while initialising session.',
+        );
 
         if (error) {
           throw error;
@@ -55,7 +60,7 @@ export default function App() {
 
   return (
     <IonApp>
-      <BrowserRouter>
+      <BrowserRouter future={{ v7_startTransition: true }}>
         <AppRouter />
       </BrowserRouter>
     </IonApp>

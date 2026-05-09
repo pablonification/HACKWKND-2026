@@ -286,6 +286,7 @@
 }
 
 .tavi-thread-drawer-backdrop {
+  animation: tavi-backdrop-in 180ms cubic-bezier(0.22, 1, 0.36, 1) both;
   background: rgba(26, 26, 26, 0.22);
   border: 0;
   cursor: pointer;
@@ -295,6 +296,7 @@
 }
 
 .tavi-thread-panel {
+  animation: tavi-drawer-in 220ms cubic-bezier(0.22, 1, 0.36, 1) both;
   background: #fff9e9;
   border-left: 1px solid rgba(203, 64, 60, 0.16);
   bottom: 0;
@@ -307,6 +309,28 @@
   right: 0;
   top: 0;
   width: 100%;
+}
+
+@keyframes tavi-backdrop-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes tavi-drawer-in {
+  from {
+    opacity: 0.86;
+    transform: translateX(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .tavi-thread-panel-header {
@@ -398,6 +422,10 @@
   padding: 10px;
 }
 
+.tavi-thread-item--skeleton {
+  pointer-events: none;
+}
+
 .tavi-thread-item.is-active {
   background: rgba(203, 64, 60, 0.1);
   border-color: rgba(203, 64, 60, 0.36);
@@ -451,10 +479,38 @@
 }
 
 .tavi-chat-history-loading {
-  align-items: center;
+  display: grid;
+  gap: 12px;
+  padding: 24px 0 8px;
+}
+
+.tavi-chat-skeleton-row {
+  align-items: flex-end;
   display: flex;
-  justify-content: center;
-  min-height: 180px;
+  gap: 8px;
+}
+
+.tavi-chat-skeleton-row--user {
+  justify-content: flex-end;
+}
+
+.tavi-chat-skeleton-bubble {
+  display: grid;
+  gap: 8px;
+  max-width: 72%;
+  padding: 14px;
+}
+
+.tavi-chat-skeleton-bubble--tavi {
+  background: #f5c0be;
+  border-radius: 18px 18px 18px 4px;
+  width: min(250px, 72%);
+}
+
+.tavi-chat-skeleton-bubble--user {
+  background: #cb403c;
+  border-radius: 18px 18px 4px;
+  width: min(190px, 62%);
 }
 
 .tavi-chat-greeting-title {
@@ -490,9 +546,22 @@
 }
 
 .tavi-bubble-row {
+  animation: tavi-message-enter 170ms cubic-bezier(0.22, 1, 0.36, 1) both;
   display: flex;
   gap: 8px;
   margin-bottom: 12px;
+}
+
+@keyframes tavi-message-enter {
+  from {
+    opacity: 0;
+    transform: translateY(5px) scale(0.99);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .tavi-bubble-row--user {
@@ -754,40 +823,10 @@
 }
 
 .tavi-bubble-loading {
-  align-items: center;
-  display: flex;
-  gap: 5px;
-  height: 20px;
-  padding: 2px 4px;
-}
-
-.tavi-bubble-loading span {
-  animation: tavi-dot-bounce 1.2s ease-in-out infinite;
-  background: #b0a99f;
-  border-radius: 50%;
-  display: block;
-  height: 7px;
-  width: 7px;
-}
-
-.tavi-bubble-loading span:nth-child(2) {
-  animation-delay: 0.18s;
-}
-.tavi-bubble-loading span:nth-child(3) {
-  animation-delay: 0.36s;
-}
-
-@keyframes tavi-dot-bounce {
-  0%,
-  80%,
-  100% {
-    transform: translateY(0);
-    opacity: 0.4;
-  }
-  40% {
-    transform: translateY(-6px);
-    opacity: 1;
-  }
+  display: grid;
+  gap: 8px;
+  min-width: 172px;
+  padding: 3px 0;
 }
 
 .tavi-chat-inputbar {
@@ -1027,4 +1066,14 @@
 
 .tavi-chat-inputbar-send:not(:disabled):active {
   transform: scale(0.9);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tavi-intro-mascot,
+  .tavi-intro-aura,
+  .tavi-thread-drawer-backdrop,
+  .tavi-thread-panel,
+  .tavi-bubble-row {
+    animation: none;
+  }
 }

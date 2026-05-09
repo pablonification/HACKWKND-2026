@@ -97,6 +97,9 @@ export function LanguageGardenTab() {
               onClick={() => handleCardTap(card.id)}
               aria-label={`Play ${card.label}`}
             >
+              <span className="garden-card-fallback" aria-hidden="true">
+                {card.label}
+              </span>
               <img
                 src={card.image}
                 alt={card.alt}

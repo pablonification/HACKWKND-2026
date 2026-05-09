@@ -9,6 +9,7 @@ export const STORAGE_KEYS = {
   PENDING_SYNC: 'pending-sync',
   SETTINGS: 'settings',
   STREAK: 'streak',
+  STORY_PROGRESS: 'story-progress',
   AUTH_TRANSIENT_SESSION: 'auth-transient-session',
 } as const;
 
