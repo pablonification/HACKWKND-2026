@@ -56,61 +56,11 @@ Semai is an Aslian language spoken by approximately 30,000 people in Peninsular 
 
 ## Architecture
 
-```mermaid
-graph TD
-    subgraph Client ["Mobile App (Ionic + React + Capacitor)"]
-        UI["Pages & Components"]
-        Store["Zustand Stores\n(auth, session)"]
-        Lib["src/lib/\n(auth, translate, AI coach,\ngardenSync, elderStudio)"]
-    end
-
-    subgraph Supabase ["Supabase Cloud"]
-        Auth["Auth\n(email/password, JWT)"]
-        DB["Postgres DB\n(profiles, recordings,\nwords, progress, stories)"]
-        Storage["Storage Buckets\n(recordings, avatars)"]
-        FnCoach["Edge Fn: ai-coach\n(Gemini / ChatGPT proxy)"]
-        FnTranslate["Edge Fn: ai-translate\n(Cerebras / SEA-LION)"]
-        FnCover["Edge Fn: generate-story-cover\n(OpenRouter / GPT Image 2)"]
-    end
-
-    subgraph AIHelper ["ai-helper (local proxy, port 8787)"]
-        OmniASR["OmniASR\n(Hugging Face)\n4-language ensemble STT"]
-        Scorer["Dictionary-first\nscoring & merge"]
-        Lexicon["Runtime lexicon\n(semaiLexicon + Webonary\n+ Supabase words)"]
-    end
-
-    UI --> Store
-    UI --> Lib
-    Lib --> Auth
-    Lib --> DB
-    Lib --> Storage
-    Lib --> FnCoach
-    Lib --> FnTranslate
-    Lib --> FnCover
-    Lib --> AIHelper
-    AIHelper --> OmniASR
-    AIHelper --> Scorer
-    Scorer --> Lexicon
-    Lexicon --> DB
-```
+![Architecture diagram](https://mermaid.ink/img/eyJjb2RlIjoiZ3JhcGggVERcbiAgICBzdWJncmFwaCBDbGllbnQgW01vYmlsZSBBcHAgLSBJb25pYyArIFJlYWN0ICsgQ2FwYWNpdG9yXVxuICAgICAgICBVSVtQYWdlcyBhbmQgQ29tcG9uZW50c11cbiAgICAgICAgTGliW3NyYy9saWIgLSBhdXRoLCB0cmFuc2xhdGUsIEFJIGNvYWNoLCBnYXJkZW5TeW5jLCBlbGRlclN0dWRpb11cbiAgICAgICAgU3RvcmVbWnVzdGFuZCBTdG9yZXMgLSBhdXRoIGFuZCBzZXNzaW9uXVxuICAgIGVuZFxuICAgIHN1YmdyYXBoIFN1cGFiYXNlIFtTdXBhYmFzZSBDbG91ZF1cbiAgICAgICAgQXV0aFtBdXRoIC0gZW1haWwvcGFzc3dvcmQsIEpXVF1cbiAgICAgICAgREJbKFBvc3RncmVzIERCIC0gcHJvZmlsZXMsIHJlY29yZGluZ3MsIHdvcmRzLCBwcm9ncmVzcywgc3RvcmllcyldXG4gICAgICAgIFN0b3JhZ2VbKFN0b3JhZ2UgLSByZWNvcmRpbmdzLCBhdmF0YXJzKV1cbiAgICAgICAgRm5Db2FjaFtFZGdlIEZuOiBhaS1jb2FjaCAtIEdlbWluaSAvIENoYXRHUFQgcHJveHldXG4gICAgICAgIEZuVHJhbnNsYXRlW0VkZ2UgRm46IGFpLXRyYW5zbGF0ZSAtIENlcmVicmFzIC8gU0VBLUxJT05dXG4gICAgICAgIEZuQ292ZXJbRWRnZSBGbjogZ2VuZXJhdGUtc3RvcnktY292ZXIgLSBHUFQgSW1hZ2UgMl1cbiAgICBlbmRcbiAgICBzdWJncmFwaCBBSUhlbHBlciBbYWktaGVscGVyIHByb3h5IC0gcG9ydCA4Nzg3XVxuICAgICAgICBPbW5pQVNSW09tbmlBU1IgdmlhIEh1Z2dpbmcgRmFjZSAtIDQtbGFuZ3VhZ2UgZW5zZW1ibGUgU1RUXVxuICAgICAgICBTY29yZXJbRGljdGlvbmFyeS1maXJzdCBzY29yaW5nIGFuZCBtZXJnZV1cbiAgICAgICAgTGV4aWNvbltSdW50aW1lIGxleGljb24gLSBzZW1haUxleGljb24gKyBXZWJvbmFyeSArIFN1cGFiYXNlIHdvcmRzXVxuICAgIGVuZFxuICAgIFVJIC0tPiBTdG9yZVxuICAgIFVJIC0tPiBMaWJcbiAgICBMaWIgLS0-IEF1dGhcbiAgICBMaWIgLS0-IERCXG4gICAgTGliIC0tPiBTdG9yYWdlXG4gICAgTGliIC0tPiBGbkNvYWNoXG4gICAgTGliIC0tPiBGblRyYW5zbGF0ZVxuICAgIExpYiAtLT4gRm5Db3ZlclxuICAgIExpYiAtLT4gQUlIZWxwZXJcbiAgICBBSUhlbHBlciAtLT4gT21uaUFTUlxuICAgIEFJSGVscGVyIC0tPiBTY29yZXJcbiAgICBTY29yZXIgLS0-IExleGljb25cbiAgICBMZXhpY29uIC0tPiBEQiIsIm1lcm1haWQiOnsidGhlbWUiOiJkZWZhdWx0In19)
 
 ### Data Flow: Elder Recording → Story
 
-```
-Elder records audio
-  → ai-helper receives audio
-  → OmniASR runs in 4 languages in parallel
-  → Dictionary scorer picks & merges best candidate
-  → Draft transcription stored in recordings table
-  → Elder reviews & verifies transcription
-  → is_verified = true, verified_transcription set
-  → Elder clicks "Publish as Story"
-  → generate-story-cover edge function called
-      → fetches description + verified_transcription for context
-      → calls GPT Image 2 to generate cover + background
-  → cover_url, bg_url, is_published set on recording
-  → Story appears in StoryPage for all learners
-```
+![Data flow diagram](https://mermaid.ink/img/eyJjb2RlIjoic2VxdWVuY2VEaWFncmFtXG4gICAgcGFydGljaXBhbnQgRSBhcyBFbGRlclxuICAgIHBhcnRpY2lwYW50IEFwcCBhcyBNb2JpbGUgQXBwXG4gICAgcGFydGljaXBhbnQgSGVscGVyIGFzIGFpLWhlbHBlciBwcm94eVxuICAgIHBhcnRpY2lwYW50IEFTUiBhcyBPbW5pQVNSIChIRilcbiAgICBwYXJ0aWNpcGFudCBTQiBhcyBTdXBhYmFzZSBEQlxuICAgIHBhcnRpY2lwYW50IEZuIGFzIGdlbmVyYXRlLXN0b3J5LWNvdmVyXG4gICAgcGFydGljaXBhbnQgR1BUIGFzIEdQVCBJbWFnZSAyXG4gICAgcGFydGljaXBhbnQgTCBhcyBMZWFybmVyXG5cbiAgICBFLT4-QXBwOiBSZWNvcmRzIGF1ZGlvXG4gICAgQXBwLT4-SGVscGVyOiBQT1NUIC9haS90cmFuc2NyaWJlXG4gICAgSGVscGVyLT4-QVNSOiA0LWxhbmd1YWdlIHBhcmFsbGVsIHJlcXVlc3RzXG4gICAgQVNSLS0-PkhlbHBlcjogNCBjYW5kaWRhdGUgdHJhbnNjcmlwdGlvbnNcbiAgICBIZWxwZXItPj5IZWxwZXI6IFNjb3JlIGFuZCBtZXJnZSBjYW5kaWRhdGVzXG4gICAgSGVscGVyLS0-PkFwcDogQmVzdCB0cmFuc2NyaXB0aW9uIGRyYWZ0XG4gICAgQXBwLT4-U0I6IFNhdmUgZHJhZnQgdG8gcmVjb3JkaW5ncyB0YWJsZVxuICAgIEUtPj5BcHA6IFJldmlld3MgYW5kIHZlcmlmaWVzIHRyYW5zY3JpcHRpb25cbiAgICBBcHAtPj5TQjogU2V0IGlzX3ZlcmlmaWVkPXRydWUsIHZlcmlmaWVkX3RyYW5zY3JpcHRpb25cbiAgICBFLT4-QXBwOiBDbGlja3MgUHVibGlzaCBhcyBTdG9yeVxuICAgIEFwcC0-PkZuOiBpbnZva2UgZ2VuZXJhdGUtc3RvcnktY292ZXJcbiAgICBGbi0-PlNCOiBGZXRjaCBkZXNjcmlwdGlvbiArIHZlcmlmaWVkX3RyYW5zY3JpcHRpb25cbiAgICBGbi0-PkdQVDogR2VuZXJhdGUgY292ZXIgaW1hZ2VcbiAgICBGbi0-PkdQVDogR2VuZXJhdGUgYmFja2dyb3VuZCBpbWFnZVxuICAgIEZuLS0-PlNCOiBTYXZlIGNvdmVyX3VybCwgYmdfdXJsLCBpc19wdWJsaXNoZWQ9dHJ1ZVxuICAgIFNCLS0-Pkw6IFN0b3J5IHZpc2libGUgaW4gU3RvcnlQYWdlIiwibWVybWFpZCI6eyJ0aGVtZSI6ImRlZmF1bHQifX0)
 
 ---
 
