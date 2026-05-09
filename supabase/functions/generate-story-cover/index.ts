@@ -55,7 +55,7 @@ async function uploadToStorage(path: string, data: Uint8Array): Promise<string> 
       'Content-Type': 'image/png',
       'x-upsert': 'true',
     },
-    body: data,
+    body: new Blob([data as Uint8Array<ArrayBuffer>], { type: 'image/png' }),
   });
 
   if (!response.ok) {
@@ -98,23 +98,24 @@ Deno.serve(async (request: Request) => {
   const coverPrompt = `An illustrated children's book cover for a Semai Malaysian folklore story titled "${title}".${descriptionPart} Traditional rainforest setting, warm earthy tones, vibrant and detailed illustration style.`;
   const bgPrompt = `A wide panoramic illustrated scene from the Semai Malaysian folklore story "${title}".${descriptionPart} Lush jungle landscape, soft watercolor atmosphere, cinematic background painting.`;
 
+  let coverBytes: Uint8Array;
+  let bgBytes: Uint8Array;
   try {
-    const [coverBytes, bgBytes] = await Promise.all([
+    [coverBytes, bgBytes] = await Promise.all([
       generateImage(coverPrompt),
       generateImage(bgPrompt),
     ]);
+  } catch {
+    return jsonResponse(500, { error: 'Image generation failed' });
+  }
 
+  try {
     const [coverUrl, bgUrl] = await Promise.all([
       uploadToStorage(`${recordingId}-cover.png`, coverBytes),
       uploadToStorage(`${recordingId}-bg.png`, bgBytes),
     ]);
-
     return jsonResponse(200, { coverUrl, bgUrl });
-  } catch (error) {
-    const message = error instanceof Error ? error.message : 'Unexpected error';
-    if (message.startsWith('OpenRouter')) {
-      return jsonResponse(500, { error: 'Image generation failed' });
-    }
+  } catch {
     return jsonResponse(500, { error: 'Storage upload failed' });
   }
 });
